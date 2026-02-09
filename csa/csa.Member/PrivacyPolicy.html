@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" style="" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>
+	YABAM
+</title><script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+<link href="/Content/css?v=1y7lM6ya0s6sEPNY0hsQOFbcyZATH7RWxxJuTevFPaY1" rel="stylesheet">
+
+
+    <script src="/assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+
+    <!-- font css -->
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+
+    <!-- app css -->
+    
+    <link rel="stylesheet" href="/assets/css/app.css">
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    
+    <link rel="stylesheet" href="/assets/libs/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/libs/select2/css/select2-bootstrap-5-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <style>
+        .sectiontitle {
+            font-weight: 800;
+            border-bottom: solid 1px silver;
+            font-size: medium;
+            width: 100%;
+            margin-bottom: 10px;
+            padding-top: 5px;
+            display: block;
+            color: gray;
+        }
+        .select2-container .select2-selection--multiple .select2-selection__choice {
+            background-color: unset;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+            font-size: unset;
+        }
+    </style>
+
+
+    <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <style>
+        .navbar-menu {
+            background: #279d69 !important;
+        }
+
+        .menu-title {
+            color: white !important;
+        }
+
+        .navbar-menu .navbar-nav .nav-link {
+            color: lightyellow !important;
+        }
+
+        .profile-wid-bg::before {
+            background: #279d69 !important;
+            background: -webkit-gradient(linear,left bottom,left top,from(whitesmoke),to(#279d69)) !important;
+            background: linear-gradient(to top,white,#279d69) !important;
+        }
+
+        .join-us {
+            background: #279d69 !important;
+        }
+
+        .auth-bg-cover {
+            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
+        }
+    </style>
+<style>.swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:rgba(0,0,0,.4)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):focus-visible{box-shadow:0 0 0 3px rgba(112,102,224,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):focus-visible{box-shadow:0 0 0 3px rgba(220,55,65,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):focus-visible{box-shadow:0 0 0 3px rgba(110,120,129,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus-visible{box-shadow:0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em;text-align:center}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:rgba(0,0,0,.2)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em}div:where(.swal2-container) button:where(.swal2-close){z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:rgba(0,0,0,0);color:#ccc;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:none;background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) .swal2-html-container{z-index:1;justify-content:center;margin:0;padding:1em 1.6em .3em;overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:rgba(0,0,0,0);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:#fff}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:rgba(0,0,0,0);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:#fff;color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:0.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#facea8;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#9de0f6;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#c9dae1;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:swal2-show .3s}.swal2-hide{animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static !important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}</style></head>
+<body>
+    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-overlay"></div>
+
+        <!-- auth page content -->
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center text-white-50">
+                            <div>
+                                <a href="javascript:void(0)" class="d-inline-block auth-logo">
+                                    <img src="/assets/images/logos/yabam-logo-dark.png" alt="" height="100">
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card mt-4">
+                            <div class="card-body p-4" id="tab-1">
+
+                                <center><h4>NOTIS PRIVASI YABAM</h4> </center>
+
+                                <div class=WordSection1>
+
+                                
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:-.9pt;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:
+"Arial",sans-serif;color:black'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                1.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PENDAHULUAN</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:35.1pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            1.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Notis
+                                            Privasi ini (&quot;<b>Notis</b>&quot;) menerangkan cara dan sebab <b>
+                                                YAYASAN
+                                                AMANAH BANTUAN AWAM MALAYSIA (MALAYSIA PUBLIC AID TRUST FOUNDATION) (No.
+                                                Pendaftaran Akta Pertubuhan 1966: PPM-022-10-05072016)
+                                            </b>, jenama, afiliasi
+                                            semasa dan masa depannya, ahli, pegawai, pemegang lesen, peguam, dan ejen
+                                            (&quot;<b>YABAM</b>&quot;) mengumpul, menggunakan, memproses, mendedahkan,
+                                            dan/atau memindahkan maklumat peribadi serta mematuhi kehendak mana-mana
+                                            undang-undang privasi yang terpakai, termasuk tetapi tidak terhad kepada <b>
+                                                Akta
+                                                Perlindungan Data Peribadi 2010
+                                            </b> (&quot;<b>Akta</b>&quot;). Bagi tujuan
+                                            dokumen ini, istilah &quot;<b>Data Peribadi</b>&quot; mempunyai makna yang sama
+                                            seperti yang ditetapkan dalam Akta dan hendaklah juga merangkumi pendapat,
+                                            analisis, dan/atau rekod yang mengandungi Data Peribadi.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            1.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Notis
+                                            ini hendaklah terpakai kepada Data Peribadi anda dalam milikan atau kawalan
+                                            kami, serta dalam milikan organisasi yang kami lantik untuk mengumpul,
+                                            menggunakan, mengakses, menyimpan, memproses, mendedahkan, dan/atau memindahkan
+                                            Data Peribadi bagi tujuan kami.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            1.3<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Dalam
+                                            Notis ini: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            YABAM
+                                            dirujuk sebagai &quot;kami&quot;, &quot;kita&quot;, &quot;kita&quot;, atau
+                                            &quot;milik kita&quot;;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Mana-mana
+                                            individu yang menggunakan dan/atau mengakses platform, laman web, kandungan,
+                                            dan/atau perkhidmatan YABAM dirujuk sebagai &quot;Pengguna&quot;,
+                                            &quot;anda&quot;, atau &quot;anda&quot;;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            &quot;Platform&quot;
+                                            bermaksud laman dalam talian, platform, dan aplikasi (yang boleh diakses
+                                            melalui kedai aplikasi mudah alih dalam talian dan halaman) yang dimiliki,
+                                            disediakan, dan dikendalikan oleh YABAM.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            1.4<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Sila
+                                            baca Notis ini dengan teliti sebelum memberikan sebarang Data Peribadi kepada
+                                            kami. Jika anda akan menghantar Data Peribadi individu lain, contohnya,
+                                            pasangan anda, ahli keluarga, rakan, majikan atau pekerja kepada kami, sila
+                                            dapatkan persetujuan yang diperlukan daripada orang itu dan sampaikan salinan
+                                            Notis ini kepadanya terlebih dahulu. Dengan menghantar Data Peribadi individu
+                                            lain kepada kami, anda mewakili dan menjamin bahawa anda telah mendapat
+                                            persetujuan yang diperlukan daripada individu tersebut untuk Data Peribadinya
+                                            dikumpulkan, digunakan, dan didedahkan oleh kami seperti yang dinyatakan dalam
+                                            Notis ini.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                2.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PENGAKUAN DAN KEBENARAN</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            2.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Dengan
+                                            sama ada memberikan kami Data Peribadi anda atau dengan terus mengakses dan
+                                            menggunakan Platform kami atau dengan berinteraksi dengan kami, anda mengakui
+                                            bahawa anda telah membaca, memahami, bersetuju, dan memberi persetujuan untuk
+                                            pengumpulan, akses, penggunaan, pemprosesan, pendedahan, penyimpanan, dan/atau
+                                            pemindahan Data Peribadi anda oleh kami dan semua individu yang terlibat dalam
+                                            penyediaan perkhidmatan kami seperti yang dinyatakan dalam Notis ini.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            2.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            berhak untuk mengubah suai, mengemas kini, atau meminda terma-terma Notis ini
+                                            pada bila-bila masa dengan meletakkan Notis yang dikemas kini di Platform kami.
+                                            Sebarang semakan atau perubahan kepada Notis akan terus terpakai kepada semua
+                                            Data Peribadi yang telah dikongsi dan dikumpul oleh kami sebelum ini. Dengan
+                                            terus berkomunikasi dengan kami atau dengan terus menggunakan perkhidmatan kami
+                                            selepas pengubahsuaian, kemas kini, atau pindaan kepada Notis ini, ia akan
+                                            menandakan penerimaan anda terhadap pengubahsuaian, kemas kini, atau pindaan
+                                            tersebut.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            2.3<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Pengguna
+                                            mesti berumur sekurang-kurangnya 18 tahun untuk menggunakan perkhidmatan kami
+                                            kerana itu adalah umur majoriti di Malaysia. Ibu bapa dan penjaga sah
+                                            diharapkan menjaga dengan baik terhadap kanak-kanak di bawah jagaan mereka dan
+                                            tidak membenarkan mereka mengakses Platform kami atau menggunakan perkhidmatan
+                                            kami. Kami tidak akan bertanggungjawab atas sebarang pelanggaran privasi yang
+                                            mengakibatkan kerosakan yang timbul dalam kontrak, tort, atau sebaliknya dalam
+                                            situasi tersebut.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                3.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PENGUMPULAN DATA PERIBADI</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            3.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Data
+                                            Peribadi yang mungkin dikumpulkan oleh kami dari semasa ke semasa semasa
+                                            penggunaan perkhidmatan kami termasuk tetapi tidak terhad kepada: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Nama;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Maklumat
+                                            Hubungan, termasuk alamat e-mel;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            MyKad
+                                            / No. ID;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (d)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            No.
+                                            Pasport;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (e)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            No.
+                                            Telefon;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (f)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            No.
+                                            Akaun Bank;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (g)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            No.
+                                            Pendaftaran Kenderaan;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (h)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>Alamat;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (i)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Syarikat
+                                            / Entiti;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (j)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Laman
+                                            web / Alamat e-mel; dan/atau
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (k)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            sebarang
+                                            maklumat yang boleh digunakan untuk mengenal pasti anda, termasuk data peribadi
+                                            sensitif seperti data berkaitan kredit.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                4.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>SUMBER DARIPADA MANA DATA PERIBADI ANDA BOLEH DIPEROLEH</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            4.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Data
+                                            Peribadi anda akan dikumpulkan apabila anda memberikannya kepada kami sebelum
+                                            atau semasa akses anda ke Platform atau penggunaan perkhidmatan kami.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            4.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Jika
+                                            mana-mana Data Peribadi anda diperlukan untuk akses anda ke Platform atau
+                                            penyediaan perkhidmatan kami kepada anda, kami akan dengan jelas menunjukkan
+                                            kepada anda sama ada Data Peribadi yang diminta adalah wajib. Jika anda memilih
+                                            untuk tidak memberikan kami sebarang Data Peribadi wajib yang diperlukan atau
+                                            menarik balik persetujuan anda untuk kami memprosesnya, kami berhak untuk
+                                            menggantung akses anda ke Platform kami dan menghentikan penyediaan
+                                            perkhidmatan kami (jika ada) tanpa kami menanggung sebarang liabiliti kepada
+                                            anda (tanpa mengira sebarang perjanjian antara anda dan kami).
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            4.3<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Selain
+                                            daripada Data Peribadi yang anda berikan kepada kami secara langsung, kami juga
+                                            boleh mengumpulkan Data Peribadi anda dari pelbagai sumber termasuk tetapi
+                                            tidak terhad, seperti: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Apabila
+                                            anda melawat Platform sebagai Pengguna;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'> </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Daripada
+                                            direktori yang boleh diakses secara awam;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Daripada
+                                            halaman platform media sosial, jika anda mengikuti, menyukai atau menjadi
+                                            peminat halaman tersebut;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (d)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Apabila
+                                            anda berinteraksi dan berkomunikasi dengan kami di acara, aktiviti atau melalui
+                                            platform media sosial;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (e)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Daripada
+                                            log pelayan kami apabila anda log masuk atau mengakses Platform kami, seperti
+                                            butiran alamat protokol internet anda;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (f)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Daripada
+                                            penyedia perkhidmatan kredit pihak ketiga, contohnya agensi pekerjaan swasta
+                                            atau agensi pengumpulan hutang atau entiti yang menyediakan perkhidmatan
+                                            pengesahan latar belakang kredit;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (g)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Daripada
+                                            sumber dalam industri perkhidmatan kewangan, contohnya, mana-mana biro atau
+                                            agensi di bawah Bank Negara Malaysia, Suruhanjaya Sekuriti atau pihak berkuasa
+                                            pengawalseliaan lain, Persatuan Bank-bank Islam Malaysia, atau mana-mana agensi
+                                            pelaporan kredit berdaftar atau institusi kewangan lain.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <b>
+                                            <span lang=MS
+                                                  style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                5.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>TUJUAN PEMPROSESAN</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            akan menggunakan dan memproses Data Peribadi anda untuk tujuan yang berkaitan
+                                            dengan perkhidmatan yang anda minta dan untuk aktiviti perniagaan kami, yang
+                                            termasuk tetapi tidak terhad kepada: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            meningkatkan produk dan perkhidmatan kami, termasuk menghantar e-mel permintaan
+                                            maklum balas, menguji dan menyelesaikan masalah ciri-ciri baharu;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menghantar e-mel promosi berkala kepada anda (menggunakan alamat e-mel yang
+                                            anda berikan (jika ada)) mengenai produk baharu, tawaran istimewa, atau
+                                            maklumat lain mengenai kami, yang mungkin menarik minat anda;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menghubungi anda bagi tujuan penyelidikan pemasaran secara berkala melalui
+                                            e-mel. Kami mungkin menggunakan maklumat tersebut untuk menyesuaikan Platform
+                                            mengikut minat anda;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (d)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memberi maklum balas kepada anda apabila anda menghubungi kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (e)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            mendapatkan produk dan perkhidmatan daripada pembekal dan/atau penyedia
+                                            perkhidmatan kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (f)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memberi maklum balas kepada pertanyaan daripada pelanggan sedia ada atau
+                                            prospektif yang mencari maklumat mengenai perkhidmatan kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (g)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            melaksanakan proses yang berkaitan dengan perkhidmatan yang kami sediakan
+                                            termasuk semakan risiko, pengesahan identiti, pemindahan dana elektronik, dan
+                                            pemantauan akaun;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (h)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memilih dan memperibadikan iklan, tawaran, dan kandungan tajaan lain yang
+                                            dipaparkan di platform;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (i)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            mengukur keberkesanan dan pengagihan iklan dan memahami cara orang berinteraksi
+                                            dengan iklan dan Platform;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (j)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            mengesahkan akaun dan aktiviti, melawan tingkah laku berbahaya, mengesan dan
+                                            menghalang pengalaman buruk, mengekalkan integriti Produk. Contohnya, untuk
+                                            menyiasat aktiviti mencurigakan atau pelanggaran terma atau dasar kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (k)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menjalankan dan menyokong penyelidikan dan inovasi mengenai kebajikan sosial
+                                            umum, kemajuan teknologi, kepentingan awam, dan kesejahteraan;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (l)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memproses sebarang transaksi, pertanyaan, atau komunikasi lain daripada anda
+                                            kepada kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (m)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            mengesahkan kebolehpercayaan kredit dan latar belakang anda;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (n)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menjalankan tinjauan bagi meningkatkan produk/perkhidmatan kami dan
+                                            membangunkan produk/perkhidmatan baharu;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (o)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menyiasat atau melaporkan sebarang jenayah atau penipuan yang disyaki;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (p)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            mematuhi sebarang keperluan undang-undang, perintah mana-mana mahkamah, atau
+                                            tribunal atau sebarang arahan daripada Kerajaan atau mana-mana pihak berkuasa
+                                            berkanun;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (q)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menguatkuasakan hak undang-undang atau kontrak kami termasuk untuk mendapatkan
+                                            semula sebarang hutang yang anda berhutang kepada kami;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (r)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            menyediakan anda dengan maklumat mengenai kempen pemasaran yang kami atau rakan
+                                            niaga kami percayai akan menarik minat anda;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            dan anda bersetuju
+                                            dan membenarkan kami untuk menggunakan dan memproses Data Peribadi anda dengan
+                                            cara yang dinyatakan dalam Notis ini.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>Tujuan Lain</span>
+                                        
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami mungkin juga
+                                            menggunakan dan memproses data anda untuk tujuan lain seperti: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memberitahu dan menjemput anda ke acara atau aktiviti yang dianjurkan oleh
+                                            kami, rakan kongsi kami, penaja, atau pengiklan;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            memproses pendaftaran anda untuk menyertai atau menghadiri acara atau aktiviti
+                                            dan untuk berkomunikasi dengan anda mengenai kehadiran anda di acara atau
+                                            aktiviti tersebut; dan
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            untuk
+                                            berkongsi nama dan nombor hubungan anda dengan rakan kongsi, pengiklan,
+                                            syarikat acara, atau penaja kami yang mungkin berkomunikasi dengan anda bagi
+                                            tujuan pemasaran.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.3<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Jika
+                                            anda tidak bersetuju untuk kami memproses Data Peribadi anda untuk tujuan yang
+                                            disenaraikan dalam Klausa 5.2 di atas, sila maklumkan kepada kami menggunakan
+                                            butiran hubungan yang dinyatakan dalam Klausa 10.1 di bawah.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.4<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            mungkin mengagregatkan maklumat yang telah kami kumpulkan dan menggunakannya
+                                            untuk tujuan di luar skop Notis ini. Walau bagaimanapun, kami akan memastikan
+                                            bahawa sebarang data agregat yang digunakan untuk tujuan tersebut akan
+                                            menghapuskan semua maklumat boleh dikenal pasti secara peribadi supaya maklumat
+                                            agregat tersebut tidak boleh digunakan untuk mengenal pasti anda.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.5<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            mungkin akan mendedahkan Data Peribadi anda kepada syarikat berkaitan kami,
+                                            rakan kongsi perniagaan, penyedia perkhidmatan, penasihat kewangan dan
+                                            profesional kami, institusi kewangan, jabatan kerajaan, dan/atau agensi, badan
+                                            berkanun, dan mana-mana pihak ketiga yang berkaitan.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            5.6<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            mungkin akan mendedahkan Data Peribadi anda kepada mana-mana ahli kumpulan
+                                            kami, iaitu anak syarikat kami, syarikat induk utama kami, dan anak
+                                            syarikatnya, untuk menyediakan produk dan perkhidmatan kami kepada anda.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                6.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PEMINDAHAN DATA PERIBADI</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            6.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Memandangkan
+                                            kemudahan penyimpanan teknologi maklumat dan pelayan kami mungkin terletak di
+                                            bidang kuasa lain, Data Peribadi anda mungkin dipindahkan ke, disimpan,
+                                            digunakan, dan diproses dalam bidang kuasa selain daripada Malaysia.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                7.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PENDEDAHAN KEPADA PIHAK KETIGA</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            7.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            mungkin akan melibatkan syarikat lain, penyedia perkhidmatan, atau individu
+                                            untuk melaksanakan fungsi bagi pihak kami dan mungkin memberikan akses atau
+                                            mendedahkan Data Peribadi anda kepada pihak ketiga, seperti yang disenaraikan
+                                            di bawah: -
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (a)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            penyedia
+                                            perkhidmatan teknologi maklumat (IT);
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (b)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            penyedia
+                                            perkhidmatan data entri;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (c)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            penyedia
+                                            kemudahan penyimpanan;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (d)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            bank
+                                            dan institusi kewangan, penyedia insurans, syarikat kad kredit, penyedia
+                                            perkhidmatan sekuriti dan pelaburan, pemegang amanah, penjaga, persatuan
+                                            berkaitan industri/kewangan;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (e)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            penasihat
+                                            profesional dan juruaudit luaran termasuk penasihat undang-undang, penasihat
+                                            kewangan dan perunding;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (f)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            fasilitator
+                                            pemindahan dana elektronik;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (g)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            pihak
+                                            ketiga yang kami wajib membuat pendedahan di bawah kehendak mana-mana
+                                            undang-undang melalui perintah mahkamah atau tribunal atau seperti yang
+                                            dikehendaki oleh Kerajaan Malaysia atau mana-mana pihak berkuasa berkanun
+                                            contohnya Bank Negara Malaysia, Suruhanjaya Sekuriti dan Bursa Malaysia. Ini
+                                            juga mungkin termasuk entiti pihak ketiga yang dilantik oleh pihak berkuasa
+                                            berkanun tersebut;
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:72.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            (h)<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            pihak
+                                            ketiga yang dipilih dengan teliti untuk memberikan anda maklumat tentang produk
+                                            dan perkhidmatan yang mungkin menarik minat anda.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <span lang=MS
+                                              style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            7.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Platform
+                                            kami mungkin mengandungi pautan ke laman web lain yang tidak diselenggara oleh
+                                            kami. Apabila melawat laman web pihak ketiga ini, anda harus membaca polisi
+                                            privasi mereka yang akan terpakai kepada penggunaan laman web mereka.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                           
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                           
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                8.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>TEMPOH PENYIMPANAN DATA PERIBADI</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            8.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Kami
+                                            akan menyimpan Data Peribadi anda untuk tempoh selagi anda kekal sebagai
+                                            pelanggan kami atau untuk memenuhi tujuan yang disenaraikan di bawah Klausa 5,
+                                            melainkan tempoh yang lebih lama diperlukan atau dibenarkan oleh undang-undang.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                9.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>HAK UNTUK MENGAKSES DAN MEMBETULKAN DATA PERIBADI ANDA</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            9.1<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Anda
+                                            mempunyai hak untuk mengakses dan melihat Data Peribadi yang telah diberikan
+                                            oleh anda di Platform pada bila-bila masa. Sekiranya anda mendapati bahawa Data
+                                            Peribadi anda tidak tepat, tidak lengkap, mengelirukan, atau tidak dikemas
+                                            kini, anda boleh membetulkan Data Peribadi anda pada bila-bila masa melalui
+                                            tetapan akaun anda di Platform.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            9.2<span style='font:7.0pt "Times New Roman"'>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Sekiranya
+                                            anda tidak dapat mengakses atau membetulkan mana-mana Data Peribadi yang telah
+                                            anda berikan, anda boleh pada bila-bila masa mengemukakan permintaan kepada
+                                            kami melalui butiran hubungan berikut untuk mendapatkan akses, membetulkan,
+                                            atau mengemas kini Data Peribadi anda atau untuk mengehadkan pemprosesan Data
+                                            Peribadi anda atau mendapatkan maklumat lanjut berkenaan Data Peribadi anda.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-left:36.0pt;border:none'>
+                                        <b>
+                                            <span lang=MS
+                                                  style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                10.<span style='font:7.0pt "Times New Roman"'>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </span>
+                                            </span>
+                                        </b><b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>PERMINTAAN &amp; PERTANYAAN AKSES &amp; PEMBETULAN</span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            
+                                                <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                    <span style='text-decoration:none'>&nbsp;</span>
+                                                </span>
+                                            
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            10.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Tertakluk kepada
+                                            sebarang pengecualian di bawah undang-undang yang terpakai, anda boleh pada
+                                            bila-bila masa di sini meminta untuk akses atau untuk pembetulan atau
+                                            pembetulan Data Peribadi anda atau mengehadkan pemprosesan Data Peribadi anda
+                                            atau mendapatkan maklumat lanjut daripada YABAM dengan menghubungi:
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                Yayasan Amanah
+                                                Bantuan Awam Malaysia
+                                            </span>
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <b>
+                                            <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                                (PPM-022-10-05072016)
+                                            </span>
+                                        </b>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            G-01-07 Damen USJ
+                                            1
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Jalan Kewajipan
+                                            USJ 1
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            47600 Subang Jaya,
+                                            Selangor.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>(e) </span><span lang=MS>
+                                            <a href="mailto:info@yabam.org.my">
+                                                <span style='font-family:"Arial",sans-serif;
+color:#467886'>info@yabam.org.my</span>
+                                            </a>
+                                        </span><span lang=MS
+                                                     style='font-family:"Arial",sans-serif;color:#000008'> </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>(w) </span><span lang=MS>
+                                            <a href="https://yabam.org.my/?form=MG0AV3">
+                                                <span style='font-family:
+"Arial",sans-serif;color:#467886'>https://yabam.org.my/ </span>
+                                            </a>
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-bottom:0cm;text-align:justify;line-height:
+115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;
+color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            10.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Berkenaan dengan
+                                            hak anda untuk mengakses dan/atau membetulkan Data Peribadi anda, YABAM
+                                            mempunyai hak untuk menolak permintaan anda untuk mengakses dan/atau membuat
+                                            sebarang pembetulan kepada Data Peribadi anda atas sebab-sebab yang dibenarkan
+                                            di bawah undang-undang seperti di mana kos menyediakan akses kepada anda adalah
+                                            tidak seimbang dengan risiko kepada privasi anda.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;text-indent:-36.0pt;line-height:115%;
+border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            10.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                                        </span><span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>
+                                            Apabila terdapat
+                                            perubahan pada Data Peribadi anda, ia adalah tanggungjawab anda untuk
+                                            memberitahu kami mengenai perubahan tersebut.
+                                        </span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:36.0pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                    <p class=MsoNormal style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+margin-left:-.9pt;text-align:justify;line-height:115%;border:none'>
+                                        <span lang=MS style='font-family:"Arial",sans-serif;color:#000008'>&nbsp;</span>
+                                    </p>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0">
+                                © Hak Cipta
+                                <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+        <!-- jquery js -->
+        <script src="/assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+        <!-- bootstrap js -->
+        <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- utils js -->
+        <script src="/assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="/assets/libs/node-waves/waves.min.js"></script>
+
+        <!-- font js -->
+        <script src="/assets/libs/feather-icons/feather.min.js"></script>
+        <script src="/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+        <script src="/assets/js/sweetalert2.js"></script>
+        <script src="/assets/js/axios.min.js"></script>
+        <script src="/Scripts/apiHelper.js"></script>
+        <script src="/Scripts/appHelper.js"></script>
+        <script src="/Scripts/dialogHelper.js"></script>
+
+        
+    <script type="text/javascript" src="/assets/libs/select2/js/select2.min.js"></script>
+    <script src="/assets/libs/jqueryValidation/dist/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
+</body></html>

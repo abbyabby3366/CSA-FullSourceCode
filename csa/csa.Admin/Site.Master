@@ -1,0 +1,734 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="csa.Admin.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><asp:Literal ID="litPageTitle" runat="server" Text="<%$Resources:Lang, LblPageTitle%>"></asp:Literal></title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+
+    <script src="<%=Page.ResolveUrl("~/assets/js/layout.js") %>"></script>
+
+    <!-- bootstrap css -->
+	<%--<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/bootstrap.min.css") %>">--%>
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/bootstrap.css") %>">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/icons.min.css") %>">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/app.min.css") %>" />
+    <%--<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/app.css") %>" />--%>
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/custom.css") %>">
+
+    <asp:ContentPlaceHolder ID="HeaderContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <link href="<%=Page.ResolveUrl("~/assets/images/logos/favicon.ico") %>" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <form runat="server" id="form1">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="layout-wrapper">
+            <!-- page header -->
+			<header id="page-topbar">
+                <div class="layout-width">
+                    <div class="navbar-header">
+                        <div class="d-flex">
+                            <!-- logo -->
+                            <div class="navbar-brand-box horizontal-logo">
+                                <a href="index.html" class="logo logo-dark">
+                                    <span class="logo-sm">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-main.png") %>" alt="" height="22">
+                                    </span>
+                                    <span class="logo-lg">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-dark.png") %>" alt="" height="37">
+                                    </span>
+                                </a>
+
+                                <a href="index.html" class="logo logo-light">
+                                    <span class="logo-sm">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-main.png") %>" alt="" height="22">
+                                    </span>
+                                    <span class="logo-lg">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-light.png") %>" alt="" height="37">
+                                    </span>
+                                </a>
+                            </div>
+
+                            <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                                <span class="hamburger-icon">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <%--<div class="dropdown ms-1 topbar-head-dropdown header-item">
+                                <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img id="header-lang-img" src="<%=Page.ResolveUrl("~/assets/images/flags/us.svg") %>" alt="Header Language" height="20" class="rounded">
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/flags/us.svg") %>" alt="user-image" class="me-2 rounded" height="18">
+                                        <span class="align-middle">English</span>
+                                    </a>
+
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ch" title="Chinese">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/flags/china.svg") %>" alt="user-image" class="me-2 rounded" height="18">
+                                        <span class="align-middle">中文</span>
+                                    </a>
+
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="my" title="Bahasa">
+                                        <img src="<%=Page.ResolveUrl("~/assets/images/flags/my.svg") %>" alt="user-image" class="me-2 rounded" height="18">
+                                        <span class="align-middle">Bahasa</span>
+                                    </a>
+                                </div>
+                            </div>--%>
+
+                            <%--<div class="ms-1 header-item d-none d-sm-flex">
+                                <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
+                                    <i class='bx bx-fullscreen fs-22'></i>
+                                </button>
+                            </div>--%>
+
+                            <%--<div class="ms-1 header-item d-none d-sm-flex">
+                                <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
+                                    <i class='bx bx-moon fs-22'></i>
+                                </button>
+                            </div>--%>
+
+                            <%--<div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+                                <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                                    <i class='bx bx-bell fs-22'></i>
+                                    <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span class="visually-hidden">unread messages</span></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+
+                                    <div class="dropdown-head bg-primary bg-pattern rounded-top">
+                                        <div class="p-3">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h6 class="m-0 fs-16 fw-semibold text-white">Notifications </h6>
+                                                </div>
+                                                <div class="col-auto dropdown-tabs">
+                                                    <span class="badge bg-light-subtle text-body fs-13">4 New</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-2 pt-2">
+                                            <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
+                                                <li class="nav-item waves-effect waves-light">
+                                                    <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">All (4)
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item waves-effect waves-light">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">Messages
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item waves-effect waves-light">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">Alerts
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-content position-relative" id="notificationItemsTabContent">
+                                        <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                            <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs me-3 flex-shrink-0">
+                                                            <span class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
+                                                                <i class="bx bx-badge-check"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-2 lh-base">Your <b>Elite</b> author Graphic
+                                                        Optimization <span class="text-secondary">reward</span> is
+                                                        ready!
+                                                                </h6>
+                                                            </a>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>Just 30 sec ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check01">
+                                                                <label class="form-check-label" for="all-notification-check01"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">
+                                                                    Answered to your comment on the cash flow forecast's
+                                                        graph 🔔.
+                                                                </p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>48 min ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                <label class="form-check-label" for="all-notification-check02"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs me-3 flex-shrink-0">
+                                                            <span class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                                <i class='bx bx-message-square-dots'></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-2 fs-13 lh-base">You have received <b class="text-success">20</b> new messages in the conversation
+                                                                </h6>
+                                                            </a>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>2 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check03">
+                                                                <label class="form-check-label" for="all-notification-check03"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">We talked about a project on linkedin.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>4 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check04">
+                                                                <label class="form-check-label" for="all-notification-check04"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="my-3 text-center view-all">
+                                                    <button type="button" class="btn btn-soft-success waves-effect waves-light">
+                                                        View
+                                            All Notifications <i class="ri-arrow-right-line align-middle"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                                            <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">We talked about a project on linkedin.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>30 min ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="messages-notification-check01">
+                                                                <label class="form-check-label" for="messages-notification-check01"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">
+                                                                    Answered to your comment on the cash flow forecast's
+                                                        graph 🔔.
+                                                                </p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>2 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="messages-notification-check02">
+                                                                <label class="form-check-label" for="messages-notification-check02"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">
+                                                                    Mentionned you in his comment on 📃 invoice #12501.
+                                                                </p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>10 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="messages-notification-check03">
+                                                                <label class="form-check-label" for="messages-notification-check03"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                    <div class="d-flex">
+                                                        <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-grow-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">We talked about a project on linkedin.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>3 days ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="messages-notification-check04">
+                                                                <label class="form-check-label" for="messages-notification-check04"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="my-3 text-center view-all">
+                                                    <button type="button" class="btn btn-soft-success waves-effect waves-light">
+                                                        View
+                                            All Messages <i class="ri-arrow-right-line align-middle"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
+
+                                        <div class="notification-actions" id="notification-actions">
+                                            <div class="d-flex text-muted justify-content-center">
+                                                Select
+                                    <div id="select-content" class="text-body fw-semibold px-1">0</div>
+                                                Result
+                                    <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>--%>
+
+                            <div class="dropdown ms-sm-1 header-item topbar-user">
+                                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="d-flex align-items-center">
+                                        <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                                        <span class="text-start ms-xl-2">
+                                            <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><asp:Literal ID="litLoginName" runat="server"></asp:Literal></span>
+                                            <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><asp:Literal ID="litLoginRole" runat="server"></asp:Literal></span>
+                                        </span>
+                                    </span>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <h6 class="dropdown-header"><asp:Literal ID="litGreeting" runat="server"></asp:Literal></h6>
+
+                                    <a class="dropdown-item" href="<%=Page.ResolveUrl("~/MyProfile") %>"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                                    <div class="dropdown-divider"></div>
+                                    <asp:LinkButton ID="lnkbLogoout" runat="server" CssClass="dropdown-item" OnClick="lnkbLogoout_Click">
+                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span>
+                                    </asp:LinkButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>					
+            
+            <div class="app-menu navbar-menu">
+        <!-- logo -->
+        <div class="navbar-brand-box">
+            <!-- dark -->
+            <a href="<%=Page.ResolveUrl("~/Dashboard") %>" class="logo logo-dark">
+                <span class="logo-sm">
+                    <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-main.png") %>" alt="" height="22">
+                </span>
+                <span class="logo-lg">
+                    <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-light.png") %>" alt="" height="37">
+                </span>
+            </a>
+
+            <!-- light -->
+            <a href="<%=Page.ResolveUrl("~/Dashboard") %>" class="logo logo-light">
+                <span class="logo-sm">
+                    <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-main.png") %>" alt="" height="22">
+                </span>
+                <span class="logo-lg">
+                    <img src="<%=Page.ResolveUrl("~/assets/images/logos/logo-dark.png") %>" alt="" height="37">
+                </span>
+            </a>
+
+            <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                <i class="ri-record-circle-line"></i>
+            </button>
+        </div>
+
+        <div id="scrollbar">
+            <div class="container-fluid">
+                <div id="two-column-menu"></div>
+
+                <ul class="navbar-nav" id="navbar-nav">
+                    <li class="menu-title"><span data-key="t-main">Main</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="<%=Page.ResolveUrl("~/Dashboard") %>">
+                            <i class="ri-home-8-line"></i> <span data-key="t-dashboard"> Dashboards </span>
+                        </a>
+                    </li>
+
+                     <li class="nav-item" data-active-urls="ApplicationDetails,ApplicationAssign">
+                        <a class="nav-link menu-link" href="<%=Page.ResolveUrl("~/Applications") %>">
+                            <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-application-manager"> Application<br /> Management </span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="member-manager">
+                            <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Client Registration & Management </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="member-manager">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/NewMemberApproval") %>" class="nav-link" data-key="t-member-approval"> Registration <span class="badge badge-pill bg-danger <%= CounterNewMember == 0 ? "d-none":"" %>"><%= CounterNewMember%></span></a>
+                                </li>
+                                <li class="nav-item" data-active-urls="MemberDetails,AddNewMember">
+                                    <a href="<%=Page.ResolveUrl("~/Clients") %>" class="nav-link" data-key="t-member-details"> Client List </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/Heros") %>" class="nav-link" data-key="t-member-details"> Hero/Wira List </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/Members") %>" class="nav-link" data-key="t-member-details"> Member List </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/Agents") %>" class="nav-link" data-key="t-member-details"> Agent List </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/DropMia") %>" class="nav-link" data-key="t-member-details"> Drop/MIA List </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/YabamClients") %>" class="nav-link" data-key="t-member-details"> YABAM List </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#finance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="finance">
+                            <i class="ri-money-dollar-circle-line"></i> <span data-key="t-finance"> Finance </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="finance">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/WithdrawalRequests") %>" class="nav-link" data-key="t-withdrawal-requests"> Withdrawal Requests </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/FinanceTransHistory") %>" class="nav-link" data-key="t-transaction-history"> Transaction History </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link " href="#marketing-communications" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="marketing-communications">
+                            <i class="ri-question-answer-line"></i> <span data-key="t-finance"> Marketing Communications </span>
+                        </a>
+                        <div class="collapse menu-dropdown " id="marketing-communications">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="#email" class="nav-link " data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="email" data-key="t-email"> Email </a>
+                                    <div class="menu-dropdown collapse" id="email">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item" data-active-urls="EmailCampaignDetails,AddNewCampaign">
+                                                <a href="<%=Page.ResolveUrl("~/EmailCampaign") %>" class="nav-link" data-key="t-email-campaign"> Email Campaign </a>
+                                            </li>
+                                           <li class="nav-item">
+                                                <a href="<%=Page.ResolveUrl("~/Audiences") %>" class="nav-link " data-key="t-audience"> Audience </a>
+                                            </li>
+                                            <li class="nav-item" data-active-urls="EmailTemplateDetails,AddNewEmailTemplate">
+                                                <a href="<%=Page.ResolveUrl("~/EmailTemplate") %>" class="nav-link" data-key="t-email-template"> Email Template </a>
+                                            </li>
+                                            <li class="nav-item" data-active-urls="AddNewAudienceTag,AudienceTagDetails">
+                                                <a href="<%=Page.ResolveUrl("~/AudienceTag") %>" class="nav-link" data-key="t-audience-tag"> Audience Tag </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/SMS") %>" class="nav-link" data-key="t-sms"> SMS </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                     <li class="nav-item" data-active-urls="AddNewAdmin,AdminDetails">
+                        <a class="nav-link menu-link" href="<%=Page.ResolveUrl("~/Admins") %>">
+                            <i class="ri-file-user-line"></i> <span data-key="t-application-manager"> Admin<br /> Management </span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title"><span data-key="t-reports">Reports</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#reportings" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="reportings">
+                            <i class="ri-file-chart-line"></i> <span data-key="t-reportings"> Reportings </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="reportings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/ReportA") %>" class="nav-link" data-key="t-report-a"> Report A </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/ReportB") %>" class="nav-link" data-key="t-report-b"> Report B </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="menu-title"><span data-key="t-configurations">Configurations</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="<%=Page.ResolveUrl("~/Roles") %>">
+                            <i class="ri-user-settings-line"></i> <span data-key="t-roles"> Role &amp; privileges </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="<%=Page.ResolveUrl("~/MyProfile") %>">
+                            <i class="ri-user-line"></i> <span data-key="t-profile-manager"> Profile Management </span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title"><span data-key="t-settings">Settings</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#settings" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="settings">
+                            <i class="ri-settings-2-line"></i> <span data-key="t-role-privileges"> Settings </span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="settings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/SystemSettings") %>" class="nav-link" data-key="t-system-settings"> System Settings </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<%=Page.ResolveUrl("~/GlobalSettings") %>" class="nav-link" data-key="t-global-settings"> Global Settings </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-background"></div>
+    </div>
+			
+            <div class="vertical-overlay"></div>
+
+            <div class="main-content">
+			    <!-- page wrapper -->
+                <div id="appContent">
+			        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+			        </asp:ContentPlaceHolder>
+                </div>
+
+                <!-- footer -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Copyright <script>document.write(new Date().getFullYear())</script> © CSA Academy - All right reserved.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by Epic Unicorn
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+		</div>
+
+        <!-- jquery js -->
+		<script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/libs/jquery/js/jquery-3.6.3.min.js") %>"></script>
+
+        <!-- bootstrap js -->
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/libs/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
+
+        <!-- utils js -->
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/libs/simplebar/simplebar.min.js") %>"></script>
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/libs/node-waves/waves.min.js") %>"></script>
+
+        <!-- font js -->
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/libs/feather-icons/feather.min.js") %>"></script>
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/js/pages/plugins/lord-icon-2.1.0.js") %>"></script>
+
+        <!-- toastify js -->
+        <script type='text/javascript' src="<%=Page.ResolveUrl("~/assets/libs/toastify-js-5.14.1/js/toastify-js.js") %>"></script>
+
+        <!-- flatpickr js -->
+        <script type='text/javascript' src="<%=Page.ResolveUrl("~/assets/libs/flatpickr/flatpickr.min.js") %>"></script>
+
+        <script type='text/javascript' src="<%=Page.ResolveUrl("./Scripts/vue.js") %>"></script>
+
+        <!-- App js -->
+        <script type="text/javascript" src="<%=Page.ResolveUrl("~/assets/js/app.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/js/sweetalert2.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/js/axios.min.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/apiHelper.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/dialogHelper.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/appHelper.js") %>"></script>
+
+        <script>
+            //menu navigation mark
+            $('#navbar-nav .nav-item a').each(function () {
+                const url = window.location.pathname.slice(1);
+
+                if (url.toLowerCase() == $(this).attr('href')?.toLowerCase().slice(1)) {
+                    $(this).addClass("active");
+
+
+                    const menuAccordion = $(this).closest(".menu-dropdown");
+                    if (menuAccordion.length > 0) {
+                        menuAccordion.addClass("show")
+                        const parent = menuAccordion.parent()
+                        const firstItem = parent.find('.nav-link:first');
+                        firstItem.attr('aria-expanded', true)
+
+
+                        const menuAccordion2 = parent.closest(".menu-dropdown");
+                        if (menuAccordion2.length > 0) {
+                            menuAccordion2.addClass("show")
+                            const parent2 = menuAccordion2.parent()
+                            const firstItem2 = parent2.find('.nav-link:first');
+                            firstItem2.attr('aria-expanded', true)
+
+                        }
+                    }
+                }
+                else {
+                    let li = $(this).parent();
+                    let urls = li.attr('data-active-urls');
+                    if (urls) {
+                        if (urls.split(',').includes(url)) {
+                            $(this).addClass("active");
+
+                            const menuAccordion = $(this).closest(".menu-dropdown");
+                            if (menuAccordion.length > 0) {
+                                menuAccordion.addClass("show")
+                                const parent = menuAccordion.parent()
+                                const firstItem = parent.find('.nav-link:first');
+                                firstItem.attr('aria-expanded', true)
+
+
+                                const menuAccordion2 = parent.closest(".menu-dropdown");
+                                if (menuAccordion2.length > 0) {
+                                    menuAccordion2.addClass("show")
+                                    const parent2 = menuAccordion2.parent()
+                                    const firstItem2 = parent2.find('.nav-link:first');
+                                    firstItem2.attr('aria-expanded', true)
+
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+        <asp:ContentPlaceHolder ID="ScriptContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+.hide {
+    display: none !important;
+}
+
+.profile-bg-cover {
+    background: linear-gradient(-45deg, #405189 50%, #0ab39c);
+}
+
+.form-control
+{
+	appearance:auto;
+}
+
+.select-control {
+	appearance: auto;
+	padding: .5rem .1rem;
+}
+
+button i
+{
+	margin-right:5px;
+}
+	
+
+@media (max-width: 1366px) {
+	.btn-group
+	{
+		overflow-x: auto !important;
+		display: flex !important;
+	}
+}
+
+.checkbox-control {
+	display: block;
+	/* Double-sized Checkboxes */
+	-ms-transform: scale(1.5); /* IE */
+	-moz-transform: scale(1.5); /* FF */
+	-webkit-transform: scale(1.5); /* Safari and Chrome */
+	-o-transform: scale(1.5); /* Opera */
+	transform: scale(1.5);
+	margin-top: 10px;
+	margin-left: 5px;
+}

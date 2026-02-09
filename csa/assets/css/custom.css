@@ -1,0 +1,16 @@
+.hide {
+    display: none !important;
+}
+
+.profile-bg-cover {
+    background: linear-gradient(-45deg, #405189 50%, #0ab39c);
+}
+
+
+@media (max-width: 1366px) {
+	.btn-group
+	{
+		overflow-x: auto !important;
+		display: flex !important;
+	}
+}

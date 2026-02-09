@@ -1,0 +1,78 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteExt.master.cs" Inherits="csa.Admin.SiteExt" %>
+
+<!DOCTYPE html>
+
+<html lang="en"data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><asp:Literal ID="litPageTitle" runat="server" Text="<%$Resources:Lang, LblPageTitle%>"></asp:Literal></title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+
+    <script src="<%=Page.ResolveUrl("~/assets/js/layout.js") %>"></script>
+
+    <!-- bootstrap css -->
+	<%--<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/bootstrap.min.css") %>">--%>
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/bootstrap.css") %>">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/icons.min.css") %>">
+
+    <!-- app css -->
+	<%--<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/app.min.css") %>" />--%>
+    <link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/app.css") %>" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="<%=Page.ResolveUrl("~/assets/css/custom.css") %>">
+
+    <asp:ContentPlaceHolder ID="HeaderContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <link href="<%=Page.ResolveUrl("~/assets/images/logos/favicon.ico") %>" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <form runat="server" id="form1">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+		<asp:ContentPlaceHolder ID="MainContent" runat="server">
+        </asp:ContentPlaceHolder>
+		
+        <!-- jquery js -->
+		<script src="<%=Page.ResolveUrl("~/assets/libs/jquery/js/jquery-3.6.3.min.js") %>"></script>
+
+        <!-- bootstrap js -->
+		<script src="<%=Page.ResolveUrl("~/assets/libs/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
+
+        <!-- utils js -->
+        <script src="<%=Page.ResolveUrl("~/assets/libs/simplebar/simplebar.min.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/libs/node-waves/waves.min.js") %>"></script>
+
+        <!-- font js -->
+        <script src="<%=Page.ResolveUrl("~/assets/libs/feather-icons/feather.min.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/js/pages/plugins/lord-icon-2.1.0.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/js/sweetalert2.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("~/assets/js/axios.min.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/apiHelper.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/appHelper.js") %>"></script>
+        <script src="<%=Page.ResolveUrl("./Scripts/dialogHelper.js") %>"></script>
+
+        <asp:ContentPlaceHolder ID="ScriptContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>
