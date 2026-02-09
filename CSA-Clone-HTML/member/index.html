@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Member Portal</title>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        .auth-bg-cover {
+            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
+        }
+
+        .btn-tertiary {
+            background-color: #279d69;
+            border-color: #279d69;
+            color: #fff;
+        }
+
+        .btn-tertiary:hover {
+            background-color: #1e7e54;
+            border-color: #1e7e54;
+            color: #fff;
+        }
+
+        .text-primary {
+            color: #279d69 !important;
+        }
+    </style>
+
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-overlay"></div>
+
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center mt-sm-3 text-white-50">
+                            <div>
+                                <a href="index.html" class="d-inline-block auth-logo">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="100">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card mt-4">
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="text-primary fw-semibold">Member Sign In</h5>
+                                    <p class="mb-0 text-muted">Don't have an account? <a href="register.html" class="fw-semibold text-primary text-decoration-underline">Sign up here</a></p>
+                                    <p class="mt-2 text-muted">Are you an admin? <a href="../index.html" class="fw-semibold text-primary text-decoration-underline">Sign in here</a></p>
+                                </div>
+
+                                <div class="p-2 mt-4">
+                                    <form action="dashboard.html">
+                                        <div class="mb-3">
+                                            <label for="phoneNo" class="form-label">Phone No</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light border-light text-muted">+60</span>
+                                                <input type="text" class="form-control" id="phoneNo" placeholder="Enter phone number (e.g. 0123456789)">
+                                            </div>
+                                            <p class="text-muted fs-11 mt-1">Format: 0123456789</p>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="float-end">
+                                                <a href="forgot-password.html" class="text-muted fs-12">Forgot password?</a>
+                                            </div>
+                                            <label for="password" class="form-label">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                                <input type="password" class="form-control pe-5 password-input" id="password" placeholder="Enter password">
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+                                            <label class="form-check-label" for="auth-remember-check">Remember me</label>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <button class="btn btn-tertiary w-100" type="submit">Sign In</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 <script>document.write(new Date().getFullYear())</script> YAYASAN AMANAH BANTUAN AWAM MALAYSIA. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $(".password-addon").on("click", function() {
+                var passInput = $(".password-input");
+                if (passInput.attr("type") === "password") {
+                    passInput.attr("type", "text");
+                } else {
+                    passInput.attr("type", "password");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

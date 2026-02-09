@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Details | Member Portal</title>
+
+    <script src="../assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        .navbar-menu {
+            background: #279d69 !important;
+        }
+
+        .menu-title {
+            color: white !important;
+        }
+
+        .navbar-menu .navbar-nav .nav-link {
+            color: lightyellow !important;
+        }
+
+        .btn-tab {
+            background-color: #ffffff;
+            color: #8C9096;
+            border: 1px solid #e9ebec;
+        }
+
+        .btn-tab:hover {
+            background-color: #279d69;
+            color: #ffffff;
+        }
+        
+        .tab-active {
+            background-color: #279d69 !important;
+            color: #ffffff !important;
+        }
+
+        .tab-done {
+            background-color: #279d69;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .my-panel-info {
+            background-color: #279d69;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+
+        .my-panel-info > span {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .profile-wid-bg {
+            height: 300px;
+        }
+
+        .profile-wid-bg::before {
+            background: #279d69 !important;
+            background: -webkit-gradient(linear,left bottom,left top,from(whitesmoke),to(#279d69)) !important;
+            background: linear-gradient(to top,white,#279d69) !important;
+        }
+    </style>
+
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- page header -->
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- logo -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="dashboard.html" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown ms-sm-1 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user" src="../assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Member User</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Active Member</span>
+                                    </span>
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <h6 class="dropdown-header">Welcome Member!</h6>
+                                <a class="dropdown-item" href="profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>					
+        
+        <div class="app-menu navbar-menu">
+            <!-- logo -->
+            <div class="navbar-brand-box">
+                <a href="dashboard.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <a href="dashboard.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+                    <div id="two-column-menu"></div>
+
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="dashboard.html">
+                                <i class="ri-home-8-line"></i><span data-key="t-dashboard">Dashboards </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#surveys" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="surveys">
+                                <i class="ri-survey-line"></i><span data-key="t-surveys">Surveys </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="surveys">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="survey.html" class="nav-link">YABAM</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link active" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="application-manager">
+                                <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
+                            </a>
+                            <div class="collapse menu-dropdown show" id="application-manager">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="apply.html" class="nav-link">Apply Now </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="application-status.html" class="nav-link active">Status of Application </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#referral" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="referral">
+                                <i class="ri-user-add-line"></i><span data-key="t-referral">Peserta </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="referral">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="referrals.html" class="nav-link">Butiran Peserta </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="become-agent.html" class="nav-link">Menjadi Pegawai </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="user-profile">
+                                <i class="mdi mdi-card-account-details-outline"></i><span data-key="t-user-profile">My Profile </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="user-profile">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="profile.html" class="nav-link">User Profile </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="profile-management.html" class="nav-link">Profile Management </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="wallet.html">
+                                <i class="ri-wallet-line"></i><span >Ganjaran </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        
+        <div class="vertical-overlay"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="profile-foreground position-relative mx-n4 mt-n4">
+                        <div class="profile-wid-bg">
+                            <img src="../assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+                        </div>
+                    </div>
+
+                    <div class="row pt-4 mb-4 mb-lg-3 pb-lg-4">
+                        <div class="col-sm-auto text-center mx-auto">
+                            <h2 class="text-white mt-4">Application Details</h2>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">
+                            <div class="card mt-n4">
+                                <div class="card-header d-flex align-items-center">
+                                    <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Application Progress </h5>
+                                    <div class="flex-shrink-0">
+                                        <span class="badge bg-soft-info text-info fs-12">Current: Processing Stage</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <div class="btn-group w-100" role="group">
+                                            <button type="button" class="btn btn-tab tab-done w-33" onclick="showStage('prechecking')">Pre-checking</button>
+                                            <button type="button" class="btn btn-tab tab-active w-33" id="stageProcessorBtn" onclick="showStage('processing')">Processing Stage</button>
+                                            <button type="button" class="btn btn-tab w-33">Disbursement</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- stage: prechecking -->
+                                    <div id="stage-prechecking" class="stage-content d-none">
+                                        <div class="alert alert-success">
+                                            <i class="ri-check-line me-2"></i> Pre-checking stage completed. Documents successfully uploaded and verified.
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Payslip</label>
+                                                <div class="p-2 border rounded d-flex align-items-center">
+                                                    <i class="ri-file-pdf-line text-danger fs-20 me-2"></i>
+                                                    <span>payslip_july.pdf</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Surat Akuan</label>
+                                                <div class="p-2 border rounded d-flex align-items-center">
+                                                    <i class="ri-file-text-line text-primary fs-20 me-2"></i>
+                                                    <span>surat_akuan.pdf</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- stage: processing -->
+                                    <div id="stage-processing" class="stage-content">
+                                        <div class="mb-4">
+                                            <div class="btn-group w-100" role="group">
+                                                <button type="button" class="btn btn-tab tab-done w-33" id="p1-btn" onclick="showProcessingTab(1)">Stage #1</button>
+                                                <button type="button" class="btn btn-tab tab-active w-33" id="p2-btn" onclick="showProcessingTab(2)">Stage #2</button>
+                                                <button type="button" class="btn btn-tab w-33" id="p3-btn" onclick="showProcessingTab(3)">Stage #3</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- p1 -->
+                                        <div id="proc-tab-1" class="proc-tab d-none">
+                                            <label class="form-label mb-3">Kindly download your Application Agreement Document below:</label>
+                                            <div class="mb-4">
+                                                <button class="btn btn-primary"><i class="ri-download-line me-1"></i> Download Agreement Document</button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Upload Your IC (Certified True Copy)</label>
+                                                    <input class="form-control" type="file">
+                                                </div>
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Upload Release Letter</label>
+                                                    <input class="form-control" type="file">
+                                                </div>
+                                            </div>
+                                            <div class="text-end border-top pt-3">
+                                                <button class="btn btn-success" onclick="showProcessingTab(2)">Submit Stage #1</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- p2 -->
+                                        <div id="proc-tab-2" class="proc-tab">
+                                            <div class="row">
+                                                <div class="col-lg-12 mb-4">
+                                                    <label class="form-label">Upload Your Credit Disbursement Screenshot</label>
+                                                    <input class="form-control" type="file">
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <h6 class="mb-3 text-muted text-uppercase fw-semibold">Login Credentials for Agency Verification</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="my-panel-info mb-2"><span>ANM (e-Penyata Gaji)</span></div>
+                                                            <div class="mb-2">
+                                                                <input type="text" class="form-control" placeholder="ID (No. IC)">
+                                                            </div>
+                                                            <div>
+                                                                <input type="password" class="form-control" placeholder="Password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="my-panel-info mb-2"><span>HRMIS</span></div>
+                                                            <div class="mb-2">
+                                                                <input type="text" class="form-control" placeholder="ID">
+                                                            </div>
+                                                            <div>
+                                                                <input type="password" class="form-control" placeholder="Password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="my-panel-info mb-2"><span>LPPSA</span></div>
+                                                            <div class="mb-2">
+                                                                <input type="text" class="form-control" placeholder="ID">
+                                                            </div>
+                                                            <div>
+                                                                <input type="password" class="form-control" placeholder="Password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="my-panel-info mb-2"><span>ANGKASA (SPGA)</span></div>
+                                                            <div class="mb-2">
+                                                                <input type="text" class="form-control" placeholder="ID">
+                                                            </div>
+                                                            <div>
+                                                                <input type="password" class="form-control" placeholder="Password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mt-3">
+                                                    <div class="alert alert-warning border-0">
+                                                        <p class="mb-0"><b>Note:</b> If you have not registered for LPPSA or ANGKASA, kindly do so via the following links:</p>
+                                                        <ul class="mb-0 mt-2">
+                                                            <li>LPPSA: <a href="https://lms.lppsa.gov.my/JACCESS/portal/" target="_blank">LMS Portal</a></li>
+                                                            <li>ANGKASA: <a href="https://angkasa.coop/bm/" target="_blank">ANGKASA Official Site</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            I accept the <a href="#" class="text-primary text-decoration-underline">YABAM Application Terms & Conditions</a>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-end border-top pt-3">
+                                                <button class="btn btn-success" onclick="showProcessingTab(3)">Submit Stage #2</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- p3 -->
+                                        <div id="proc-tab-3" class="proc-tab d-none">
+                                            <div class="alert alert-info border-0">
+                                                Final stage: Please upload your payment slip once you have made the settlement.
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 mb-4">
+                                                    <label class="form-label">Upload Your Payment Slip</label>
+                                                    <input class="form-control" type="file">
+                                                </div>
+                                            </div>
+                                            <div class="text-end border-top pt-3">
+                                                <button class="btn btn-primary" onclick="alert('Application details submitted for final verification.')">Finish Submission</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="hstack gap-2 justify-content-between">
+                                        <a href="application-status.html" class="btn btn-soft-secondary"><i class="ri-arrow-left-line me-1 align-middle"></i> Back to List</a>
+                                        <span class="text-muted fs-12">Application ID: App-88219</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Epic Unicorn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jquery js -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- utils js -->
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- font js -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+
+    <script>
+        function showStage(stage) {
+            $('.stage-content').addClass('d-none');
+            $('#stage-' + stage).removeClass('d-none');
+        }
+
+        function showProcessingTab(num) {
+            $('.proc-tab').addClass('d-none');
+            $('#proc-tab-' + num).removeClass('d-none');
+            
+            // Update button styles
+            $('#p1-btn, #p2-btn, #p3-btn').removeClass('tab-active tab-done');
+            if (num === 1) {
+                $('#p1-btn').addClass('tab-active');
+            } else if (num === 2) {
+                $('#p1-btn').addClass('tab-done');
+                $('#p2-btn').addClass('tab-active');
+            } else if (num === 3) {
+                $('#p1-btn, #p2-btn').addClass('tab-done');
+                $('#p3-btn').addClass('tab-active');
+            }
+        }
+    </script>
+</body>
+</html>

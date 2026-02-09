@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Referral Details | Member Portal</title>
+
+    <script src="../assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="../assets/css/custom.css">
+
+    <!-- datatables css -->
+    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .navbar-menu {
+            background: #279d69 !important;
+        }
+
+        .menu-title {
+            color: white !important;
+        }
+
+        .navbar-menu .navbar-nav .nav-link {
+            color: lightyellow !important;
+        }
+    </style>
+
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- page header -->
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- logo -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="dashboard.html" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <!-- Admin Portal Toggle -->
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="../dashboard.html" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Switch to Admin Portal">
+                                <i class='ri-settings-3-line fs-22'></i>
+                            </a>
+                        </div>
+                        <div class="dropdown ms-sm-1 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user" src="../assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Member User</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Active Member</span>
+                                    </span>
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <h6 class="dropdown-header">Welcome Member!</h6>
+                                <a class="dropdown-item" href="profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>					
+        
+        <div class="app-menu navbar-menu">
+            <!-- logo -->
+            <div class="navbar-brand-box">
+                <a href="dashboard.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <a href="dashboard.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+                    <div id="two-column-menu"></div>
+
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="dashboard.html">
+                                <i class="ri-home-8-line"></i><span data-key="t-dashboard">Dashboards </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#surveys" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="surveys">
+                                <i class="ri-survey-line"></i><span data-key="t-surveys">Surveys </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="surveys">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="survey.html" class="nav-link">YABAM</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="application-manager">
+                                <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="application-manager">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="apply.html" class="nav-link">Apply Now </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link active" href="#referral" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="referral">
+                                <i class="ri-user-add-line"></i><span data-key="t-referral">Peserta </span>
+                            </a>
+                            <div class="collapse menu-dropdown show" id="referral">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="referrals.html" class="nav-link active">Butiran Peserta </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="become-agent.html" class="nav-link">Menjadi Pegawai </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="user-profile">
+                                <i class="mdi mdi-card-account-details-outline"></i><span data-key="t-user-profile">My Profile </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="user-profile">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="profile.html" class="nav-link">User Profile </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="profile-management.html" class="nav-link">Profile Management </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="wallet.html">
+                                <i class="ri-wallet-line"></i><span >Ganjaran </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        
+        <div class="vertical-overlay"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- page header -->
+                    <div class="row mb-3 pb-1">
+                        <div class="col-12">
+                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                <div class="flex-grow-1">
+                                    <h4 class="fs-16 mb-1">Referral Details</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header border-0 align-items-center d-flex">
+                                    <h4 class="card-title mb-0 flex-grow-1">My Referrals</h4>
+                                    <div class="flex-shrink-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search referrals..." id="searchReferrals">
+                                            <button class="btn btn-primary"><i class="ri-search-line"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-borderless table-nowrap align-middle mb-0" id="referralsTable">
+                                            <thead class="table-light text-muted">
+                                                <tr>
+                                                    <th scope="col">NO.</th>
+                                                    <th scope="col">REFERRAL NAME</th>
+                                                    <th scope="col">REFERRAL ACCOUNT ID</th>
+                                                    <th scope="col">DATETIME</th>
+                                                    <th scope="col">REFERRAL TYPE</th>
+                                                    <th scope="col">STATUS</th>
+                                                    <th scope="col">REFERRAL AMOUNT</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Alice Johnson</td>
+                                                    <td>MEM00123</td>
+                                                    <td>2023-11-01 10:30:00</td>
+                                                    <td><span class="text-primary">Direct</span></td>
+                                                    <td><span class="badge bg-success">Active</span></td>
+                                                    <td>50.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Bob Wilson</td>
+                                                    <td>MEM00124</td>
+                                                    <td>2023-11-02 14:15:00</td>
+                                                    <td><span class="text-primary">Direct</span></td>
+                                                    <td><span class="badge bg-warning">Pending</span></td>
+                                                    <td>0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Charlie Brown</td>
+                                                    <td>MEM00125</td>
+                                                    <td>2023-11-03 09:45:00</td>
+                                                    <td><span class="text-primary">Direct</span></td>
+                                                    <td><span class="badge bg-danger">Inactive</span></td>
+                                                    <td>0.00</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Epic Unicorn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jquery js -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- utils js -->
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- font js -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+
+    <!-- datatables js -->
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#referralsTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            });
+        });
+    </script>
+</body>
+</html>

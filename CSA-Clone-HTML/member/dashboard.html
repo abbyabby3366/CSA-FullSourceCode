@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CSA Academy</title>
+
+    <script src="../assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        .navbar-menu {
+            background: #279d69 !important;
+        }
+
+        .menu-title {
+            color: white !important;
+        }
+
+        .navbar-menu .navbar-nav .nav-link {
+            color: lightyellow !important;
+        }
+
+        .profile-wid-bg::before {
+            background: #279d69 !important;
+            background: -webkit-gradient(linear,left bottom,left top,from(whitesmoke),to(#279d69)) !important;
+            background: linear-gradient(to top,white,#279d69) !important;
+        }
+
+        .join-us {
+            background: #279d69 !important;
+        }
+
+        .auth-bg-cover {
+            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
+        }
+    </style>
+
+    <link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- page header -->
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- logo -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="dashboard.html" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                                </span>
+                            </a>
+
+                            <a href="dashboard.html" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <!-- Admin Portal Toggle -->
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="../dashboard.html" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Switch to Admin Portal">
+                                <i class='ri-settings-3-line fs-22'></i>
+                            </a>
+                        </div>
+
+                        <div class="dropdown ms-sm-1 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user" src="../assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Member User</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Active Member</span>
+                                    </span>
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <h6 class="dropdown-header">Welcome Member!</h6>
+                                <a class="dropdown-item" href="profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>					
+        
+        <div class="app-menu navbar-menu">
+            <!-- logo -->
+            <div class="navbar-brand-box">
+                <!-- dark -->
+                <a href="dashboard.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <!-- light -->
+                <a href="dashboard.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="37">
+                    </span>
+                </a>
+
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+                    <div id="two-column-menu"></div>
+
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link active" href="dashboard.html">
+                                <i class="ri-home-8-line"></i><span data-key="t-dashboard">Dashboards </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#surveys" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="surveys">
+                                <i class="ri-survey-line"></i><span data-key="t-surveys">Surveys </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="surveys">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="survey.html" class="nav-link">YABAM</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="application-manager">
+                                <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="application-manager">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="apply.html" class="nav-link">Apply Now </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#referral" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="referral">
+                                <i class="ri-user-add-line"></i><span data-key="t-referral">Peserta </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="referral">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="referrals.html" class="nav-link">Butiran Peserta </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="become-agent.html" class="nav-link">Menjadi Pegawai </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="user-profile">
+                                <i class="mdi mdi-card-account-details-outline"></i><span data-key="t-user-profile">My Profile </span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="user-profile">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="profile.html" class="nav-link">User Profile </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="profile-management.html" class="nav-link">Profile Management </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="wallet.html">
+                                <i class="ri-wallet-line"></i><span >Ganjaran </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        
+        <div class="vertical-overlay"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- page header -->
+                    <div class="row mb-3 pb-1">
+                        <div class="col-12">
+                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                <div class="flex-grow-1">
+                                    <h4 class="fs-16 mb-1">Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="card">
+                                            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                                <div class="carousel-indicators">
+                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                </div>
+                                                <div class="carousel-inner">
+                                                    <div class="carousel-item active">
+                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-1.jpg" alt="First slide">
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-2.jpg" alt="Second slide">
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-3.jpg" alt="Third slide">
+                                                    </div>
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush border-dashed mb-0">
+                                                    <li class="list-group-item d-flex align-items-center">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="fs-14 mb-1">Ganjaran</h6>
+                                                        </div>
+                                                        <div class="flex-fill text-end">
+                                                            <h6 class="fs-14 fw-semibold mb-1">2,500.00</h6>
+                                                            <p class="text-success fs-12 mb-0"><i class="mdi mdi-trending-up align-middle me-1"></i>+50.00</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush border-dashed mb-0">
+                                                    <li class="list-group-item d-flex align-items-center">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="fs-14 mb-1">Peserta</h6>
+                                                            <p class="text-muted mb-0">Jumlah Peserta Rujukan</p>
+                                                        </div>
+                                                        <div class="flex-fill text-end">
+                                                            <h6 class="fs-14 fw-semibold mb-1">12</h6>
+                                                            <p class="text-success fs-12 mb-0"><i class="mdi mdi-trending-up align-middle me-1"></i>+2</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush border-dashed mb-0">
+                                                    <li class="list-group-item d-flex align-items-center">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="fs-14 mb-1">Savings</h6>
+                                                        </div>
+                                                        <div class="flex-fill text-end">
+                                                            <h6 class="fs-14 fw-semibold mb-1">1,000.00</h6>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card card-height-100">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">Announcement</h4>
+                                        <div class="flex-shrink-0">
+                                            <button type="button" class="btn btn-soft-primary btn-sm">
+                                                View All
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush border-dashed mb-0">
+                                            <li class="list-group-item d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="ri-notification-3-line fs-20 text-primary"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="fs-14 mb-1">New Policy Update</h6>
+                                                    <p class="text-muted mb-0">Please review the updated referral policy.</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row flex-row">
+                            <div class="col-lg-6">
+                                <div class="card card-height-100">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">Recent Transactions</h4>
+                                        <div class="flex-shrink-0">
+                                            <a class="btn btn-soft-primary btn-sm" href="wallet.html">
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <table class="table table-borderless table-nowrap align-middle mb-0">
+                                                <thead class="table-light text-muted">
+                                                    <tr>
+                                                        <th scope="col" class="text-center">TRANSACTION ID</th>
+                                                        <th scope="col" class="text-center">DATE</th>
+                                                        <th scope="col" class="text-center">TYPE</th>
+                                                        <th scope="col" class="text-center">AMOUNT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-center">
+                                                        <td>#TXN12345</td>
+                                                        <td>2023-10-27 14:30</td>
+                                                        <td>Referral Bonus</td>
+                                                        <td>50.00</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="card card-height-100">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">List of Peserta</h4>
+                                        <div class="flex-shrink-0">
+                                            <a class="btn btn-soft-primary btn-sm" href="referrals.html">
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="table-responsive table-card">
+                                            <table class="table table-borderless table-nowrap align-middle mb-0">
+                                                <thead class="table-light text-muted">
+                                                    <tr>
+                                                        <th scope="col" class="text-center">NAME</th>
+                                                        <th scope="col" class="text-center">STATUS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-center">
+                                                        <td>Alice Johnson</td>
+                                                        <td><span class="badge bg-success">Active</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jquery js -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- utils js -->
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- font js -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

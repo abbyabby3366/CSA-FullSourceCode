@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Member Portal</title>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+	<link rel="stylesheet" href="../assets/css/custom.css">
+
+    <style>
+        .auth-bg-cover {
+            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
+        }
+
+        .btn-tertiary {
+            background-color: #279d69;
+            border-color: #279d69;
+            color: #fff;
+        }
+
+        .btn-tertiary:hover {
+            background-color: #1e7e54;
+            border-color: #1e7e54;
+            color: #fff;
+        }
+
+        .text-primary {
+            color: #279d69 !important;
+        }
+
+        .valid {
+            color: #279d69;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -5px;
+            content: "✔";
+        }
+
+        .invalid {
+            color: #f06548;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -5px;
+            content: "✖";
+        }
+    </style>
+
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        <div class="bg-overlay"></div>
+
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center mt-sm-3 text-white-50">
+                            <div>
+                                <a href="index.html" class="d-inline-block auth-logo">
+                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="100">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card mt-4">
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="text-primary fw-semibold">Create New Account</h5>
+                                    <p class="mb-0 text-muted">Already have an account? <a href="index.html" class="fw-semibold text-primary text-decoration-underline">Sign In</a></p>
+                                </div>
+
+                                <div class="p-2 mt-4">
+                                    <form action="index.html" class="needs-validation" novalidate>
+                                        <div class="mb-3">
+                                            <label for="phoneNo" class="form-label">Phone No <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light border-light text-muted">+60</span>
+                                                <input type="text" class="form-control" id="phoneNo" placeholder="Enter phone number" required>
+                                            </div>
+                                            <p class="text-muted fs-11 mt-1">Format: 0123456789</p>
+                                            <div class="invalid-feedback">
+                                                Please enter phone number
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password-input">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required>
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
+                                                <div class="invalid-feedback">
+                                                    Please enter password
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="password" class="form-control pe-5 password-input" placeholder="Confirm password" id="confirm-password-input" required>
+                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
+                                                <div class="invalid-feedback">
+                                                    Passwords do not match
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="password-contain" class="p-3 bg-light mb-4 rounded">
+                                            <h5 class="fs-13">Password must contain:</h5>
+                                            <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                                            <p id="pass-lower" class="invalid fs-12 mb-2">At least one <b>lowercase</b> letter (a-z)</p>
+                                            <p id="pass-upper" class="invalid fs-12 mb-2">At least one <b>uppercase</b> letter (A-Z)</p>
+                                            <p id="pass-number" class="invalid fs-12 mb-0">At least one <b>number</b> (0-9)</p>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <button class="btn btn-tertiary w-100" type="submit">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                 <script>document.write(new Date().getFullYear())</script> YAYASAN AMANAH BANTUAN AWAM MALAYSIA. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $(".password-addon").on("click", function() {
+                var passInput = $(this).closest(".auth-pass-inputgroup").find(".password-input");
+                if (passInput.attr("type") === "password") {
+                    passInput.attr("type", "text");
+                } else {
+                    passInput.attr("type", "password");
+                }
+            });
+
+            // Password validation logic
+            var myInput = document.getElementById("password-input");
+            var letter = document.getElementById("pass-lower");
+            var capital = document.getElementById("pass-upper");
+            var number = document.getElementById("pass-number");
+            var length = document.getElementById("pass-length");
+
+            myInput.onkeyup = function() {
+                // Validate lowercase letters
+                var lowerCaseLetters = /[a-z]/g;
+                if(myInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+
+                // Validate uppercase letters
+                var upperCaseLetters = /[A-Z]/g;
+                if(myInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if(myInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                }
+
+                // Validate length
+                if(myInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                }
+            };
+        });
+    </script>
+</body>
+</html>
