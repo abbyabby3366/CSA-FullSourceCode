@@ -343,6 +343,65 @@
         </div>
     </div>
 
+    <!-- View Details Modal -->
+    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDetailsModalLabel">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent">
+                        <!-- Content will be populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Modal -->
+    <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assignModalLabel">Assign Application</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="assignAppId">
+                    <div class="mb-3">
+                        <label class="form-label">AM (Account Manager)</label>
+                        <select class="form-select admin-select" id="selAM"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">PFC (Personal Finance Consultant)</label>
+                        <select class="form-select admin-select" id="selPFC"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">RM (Relationship Manager)</label>
+                        <select class="form-select admin-select" id="selRM"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">UM (Unit Manager)</label>
+                        <select class="form-select admin-select" id="selUM"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">PA (Personal Assistant)</label>
+                        <select class="form-select admin-select" id="selPA"></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveAssignment">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jquery js -->
     <script src="assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
 
@@ -382,9 +441,24 @@
             10: { text: "Collection", class: "bg-danger" }
         };
 
+        let applicationData = [];
+        let adminData = [];
+
         $(document).ready(async function() {
+            // Load Admins for assignment
+            const rawAdmins = await apiCall('/admin/admins');
+            if (rawAdmins) {
+                adminData = rawAdmins;
+                const selects = $('.admin-select');
+                selects.empty().append('<option value="">Unassigned</option>');
+                adminData.forEach(admin => {
+                    selects.append(`<option value="${admin._id}">${admin.name} (${admin.role})</option>`);
+                });
+            }
+
             const apps = await apiCall('/admin/applications');
             if (apps) {
+                applicationData = apps;
                 const tbody = $('#gvApplicant tbody');
                 tbody.empty();
                 apps.forEach(app => {
@@ -396,13 +470,13 @@
                             <td>${app.fileNumber || 'Pending'}</td>
                             <td>${app.member ? app.member.phoneNumber : 'N/A'}</td>
                             <td>${app.details ? (app.details.employerName || 'N/A') : 'N/A'}</td>
-                            <td>${app.details && app.details.financials ? (app.details.financials.salaryGross || '0.00') : '0.00'}</td>
+                            <td>RM ${app.details && app.details.employmentDetails ? (app.details.employmentDetails.salaryRange || '0.00') : '0.00'}</td>
                             <td><span class="badge ${status.class}">${status.text}</span></td>
                             <td>${new Date(app.createDate).toLocaleString()}</td>
                             <td class="text-center">
                                 <div class="hstack gap-3 fs-13 justify-content-center">
-                                    <a href="#" class="text-success" style='text-decoration: underline;'>View</a>
-                                    <a href="#" class="text-warning" style='text-decoration: underline;'>Assign</a>
+                                    <a href="javascript:void(0);" class="text-success view-btn" data-id="${app._id}" style='text-decoration: underline;'>View</a>
+                                    <a href="javascript:void(0);" class="text-warning assign-btn" data-id="${app._id}" style='text-decoration: underline;'>Assign</a>
                                 </div>
                             </td>
                         </tr>
@@ -412,6 +486,100 @@
                     "order": [[ 7, "desc" ]]
                 });
             }
+
+            // View Handler
+            $(document).on('click', '.view-btn', function() {
+                const appId = $(this).data('id');
+                const app = applicationData.find(a => a._id === appId);
+                if (app) {
+                    const details = app.details || {};
+                    const spouse = details.spouseDetails || {};
+                    const employment = details.employmentDetails || {};
+                    
+                    const d = new Date(app.createDate);
+                    const formattedDate = d.toLocaleString();
+
+                    let html = `
+                        <div class="row">
+                            <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                            <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                            <div class="col-md-12"><hr></div>
+                            <h6 class="mb-3 text-primary">Personal Details</h6>
+                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
+                            <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
+                            <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
+                            <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
+                            <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
+                            
+                            <div class="col-md-12"><hr></div>
+                            <h6 class="mb-3 text-primary">Spouse Details</h6>
+                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
+                            <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                            
+                            <div class="col-md-12"><hr></div>
+                            <h6 class="mb-3 text-primary">Employment Details</h6>
+                            <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
+                            <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
+                            <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+                        </div>
+                    `;
+                    
+                    $('#modalContent').html(html);
+                    $('#viewDetailsModal').modal('show');
+                }
+            });
+
+            // Assign Handler
+            $(document).on('click', '.assign-btn', function() {
+                const appId = $(this).data('id');
+                const app = applicationData.find(a => a._id === appId);
+                if (app) {
+                    $('#assignAppId').val(appId);
+                    const admins = app.admins || {};
+                    $('#selAM').val(admins.am || '').trigger('change');
+                    $('#selPFC').val(admins.pfc || '').trigger('change');
+                    $('#selRM').val(admins.rm || '').trigger('change');
+                    $('#selUM').val(admins.um || '').trigger('change');
+                    $('#selPA').val(admins.pa || '').trigger('change');
+                    $('#assignModal').modal('show');
+                }
+            });
+
+            // Save Assignment
+            $('#btnSaveAssignment').on('click', async function() {
+                const appId = $('#assignAppId').val();
+                const data = {
+                    am: $('#selAM').val(),
+                    pfc: $('#selPFC').val(),
+                    rm: $('#selRM').val(),
+                    um: $('#selUM').val(),
+                    pa: $('#selPA').val()
+                };
+
+                try {
+                    const response = await fetch(`http://localhost:5000/api/admin/application/${appId}/assign`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token')
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        alert('Application assigned successfully!');
+                        $('#assignModal').modal('hide');
+                        location.reload(); // Refresh to show updated data
+                    } else {
+                        const err = await response.json();
+                        alert('Assignment failed: ' + (err.msg || 'Unknown error'));
+                    }
+                } catch (err) {
+                    console.error('Save error:', err);
+                    alert('Error saving assignment.');
+                }
+            });
+
             $('select').select2({ theme: 'bootstrap-5' });
         });
     </script>

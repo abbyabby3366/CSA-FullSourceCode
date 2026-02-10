@@ -240,7 +240,7 @@
                                                 <tr>
                                                     <th scope="col">Application ID</th>
                                                     <th scope="col">Program</th>
-                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Date & Time</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Details</th>
                                                 </tr>
@@ -408,6 +408,26 @@
     <script src="../assets/js/app.js"></script>
     <script src="memberHelper.js"></script>
 
+    <!-- View Details Modal -->
+    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDetailsModalLabel">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent">
+                        <!-- Content will be populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             // Start fetching history immediately
@@ -433,6 +453,8 @@
                 console.error('Member init failed:', err);
             });
 
+            let applicationData = [];
+
             async function fetchHistory() {
                 try {
                     const response = await fetch('http://localhost:5000/api/applications/my', {
@@ -442,6 +464,7 @@
                     });
 
                     const apps = await response.json();
+                    applicationData = apps;
                     const tbody = $('#applicationHistory');
                     tbody.empty();
 
@@ -462,7 +485,9 @@
                         const day = String(d.getDate()).padStart(2, '0');
                         const month = String(d.getMonth() + 1).padStart(2, '0');
                         const year = d.getFullYear();
-                        const date = `${day}/${month}/${year}`;
+                        const hours = String(d.getHours()).padStart(2, '0');
+                        const minutes = String(d.getMinutes()).padStart(2, '0');
+                        const date = `${day}/${month}/${year} ${hours}:${minutes}`;
                         const appId = app._id.substring(0, 8).toUpperCase();
                         
                         const programMap = {
@@ -492,7 +517,49 @@
                     // Add click handler for View Details
                     $('.view-details').on('click', function() {
                         const appId = $(this).data('id');
-                        alert('Viewing details for Application ID: ' + appId + '\n(Detailed view feature coming soon)');
+                        const app = applicationData.find(a => a._id === appId);
+                        
+                        if (app) {
+                            const details = app.details || {};
+                            const spouse = details.spouseDetails || {};
+                            const employment = details.employmentDetails || {};
+                            
+                            const d = new Date(app.createDate);
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const year = d.getFullYear();
+                            const hours = String(d.getHours()).padStart(2, '0');
+                            const minutes = String(d.getMinutes()).padStart(2, '0');
+                            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                            let html = `
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Personal Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
+                                    <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
+                                    <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Spouse Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Employment Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+                                </div>
+                            `;
+                            
+                            $('#modalContent').html(html);
+                            $('#viewDetailsModal').modal('show');
+                        }
                     });
                 } catch (err) {
                     console.error('Error fetching history:', err);

@@ -70,6 +70,33 @@ router.post('/application/:id/status', [auth, adminOnly], async (req, res) => {
     }
 });
 
+// @route    PATCH api/admin/application/:id/assign
+// @desc     Assign admins to application
+router.patch('/application/:id/assign', [auth, adminOnly], async (req, res) => {
+    try {
+        let app = await Application.findById(req.params.id);
+        if (!app) return res.status(404).json({ msg: 'Application not found' });
+
+        const { am, pfc, rm, um, pa } = req.body;
+        
+        app.admins = {
+            ...app.admins,
+            am: am || app.admins.am,
+            pfc: pfc || app.admins.pfc,
+            rm: rm || app.admins.rm,
+            um: um || app.admins.um,
+            pa: pa || app.admins.pa
+        };
+
+        app.lastUpdate = Date.now();
+        await app.save();
+        res.json(app);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route    GET api/admin/stats
 // @desc     Get dashboard statistics
 router.get('/stats', [auth, adminOnly], async (req, res) => {
