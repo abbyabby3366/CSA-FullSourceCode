@@ -412,15 +412,84 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(async function() {
+            const member = await initMemberPortal();
+            if (member) {
+                // Populate Profile
+                $('#v-pills-personal input[type="text"]').first().val(member.firstName);
+                $('#v-pills-personal input[type="text"]').eq(1).val(member.lastName);
+                $('#v-pills-personal input[type="text"]').eq(2).val(member.phoneNumber);
+                $('#v-pills-personal input[type="email"]').val(member.email || '');
+
+                // Populate Bank
+                $('.select2-bank').val(member.bankId || '1').trigger('change');
+                $('#v-pills-bank input[type="text"]').first().val(member.bankAccountName || '');
+                $('#v-pills-bank input[type="text"]').eq(1).val(member.bankAccountNumber || '');
+                
+                // Left Panel
+                $('.card .profile-user img').attr('src', member.profileImage ? 'http://localhost:5000/' + member.profileImage : '../assets/images/users/user-dummy-img.jpg');
+                $('.card h5').text(member.firstName + ' ' + member.lastName);
+            }
+
             $('.select2-bank').select2({
                 theme: 'bootstrap-5'
             });
 
-            $('#btnSavePersonal, #btnSaveBank, #btnSavePass').click(function() {
-                alert('In this static version, profile updates are simulated.');
+            // Save Personal Details
+            $('#btnSavePersonal').click(async function(e) {
+                e.preventDefault();
+                const firstName = $('#v-pills-personal input[type="text"]').eq(0).val();
+                const lastName = $('#v-pills-personal input[type="text"]').eq(1).val();
+                const email = $('#v-pills-personal input[type="email"]').val();
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/members/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ firstName, lastName, email })
+                    });
+
+                    if (response.ok) {
+                        alert('Personal details updated!');
+                    } else {
+                        alert('Failed to update details.');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            });
+
+            // Save Bank Details
+            $('#btnSaveBank').click(async function(e) {
+                e.preventDefault();
+                const bankName = $('.select2-bank option:selected').text();
+                const bankAccountName = $('#v-pills-bank input[type="text"]').eq(0).val();
+                const bankAccountNumber = $('#v-pills-bank input[type="text"]').eq(1).val();
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/members/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ bankName, bankAccountName, bankAccountNumber })
+                    });
+
+                    if (response.ok) {
+                        alert('Bank details updated!');
+                    } else {
+                        alert('Failed to update bank details.');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
             });
         });
     </script>

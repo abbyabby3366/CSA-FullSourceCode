@@ -363,12 +363,53 @@
 
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script src="Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#gvApplicant').DataTable({
-                "order": [[ 7, "desc" ]]
-            });
+        const statusMap = {
+            0: { text: "Unassigned", class: "bg-light text-dark" },
+            1: { text: "Pre-checking", class: "bg-info" },
+            2: { text: "Proposal Preparation", class: "bg-warning" },
+            3: { text: "Proposal Presentation", class: "bg-primary" },
+            4: { text: "Pre-Signing", class: "bg-secondary" },
+            5: { text: "Pending Acceptance", class: "bg-info" },
+            6: { text: "Settlement", class: "bg-success" },
+            7: { text: "Monitoring", class: "bg-dark" },
+            8: { text: "Queue For Reloan", class: "bg-light text-dark" },
+            9: { text: "Reloan Submission", class: "bg-primary" },
+            10: { text: "Collection", class: "bg-danger" }
+        };
+
+        $(document).ready(async function() {
+            const apps = await apiCall('/admin/applications');
+            if (apps) {
+                const tbody = $('#gvApplicant tbody');
+                tbody.empty();
+                apps.forEach(app => {
+                    const status = statusMap[app.applicationStatus] || { text: "Unknown", class: "bg-secondary" };
+                    tbody.append(`
+                        <tr>
+                            <td>${app._id.substring(18)}</td>
+                            <td>${app.member ? app.member.firstName + ' ' + app.member.lastName : 'N/A'}</td>
+                            <td>${app.fileNumber || 'Pending'}</td>
+                            <td>${app.member ? app.member.phoneNumber : 'N/A'}</td>
+                            <td>${app.details ? (app.details.employerName || 'N/A') : 'N/A'}</td>
+                            <td>${app.details && app.details.financials ? (app.details.financials.salaryGross || '0.00') : '0.00'}</td>
+                            <td><span class="badge ${status.class}">${status.text}</span></td>
+                            <td>${new Date(app.createDate).toLocaleString()}</td>
+                            <td class="text-center">
+                                <div class="hstack gap-3 fs-13 justify-content-center">
+                                    <a href="#" class="text-success" style='text-decoration: underline;'>View</a>
+                                    <a href="#" class="text-warning" style='text-decoration: underline;'>Assign</a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+                $('#gvApplicant').DataTable({
+                    "order": [[ 7, "desc" ]]
+                });
+            }
             $('select').select2({ theme: 'bootstrap-5' });
         });
     </script>

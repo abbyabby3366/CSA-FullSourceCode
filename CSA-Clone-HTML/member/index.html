@@ -137,6 +137,36 @@
                     passInput.attr("type", "password");
                 }
             });
+
+            // Login Logic
+            $('form').on('submit', async function(e) {
+                e.preventDefault();
+                const phoneNumber = $('#phoneNo').val();
+                const password = $('#password').val();
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/auth/member/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ phoneNumber, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userRole', 'member');
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        alert(data.msg || 'Login failed');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    alert('Server error. Make sure the backend is running.');
+                }
+            });
         });
     </script>
 </body>

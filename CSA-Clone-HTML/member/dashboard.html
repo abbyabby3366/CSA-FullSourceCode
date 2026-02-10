@@ -475,5 +475,20 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
+
+    <script>
+        $(document).ready(async function() {
+            // Wait for member helper to finish or use a promise
+            const member = await initMemberPortal();
+            if (member) {
+                // Update Wallet (Placeholder selectors based on dashboard structure)
+                // Ganjaran
+                $('h6:contains("Ganjaran")').parent().next().find('h6').text(member.walletCash.toFixed(2));
+                // Savings
+                $('h6:contains("Savings")').parent().next().find('h6').text(member.walletPoint.toFixed(2));
+            }
+        });
+    </script>
 </body>
 </html>

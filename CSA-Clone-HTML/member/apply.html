@@ -379,11 +379,46 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#btnSubmit').click(function() {
-                alert('In this static version, application submission is simulated.');
+        $(document).ready(async function() {
+            const member = await initMemberPortal();
+            if (member) {
+                // Pre-populate known data
+                $('input[value="Member User"]').val(member.firstName + ' ' + member.lastName);
+                $('input[value="123456789"]').val(member.phoneNumber);
+                $('input[value="member@example.com"]').val(member.email || '');
+            }
+
+            $('#btnSubmit').click(async function() {
+                const applicationData = {
+                    details: {
+                        financials: {
+                            salaryGross: 0, // Should map from form fields
+                        }
+                    }
+                };
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/applications/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token')
+                        },
+                        body: JSON.stringify(applicationData)
+                    });
+
+                    if (response.ok) {
+                        alert('Application submitted successfully!');
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        alert('Submission failed.');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
             });
         });
     </script>

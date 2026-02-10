@@ -295,5 +295,32 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/app.js"></script>
+    <script src="Scripts/adminHelper.js"></script>
+
+    <script>
+        $(document).ready(async function() {
+            const admins = await apiCall('/admin/admins');
+            if (admins) {
+                const tbody = $('#adminTable tbody');
+                tbody.empty();
+                admins.forEach(admin => {
+                    tbody.append(`
+                        <tr>
+                            <td class="fw-medium">${admin.name}</td>
+                            <td>${admin.email}</td>
+                            <td><span class="badge bg-${admin.isSuperAdmin ? 'primary' : 'light text-dark'}">${admin.isSuperAdmin ? 'Yes' : 'No'}</span></td>
+                            <td><span class="badge bg-${admin.status === 1 ? 'success' : 'danger'}">${admin.status === 1 ? 'Active' : 'Inactive'}</span></td>
+                            <td>${new Date(admin.createDate).toLocaleDateString()}</td>
+                            <td>
+                                <div class="hstack gap-3 flex-wrap justify-content-center">
+                                    <a href="javascript:void(0);" class="link-success fs-15"><i class="ri-edit-line"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

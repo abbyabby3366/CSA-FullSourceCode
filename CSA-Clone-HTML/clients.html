@@ -317,10 +317,40 @@
 
     <!-- App js -->
     <script src="assets/js/app.js"></script>
+    <script src="Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#gvData').DataTable();
+        $(document).ready(async function() {
+            const members = await apiCall('/admin/members');
+            if (members) {
+                const tbody = $('#gvData tbody');
+                tbody.empty();
+                members.forEach((member, index) => {
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${member.memberCode || 'N/A'}</td>
+                            <td>${member.memberType === 2 ? 'Agent' : 'Member'}</td>
+                            <td>${member.firstName} ${member.lastName}</td>
+                            <td>${member.icNumber || 'N/A'}</td>
+                            <td>${member.phoneNumber}</td>
+                            <td>${member.salary || 'N/A'}</td>
+                            <td>${member.referrerName || 'N/A'}</td>
+                            <td>${member.companyName || 'N/A'}</td>
+                            <td>${member.state || 'N/A'}</td>
+                            <td class="text-center">
+                                <div class="hstack gap-3 fs-13 justify-content-center">
+                                    <a href="javascript:void(0);" class="text-warning"><i class="ri-price-tag-line"></i></a>
+                                    <a href="#" class="text-success"><i class="ri-edit-line"></i></a>
+                                    <a href="javascript:void(0);" class="text-primary"><i class="ri-lock-unlock-line"></i></a>
+                                    <a href="javascript:void(0);" class="text-primary"><i class="ri-links-line"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+                $('#gvData').DataTable();
+            }
         });
     </script>
 </body>
