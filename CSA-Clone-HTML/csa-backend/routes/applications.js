@@ -27,7 +27,15 @@ router.post('/submit', [auth, upload.fields([
 ])], async (req, res) => {
     try {
         const files = req.files;
-        const details = req.body.details ? JSON.parse(req.body.details) : {};
+        let details = {};
+        if (req.body.details) {
+            try {
+                details = typeof req.body.details === 'string' ? JSON.parse(req.body.details) : req.body.details;
+            } catch (err) {
+                console.error('JSON parsing error for details:', err);
+                return res.status(400).json({ msg: 'Invalid JSON in details field' });
+            }
+        }
 
         const newApp = new Application({
             member: req.user.id,

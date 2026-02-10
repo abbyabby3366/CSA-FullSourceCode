@@ -241,43 +241,43 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Program/Event Name</label>
-                                                        <select class="form-select">
+                                                        <select class="form-select" id="programEvent">
                                                             <option value="1" selected>YABAM</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Full Name as per IC</label>
-                                                        <input type="text" class="form-control" value="Member User" />
+                                                        <input type="text" class="form-control" id="fullName" value="Member User" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Date of Birth</label>
-                                                        <input type="date" class="form-control" />
+                                                        <input type="date" class="form-control" id="dob" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Gender</label>
-                                                        <select class="form-select">
+                                                        <select class="form-select" id="gender">
                                                             <option value="1">Male</option>
                                                             <option value="2">Female</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Identification Number</label>
-                                                        <input type="text" class="form-control" placeholder="900101-10-1234" />
+                                                        <input type="text" class="form-control" id="icNumber" placeholder="900101-10-1234" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Address (Home/Current)</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input type="text" class="form-control" id="address" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Phone Number</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">+60</span>
-                                                            <input type="text" class="form-control" value="123456789" disabled />
+                                                            <input type="text" class="form-control" id="phoneNumber" value="123456789" disabled />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Email Address</label>
-                                                        <input type="email" class="form-control" value="member@example.com" />
+                                                        <input type="email" class="form-control" id="email" value="member@example.com" />
                                                     </div>
                                                 </div>
 
@@ -285,11 +285,11 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Spouse's Full Name</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input type="text" class="form-control" id="spouseFullName" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Spouse's Identification Number</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input type="text" class="form-control" id="spouseIcNumber" />
                                                     </div>
                                                 </div>
 
@@ -297,15 +297,15 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Employer Name</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input type="text" class="form-control" id="employerName" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Job Title</label>
-                                                        <input type="text" class="form-control" />
+                                                        <input type="text" class="form-control" id="jobTitle" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Salary Range</label>
-                                                        <select class="form-select">
+                                                        <select class="form-select" id="salaryRange">
                                                             <option value="0">Select an option</option>
                                                             <option value="1">Kurang RM2,500</option>
                                                             <option value="2">RM2,501 - RM3,170</option>
@@ -318,15 +318,15 @@
                                                 <div class="row">
                                                     <div class="col-lg-4 mb-3">
                                                         <label class="form-label">IC (Front & Back)</label>
-                                                        <input type="file" class="form-control" />
+                                                        <input type="file" class="form-control" id="icFrontBack" />
                                                     </div>
                                                     <div class="col-lg-4 mb-3">
                                                         <label class="form-label">Latest Payslip</label>
-                                                        <input type="file" class="form-control" />
+                                                        <input type="file" class="form-control" id="payslip" />
                                                     </div>
                                                     <div class="col-lg-4 mb-3">
                                                         <label class="form-label">Offer/Confirmation Letter</label>
-                                                        <input type="file" class="form-control" />
+                                                        <input type="file" class="form-control" id="offerLetter" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -392,32 +392,58 @@
             }
 
             $('#btnSubmit').click(async function() {
-                const applicationData = {
-                    details: {
-                        financials: {
-                            salaryGross: 0, // Should map from form fields
-                        }
+                const applicationDetails = {
+                    programEvent: $('#programEvent').val(),
+                    fullName: $('#fullName').val(),
+                    dob: $('#dob').val(),
+                    gender: $('#gender').val(),
+                    icNumber: $('#icNumber').val(),
+                    address: $('#address').val(),
+                    phoneNumber: $('#phoneNumber').val(),
+                    email: $('#email').val(),
+                    spouseDetails: {
+                        fullName: $('#spouseFullName').val(),
+                        icNumber: $('#spouseIcNumber').val()
+                    },
+                    employmentDetails: {
+                        employerName: $('#employerName').val(),
+                        jobTitle: $('#jobTitle').val(),
+                        salaryRange: $('#salaryRange').val()
                     }
                 };
+
+                const formData = new FormData();
+                formData.append('details', JSON.stringify(applicationDetails));
+                
+                // Append files
+                const icFile = $('#icFrontBack')[0].files[0];
+                const payslipFile = $('#payslip')[0].files[0];
+                const offerLetterFile = $('#offerLetter')[0].files[0];
+
+                if (icFile) formData.append('icFrontBack', icFile);
+                if (payslipFile) formData.append('payslip', payslipFile);
+                if (offerLetterFile) formData.append('offerLetter', offerLetterFile);
 
                 try {
                     const response = await fetch('http://localhost:5000/api/applications/submit', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
                             'x-auth-token': localStorage.getItem('token')
                         },
-                        body: JSON.stringify(applicationData)
+                        body: formData
                     });
+
+                    const result = await response.json();
 
                     if (response.ok) {
                         alert('Application submitted successfully!');
                         window.location.href = 'dashboard.html';
                     } else {
-                        alert('Submission failed.');
+                        alert('Submission failed: ' + (result.msg || 'Unknown error'));
                     }
                 } catch (err) {
                     console.error('Error:', err);
+                    alert('An error occurred during submission.');
                 }
             });
         });

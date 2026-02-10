@@ -21,6 +21,9 @@ async function initMemberPortal() {
         const member = await response.json();
         window.currentMember = member;
 
+        // Apply role permissions
+        applyRolePermissions(member.memberType);
+
         // Update Header UI
         $('.user-name-text').text(member.firstName + ' ' + member.lastName);
         $('.user-name-sub-text').text(member.memberType === 2 ? 'Agent' : 'Member');
@@ -41,6 +44,17 @@ async function initMemberPortal() {
         return member;
     } catch (err) {
         console.error('Error initializing portal:', err);
+    }
+}
+
+function applyRolePermissions(role) {
+    // 1: Member, 2: Agent
+    if (role === 2) {
+        $('[data-role="agent-only"]').show();
+        $('[data-role="member-only"]').hide();
+    } else {
+        $('[data-role="agent-only"]').hide();
+        $('[data-role="member-only"]').show();
     }
 }
 

@@ -189,10 +189,10 @@
                             </a>
                             <div class="collapse menu-dropdown" id="referral">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="referrals.html" class="nav-link">Butiran Peserta </a>
+                                    <li class="nav-item" data-role="agent-only" style="display: none;">
+                                        <a href="referrals.html" class="nav-link">Team Management </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-role="member-only">
                                         <a href="become-agent.html" class="nav-link">Menjadi Pegawai </a>
                                     </li>
                                 </ul>
@@ -288,7 +288,7 @@
                                                 <ul class="list-group list-group-flush border-dashed mb-0">
                                                     <li class="list-group-item d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h6 class="fs-14 mb-1">Ganjaran</h6>
@@ -303,13 +303,33 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col" data-role="agent-only" style="display: none;">
+                                        <div class="card card-height-100 bg-soft-warning">
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush border-dashed mb-0">
+                                                    <li class="list-group-item d-flex align-items-center bg-transparent">
+                                                        <div class="flex-shrink-0">
+                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="fs-14 mb-1">Commission</h6>
+                                                            <p class="text-muted mb-0">Pending Payout</p>
+                                                        </div>
+                                                        <div class="flex-fill text-end">
+                                                            <h6 class="fs-14 fw-semibold mb-1" id="agentCommission">0.00</h6>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col" data-role="member-only">
                                         <div class="card card-height-100">
                                             <div class="card-body">
                                                 <ul class="list-group list-group-flush border-dashed mb-0">
                                                     <li class="list-group-item d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h6 class="fs-14 mb-1">Peserta</h6>
@@ -331,7 +351,7 @@
                                                 <ul class="list-group list-group-flush border-dashed mb-0">
                                                     <li class="list-group-item d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="../assets/images/gift.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h6 class="fs-14 mb-1">Savings</h6>
