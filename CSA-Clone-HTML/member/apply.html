@@ -221,7 +221,7 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="profile-foreground position-relative mx-n4 mt-n4">
+                    <div class="profile-foreground position-relative mx-n4 pt-2">
                         <div class="profile-wid-bg">
                             <img src="../assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
                         </div>
@@ -230,6 +230,32 @@
                     <div class="row">
                         <div class="col-12 col-xxl-10 col-xl-10 col-lg-10 col-md-12 col-sm-12 offset-xxl-1 offset-xl-1 offset-lg-1">
                             <div class="card mt-n4">
+                                <div class="card-header d-flex align-items-center">
+                                    <h5 class="card-title mb-0 flex-grow-1"><i class="ri-history-line"></i> Application History</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-nowrap table-striped-columns mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th scope="col">Application ID</th>
+                                                    <th scope="col">Program</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="applicationHistory">
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Loading history...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
                                 <div class="card-header d-flex align-items-center">
                                     <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Apply Now</h5>
                                 </div>
@@ -247,7 +273,7 @@
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Full Name as per IC</label>
-                                                        <input type="text" class="form-control" id="fullName" value="Member User" />
+                                                        <input type="text" class="form-control" id="fullName" />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Date of Birth</label>
@@ -256,6 +282,7 @@
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Gender</label>
                                                         <select class="form-select" id="gender">
+                                                            <option value="">Select Gender</option>
                                                             <option value="1">Male</option>
                                                             <option value="2">Female</option>
                                                         </select>
@@ -272,12 +299,12 @@
                                                         <label class="form-label">Phone Number</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">+60</span>
-                                                            <input type="text" class="form-control" id="phoneNumber" value="123456789" disabled />
+                                                            <input type="text" class="form-control" id="phoneNumber" disabled />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Email Address</label>
-                                                        <input type="email" class="form-control" id="email" value="member@example.com" />
+                                                        <input type="email" class="form-control" id="email" />
                                                     </div>
                                                 </div>
 
@@ -382,13 +409,95 @@
     <script src="memberHelper.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            const member = await initMemberPortal();
-            if (member) {
-                // Pre-populate known data
-                $('input[value="Member User"]').val(member.firstName + ' ' + member.lastName);
-                $('input[value="123456789"]').val(member.phoneNumber);
-                $('input[value="member@example.com"]').val(member.email || '');
+        $(document).ready(function() {
+            // Start fetching history immediately
+            if (localStorage.getItem('token')) {
+                fetchHistory();
+            } else {
+                $('#applicationHistory').html('<tr><td colspan="4" class="text-center">Please login to view history</td></tr>');
+            }
+
+            // Initialize member portal data
+            initMemberPortal().then(member => {
+                if (member) {
+                    $('#fullName').val(member.firstName + ' ' + member.lastName);
+                    $('#phoneNumber').val(member.phoneNumber);
+                    $('#email').val(member.email || '');
+                    
+                    if (member.gender) {
+                        const genderVal = member.gender === 'Male' ? '1' : (member.gender === 'Female' ? '2' : '');
+                        $('#gender').val(genderVal);
+                    }
+                }
+            }).catch(err => {
+                console.error('Member init failed:', err);
+            });
+
+            async function fetchHistory() {
+                try {
+                    const response = await fetch('http://localhost:5000/api/applications/my', {
+                        headers: {
+                            'x-auth-token': localStorage.getItem('token')
+                        }
+                    });
+
+                    const apps = await response.json();
+                    const tbody = $('#applicationHistory');
+                    tbody.empty();
+
+                    if (apps.length === 0) {
+                        tbody.append('<tr><td colspan="5" class="text-center">No history available</td></tr>');
+                        return;
+                    }
+
+                    const statusMap = {
+                        0: '<span class="badge bg-warning">Pre-checking</span>',
+                        1: '<span class="badge bg-info">Processing</span>',
+                        2: '<span class="badge bg-success">Eligible</span>',
+                        3: '<span class="badge bg-danger">Burst</span>'
+                    };
+
+                    apps.forEach(app => {
+                        const d = new Date(app.createDate);
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = d.getFullYear();
+                        const date = `${day}/${month}/${year}`;
+                        const appId = app._id.substring(0, 8).toUpperCase();
+                        
+                        const programMap = {
+                            "1": "YABAM"
+                        };
+                        const program = app.details && app.details.programEvent ? (programMap[app.details.programEvent] || "Standard") : "YABAM";
+                        
+                        const statusMap = {
+                            0: '<span class="badge bg-warning">Pre-checking</span>',
+                            1: '<span class="badge bg-info">Processing</span>',
+                            2: '<span class="badge bg-success">Eligible</span>',
+                            3: '<span class="badge bg-danger">Burst</span>'
+                        };
+                        const status = statusMap[app.applicationStatus] || '<span class="badge bg-secondary">Unknown</span>';
+                        
+                        tbody.append(`
+                            <tr>
+                                <td>${appId}</td>
+                                <td>${program}</td>
+                                <td>${date}</td>
+                                <td>${status}</td>
+                                <td><button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View</button></td>
+                            </tr>
+                        `);
+                    });
+
+                    // Add click handler for View Details
+                    $('.view-details').on('click', function() {
+                        const appId = $(this).data('id');
+                        alert('Viewing details for Application ID: ' + appId + '\n(Detailed view feature coming soon)');
+                    });
+                } catch (err) {
+                    console.error('Error fetching history:', err);
+                    $('#applicationHistory').html('<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>');
+                }
             }
 
             $('#btnSubmit').click(async function() {
@@ -437,7 +546,19 @@
 
                     if (response.ok) {
                         alert('Application submitted successfully!');
-                        window.location.href = 'dashboard.html';
+                        // Refresh history
+                        fetchHistory();
+                        // Reset form fields (except pre-populated ones)
+                        $('#dob').val('');
+                        $('#address').val('');
+                        $('#spouseFullName').val('');
+                        $('#spouseIcNumber').val('');
+                        $('#employerName').val('');
+                        $('#jobTitle').val('');
+                        $('#salaryRange').val('0');
+                        $('#icFrontBack').val('');
+                        $('#payslip').val('');
+                        $('#offerLetter').val('');
                     } else {
                         alert('Submission failed: ' + (result.msg || 'Unknown error'));
                     }

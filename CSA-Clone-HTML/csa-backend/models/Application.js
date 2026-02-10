@@ -19,6 +19,7 @@ const ApplicationSchema = new mongoose.Schema({
 
     // Detailed Application Sections (Consolidated from Application1-10 SQL tables)
     details: {
+        programEvent: { type: String },
         ramciReport: { file: String, lastUpdate: Date },
         ccrisDocument: { file: String, lastUpdate: Date },
         eligibility: { status: Number, lastUpdate: Date },
