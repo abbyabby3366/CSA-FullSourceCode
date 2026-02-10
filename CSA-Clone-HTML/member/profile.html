@@ -240,11 +240,11 @@
                         <div class="row justify-content-center mt-4 mb-4">
                             <div class="col-mx text-center">
                                 <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                    <img src="../assets/images/users/user-dummy-img.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                                    <img src="../assets/images/users/user-dummy-img.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image" id="profileImg">
                                 </div>
-                                <h3 class="text-white mb-1">Member User</h3>
+                                <h3 class="text-white mb-1" id="headerFullName">Member User</h3>
                                 <div class="text-white text-opacity-75">
-                                    <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i> member@example.com
+                                    <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i> <span id="headerEmail">member@example.com</span>
                                 </div>
                             </div>
                         </div>
@@ -262,43 +262,35 @@
                                             <tbody>
                                                 <tr>
                                                     <th class="ps-0" scope="row" style="width:200px">User ID</th>
-                                                    <td class="text-muted">USR12345</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Member ID</th>
-                                                    <td class="text-muted">MEM00567</td>
+                                                    <td class="text-muted" id="userId">USR12345</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Account Status</th>
-                                                    <td class="text-muted"><span class="badge bg-success">Active</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Referral ID</th>
-                                                    <td class="text-muted">REF88990</td>
+                                                    <td class="text-muted" id="accountStatus"><span class="badge bg-success">Active</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Referral Name</th>
-                                                    <td class="text-muted">Referrer Agent</td>
+                                                    <td class="text-muted" id="referralName">Referrer Agent</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Full Name</th>
-                                                    <td class="text-muted">Member User</td>
+                                                    <td class="text-muted" id="fullName">Member User</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">NIRC</th>
-                                                    <td class="text-muted">900101-10-1234</td>
+                                                    <td class="text-muted" id="icNumber">900101-10-1234</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Email Address</th>
-                                                    <td class="text-muted">member@example.com</td>
+                                                    <td class="text-muted" id="email">member@example.com</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Gender</th>
-                                                    <td class="text-muted">Male</td>
+                                                    <td class="text-muted" id="gender">Male</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Phone No</th>
-                                                    <td class="text-muted">+60 123456789</td>
+                                                    <td class="text-muted" id="phoneNumber">+60 123456789</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -314,15 +306,15 @@
                                             <tbody>
                                                 <tr>
                                                     <th class="ps-0" scope="row" style="width:200px">Bank Name</th>
-                                                    <td class="text-muted">Maybank</td>
+                                                    <td class="text-muted" id="bankName">Maybank</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Bank Account Name</th>
-                                                    <td class="text-muted">Member User</td>
+                                                    <td class="text-muted" id="bankAccountName">Member User</td>
                                                 </tr>
                                                 <tr>
                                                     <th class="ps-0" scope="row">Bank Account Number</th>
-                                                    <td class="text-muted">164XXXXXXXXX</td>
+                                                    <td class="text-muted" id="bankAccountNumber">164XXXXXXXXX</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -343,7 +335,7 @@
                                             <p class="text-muted mb-0">Total Rewards</p>
                                         </div>
                                         <div class="flex-shrink-0 text-end">
-                                            <h6 class="fs-16 fw-semibold m-0">RM 2,500.00</h6>
+                                            <h6 class="fs-16 fw-semibold m-0" id="walletCash">RM 0.00</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -360,7 +352,7 @@
                                             <p class="text-muted mb-0">Total Referrals</p>
                                         </div>
                                         <div class="flex-shrink-0 text-end">
-                                            <h6 class="fs-16 fw-semibold m-0">12</h6>
+                                            <h6 class="fs-16 fw-semibold m-0" id="referralCount">0</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -413,8 +405,52 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
 
     <script>
+        $(document).ready(async function() {
+            const member = await initMemberPortal();
+            if (member) {
+                const formatValue = (val) => (val === null || val === undefined || val === '') ? '-' : val;
+                
+                // Header Info
+                $('#headerFullName').text(member.firstName + ' ' + member.lastName);
+                $('#headerEmail').text(formatValue(member.email));
+                if (member.profileImage) {
+                    $('#profileImg').attr('src', 'http://localhost:5000/' + member.profileImage);
+                }
+
+                // Table Details
+                $('#userId').text('USR' + member.memberCode);
+                
+                // Status Badge
+                let statusHtml = '';
+                if (member.status === 1) statusHtml = '<span class="badge bg-warning">Waiting Approval</span>';
+                else if (member.status === 2) statusHtml = '<span class="badge bg-success">Active</span>';
+                else statusHtml = '<span class="badge bg-danger">Inactive</span>';
+                $('#accountStatus').html(statusHtml);
+
+                $('#referralName').text(member.referrer ? (member.referrer.firstName + ' ' + member.referrer.lastName) : '-');
+                $('#fullName').text(member.firstName + ' ' + member.lastName);
+                $('#icNumber').text(formatValue(member.icNumber));
+                $('#email').text(formatValue(member.email));
+                $('#gender').text(formatValue(member.gender));
+                $('#phoneNumber').text('+60 ' + formatValue(member.phoneNumber));
+
+                // Bank Details
+                $('#bankName').text(formatValue(member.bankName));
+                $('#bankAccountName').text(formatValue(member.bankAccountName));
+                $('#bankAccountNumber').text(formatValue(member.bankAccountNumber));
+
+                // Cards Info
+                $('#walletCash').text('RM ' + (member.walletCash || 0).toLocaleString(undefined, {minimumFractionDigits: 2}));
+                $('#referralCount').text(member.referralCount || 0);
+
+                // Referral Link
+                $('#refLink').val('https://member.yabam.org/survey?ref=' + member.memberCode);
+            }
+        });
+
         function copyRef() {
             var copyText = document.getElementById("refLink");
             copyText.select();

@@ -54,15 +54,31 @@ const MemberSchema = new mongoose.Schema({
     lastLogin: { type: Date }
 });
 
-// Hash password before saving
+// Generate memberCode before saving
 MemberSchema.pre('save', async function() {
-    if (!this.isModified('password')) return;
-    this.password = await bcrypt.hash(this.password, 10);
+    if (this.isNew && !this.memberCode) {
+        try {
+            // Find the member with the highest memberCode
+            const lastMember = await this.constructor.findOne({}, { memberCode: 1 }, { sort: { memberCode: -1 } });
+            
+            let nextCode = 10001; // Default starting code
+            if (lastMember && lastMember.memberCode) {
+                const lastCode = parseInt(lastMember.memberCode);
+                if (!isNaN(lastCode)) {
+                    nextCode = lastCode + 1;
+                }
+            }
+            this.memberCode = nextCode.toString();
+        } catch (err) {
+            console.error('Error generating memberCode:', err);
+            throw err;
+        }
+    }
 });
 
 // Compare password
 MemberSchema.methods.comparePassword = async function(candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
+    return candidatePassword === this.password;
 };
 
 module.exports = mongoose.model('Member', MemberSchema);
