@@ -19,6 +19,9 @@
     <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../assets/libs/sweetalert2/sweetalert2.min.css">
+
     <style>
         .navbar-menu {
             background: #279d69 !important;
@@ -199,9 +202,9 @@
 
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-3">Survey Referral Link</h5>
+                                    <h5 class="card-title mb-3">Registration Link</h5>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" value="/member/survey.html?ref=MEM00567" readonly id="refLink">
+                                        <input type="text" class="form-control" value="/member/register.html?ref=MEM00567" readonly id="refLink">
                                         <button class="btn btn-outline-primary" type="button" onclick="copyRef()"><i class="ri-file-copy-line"></i></button>
                                     </div>
                                 </div>
@@ -247,6 +250,9 @@
     <script src="navbar-member.js"></script>
     <script src="memberHelper.js"></script>
 
+    <!-- SweetAlert2 JS -->
+    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+
     <script>
         $(document).ready(async function() {
             const member = await initMemberPortal();
@@ -270,7 +276,7 @@
                 else statusHtml = '<span class="badge bg-danger">Inactive</span>';
                 $('#accountStatus').html(statusHtml);
 
-                $('#referralName').text(member.referrer ? (member.referrer.firstName + ' ' + member.referrer.lastName) : '-');
+                $('#referralName').text(member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : '-');
                 $('#fullName').text(member.firstName + ' ' + member.lastName);
                 $('#icNumber').text(formatValue(member.icNumber));
                 $('#email').text(formatValue(member.email));
@@ -288,7 +294,7 @@
 
                 // Referral Link
                 const relativePath = window.location.pathname.split('/').slice(0, -1).join('/'); // Gets the directory path
-                const referralUrl = window.location.origin + relativePath + '/survey.html?ref=' + member.memberCode;
+                const referralUrl = window.location.origin + relativePath + '/register.html?ref=' + member.memberCode;
                 $('#refLink').val(referralUrl);
             }
         });
@@ -298,7 +304,16 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999);
             document.execCommand("copy");
-            alert("Copied the link: " + copyText.value);
+            
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Link Copied',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
     </script>
 </body>

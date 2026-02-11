@@ -173,7 +173,7 @@
                             <td>${member.icNumber || 'N/A'}</td>
                             <td>${member.phoneNumber}</td>
                             <td>${member.salary || 'N/A'}</td>
-                            <td>${member.referrerName || 'N/A'}</td>
+                            <td>${member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : 'N/A'}</td>
                             <td>${member.companyName || 'N/A'}</td>
                             <td>${member.state || 'N/A'}</td>
                             <td class="text-center">

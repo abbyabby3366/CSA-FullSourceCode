@@ -17,6 +17,9 @@
     <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../assets/libs/sweetalert2/sweetalert2.min.css">
+
     <style>
         .auth-bg-cover {
             background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
@@ -88,8 +91,12 @@
                                     <p class="mb-0 text-muted">Already have an account? <a href="index.html" class="fw-semibold text-primary text-decoration-underline">Sign In</a></p>
                                 </div>
 
-                                <div class="p-2 mt-4">
+                                <div class="p-2 mt-4" id="registrationForm">
                                     <form action="index.html" class="needs-validation" novalidate>
+                                        <div class="mb-3" id="referrerDiv" style="display: none;">
+                                            <label for="referrerCode" class="form-label">Referral Code</label>
+                                            <input type="text" class="form-control bg-light" id="referrerCode" readonly>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
@@ -145,6 +152,7 @@
                                         </div>
                                     </form>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -170,6 +178,8 @@
     <!-- JAVASCRIPT -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
     
     <script>
         $(document).ready(function() {
@@ -230,6 +240,14 @@
                 }
             };
 
+            // Capture Referral Code
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                $('#referrerCode').val(refCode);
+                $('#referrerDiv').show();
+            }
+
             // Registration Logic
             $('form').on('submit', async function(e) {
                 e.preventDefault();
@@ -241,7 +259,11 @@
                 const confirmPassword = $('#confirm-password-input').val();
 
                 if (password !== confirmPassword) {
-                    alert('Passwords do not match');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Passwords do not match!'
+                    });
                     return;
                 }
 
@@ -251,22 +273,47 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ firstName, lastName, phoneNumber, password })
+                        body: JSON.stringify({ 
+                            firstName, 
+                            lastName, 
+                            phoneNumber, 
+                            password,
+                            referrerCode: refCode // Include referral code if present
+                        })
                     });
 
                     const data = await response.json();
 
                     if (response.ok) {
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('userRole', 'member');
-                        alert('Registration successful!');
-                        window.location.href = 'dashboard.html';
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Register Success',
+                            text: 'Your account has been created successfully. You can now login.',
+                            confirmButtonText: 'Login Now',
+                            confirmButtonColor: '#279d69',
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Auto Login: Store token and redirect
+                                localStorage.setItem('token', data.token);
+                                localStorage.setItem('userRole', 'member');
+                                window.location.href = 'dashboard.html';
+                            }
+                        });
                     } else {
-                        alert(data.msg || 'Registration failed');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registration Failed',
+                            text: data.msg || 'Please try again.'
+                        });
                     }
                 } catch (err) {
                     console.error('Error:', err);
-                    alert('Server error. Make sure the backend is running.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server Error',
+                        text: 'Make sure the backend is running.'
+                    });
                 }
             });
         });

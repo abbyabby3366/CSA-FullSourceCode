@@ -58,8 +58,17 @@ const MemberSchema = new mongoose.Schema({
 MemberSchema.pre('save', async function() {
     if (this.isNew && !this.memberCode) {
         try {
-            // Find the member with the highest memberCode
-            const lastMember = await this.constructor.findOne({}, { memberCode: 1 }, { sort: { memberCode: -1 } });
+            // Find the member with the highest numeric memberCode
+            // Lexicographical sort fails when mixed with alphabetic prefixes (e.g. "CSA001" > "10001")
+            // We filter for numeric-only codes and use numericOrdering collation for correct sorting.
+            const lastMember = await this.constructor.findOne(
+                { memberCode: { $regex: /^\d+$/ } }, 
+                { memberCode: 1 }, 
+                { 
+                    sort: { memberCode: -1 },
+                    collation: { locale: 'en_US', numericOrdering: true }
+                }
+            );
             
             let nextCode = 10001; // Default starting code
             if (lastMember && lastMember.memberCode) {

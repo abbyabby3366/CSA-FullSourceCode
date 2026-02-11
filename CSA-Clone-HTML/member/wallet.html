@@ -86,7 +86,7 @@
                                             <p class="text-muted mb-0">Balance Available</p>
                                         </div>
                                         <div class="flex-shrink-0 text-end">
-                                            <h3 class="fs-22 fw-bold m-0 text-primary">RM 2,500.00</h3>
+                                            <h3 class="fs-22 fw-bold m-0 text-primary" id="totalRewards">RM 0.00</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -104,34 +104,14 @@
                                             <thead class="table-light text-muted">
                                                 <tr>
                                                     <th scope="col">TRANSACTION ID</th>
-                                                    <th scope="col">CUSTOMER ID</th>
-                                                    <th scope="col">TRANSACTION DATE</th>
-                                                    <th scope="col">TRANSACTION TYPE</th>
-                                                    <th scope="col">TRANSACTION AMOUNT</th>
+                                                    <th scope="col">DATE</th>
+                                                    <th scope="col">TYPE</th>
+                                                    <th scope="col">DESCRIPTION</th>
+                                                    <th scope="col">AMOUNT</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#TRX001</td>
-                                                    <td>MEM00567</td>
-                                                    <td>2023-11-05 10:00:00</td>
-                                                    <td><span class="badge bg-soft-success text-success">Referral Reward</span></td>
-                                                    <td class="text-end text-success">+ 50.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#TRX002</td>
-                                                    <td>MEM00567</td>
-                                                    <td>2023-11-06 14:30:00</td>
-                                                    <td><span class="badge bg-soft-success text-success">Survey Reward</span></td>
-                                                    <td class="text-end text-success">+ 25.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#TRX003</td>
-                                                    <td>MEM00567</td>
-                                                    <td>2023-11-10 09:15:00</td>
-                                                    <td><span class="badge bg-soft-danger text-danger">Withdrawal</span></td>
-                                                    <td class="text-end text-danger">- 100.00</td>
-                                                </tr>
+                                            <tbody id="transactionBody">
+                                                <!-- Dynamic Content -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -178,14 +158,70 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
     <script src="navbar-member.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#historyTable').DataTable({
-                order: [[2, 'desc']]
-            });
+        $(document).ready(async function() {
+            const member = await initMemberPortal();
+            if (member) {
+                // Update Balance
+                $('#totalRewards').text('RM ' + member.walletCash.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+
+                // Fetch Transactions
+                loadTransactions();
+            }
         });
+
+        async function loadTransactions() {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch('http://localhost:5000/api/members/transactions', {
+                    headers: {
+                        'x-auth-token': token
+                    }
+                });
+                const transactions = await response.json();
+
+                const tbody = $('#transactionBody');
+                tbody.empty();
+
+                transactions.forEach(trx => {
+                    const date = new Date(trx.createDate).toLocaleString();
+                    const amountClass = trx.amount >= 0 ? 'text-success' : 'text-danger';
+                    const amountPrefix = trx.amount >= 0 ? '+ ' : '- ';
+                    const absAmount = Math.abs(trx.amount).toFixed(2);
+                    
+                    let typeBadge = '';
+                    switch(trx.type) {
+                        case 'Reward': typeBadge = '<span class="badge bg-soft-success text-success">Reward</span>'; break;
+                        case 'Referral': typeBadge = '<span class="badge bg-soft-info text-info">Referral</span>'; break;
+                        case 'Withdrawal': typeBadge = '<span class="badge bg-soft-danger text-danger">Withdrawal</span>'; break;
+                        case 'Bonus': typeBadge = '<span class="badge bg-soft-primary text-primary">Bonus</span>'; break;
+                        default: typeBadge = `<span class="badge bg-soft-secondary text-secondary">${trx.type}</span>`;
+                    }
+
+                    const row = `
+                        <tr>
+                            <td>#${trx._id.substring(trx._id.length - 6).toUpperCase()}</td>
+                            <td>${date}</td>
+                            <td>${typeBadge}</td>
+                            <td>${trx.description || '-'}</td>
+                            <td class="text-end ${amountClass}">${amountPrefix}${absAmount}</td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+
+                $('#historyTable').DataTable({
+                    order: [[1, 'desc']],
+                    destroy: true
+                });
+
+            } catch (err) {
+                console.error('Error loading transactions:', err);
+            }
+        }
     </script>
 </body>
 </html>

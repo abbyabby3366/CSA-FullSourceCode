@@ -17,7 +17,7 @@ const adminOnly = (req, res, next) => {
 // @desc     Get all members
 router.get('/members', [auth, adminOnly], async (req, res) => {
     try {
-        const members = await Member.find().select('-password').sort({ createDate: -1 });
+        const members = await Member.find().select('-password').populate('referrer', 'firstName lastName memberCode').sort({ createDate: -1 });
         res.json(members);
     } catch (err) {
         console.error(err.message);

@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 // @desc     Register a new member
 // @access   Public
 router.post('/member/register', async (req, res) => {
-    const { firstName, lastName, phoneNumber, password } = req.body;
+    const { firstName, lastName, phoneNumber, password, referrerCode } = req.body;
 
     try {
         let member = await Member.findOne({ phoneNumber });
@@ -17,11 +17,20 @@ router.post('/member/register', async (req, res) => {
             return res.status(400).json({ msg: 'Member already exists' });
         }
 
+        let referrerId = null;
+        if (referrerCode) {
+            const referrer = await Member.findOne({ memberCode: referrerCode });
+            if (referrer) {
+                referrerId = referrer._id;
+            }
+        }
+
         member = new Member({
             firstName,
             lastName,
             phoneNumber,
-            password
+            password,
+            referrer: referrerId
         });
 
         await member.save();
@@ -32,7 +41,9 @@ router.post('/member/register', async (req, res) => {
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
             if (err) throw err;
-            res.json({ token });
+            const memberData = member.toObject();
+            delete memberData.password;
+            res.json({ token, member: memberData });
         });
     } catch (err) {
         console.error(err.message);
