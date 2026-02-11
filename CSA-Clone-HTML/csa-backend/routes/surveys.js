@@ -122,13 +122,10 @@ router.post('/admin/approve/:id', auth, async (req, res) => {
 
         // 2. Reward the Upline (RM100)
         if (member.referrer) {
-            const referrerId = member.referrer._id || member.referrer;
-            console.log(`Rewarding referrer: ${referrerId}`);
-            const referrer = await Member.findById(referrerId);
+            const referrer = await Member.findById(member.referrer);
             if (referrer) {
-                referrer.walletCash = (referrer.walletCash || 0) + 100;
+                referrer.walletCash += 100;
                 await referrer.save();
-                console.log(`Referrer ${referrer.firstName} rewarded. New balance: ${referrer.walletCash}`);
 
                 const referralReward = new Transaction({
                     member: referrer._id,
@@ -139,11 +136,7 @@ router.post('/admin/approve/:id', auth, async (req, res) => {
                     processDate: Date.now()
                 });
                 await referralReward.save();
-            } else {
-                console.log(`Referrer not found for ID: ${referrerId}`);
             }
-        } else {
-            console.log(`No referrer for member: ${member.memberCode}`);
         }
 
         // 3. Update Survey Status
