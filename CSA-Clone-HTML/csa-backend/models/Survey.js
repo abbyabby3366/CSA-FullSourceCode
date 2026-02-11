@@ -25,8 +25,12 @@ const SurveySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Completed', 'Verified'],
-        default: 'Completed'
+        enum: ['Pending', 'Verified', 'Rejected'],
+        default: 'Pending'
+    },
+    rewardPaid: {
+        type: Boolean,
+        default: false
     },
     submittedAt: {
         type: Date,

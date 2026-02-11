@@ -51,13 +51,18 @@
                                     <div class="table-responsive table-card">
                                         <table class="table table-borderless table-nowrap align-middle mb-0">
                                             <thead class="table-light text-muted">
+                                                <tr class="text-uppercase fs-11 fw-bold text-center">
+                                                    <th colspan="2" class="border-end bg-light-subtle">Member Details</th>
+                                                    <th colspan="3" class="border-end">Survey Responses</th>
+                                                    <th colspan="3">System Info</th>
+                                                </tr>
                                                 <tr>
-                                                    <th>Member Name</th>
-                                                    <th>Phone Number</th>
+                                                    <th>Name & Code</th>
+                                                    <th>Phone</th>
                                                     <th>State</th>
                                                     <th>Current Job</th>
-                                                    <th>Favorite Guru</th>
-                                                    <th>Submitted At</th>
+                                                    <th>Guru</th>
+                                                    <th>Submitted</th>
                                                     <th>Status</th>
                                                     <th class="text-center">Action</th>
                                                 </tr>
@@ -135,35 +140,97 @@
                 allSurveys = surveys;
                 tbody.empty();
                 surveys.forEach((s, index) => {
-                    const memberName = s.member ? `${s.member.firstName} ${s.member.lastName}` : 'N/A';
-                    const phoneNumber = s.member ? s.member.phoneNumber : 'N/A';
-                    const submittedAt = new Date(s.submittedAt).toLocaleString();
-                    
-                    tbody.append(`
-                        <tr id="survey-${s._id}">
-                            <td>${memberName}</td>
-                            <td>${phoneNumber}</td>
-                            <td>${s.section1.state}</td>
-                            <td>${s.section1.jobPositionCategory} - ${s.section1.jobPositionLevel}</td>
-                            <td>${s.finalSection.favoriteGuru}</td>
-                            <td>${submittedAt}</td>
-                            <td><span class="badge bg-success-subtle text-success">${s.status}</span></td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <button class="btn btn-sm btn-soft-primary view-survey-btn" data-index="${index}">
-                                        <i class="ri-eye-line align-bottom"></i> View
-                                    </button>
-                                    <button class="btn btn-sm btn-soft-danger delete-survey-btn" data-id="${s._id}">
-                                        <i class="ri-delete-bin-fill align-bottom"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
+                    try {
+                        const memberName = s.member ? `${s.member.firstName} ${s.member.lastName} (${s.member.memberCode})` : 'N/A';
+                        const phoneNumber = s.member ? s.member.phoneNumber : 'N/A';
+                        const submittedAt = s.submittedAt ? new Date(s.submittedAt).toLocaleString() : 'N/A';
+                        
+                        let statusBadge = '';
+                        if (s.status === 'Pending') statusBadge = '<span class="badge bg-warning-subtle text-warning">Pending</span>';
+                        else if (s.status === 'Verified') statusBadge = '<span class="badge bg-success-subtle text-success">Verified</span>';
+                        else if (s.status === 'Rejected') statusBadge = '<span class="badge bg-danger-subtle text-danger">Rejected</span>';
+                        else statusBadge = `<span class="badge bg-info-subtle text-info">${s.status || 'N/A'}</span>`;
+
+                        let actionButtons = '';
+                        if (s.status === 'Pending' || s.status === 'Completed') {
+                            actionButtons += `
+                                <button class="btn btn-sm btn-soft-success approve-survey-btn" data-id="${s._id}">
+                                    <i class="ri-check-line align-bottom"></i> Approve
+                                </button>
+                                <button class="btn btn-sm btn-soft-danger reject-survey-btn" data-id="${s._id}">
+                                    <i class="ri-close-line align-bottom"></i> Reject
+                                </button>
+                            `;
+                        }
+
+                        actionButtons += `
+                            <button class="btn btn-sm btn-soft-primary view-survey-btn" data-index="${index}">
+                                <i class="ri-eye-line align-bottom"></i> View
+                            </button>
+                        `;
+
+                        tbody.append(`
+                            <tr id="survey-${s._id}">
+                                <td class="bg-light-subtle border-end">${memberName}</td>
+                                <td class="bg-light-subtle border-end">${phoneNumber}</td>
+                                <td>${s.section1?.state || 'N/A'}</td>
+                                <td>${s.section1?.jobPositionCategory || ''} - ${s.section1?.jobPositionLevel || ''}</td>
+                                <td>${s.finalSection?.favoriteGuru || 'N/A'}</td>
+                                <td>${submittedAt}</td>
+                                <td>${statusBadge}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        ${actionButtons}
+                                        <button class="btn btn-sm btn-soft-danger delete-survey-btn" data-id="${s._id}">
+                                            <i class="ri-delete-bin-fill align-bottom"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                    } catch (e) {
+                        console.error('Error rendering survey row:', e, s);
+                    }
                 });
             } else {
                 tbody.html('<tr><td colspan="8" class="text-center">No surveys found.</td></tr>');
             }
+
+            // Handle Approve
+            $(document).on('click', '.approve-survey-btn', async function() {
+                const surveyId = $(this).data('id');
+                if (confirm('Are you sure you want to APPROVE this survey? This will credit RM100 to the user and their referrer.')) {
+                    try {
+                        const result = await apiCall('/surveys/admin/approve/' + surveyId, 'POST');
+                        if (result && result.survey) {
+                            location.reload(); // Quick refresh to update status and hide buttons
+                        } else {
+                            alert(result.msg || 'Error approving survey');
+                        }
+                    } catch (err) {
+                        console.error('Approve error:', err);
+                        alert('Failed to approve survey.');
+                    }
+                }
+            });
+
+            // Handle Reject
+            $(document).on('click', '.reject-survey-btn', async function() {
+                const surveyId = $(this).data('id');
+                if (confirm('Are you sure you want to REJECT this survey?')) {
+                    try {
+                        const result = await apiCall('/surveys/admin/reject/' + surveyId, 'POST');
+                        if (result && result.survey) {
+                            location.reload();
+                        } else {
+                            alert(result.msg || 'Error rejecting survey');
+                        }
+                    } catch (err) {
+                        console.error('Reject error:', err);
+                        alert('Failed to reject survey.');
+                    }
+                }
+            });
 
             // Handle Delete
             $(document).on('click', '.delete-survey-btn', async function() {
@@ -194,41 +261,55 @@
                 if (!s) return;
 
                 const memberName = s.member ? `${s.member.firstName} ${s.member.lastName}` : 'N/A';
+                const submittedAt = s.submittedAt ? new Date(s.submittedAt).toLocaleString() : 'N/A';
                 
                 let html = `
                     <div class="row">
-                        <div class="col-md-6 mb-3"><strong>Participant:</strong><br>${memberName}</div>
-                        <div class="col-md-6 mb-3"><strong>Submitted At:</strong><br>${new Date(s.submittedAt).toLocaleString()}</div>
-                        
-                        <div class="col-12"><hr></div>
-                        
-                        <h6 class="mb-3 text-primary">Bahagian A: Maklumat Pekerjaan</h6>
-                        <div class="col-md-6 mb-2"><strong>Negeri:</strong> ${s.section1.state}</div>
-                        <div class="col-md-6 mb-2"><strong>Kategori Jawatan:</strong> ${s.section1.jobPositionCategory}</div>
-                        <div class="col-md-6 mb-2"><strong>Tahap Jawatan:</strong> ${s.section1.jobPositionLevel}</div>
-                        <div class="col-md-6 mb-2"><strong>Pengalaman (Tahun):</strong> ${s.section1.yearsExperience}</div>
-                        <div class="col-md-6 mb-3"><strong>Sektor Majikan:</strong> ${s.section1.employerSector}</div>
-                        
-                        <div class="col-12"><hr></div>
-                        
-                        <h6 class="mb-3 text-primary">Bahagian B: Maklumat Kewangan</h6>
-                        <div class="col-md-6 mb-2"><strong>Pendapatan Keluarga:</strong> RM ${s.section2.familyIncome}</div>
-                        <div class="col-md-6 mb-2"><strong>Julat Hutang:</strong> RM ${s.section2.debtRange}</div>
-                        <div class="col-md-6 mb-2"><strong>Julat Simpanan:</strong> RM ${s.section2.savingsRange}</div>
-                        <div class="col-md-6 mb-3"><strong>Komitmen Bulanan:</strong> RM ${s.section2.monthlyCommitment}</div>
-                        
-                        <div class="col-12"><hr></div>
-                        
-                        <h6 class="mb-3 text-primary">Bahagian C: Maklum Balas & Rujukan</h6>
-                        <div class="col-md-6 mb-2"><strong>Guru Kegemaran:</strong> ${s.finalSection.favoriteGuru}</div>
-                        <div class="col-md-6 mb-2"><strong>Sumber Rujukan:</strong> ${s.finalSection.referralSource}</div>
-                        <div class="col-md-12 mb-3"><strong>Maklum Balas Tambahan:</strong><br>${s.finalSection.feedback || 'Tiada maklum balas disediakan.'}</div>
-                        
-                        <div class="col-12"><hr></div>
-                        
-                        <h6 class="mb-3 text-primary">Maklumat Akaun Bank (Tujuan Insentif)</h6>
-                        <div class="col-md-6 mb-2"><strong>Nama Bank:</strong> ${s.bankDetails.bankName}</div>
-                        <div class="col-md-6 mb-3"><strong>Nombor Akaun:</strong> ${s.bankDetails.accountNumber}</div>
+                        <!-- Section 1: Actual Member Details (from registration) -->
+                        <div class="col-12 p-3 bg-light-subtle border rounded mb-3">
+                            <h6 class="text-uppercase fw-bold text-muted mb-3"><i class="ri-user-heart-line align-bottom me-1"></i> Actual Member Details</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-2"><strong>Full Name:</strong><br>${memberName}</div>
+                                <div class="col-md-6 mb-2"><strong>Member Code:</strong><br>${s.member?.memberCode || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Phone Number:</strong><br>${s.member?.phoneNumber || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Email Address:</strong><br>${s.member?.email || 'N/A'}</div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Survey Responses -->
+                        <div class="col-12 p-3 border rounded mb-3">
+                            <h6 class="text-uppercase fw-bold text-primary mb-3"><i class="ri-survey-line align-bottom me-1"></i> Survey Responses</h6>
+                            
+                            <h6 class="mt-3 fs-13 text-muted border-bottom pb-1">Bahagian A: Maklumat Pekerjaan</h6>
+                            <div class="row mt-2">
+                                <div class="col-md-6 mb-2"><strong>Negeri:</strong> ${s.section1?.state || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Kategori Jawatan:</strong> ${s.section1?.jobPositionCategory || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Tahap Jawatan:</strong> ${s.section1?.jobPositionLevel || 'N/A'}</div>
+                                <div class="col-md-12 mb-2"><strong>Nama Majikan:</strong> ${s.section1?.employerName || 'N/A'}</div>
+                            </div>
+
+                            <h6 class="mt-4 fs-13 text-muted border-bottom pb-1">Bahagian B: Maklumat Kewangan</h6>
+                            <div class="row mt-2">
+                                <div class="col-md-6 mb-2"><strong>Pendapatan Keluarga:</strong> ${s.section2?.familyIncome || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Julat Hutang:</strong> ${s.section2?.debtRange || 'N/A'}</div>
+                            </div>
+
+                            <h6 class="mt-4 fs-13 text-muted border-bottom pb-1">Bahagian C: Maklum Balas</h6>
+                            <div class="row mt-2">
+                                <div class="col-md-12 mb-2"><strong>Guru Kewangan Diminati:</strong> ${s.finalSection?.favoriteGuru || 'N/A'}</div>
+                            </div>
+
+                            <h6 class="mt-4 fs-13 text-muted border-bottom pb-1">Maklumat Pembayaran (Tujuan Insentif)</h6>
+                            <div class="row mt-2 text-success">
+                                <div class="col-md-6 mb-2"><strong>Nama Bank:</strong> ${s.bankDetails?.bankName || 'N/A'}</div>
+                                <div class="col-md-6 mb-2"><strong>Nombor Akaun:</strong> ${s.bankDetails?.bankAccountNumber || 'N/A'}</div>
+                            </div>
+                        </div>
+
+                        <!-- System Status -->
+                        <div class="col-12 text-end">
+                            <span class="badge bg-light text-muted p-2">Submitted on ${submittedAt}</span>
+                        </div>
                     </div>
                 `;
 

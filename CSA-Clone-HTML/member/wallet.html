@@ -46,6 +46,14 @@
             width: 38px;
             height: 38px;
         }
+
+        .dt-length label {
+            margin-left: 8px !important;
+        }
+
+        .dt-search input {
+            margin-left: 8px !important;
+        }
     </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -99,8 +107,8 @@
                                     <h5 class="card-title mb-0 flex-grow-1"><i class="ri-pages-line"></i> Transaction History</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive table-card">
-                                        <table class="table table-borderless table-nowrap align-middle mb-0" id="historyTable">
+                                    <div class="table-responsive table-card m-0 p-0">
+                                        <table class="table table-borderless table-nowrap align-middle mb-0" id="historyTable" style="width: 100%;">
                                             <thead class="table-light text-muted">
                                                 <tr>
                                                     <th scope="col">TRANSACTION ID</th>
@@ -215,7 +223,8 @@
 
                 $('#historyTable').DataTable({
                     order: [[1, 'desc']],
-                    destroy: true
+                    destroy: true,
+                    autoWidth: false
                 });
 
             } catch (err) {
