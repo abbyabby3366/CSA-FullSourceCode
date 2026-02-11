@@ -233,6 +233,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -263,7 +264,7 @@
                 $('#headerFullName').text(member.firstName + ' ' + member.lastName);
                 $('#headerEmail').text(formatValue(member.email));
                 if (member.profileImage) {
-                    $('#profileImg').attr('src', 'http://localhost:5000/' + member.profileImage);
+                    $('#profileImg').attr('src', `${window.API_BASE_URL}/` + member.profileImage);
                 }
 
                 // Table Details

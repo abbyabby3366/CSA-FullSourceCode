@@ -234,6 +234,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -270,7 +271,7 @@
                 $('#v-pills-bank input[type="text"]').eq(1).val(member.bankAccountNumber || '');
                 
                 // Left Panel
-                $('.card .profile-user img').attr('src', member.profileImage ? 'http://localhost:5000/' + member.profileImage : '../assets/images/users/user-dummy-img.jpg');
+                $('.card .profile-user img').attr('src', member.profileImage ? `${window.API_BASE_URL}/` + member.profileImage : '../assets/images/users/user-dummy-img.jpg');
                 $('.card h5').text(member.firstName + ' ' + member.lastName);
             }
 
@@ -286,7 +287,7 @@
                 const email = $('#v-pills-personal input[type="email"]').val();
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/members/update', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -313,7 +314,7 @@
                 const bankAccountNumber = $('#v-pills-bank input[type="text"]').eq(1).val();
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/members/update', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

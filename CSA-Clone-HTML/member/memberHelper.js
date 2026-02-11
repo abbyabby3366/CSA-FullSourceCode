@@ -11,7 +11,7 @@ async function initMemberPortal() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/members/me', {
+            const response = await fetch(`${window.API_BASE_URL}/api/members/me`, {
                 headers: {
                     'x-auth-token': token
                 }
@@ -45,7 +45,7 @@ async function initMemberPortal() {
             $('.dropdown-header').text('Welcome ' + member.firstName + '!');
             
             if (member.profileImage) {
-                $('.header-profile-user').attr('src', 'http://localhost:5000/' + member.profileImage);
+                $('.header-profile-user').attr('src', window.API_BASE_URL + '/' + member.profileImage);
             }
 
             // Handle Logout

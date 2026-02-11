@@ -231,6 +231,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -296,7 +297,7 @@
 
             async function fetchHistory() {
                 try {
-                    const response = await fetch('http://localhost:5000/api/applications/my', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/applications/my`, {
                         headers: {
                             'x-auth-token': localStorage.getItem('token')
                         }
@@ -455,7 +456,7 @@
                 if (offerLetterFile) formData.append('offerLetter', offerLetterFile);
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/applications/submit', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/applications/submit`, {
                         method: 'POST',
                         headers: {
                             'x-auth-token': localStorage.getItem('token')

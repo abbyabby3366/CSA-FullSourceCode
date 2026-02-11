@@ -337,6 +337,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -365,7 +366,7 @@
 
             // Check if survey already completed
             try {
-                const response = await fetch('http://localhost:5000/api/surveys/me', {
+                const response = await fetch(`${window.API_BASE_URL}/api/surveys/me`, {
                     headers: { 'x-auth-token': token }
                 });
                 const survey = await response.json();
@@ -444,7 +445,7 @@
                 };
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/surveys/submit', {
+                    const response = await fetch(`${window.API_BASE_URL}/api/surveys/submit`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

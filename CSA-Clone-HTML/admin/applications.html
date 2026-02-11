@@ -199,6 +199,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -368,7 +369,7 @@
                 };
 
                 try {
-                    const response = await fetch(`http://localhost:5000/api/admin/application/${appId}/assign`, {
+                    const response = await fetch(`window.API_BASE_URL/api/admin/application/${appId}/assign`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',

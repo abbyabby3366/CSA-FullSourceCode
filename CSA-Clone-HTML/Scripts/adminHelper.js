@@ -42,7 +42,7 @@ async function apiCall(endpoint, method = 'GET', body = null) {
     };
     if (body) options.body = JSON.stringify(body);
 
-    const response = await fetch('http://localhost:5000/api' + endpoint, options);
+    const response = await fetch(window.API_BASE_URL + '/api' + endpoint, options);
     if (response.status === 401 || response.status === 403) {
         localStorage.removeItem('token');
         window.location.href = 'index.html';

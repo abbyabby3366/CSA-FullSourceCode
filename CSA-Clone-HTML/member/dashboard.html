@@ -302,6 +302,7 @@
 
     <!-- jquery js -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../Scripts/config.js"></script>
 
     <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -337,7 +338,7 @@
 
         async function fetchAnnouncements() {
             try {
-                const response = await fetch('http://localhost:5000/api/announcements', {
+                const response = await fetch(`${window.API_BASE_URL}/api/announcements`, {
                     headers: { 'x-auth-token': localStorage.getItem('token') }
                 });
                 const announcements = await response.json();
@@ -385,7 +386,7 @@
 
                 // Check Survey Status for specific sidebar prompt
                 try {
-                    const surveyResponse = await fetch('http://localhost:5000/api/surveys/me', {
+                    const surveyResponse = await fetch(`${window.API_BASE_URL}/api/surveys/me`, {
                         headers: { 'x-auth-token': localStorage.getItem('token') }
                     });
                     const survey = await surveyResponse.json();
