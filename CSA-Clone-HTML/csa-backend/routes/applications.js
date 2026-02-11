@@ -41,15 +41,28 @@ router.post('/submit', [auth, upload.fields([
             member: req.user.id,
             details: {
                 ...details,
-                icFile: files.icFrontBack ? files.icFrontBack[0].path : null,
-                payslipFile: files.payslip ? files.payslip[0].path : null,
-                offerLetterFile: files.offerLetter ? files.offerLetter[0].path : null
+                icFile: files.icFrontBack ? files.icFrontBack[0].key : null,
+                payslipFile: files.payslip ? files.payslip[0].key : null,
+                offerLetterFile: files.offerLetter ? files.offerLetter[0].key : null
             },
             applicationStatus: 1 // Processing
         });
 
         const app = await newApp.save();
-        res.json(app);
+        
+        // Construct full URLs for response (using custom domain)
+        const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
+        
+        // Convert to plain object to add full URLs without modifying the saved DB record permanently in memory
+        const responseData = app.toObject();
+        responseData.details.icFileUrl = app.details.icFile ? `${baseUrl}/${app.details.icFile}` : null;
+        responseData.details.payslipFileUrl = app.details.payslipFile ? `${baseUrl}/${app.details.payslipFile}` : null;
+        responseData.details.offerLetterFileUrl = app.details.offerLetterFile ? `${baseUrl}/${app.details.offerLetterFile}` : null;
+
+        res.json({
+            msg: 'Application submitted successfully!',
+            application: responseData
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

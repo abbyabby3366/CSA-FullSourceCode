@@ -20,6 +20,26 @@ const ApplicationSchema = new mongoose.Schema({
     // Detailed Application Sections (Consolidated from Application1-10 SQL tables)
     details: {
         programEvent: { type: String },
+        fullName: { type: String },
+        dob: { type: String },
+        gender: { type: String },
+        icNumber: { type: String },
+        address: { type: String },
+        phoneNumber: { type: String },
+        email: { type: String },
+        spouseDetails: {
+            fullName: { type: String },
+            icNumber: { type: String }
+        },
+        employmentDetails: {
+            employerName: { type: String },
+            jobTitle: { type: String },
+            salaryRange: { type: String }
+        },
+        icFile: { type: String },
+        payslipFile: { type: String },
+        offerLetterFile: { type: String },
+        
         ramciReport: { file: String, lastUpdate: Date },
         ccrisDocument: { file: String, lastUpdate: Date },
         eligibility: { status: Number, lastUpdate: Date },

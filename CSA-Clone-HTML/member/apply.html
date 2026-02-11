@@ -554,6 +554,21 @@
                                     <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
                                     <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
                                     <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Submitted Documents</h6>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Copy:</strong><br>
+                                        ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Payslip:</strong><br>
+                                        ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Offer Letter:</strong><br>
+                                        ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
+                                    </div>
                                 </div>
                             `;
                             
@@ -610,6 +625,7 @@
                     });
 
                     const result = await response.json();
+                    console.log('Submission Result:', result);
 
                     if (response.ok) {
                         alert('Application submitted successfully!');

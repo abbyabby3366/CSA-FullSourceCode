@@ -284,38 +284,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Static data for demonstration -->
                                             <tr>
-                                                <td>1001</td>
-                                                <td>Ahmad Bin Ibrahim</td>
-                                                <td>CSA/2023/001</td>
-                                                <td>012-3456789</td>
-                                                <td>TNB Sdn Bhd</td>
-                                                <td>5,500.00</td>
-                                                <td><span class="badge bg-info">Pre-checking</span></td>
-                                                <td>2023-10-25 14:30</td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                        <a href="#" class="text-success" style='text-decoration: underline;'>View</a>
-                                                        <a href="#" class="text-warning" style='text-decoration: underline;'>Assign</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1002</td>
-                                                <td>Siti Nurhaliza</td>
-                                                <td>CSA/2023/002</td>
-                                                <td>017-9876543</td>
-                                                <td>Ministry of Health</td>
-                                                <td>4,200.00</td>
-                                                <td><span class="badge bg-warning">Proposal Preparation</span></td>
-                                                <td>2023-10-26 09:15</td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                        <a href="#" class="text-success" style='text-decoration: underline;'>View</a>
-                                                        <a href="#" class="text-warning" style='text-decoration: underline;'>Assign</a>
-                                                    </div>
-                                                </td>
+                                                <td colspan="9" class="text-center">Loading data...</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -521,6 +491,21 @@
                             <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
                             <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
                             <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+
+                            <div class="col-md-12"><hr></div>
+                            <h6 class="mb-3 text-primary">Submitted Documents</h6>
+                            <div class="col-md-4 mb-2">
+                                <strong>IC Copy:</strong><br>
+                                ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <strong>Payslip:</strong><br>
+                                ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <strong>Offer Letter:</strong><br>
+                                ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
+                            </div>
                         </div>
                     `;
                     
