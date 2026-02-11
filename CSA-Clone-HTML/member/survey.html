@@ -377,7 +377,7 @@
                     let statusLabel = survey.status;
                     
                     if (survey.status === 'Pending') alertClass = 'alert-warning';
-                    else if (survey.status === 'Verified') alertClass = 'alert-success';
+                    else if (survey.status === 'Approved') alertClass = 'alert-success';
                     else if (survey.status === 'Rejected') alertClass = 'alert-danger';
 
                     $('#tab-1').removeClass('d-none').html(`

@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const Survey = require('../models/Survey');
 const Member = require('../models/Member');
 const Transaction = require('../models/Transaction');
+const Announcement = require('../models/Announcement');
 
 // @route    POST api/surveys/submit
 // @desc     Submit a new survey
@@ -28,6 +29,16 @@ router.post('/submit', auth, async (req, res) => {
         });
 
         const survey = await newSurvey.save();
+
+        // Create Announcement for user
+        const announcement = new Announcement({
+            member: req.user.id,
+            title: 'Survey Submitted',
+            message: 'Your survey has been submitted and is currently pending approval.',
+            type: 'info'
+        });
+        await announcement.save();
+
         res.json(survey);
     } catch (err) {
         console.error(err.message);
@@ -97,7 +108,7 @@ router.post('/admin/approve/:id', auth, async (req, res) => {
             return res.status(404).json({ msg: 'Survey not found' });
         }
 
-        if (survey.status === 'Verified' || survey.rewardPaid) {
+        if (survey.status === 'Approved' || survey.rewardPaid) {
             return res.status(400).json({ msg: 'Survey already approved or reward already paid.' });
         }
 
@@ -140,9 +151,18 @@ router.post('/admin/approve/:id', auth, async (req, res) => {
         }
 
         // 3. Update Survey Status
-        survey.status = 'Verified';
+        survey.status = 'Approved';
         survey.rewardPaid = true;
         await survey.save();
+
+        // Create Announcement for user
+        const announcement = new Announcement({
+            member: survey.member._id,
+            title: 'Survey Approved!',
+            message: 'Your survey has been approved. RM100.00 has been credited to your wallet.',
+            type: 'success'
+        });
+        await announcement.save();
 
         res.json({ msg: 'Survey approved and rewards issued.', survey });
     } catch (err) {
@@ -163,6 +183,15 @@ router.post('/admin/reject/:id', auth, async (req, res) => {
 
         survey.status = 'Rejected';
         await survey.save();
+
+        // Create Announcement for user
+        const announcement = new Announcement({
+            member: survey.member,
+            title: 'Survey Rejected',
+            message: 'Your survey submission has been rejected. Please contact support for more details.',
+            type: 'danger'
+        });
+        await announcement.save();
 
         res.json({ msg: 'Survey rejected.', survey });
     } catch (err) {

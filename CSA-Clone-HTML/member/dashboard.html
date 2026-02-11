@@ -330,25 +330,89 @@
                 // Savings
                 $('h6:contains("Savings")').parent().next().find('h6').text(member.walletPoint.toFixed(2));
 
-                // Check Survey Status
+                // Fetch Announcements
+                await fetchAnnouncements();
+            }
+        });
+
+        async function fetchAnnouncements() {
+            try {
+                const response = await fetch('http://localhost:5000/api/announcements', {
+                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                });
+                const announcements = await response.json();
+                
+                const announcementList = $('.list-group.list-group-flush.border-dashed.mb-0').first();
+                // Keep the "New Policy" placeholder or clear it? 
+                // Let's clear and only show dynamic ones + survey if needed
+                announcementList.empty();
+
+                if (announcements.length === 0) {
+                    announcementList.append(`
+                        <li class="list-group-item d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <i class="ri-notification-3-line fs-20 text-muted"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">No announcements</h6>
+                                <p class="text-muted mb-0">Stay tuned for updates.</p>
+                            </div>
+                        </li>
+                    `);
+                }
+
+                announcements.forEach(ann => {
+                    let iconClass = 'ri-notification-3-line text-primary';
+                    if (ann.type === 'success') iconClass = 'ri-checkbox-circle-line text-success';
+                    else if (ann.type === 'warning') iconClass = 'ri-error-warning-line text-warning';
+                    else if (ann.type === 'danger') iconClass = 'ri-close-circle-line text-danger';
+
+                    announcementList.append(`
+                        <li class="list-group-item d-flex align-items-center ${ann.isRead ? 'opacity-75' : ''}">
+                            <div class="flex-shrink-0">
+                                <i class="${iconClass} fs-20"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">${ann.title}</h6>
+                                <p class="text-muted mb-0">${ann.message}</p>
+                            </div>
+                            <div class="flex-shrink-0 text-end">
+                                <small class="text-muted">${new Date(ann.createdAt).toLocaleDateString()}</small>
+                            </div>
+                        </li>
+                    `);
+                });
+
+                // Check Survey Status for specific sidebar prompt
                 try {
                     const surveyResponse = await fetch('http://localhost:5000/api/surveys/me', {
                         headers: { 'x-auth-token': localStorage.getItem('token') }
                     });
                     const survey = await surveyResponse.json();
-                    if (survey) {
-                        $('#surveyAnnouncement').hide();
-                    } else {
-                        $('#surveyAnnouncement').show();
-                        // Apply show() but handle the !important style if necessary, 
-                        // though jQuery's show() usually works or we can just remove the style.
-                        $('#surveyAnnouncement').attr('style', 'display: flex !important');
+                    if (!survey) {
+                        announcementList.prepend(`
+                            <li class="list-group-item d-flex align-items-center" id="surveyAnnouncement">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-survey-line fs-20 text-success"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="fs-14 mb-1">Survey YABAM</h6>
+                                    <p class="text-muted mb-0 text-warning">Anda belum melengkapkan tinjauan YABAM. Sila lengkapkan untuk ganjaran.</p>
+                                </div>
+                                <div class="flex-shrink-0 text-end">
+                                    <a href="survey.html" class="btn btn-sm btn-soft-success">Go to Survey</a>
+                                </div>
+                            </li>
+                        `);
                     }
                 } catch (err) {
                     console.error('Error fetching survey status:', err);
                 }
+
+            } catch (err) {
+                console.error('Error fetching announcements:', err);
             }
-        });
+        }
     </script>
 </body>
 </html>
