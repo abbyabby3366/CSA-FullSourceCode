@@ -1,0 +1,7 @@
+.agent/
+csa/
+database/
+documents/
+files/
+CSA-Clone-HTML/csa-backend/.env
+CSA-Clone-HTML/csa-backend/node_modules/
