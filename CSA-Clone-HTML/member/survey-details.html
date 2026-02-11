@@ -65,6 +65,30 @@
             color: #279d69;
             text-transform: uppercase;
         }
+
+        #survey-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .loader-survey {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #279d69;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -253,7 +277,12 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body p-4 text-center" id="survey-loading">
+                                    <span class="loader-survey"></span>
+                                    <h5 class="mt-4 text-primary">Memuat Turun Maklumat...</h5>
+                                    <p class="text-muted">Sila tunggu sebentar sementara kami memproses data anda.</p>
+                                </div>
+                                <div class="card-body d-none" id="survey-content">
                                     <ul class="nav nav-tabs mb-4" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link active" data-bs-toggle="tab" href="#bagA" role="tab" aria-selected="true">
@@ -400,7 +429,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer text-end">
+                                <div class="card-footer text-end d-none" id="survey-footer">
                                     <a href="survey.html" class="btn btn-soft-secondary">Back to Surveys</a>
                                 </div>
                             </div>
@@ -445,5 +474,48 @@
 
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
+    <script src="memberHelper.js"></script>
+    <script>
+        $(document).ready(async function() {
+            const member = await initMemberPortal();
+            const token = localStorage.getItem('token');
+
+            if (member) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/surveys/me', {
+                        headers: { 'x-auth-token': token }
+                    });
+                    const survey = await response.json();
+                    
+                    $('#survey-loading').addClass('d-none');
+                    
+                    if (survey) {
+                        $('#survey-content, #survey-footer').removeClass('d-none');
+                        // Bahagian A
+                        $('#bagA p').eq(0).text(survey.section1.state);
+                        $('#bagA p').eq(1).text(survey.section1.jobPositionCategory + ' -> ' + survey.section1.jobPositionLevel);
+                        
+                        // We might need to add placeholders for other fields if they exist in the model
+                        // For now, mapping what we have
+                        
+                        // Bahagian B
+                        $('#bagB p').eq(0).text(survey.section2.familyIncome);
+                        $('#bagB p').eq(1).text(survey.section2.debtRange);
+
+                        // Bahagian C
+                        $('#bagC p').eq(0).text(survey.finalSection.favoriteGuru);
+                        
+                        // Update section titles or other static-looking text if needed
+                    } else {
+                        alert('No survey data found.');
+                        window.location.href = 'survey.html';
+                    }
+                } catch (err) {
+                    console.error('Error fetching survey details:', err);
+                    $('#survey-loading').html('<div class="alert alert-danger">Error loading data. Please try again later.</div>');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

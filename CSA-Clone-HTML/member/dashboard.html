@@ -351,13 +351,14 @@
                                                 <ul class="list-group list-group-flush border-dashed mb-0">
                                                     <li class="list-group-item d-flex align-items-center">
                                                         <div class="flex-shrink-0">
-                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
+                                                            <i class="ri-survey-line fs-20 text-success"></i>
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">Savings</h6>
+                                                            <h6 class="fs-14 mb-1">Survey YABAM</h6>
+                                                            <p class="text-muted mb-0" id="surveyStatusText">Checking status...</p>
                                                         </div>
                                                         <div class="flex-fill text-end">
-                                                            <h6 class="fs-14 fw-semibold mb-1">1,000.00</h6>
+                                                            <a href="survey.html" class="btn btn-sm btn-soft-success" id="surveyActionBtn">Go to Survey</a>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -507,6 +508,22 @@
                 $('h6:contains("Ganjaran")').parent().next().find('h6').text(member.walletCash.toFixed(2));
                 // Savings
                 $('h6:contains("Savings")').parent().next().find('h6').text(member.walletPoint.toFixed(2));
+
+                // Check Survey Status
+                try {
+                    const surveyResponse = await fetch('http://localhost:5000/api/surveys/me', {
+                        headers: { 'x-auth-token': localStorage.getItem('token') }
+                    });
+                    const survey = await surveyResponse.json();
+                    if (survey) {
+                        $('#surveyStatusText').text('Status: ' + survey.status).addClass('text-success');
+                        $('#surveyActionBtn').text('View Details').attr('href', 'survey-details.html');
+                    } else {
+                        $('#surveyStatusText').text('Not started yet').addClass('text-warning');
+                    }
+                } catch (err) {
+                    console.error('Error fetching survey status:', err);
+                }
             }
         });
     </script>
