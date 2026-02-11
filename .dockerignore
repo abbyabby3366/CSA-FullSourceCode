@@ -1,0 +1,23 @@
+# Dependencies
+**/node_modules
+**/npm-debug.log
+
+# IDEs and Editors
+.vscode/
+.vs/
+*.swp
+*.swo
+
+# Project specific exclusions
+csa/
+database/
+documents/
+files/
+.agent/
+.git/
+.gitignore
+.env
+.dockerignore
+Dockerfile
+**/uploads/*
+!**/uploads/.gitkeep
