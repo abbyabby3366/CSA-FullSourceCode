@@ -172,26 +172,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
-                                        <div class="card card-height-100">
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush border-dashed mb-0">
-                                                    <li class="list-group-item d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <i class="ri-survey-line fs-20 text-success"></i>
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">Survey YABAM</h6>
-                                                            <p class="text-muted mb-0" id="surveyStatusText">Checking status...</p>
-                                                        </div>
-                                                        <div class="flex-fill text-end">
-                                                            <a href="survey.html" class="btn btn-sm btn-soft-success" id="surveyActionBtn">Go to Survey</a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -214,6 +195,18 @@
                                                 <div class="flex-grow-1 ms-3">
                                                     <h6 class="fs-14 mb-1">New Policy Update</h6>
                                                     <p class="text-muted mb-0">Please review the updated referral policy.</p>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex align-items-center" id="surveyAnnouncement" style="display: none !important;">
+                                                <div class="flex-shrink-0">
+                                                    <i class="ri-survey-line fs-20 text-success"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="fs-14 mb-1">Survey YABAM</h6>
+                                                    <p class="text-muted mb-0 text-warning">Anda belum melengkapkan tinjauan YABAM. Sila lengkapkan untuk ganjaran.</p>
+                                                </div>
+                                                <div class="flex-shrink-0 text-end">
+                                                    <a href="survey.html" class="btn btn-sm btn-soft-success">Go to Survey</a>
                                                 </div>
                                             </li>
                                         </ul>
@@ -344,10 +337,12 @@
                     });
                     const survey = await surveyResponse.json();
                     if (survey) {
-                        $('#surveyStatusText').text('Status: ' + survey.status).addClass('text-success');
-                        $('#surveyActionBtn').text('View Details').attr('href', 'survey-details.html');
+                        $('#surveyAnnouncement').hide();
                     } else {
-                        $('#surveyStatusText').text('Not started yet').addClass('text-warning');
+                        $('#surveyAnnouncement').show();
+                        // Apply show() but handle the !important style if necessary, 
+                        // though jQuery's show() usually works or we can just remove the style.
+                        $('#surveyAnnouncement').attr('style', 'display: flex !important');
                     }
                 } catch (err) {
                     console.error('Error fetching survey status:', err);

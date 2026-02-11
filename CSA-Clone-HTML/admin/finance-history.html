@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Withdrawal Requests | CSA Admin</title>
+    <title>Transaction History | CSA Admin</title>
 
-    <script src="assets/js/layout.js"></script>
+    <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
 
     <!-- font css -->
-	<link rel="stylesheet" href="assets/css/icons.min.css">
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
 
     <!-- app css -->
-	<link rel="stylesheet" href="assets/css/app.min.css" />
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/custom.css">
 
     <!-- datatables css -->
-    <link href="assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
 
-    <link href="assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
 <body>
     <div class="layout-wrapper">
@@ -41,7 +41,7 @@
                         <div class="col-12">
                             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                                 <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Withdrawal Requests</h4>
+                                    <h4 class="fs-16 mb-1">Transaction History</h4>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 <div class="card-header">
                                     <div class="row px-2 gy-2">
                                         <div class="col-md-3 col-sm-12 d-flex align-items-center">
-                                            <h5 class="m-0 p-0">Withdrawal Requests List</h5>
+                                            <h5 class="m-0 p-0">Transaction History List</h5>
                                         </div>
                                         <div class="col-md-9 col-sm-12 ">
                                             <div class="row justify-content-end gy-3">
@@ -70,44 +70,34 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table id="gvWithdraw" class="table dt-responsive nowrap align-middle" style="width: 100%">
+                                    <table id="gvHistory" class="table dt-responsive nowrap align-middle" style="width: 100%">
                                         <thead class="table-light text-muted">
                                             <tr>
-                                                <th>DATETIME OF REQUEST</th>
+                                                <th>TRANSACTION ID</th>
                                                 <th>MEMBER</th>
-                                                <th>BANK ACCOUNT NUMBER</th>
+                                                <th>TRANSACTION DATE</th>
+                                                <th>TRANSACTION TYPE</th>
                                                 <th>TRANSACTION AMOUNT</th>
-                                                <th>STATUS</th>
-                                                <th class="text-center">ACTION</th>
+                                                <th class="text-center">STATUS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <!-- Static data for demonstration -->
                                             <tr>
-                                                <td>2023-10-27 10:30</td>
-                                                <td>Ahmad Bin Ibrahim</td>
-                                                <td>1234567890</td>
+                                                <td>10001</td>
+                                                <td>Tan Ah Teck</td>
+                                                <td>2023-10-25 15:45</td>
+                                                <td>WITHDRAWAL</td>
                                                 <td>500.00</td>
-                                                <td><span class="badge bg-warning">PENDING</span></td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                       <a href='#' class="text-success">Paid</a>
-                                                       <a href="javascript:void(0);" class="text-danger">Cancel</a>
-                                                    </div>
-                                                </td>
+                                                <td class="text-center"><span class="badge bg-success">PAID</span></td>
                                             </tr>
                                             <tr>
-                                                <td>2023-10-26 14:15</td>
-                                                <td>Siti Nurhaliza</td>
-                                                <td>0987654321</td>
-                                                <td>1,200.00</td>
-                                                <td><span class="badge bg-primary">PROCESSING</span></td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                       <a href='#' class="text-success">Paid</a>
-                                                       <a href="javascript:void(0);" class="text-danger">Cancel</a>
-                                                    </div>
-                                                </td>
+                                                <td>10002</td>
+                                                <td>Ahmad Bin Ibrahim</td>
+                                                <td>2023-10-24 11:20</td>
+                                                <td>WITHDRAWAL</td>
+                                                <td>1,000.00</td>
+                                                <td class="text-center"><span class="badge bg-danger">CANCEL</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -136,30 +126,30 @@
     </div>
 
     <!-- jquery js -->
-    <script src="assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
 
     <!-- bootstrap js -->
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- utils js -->
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- font js -->
-    <script src="assets/libs/feather-icons/feather.min.js"></script>
-    <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
 
     <!-- datatables js -->
-    <script src="assets/libs/datatables/datatables.min.js"></script>
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
 
     <!-- App js -->
-    <script src="assets/js/app.js"></script>
-    <script src="Scripts/navbar.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../Scripts/navbar.js"></script>
 
     <script>
         $(document).ready(function() {
-            $('#gvWithdraw').DataTable({
-                "order": [[ 0, "desc" ]]
+            $('#gvHistory').DataTable({
+                "order": [[ 2, "desc" ]]
             });
         });
     </script>

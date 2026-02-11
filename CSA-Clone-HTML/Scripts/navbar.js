@@ -9,19 +9,19 @@ function renderNavBar() {
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="dashboard.html" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="assets/images/logos/logo-main.png" alt="" height="22">
+                                <img src="../assets/images/logos/logo-main.png" alt="" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logos/logo-dark.png" alt="" height="37">
+                                <img src="../assets/images/logos/logo-dark.png" alt="" height="37">
                             </span>
                         </a>
 
                         <a href="dashboard.html" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="assets/images/logos/logo-main.png" alt="" height="22">
+                                <img src="../assets/images/logos/logo-main.png" alt="" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logos/logo-light.png" alt="" height="37">
+                                <img src="../assets/images/logos/logo-light.png" alt="" height="37">
                             </span>
                         </a>
                     </div>
@@ -38,7 +38,7 @@ function renderNavBar() {
                 <div class="d-flex align-items-center">
                     <!-- Member Portal Toggle -->
                     <div class="ms-1 header-item d-none d-sm-flex">
-                        <a href="member/dashboard.html" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Switch to Member Portal">
+                        <a href="../member/dashboard.html" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Switch to Member Portal">
                             <i class='ri-user-shared-line fs-22'></i>
                         </a>
                     </div>
@@ -46,7 +46,7 @@ function renderNavBar() {
                     <div class="dropdown ms-sm-1 header-item topbar-user">
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
-                                <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                                <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
                                     <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin User</span>
                                     <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Super Admin</span>
@@ -72,20 +72,20 @@ function renderNavBar() {
             <!-- dark -->
             <a href="dashboard.html" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="assets/images/logos/logo-main.png" alt="" height="22">
+                    <img src="../assets/images/logos/logo-main.png" alt="" height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="assets/images/logos/logo-light.png" alt="" height="37">
+                    <img src="../assets/images/logos/logo-light.png" alt="" height="37">
                 </span>
             </a>
 
             <!-- light -->
             <a href="dashboard.html" class="logo logo-light">
                 <span class="logo-sm">
-                    <img src="assets/images/logos/logo-main.png" alt="" height="22">
+                    <img src="../assets/images/logos/logo-main.png" alt="" height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="assets/images/logos/logo-dark.png" alt="" height="37">
+                    <img src="../assets/images/logos/logo-dark.png" alt="" height="37">
                 </span>
             </a>
 

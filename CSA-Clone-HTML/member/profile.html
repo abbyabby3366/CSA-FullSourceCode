@@ -201,7 +201,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-3">Survey Referral Link</h5>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" value="https://member.yabam.org/survey?ref=MEM00567" readonly id="refLink">
+                                        <input type="text" class="form-control" value="/member/survey.html?ref=MEM00567" readonly id="refLink">
                                         <button class="btn btn-outline-primary" type="button" onclick="copyRef()"><i class="ri-file-copy-line"></i></button>
                                     </div>
                                 </div>
@@ -287,7 +287,9 @@
                 $('#referralCount').text(member.referralCount || 0);
 
                 // Referral Link
-                $('#refLink').val('https://member.yabam.org/survey?ref=' + member.memberCode);
+                const relativePath = window.location.pathname.split('/').slice(0, -1).join('/'); // Gets the directory path
+                const referralUrl = window.location.origin + relativePath + '/survey.html?ref=' + member.memberCode;
+                $('#refLink').val(referralUrl);
             }
         });
 
