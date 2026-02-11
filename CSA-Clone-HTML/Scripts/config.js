@@ -1,16 +1,12 @@
 /**
  * Global Configuration
- * Detection for Local vs Production API
+ * Automatically detects the API Base URL based on where the site is hosted.
  */
-const CONFIG = {
-    // CHANGE THIS: Replace with your actual production backend URL (e.g., https://api.yourdomain.com)
-    PRODUCTION_API_URL: 'https://YOUR_PRODUCTION_DOMAIN_HERE.com',
-    
-    LOCAL_API_URL: 'http://localhost:5000'
-};
 
+// Use the current origin (e.g., https://yourdomain.com) as the base.
+// If we are on localhost, we explicitly point to port 5000 for the backend.
 window.API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? CONFIG.LOCAL_API_URL
-    : CONFIG.PRODUCTION_API_URL;
+    ? 'http://localhost:5000'
+    : window.location.origin;
 
-console.log('API Base URL initialized as:', window.API_BASE_URL);
+console.log('API Base URL automatically set to:', window.API_BASE_URL);
