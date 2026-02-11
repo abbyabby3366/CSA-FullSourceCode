@@ -314,13 +314,21 @@
     <!-- select2 js -->
     <script src="../assets/libs/select2/js/select2.min.js"></script>
 
-    <!-- App js -->
-    <script src="../assets/js/app.js"></script>
+    <!-- Navigation & UI js -->
     <script src="navbar-member.js"></script>
     <script src="memberHelper.js"></script>
+    <script src="../assets/js/app.js"></script>
+
     <script>
         $(document).ready(async function() {
-            const member = await initMemberPortal();
+            // initMemberPortal is already called by memberHelper.js on document ready,
+            // but we need the member data here. memberHelper.js stores it in window.currentMember.
+            
+            // Wait a bit for the portal to initialize if it hasn't yet
+            let member = window.currentMember;
+            if (!member) {
+                member = await initMemberPortal();
+            }
             const token = localStorage.getItem('token');
 
             if (member) {

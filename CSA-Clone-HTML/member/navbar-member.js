@@ -223,9 +223,5 @@ function renderMemberNavBar() {
     updateRoleMenu();
 }
 
-// Ensure it runs after DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderMemberNavBar);
-} else {
-    renderMemberNavBar();
-}
+// Run immediately - script is placed at the bottom of the body
+renderMemberNavBar();

@@ -19,7 +19,17 @@ async function initMemberPortal() {
         }
 
         const member = await response.json();
+        if (!member) {
+            console.error('Member data not found');
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+            return;
+        }
         window.currentMember = member;
+
+        // Synchronize role for navbar consistency
+        const roleStr = member.memberType === 2 ? 'agent' : 'member';
+        localStorage.setItem('userRole', roleStr);
 
         // Apply role permissions
         applyRolePermissions(member.memberType);
@@ -44,6 +54,7 @@ async function initMemberPortal() {
         return member;
     } catch (err) {
         console.error('Error initializing portal:', err);
+        return null;
     }
 }
 

@@ -57,4 +57,25 @@ router.get('/admin/all', auth, async (req, res) => {
     }
 });
 
+// @route    DELETE api/surveys/:id
+// @desc     Delete a survey (Admin only)
+// @access   Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const survey = await Survey.findById(req.params.id);
+        if (!survey) {
+            return res.status(404).json({ msg: 'Survey not found' });
+        }
+
+        await Survey.findByIdAndDelete(req.params.id);
+        res.json({ msg: 'Survey removed' });
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Survey not found' });
+        }
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;
