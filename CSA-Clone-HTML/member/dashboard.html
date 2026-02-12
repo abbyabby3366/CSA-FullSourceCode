@@ -119,6 +119,7 @@
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h6 class="fs-14 mb-1">Ganjaran</h6>
+                                                            <p class="text-muted mb-0 fs-12">Jumlah ganjaran terkumpul</p>
                                                         </div>
                                                         <div class="flex-fill text-end">
                                                             <h6 class="fs-14 fw-semibold mb-1">2,500.00</h6>
@@ -160,7 +161,7 @@
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h6 class="fs-14 mb-1">Peserta</h6>
-                                                            <p class="text-muted mb-0">Jumlah Peserta Rujukan</p>
+                                                            <p class="text-muted mb-0 fs-12">Jumlah Peserta Rujukan</p>
                                                         </div>
                                                         <div class="flex-fill text-end">
                                                             <h6 class="fs-14 fw-semibold mb-1">12</h6>
@@ -187,7 +188,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <ul class="list-group list-group-flush border-dashed mb-0">
+                                        <ul class="list-group list-group-flush border-dashed mb-0" id="announcementList">
                                             <li class="list-group-item d-flex align-items-center">
                                                 <div class="flex-shrink-0">
                                                     <i class="ri-notification-3-line fs-20 text-primary"></i>
@@ -343,24 +344,10 @@
                 });
                 const announcements = await response.json();
                 
-                const announcementList = $('.list-group.list-group-flush.border-dashed.mb-0').first();
+                const announcementList = $('#announcementList');
                 // Keep the "New Policy" placeholder or clear it? 
                 // Let's clear and only show dynamic ones + survey if needed
                 announcementList.empty();
-
-                if (announcements.length === 0) {
-                    announcementList.append(`
-                        <li class="list-group-item d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <i class="ri-notification-3-line fs-20 text-muted"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="fs-14 mb-1">No announcements</h6>
-                                <p class="text-muted mb-0">Stay tuned for updates.</p>
-                            </div>
-                        </li>
-                    `);
-                }
 
                 announcements.forEach(ann => {
                     let iconClass = 'ri-notification-3-line text-primary';
