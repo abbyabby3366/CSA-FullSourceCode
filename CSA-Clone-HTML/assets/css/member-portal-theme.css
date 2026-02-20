@@ -1,78 +1,146 @@
 /* Member Portal Theme Overrides */
 :root {
-    --vz-primary: #279d69;
-    --vz-primary-rgb: 39, 157, 105;
-    --vz-link-color: #279d69;
-    --vz-link-hover-color: #1e7d54;
+  --vz-primary: #279d69;
+  --vz-primary-rgb: 39, 157, 105;
+  --vz-link-color: #279d69;
+  --vz-link-hover-color: #1e7d54;
 }
 
 /* Button Overrides */
 .btn-primary {
-    --vz-btn-bg: #279d69;
-    --vz-btn-border-color: #279d69;
-    --vz-btn-hover-bg: #218c5c;
-    --vz-btn-hover-border-color: #218c5c;
-    --vz-btn-active-bg: #1e7d54;
-    --vz-btn-active-border-color: #1e7d54;
+  --vz-btn-bg: #279d69;
+  --vz-btn-border-color: #279d69;
+  --vz-btn-hover-bg: #218c5c;
+  --vz-btn-hover-border-color: #218c5c;
+  --vz-btn-active-bg: #1e7d54;
+  --vz-btn-active-border-color: #1e7d54;
 }
 
 .btn-soft-primary {
-    --vz-btn-color: #279d69;
-    --vz-btn-bg: rgba(39, 157, 105, 0.1);
-    --vz-btn-border-color: transparent;
-    --vz-btn-hover-color: #fff;
-    --vz-btn-hover-bg: #279d69;
+  --vz-btn-color: #279d69;
+  --vz-btn-bg: rgba(39, 157, 105, 0.1);
+  --vz-btn-border-color: transparent;
+  --vz-btn-hover-color: #fff;
+  --vz-btn-hover-bg: #279d69;
 }
 
 .btn-outline-primary {
-    --vz-btn-color: #279d69;
-    --vz-btn-border-color: #279d69;
-    --vz-btn-hover-bg: #279d69;
-    --vz-btn-hover-border-color: #279d69;
+  --vz-btn-color: #279d69;
+  --vz-btn-border-color: #279d69;
+  --vz-btn-hover-bg: #279d69;
+  --vz-btn-hover-border-color: #279d69;
 }
 
 /* Text & Icon Overrides */
 .text-primary {
-    --vz-text-opacity: 1;
-    color: rgba(39, 157, 105, var(--vz-text-opacity)) !important;
+  --vz-text-opacity: 1;
+  color: rgba(39, 157, 105, var(--vz-text-opacity)) !important;
 }
 
 /* Badge Overrides */
 .badge-soft-primary {
-    background-color: rgba(39, 157, 105, 0.1);
-    color: #279d69;
+  background-color: rgba(39, 157, 105, 0.1);
+  color: #279d69;
 }
 
 /* Sidebar & Navbar Overrides (Global for Member) */
 .navbar-menu {
-    background: #279d69 !important;
+  background: #279d69 !important;
 }
 
 .menu-title {
-    color: white !important;
+  color: white !important;
 }
 
 .navbar-menu .navbar-nav .nav-link {
-    color: lightyellow !important;
+  color: lightyellow !important;
 }
 
 /* Modal Overrides */
 .modal-header {
-    border-bottom: 2px solid rgba(39, 157, 105, 0.1);
+  border-bottom: 2px solid rgba(39, 157, 105, 0.1);
 }
 
 /* Profile specific background */
 .profile-wid-bg::before {
-    background: #279d69 !important;
-    background: -webkit-gradient(linear, left bottom, left top, from(whitesmoke), to(#279d69)) !important;
-    background: linear-gradient(to top, white, #279d69) !important;
+  background: #279d69 !important;
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(whitesmoke),
+    to(#279d69)
+  ) !important;
+  background: linear-gradient(to top, white, #279d69) !important;
 }
 
 /* Success colors often mixed with primary */
 .text-success {
-    color: #279d69 !important;
+  color: #279d69 !important;
 }
 
 .bg-success {
-    background-color: #279d69 !important;
+  background-color: #279d69 !important;
+}
+
+/* Carousel Fixed Height */
+.carousel-fixed-height .carousel-inner {
+  height: 350px;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+}
+
+.carousel-fixed-height .carousel-item {
+  height: 350px;
+}
+
+.carousel-fixed-height .carousel-item img {
+  height: 350px;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Spinner adjustment for carousel */
+.carousel-inner .spinner-container {
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item-preview {
+  width: 100px;
+  height: 60px;
+  object-fit: contain;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+/* Locked Registration Link */
+.registration-locked-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-locked-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.registration-locked-overlay p {
+  color: #6c757d;
+  font-weight: 500;
+  margin-bottom: 10px;
 }

@@ -1,7 +1,7 @@
 function renderMemberNavBar() {
-    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-    const headerHTML = `
+  const headerHTML = `
             <div class="layout-width">
                 <div class="navbar-header">
                     <div class="d-flex">
@@ -36,13 +36,6 @@ function renderMemberNavBar() {
                     </div>
 
                     <div class="d-flex align-items-center">
-                        <!-- Admin Portal Toggle -->
-                        <div class="ms-1 header-item d-none d-sm-flex">
-                            <a href="../dashboard.html" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Switch to Admin Portal">
-                                <i class='ri-settings-3-line fs-22'></i>
-                            </a>
-                        </div>
-
                         <div class="dropdown ms-sm-1 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
@@ -65,7 +58,7 @@ function renderMemberNavBar() {
                 </div>
             </div>`;
 
-    const sidebarHTML = `
+  const sidebarHTML = `
             <!-- logo -->
             <div class="navbar-brand-box">
                 <!-- dark -->
@@ -178,49 +171,57 @@ function renderMemberNavBar() {
             </div>
             <div class="sidebar-background"></div>`;
 
-    // Inject Header
-    const topbar = document.getElementById('page-topbar');
-    if (topbar) {
-        topbar.innerHTML = headerHTML;
-    }
+  // Inject Header
+  const topbar = document.getElementById("page-topbar");
+  if (topbar) {
+    topbar.innerHTML = headerHTML;
+  }
 
-    // Inject Sidebar
-    const sideMenu = document.querySelector('.navbar-menu');
-    if (sideMenu) {
-        sideMenu.innerHTML = sidebarHTML;
-    }
+  // Inject Sidebar
+  const sideMenu = document.querySelector(".navbar-menu");
+  if (sideMenu) {
+    sideMenu.innerHTML = sidebarHTML;
+  }
 
-    // Handle Logout
-    if (window.jQuery) {
-        $('.logout-member').on('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('userRole');
-            window.location.href = 'index.html';
-        });
+  // Handle Logout
+  if (window.jQuery) {
+    $(".logout-member").on("click", function (e) {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    });
+  } else {
+    document.querySelectorAll(".logout-member").forEach((el) => {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("userRole");
+        window.location.href = "index.html";
+      });
+    });
+  }
+
+  // Update Role visibility (based on memberHelper.js logic)
+  const updateRoleMenu = () => {
+    const userRole = localStorage.getItem("userRole");
+    if (userRole === "agent") {
+      document
+        .querySelectorAll('[data-role="agent-only"]')
+        .forEach((el) => (el.style.display = "block"));
+      document
+        .querySelectorAll('[data-role="member-only"]')
+        .forEach((el) => (el.style.display = "none"));
     } else {
-        document.querySelectorAll('.logout-member').forEach(el => {
-            el.addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('token');
-                localStorage.removeItem('userRole');
-                window.location.href = 'index.html';
-            });
-        });
+      document
+        .querySelectorAll('[data-role="agent-only"]')
+        .forEach((el) => (el.style.display = "none"));
+      document
+        .querySelectorAll('[data-role="member-only"]')
+        .forEach((el) => (el.style.display = "block"));
     }
-
-    // Update Role visibility (based on memberHelper.js logic)
-    const updateRoleMenu = () => {
-        const userRole = localStorage.getItem('userRole');
-        if (userRole === 'agent') {
-            document.querySelectorAll('[data-role="agent-only"]').forEach(el => el.style.display = 'block');
-            document.querySelectorAll('[data-role="member-only"]').forEach(el => el.style.display = 'none');
-        } else {
-            document.querySelectorAll('[data-role="agent-only"]').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('[data-role="member-only"]').forEach(el => el.style.display = 'block');
-        }
-    };
-    updateRoleMenu();
+  };
+  updateRoleMenu();
 }
 
 // Run immediately - script is placed at the bottom of the body

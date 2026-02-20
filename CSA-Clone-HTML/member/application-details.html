@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Application Details | Member Portal</title>
@@ -8,276 +16,452 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
-	<link rel="stylesheet" href="../assets/css/custom.css">
-	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
-
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/member-portal-theme.css" />
 
     <style>
-        .btn-tab {
-            background-color: #ffffff;
-            color: #8C9096;
-            border: 1px solid #e9ebec;
-        }
+      .btn-tab {
+        background-color: #ffffff;
+        color: #8c9096;
+        border: 1px solid #e9ebec;
+      }
 
-        .btn-tab:hover {
-            background-color: #279d69;
-            color: #ffffff;
-        }
-        
-        .tab-active {
-            background-color: #279d69 !important;
-            color: #ffffff !important;
-        }
+      .btn-tab:hover {
+        background-color: #279d69;
+        color: #ffffff;
+      }
 
-        .tab-done {
-            background-color: #279d69;
-            color: #ffffff;
-            opacity: 0.8;
-        }
+      .tab-active {
+        background-color: #279d69 !important;
+        color: #ffffff !important;
+      }
 
-        .my-panel-info {
-            background-color: #279d69;
-            padding: 10px 20px;
-            border-radius: 4px;
-        }
+      .tab-done {
+        background-color: #279d69;
+        color: #ffffff;
+        opacity: 0.8;
+      }
 
-        .my-panel-info > span {
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: 500;
-        }
+      .my-panel-info {
+        background-color: #279d69;
+        padding: 10px 20px;
+        border-radius: 4px;
+      }
 
-        .profile-wid-bg {
-            height: 300px;
-        }
+      .my-panel-info > span {
+        font-size: 14px;
+        color: #ffffff;
+        font-weight: 500;
+      }
+
+      .profile-wid-bg {
+        height: 300px;
+      }
     </style>
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <div class="profile-foreground position-relative mx-n4 mt-n4">
-                        <div class="profile-wid-bg">
-                            <img src="../assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row pt-4 mb-4 mb-lg-3 pb-lg-4">
-                        <div class="col-sm-auto text-center mx-auto">
-                            <h2 class="text-white mt-4">Application Details</h2>
-                        </div>
-                    </div>
+      <div class="vertical-overlay"></div>
 
-                    <div class="row">
-                        <div class="col-lg-10 mx-auto">
-                            <div class="card mt-n4">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Application Progress </h5>
-                                    <div class="flex-shrink-0">
-                                        <span class="badge bg-soft-info text-info fs-12">Current: Processing Stage</span>
-                                    </div>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="mb-4">
-                                        <div class="btn-group w-100" role="group">
-                                            <button type="button" class="btn btn-tab tab-done w-33" onclick="showStage('prechecking')">Pre-checking</button>
-                                            <button type="button" class="btn btn-tab tab-active w-33" id="stageProcessorBtn" onclick="showStage('processing')">Processing Stage</button>
-                                            <button type="button" class="btn btn-tab w-33">Disbursement</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- stage: prechecking -->
-                                    <div id="stage-prechecking" class="stage-content d-none">
-                                        <div class="alert alert-success">
-                                            <i class="ri-check-line me-2"></i> Pre-checking stage completed. Documents successfully uploaded and verified.
-                                        </div>
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <label class="form-label">Payslip</label>
-                                                <div class="p-2 border rounded d-flex align-items-center">
-                                                    <i class="ri-file-pdf-line text-danger fs-20 me-2"></i>
-                                                    <span>payslip_july.pdf</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label">Surat Akuan</label>
-                                                <div class="p-2 border rounded d-flex align-items-center">
-                                                    <i class="ri-file-text-line text-primary fs-20 me-2"></i>
-                                                    <span>surat_akuan.pdf</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- stage: processing -->
-                                    <div id="stage-processing" class="stage-content">
-                                        <div class="mb-4">
-                                            <div class="btn-group w-100" role="group">
-                                                <button type="button" class="btn btn-tab tab-done w-33" id="p1-btn" onclick="showProcessingTab(1)">Stage #1</button>
-                                                <button type="button" class="btn btn-tab tab-active w-33" id="p2-btn" onclick="showProcessingTab(2)">Stage #2</button>
-                                                <button type="button" class="btn btn-tab w-33" id="p3-btn" onclick="showProcessingTab(3)">Stage #3</button>
-                                            </div>
-                                        </div>
-
-                                        <!-- p1 -->
-                                        <div id="proc-tab-1" class="proc-tab d-none">
-                                            <label class="form-label mb-3">Kindly download your Application Agreement Document below:</label>
-                                            <div class="mb-4">
-                                                <button class="btn btn-primary"><i class="ri-download-line me-1"></i> Download Agreement Document</button>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 mb-3">
-                                                    <label class="form-label">Upload Your IC (Certified True Copy)</label>
-                                                    <input class="form-control" type="file">
-                                                </div>
-                                                <div class="col-lg-6 mb-3">
-                                                    <label class="form-label">Upload Release Letter</label>
-                                                    <input class="form-control" type="file">
-                                                </div>
-                                            </div>
-                                            <div class="text-end border-top pt-3">
-                                                <button class="btn btn-success" onclick="showProcessingTab(2)">Submit Stage #1</button>
-                                            </div>
-                                        </div>
-
-                                        <!-- p2 -->
-                                        <div id="proc-tab-2" class="proc-tab">
-                                            <div class="row">
-                                                <div class="col-lg-12 mb-4">
-                                                    <label class="form-label">Upload Your Credit Disbursement Screenshot</label>
-                                                    <input class="form-control" type="file">
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <h6 class="mb-3 text-muted text-uppercase fw-semibold">Login Credentials for Agency Verification</h6>
-                                                    <div class="row">
-                                                        <div class="col-md-6 mb-3">
-                                                            <div class="my-panel-info mb-2"><span>ANM (e-Penyata Gaji)</span></div>
-                                                            <div class="mb-2">
-                                                                <input type="text" class="form-control" placeholder="ID (No. IC)">
-                                                            </div>
-                                                            <div>
-                                                                <input type="password" class="form-control" placeholder="Password">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <div class="my-panel-info mb-2"><span>HRMIS</span></div>
-                                                            <div class="mb-2">
-                                                                <input type="text" class="form-control" placeholder="ID">
-                                                            </div>
-                                                            <div>
-                                                                <input type="password" class="form-control" placeholder="Password">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <div class="my-panel-info mb-2"><span>LPPSA</span></div>
-                                                            <div class="mb-2">
-                                                                <input type="text" class="form-control" placeholder="ID">
-                                                            </div>
-                                                            <div>
-                                                                <input type="password" class="form-control" placeholder="Password">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <div class="my-panel-info mb-2"><span>ANGKASA (SPGA)</span></div>
-                                                            <div class="mb-2">
-                                                                <input type="text" class="form-control" placeholder="ID">
-                                                            </div>
-                                                            <div>
-                                                                <input type="password" class="form-control" placeholder="Password">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12 mt-3">
-                                                    <div class="alert alert-warning border-0">
-                                                        <p class="mb-0"><b>Note:</b> If you have not registered for LPPSA or ANGKASA, kindly do so via the following links:</p>
-                                                        <ul class="mb-0 mt-2">
-                                                            <li>LPPSA: <a href="https://lms.lppsa.gov.my/JACCESS/portal/" target="_blank">LMS Portal</a></li>
-                                                            <li>ANGKASA: <a href="https://angkasa.coop/bm/" target="_blank">ANGKASA Official Site</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            I accept the <a href="#" class="text-primary text-decoration-underline">YABAM Application Terms & Conditions</a>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-end border-top pt-3">
-                                                <button class="btn btn-success" onclick="showProcessingTab(3)">Submit Stage #2</button>
-                                            </div>
-                                        </div>
-
-                                        <!-- p3 -->
-                                        <div id="proc-tab-3" class="proc-tab d-none">
-                                            <div class="alert alert-info border-0">
-                                                Final stage: Please upload your payment slip once you have made the settlement.
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 mb-4">
-                                                    <label class="form-label">Upload Your Payment Slip</label>
-                                                    <input class="form-control" type="file">
-                                                </div>
-                                            </div>
-                                            <div class="text-end border-top pt-3">
-                                                <button class="btn btn-primary" onclick="alert('Application details submitted for final verification.')">Finish Submission</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-footer">
-                                    <div class="hstack gap-2 justify-content-between">
-                                        <a href="application-status.html" class="btn btn-soft-secondary"><i class="ri-arrow-left-line me-1 align-middle"></i> Back to List</a>
-                                        <span class="text-muted fs-12">Application ID: App-88219</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="profile-foreground position-relative mx-n4 mt-n4">
+              <div class="profile-wid-bg">
+                <img
+                  src="../assets/images/profile-bg.jpg"
+                  alt=""
+                  class="profile-wid-img"
+                />
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
-                            </div>
-                        </div>
+            <div class="row pt-4 mb-4 mb-lg-3 pb-lg-4">
+              <div class="col-sm-auto text-center mx-auto">
+                <h2 class="text-white mt-4">Application Details</h2>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-10 mx-auto">
+                <div class="card mt-n4">
+                  <div class="card-header d-flex align-items-center">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                      <i class="mdi mdi-file-document-edit-outline"></i>
+                      Application Progress
+                    </h5>
+                    <div class="flex-shrink-0">
+                      <span class="badge bg-soft-info text-info fs-12"
+                        >Current: Processing Stage</span
+                      >
                     </div>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="mb-4">
+                      <div class="btn-group w-100" role="group">
+                        <button
+                          type="button"
+                          class="btn btn-tab tab-done w-33"
+                          onclick="showStage('prechecking')"
+                        >
+                          Pre-checking
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-tab tab-active w-33"
+                          id="stageProcessorBtn"
+                          onclick="showStage('processing')"
+                        >
+                          Processing Stage
+                        </button>
+                        <button type="button" class="btn btn-tab w-33">
+                          Disbursement
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- stage: prechecking -->
+                    <div id="stage-prechecking" class="stage-content d-none">
+                      <div class="alert alert-success">
+                        <i class="ri-check-line me-2"></i> Pre-checking stage
+                        completed. Documents successfully uploaded and verified.
+                      </div>
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <label class="form-label">Payslip</label>
+                          <div
+                            class="p-2 border rounded d-flex align-items-center"
+                          >
+                            <i
+                              class="ri-file-pdf-line text-danger fs-20 me-2"
+                            ></i>
+                            <span>payslip_july.pdf</span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Surat Akuan</label>
+                          <div
+                            class="p-2 border rounded d-flex align-items-center"
+                          >
+                            <i
+                              class="ri-file-text-line text-primary fs-20 me-2"
+                            ></i>
+                            <span>surat_akuan.pdf</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- stage: processing -->
+                    <div id="stage-processing" class="stage-content">
+                      <div class="mb-4">
+                        <div class="btn-group w-100" role="group">
+                          <button
+                            type="button"
+                            class="btn btn-tab tab-done w-33"
+                            id="p1-btn"
+                            onclick="showProcessingTab(1)"
+                          >
+                            Stage #1
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-tab tab-active w-33"
+                            id="p2-btn"
+                            onclick="showProcessingTab(2)"
+                          >
+                            Stage #2
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-tab w-33"
+                            id="p3-btn"
+                            onclick="showProcessingTab(3)"
+                          >
+                            Stage #3
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- p1 -->
+                      <div id="proc-tab-1" class="proc-tab d-none">
+                        <label class="form-label mb-3"
+                          >Kindly download your Application Agreement Document
+                          below:</label
+                        >
+                        <div class="mb-4">
+                          <button class="btn btn-primary">
+                            <i class="ri-download-line me-1"></i> Download
+                            Agreement Document
+                          </button>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6 mb-3">
+                            <label class="form-label"
+                              >Upload Your IC (Certified True Copy)</label
+                            >
+                            <input class="form-control" type="file" />
+                          </div>
+                          <div class="col-lg-6 mb-3">
+                            <label class="form-label"
+                              >Upload Release Letter</label
+                            >
+                            <input class="form-control" type="file" />
+                          </div>
+                        </div>
+                        <div class="text-end border-top pt-3">
+                          <button
+                            class="btn btn-success"
+                            onclick="showProcessingTab(2)"
+                          >
+                            Submit Stage #1
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- p2 -->
+                      <div id="proc-tab-2" class="proc-tab">
+                        <div class="row">
+                          <div class="col-lg-12 mb-4">
+                            <label class="form-label"
+                              >Upload Your Credit Disbursement Screenshot</label
+                            >
+                            <input class="form-control" type="file" />
+                          </div>
+
+                          <div class="col-12">
+                            <h6
+                              class="mb-3 text-muted text-uppercase fw-semibold"
+                            >
+                              Login Credentials for Agency Verification
+                            </h6>
+                            <div class="row">
+                              <div class="col-md-6 mb-3">
+                                <div class="my-panel-info mb-2">
+                                  <span>ANM (e-Penyata Gaji)</span>
+                                </div>
+                                <div class="mb-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="ID (No. IC)"
+                                  />
+                                </div>
+                                <div>
+                                  <input
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Password"
+                                  />
+                                </div>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <div class="my-panel-info mb-2">
+                                  <span>HRMIS</span>
+                                </div>
+                                <div class="mb-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="ID"
+                                  />
+                                </div>
+                                <div>
+                                  <input
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Password"
+                                  />
+                                </div>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <div class="my-panel-info mb-2">
+                                  <span>LPPSA</span>
+                                </div>
+                                <div class="mb-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="ID"
+                                  />
+                                </div>
+                                <div>
+                                  <input
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Password"
+                                  />
+                                </div>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <div class="my-panel-info mb-2">
+                                  <span>ANGKASA (SPGA)</span>
+                                </div>
+                                <div class="mb-2">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="ID"
+                                  />
+                                </div>
+                                <div>
+                                  <input
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Password"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <div class="alert alert-warning border-0">
+                              <p class="mb-0">
+                                <b>Note:</b> If you have not registered for
+                                LPPSA or ANGKASA, kindly do so via the following
+                                links:
+                              </p>
+                              <ul class="mb-0 mt-2">
+                                <li>
+                                  LPPSA:
+                                  <a
+                                    href="https://lms.lppsa.gov.my/JACCESS/portal/"
+                                    target="_blank"
+                                    >LMS Portal</a
+                                  >
+                                </li>
+                                <li>
+                                  ANGKASA:
+                                  <a
+                                    href="https://angkasa.coop/bm/"
+                                    target="_blank"
+                                    >ANGKASA Official Site</a
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="col-12 mb-3">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="flexCheckDefault"
+                              />
+                              <label
+                                class="form-check-label"
+                                for="flexCheckDefault"
+                              >
+                                I accept the
+                                <a
+                                  href="#"
+                                  class="text-primary text-decoration-underline"
+                                  >YABAM Application Terms & Conditions</a
+                                >
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="text-end border-top pt-3">
+                          <button
+                            class="btn btn-success"
+                            onclick="showProcessingTab(3)"
+                          >
+                            Submit Stage #2
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- p3 -->
+                      <div id="proc-tab-3" class="proc-tab d-none">
+                        <div class="alert alert-info border-0">
+                          Final stage: Please upload your payment slip once you
+                          have made the settlement.
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6 mb-4">
+                            <label class="form-label"
+                              >Upload Your Payment Slip</label
+                            >
+                            <input class="form-control" type="file" />
+                          </div>
+                        </div>
+                        <div class="text-end border-top pt-3">
+                          <button
+                            class="btn btn-primary"
+                            onclick="
+                              alert(
+                                'Application details submitted for final verification.',
+                              )
+                            "
+                          >
+                            Finish Submission
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-footer">
+                    <div class="hstack gap-2 justify-content-between">
+                      <a
+                        href="application-status.html"
+                        class="btn btn-soft-secondary"
+                        ><i class="ri-arrow-left-line me-1 align-middle"></i>
+                        Back to List</a
+                      >
+                      <span class="text-muted fs-12"
+                        >Application ID: App-88219</span
+                      >
+                    </div>
+                  </div>
                 </div>
-            </footer>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                © Hak Cipta
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -297,29 +481,30 @@
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
     <script src="navbar-member.js"></script>
+    <script src="memberHelper.js"></script>
 
     <script>
-        function showStage(stage) {
-            $('.stage-content').addClass('d-none');
-            $('#stage-' + stage).removeClass('d-none');
-        }
+      function showStage(stage) {
+        $(".stage-content").addClass("d-none");
+        $("#stage-" + stage).removeClass("d-none");
+      }
 
-        function showProcessingTab(num) {
-            $('.proc-tab').addClass('d-none');
-            $('#proc-tab-' + num).removeClass('d-none');
-            
-            // Update button styles
-            $('#p1-btn, #p2-btn, #p3-btn').removeClass('tab-active tab-done');
-            if (num === 1) {
-                $('#p1-btn').addClass('tab-active');
-            } else if (num === 2) {
-                $('#p1-btn').addClass('tab-done');
-                $('#p2-btn').addClass('tab-active');
-            } else if (num === 3) {
-                $('#p1-btn, #p2-btn').addClass('tab-done');
-                $('#p3-btn').addClass('tab-active');
-            }
+      function showProcessingTab(num) {
+        $(".proc-tab").addClass("d-none");
+        $("#proc-tab-" + num).removeClass("d-none");
+
+        // Update button styles
+        $("#p1-btn, #p2-btn, #p3-btn").removeClass("tab-active tab-done");
+        if (num === 1) {
+          $("#p1-btn").addClass("tab-active");
+        } else if (num === 2) {
+          $("#p1-btn").addClass("tab-done");
+          $("#p2-btn").addClass("tab-active");
+        } else if (num === 3) {
+          $("#p1-btn, #p2-btn").addClass("tab-done");
+          $("#p3-btn").addClass("tab-active");
         }
+      }
     </script>
-</body>
+  </body>
 </html>

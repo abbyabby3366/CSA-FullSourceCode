@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Profile | Member Portal</title>
@@ -8,391 +16,615 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
-	<link rel="stylesheet" href="../assets/css/custom.css">
-	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
-
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/member-portal-theme.css" />
 
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="../assets/libs/sweetalert2/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="../assets/libs/sweetalert2/sweetalert2.min.css"
+    />
 
     <style>
-        .profile-wid-bg {
-            height: 300px;
-        }
+      .profile-wid-bg {
+        height: 300px;
+      }
 
-        span.circle_icon {
-            background: #efefef;
-            border-radius: 50%;
-            display: inline-block;
-            padding: 0.65rem;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 0.95rem;
-            width: 38px;
-            height: 38px;
-        }
+      span.circle_icon {
+        background: #efefef;
+        border-radius: 50%;
+        display: inline-block;
+        padding: 0.65rem;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 0.95rem;
+        width: 38px;
+        height: 38px;
+      }
     </style>
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <div class="profile-foreground position-relative mx-n4 mt-n4">
-                        <div class="profile-wid-bg">
-                            <img src="../assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
-                        <div class="row justify-content-center mt-4 mb-4">
-                            <div class="col-mx text-center">
-                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                    <img src="../assets/images/users/user-dummy-img.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image" id="profileImg">
-                                </div>
-                                <h3 class="text-white mb-1" id="headerFullName">Member User</h3>
-                                <div class="text-white text-opacity-75">
-                                    <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i> <span id="headerEmail">member@example.com</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="vertical-overlay"></div>
 
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card mt-n4">
-                                <div class="card-header align-items-center d-flex">
-                                    <h5 class="card-title mb-0 flex-grow-1"><i class="ri-account-pin-box-line"></i> User Details</h5>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" class="btn btn-sm btn-soft-info" data-bs-toggle="modal" data-bs-target="#editUserDetailsModal"><i class="ri-edit-box-line align-bottom"></i> Edit</button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="ps-0" scope="row" style="width:200px">User ID</th>
-                                                    <td class="text-muted" id="userId">USR12345</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Account Status</th>
-                                                    <td class="text-muted" id="accountStatus"><span class="badge bg-success">Active</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Referral Name</th>
-                                                    <td class="text-muted" id="referralName">Referrer Agent</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Full Name</th>
-                                                    <td class="text-muted" id="fullName">Member User</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">NRIC</th>
-                                                    <td class="text-muted" id="icNumber">900101-10-1234</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Email Address</th>
-                                                    <td class="text-muted" id="email">member@example.com</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Gender</th>
-                                                    <td class="text-muted" id="gender">Male</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Phone No</th>
-                                                    <td class="text-muted" id="phoneNumber">+60 123456789</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="card-header align-items-center d-flex border-top">
-                                    <h5 class="card-title mb-0 flex-grow-1"><i class="ri-bank-card-line"></i> Bank Details</h5>
-                                    <div class="flex-shrink-0">
-                                        <button type="button" class="btn btn-sm btn-soft-info" data-bs-toggle="modal" data-bs-target="#editBankDetailsModal"><i class="ri-edit-box-line align-bottom"></i> Edit</button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="ps-0" scope="row" style="width:200px">Bank Name</th>
-                                                    <td class="text-muted" id="bankName">Maybank</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Bank Account Name</th>
-                                                    <td class="text-muted" id="bankAccountName">Member User</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="ps-0" scope="row">Bank Account Number</th>
-                                                    <td class="text-muted" id="bankAccountNumber">164XXXXXXXXX</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="card mt-n4">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <span class="circle_icon"><i class="ri-wallet-line text-primary"></i></span>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="fs-14 mb-1">Ganjaran</h6>
-                                            <p class="text-muted mb-0">Total Rewards</p>
-                                        </div>
-                                        <div class="flex-shrink-0 text-end">
-                                            <h6 class="fs-16 fw-semibold m-0" id="walletCash">RM 0.00</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <span class="circle_icon"><i class="ri-user-add-line text-success"></i></span>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="fs-14 mb-1">Peserta</h6>
-                                            <p class="text-muted mb-0">Total Referrals</p>
-                                        </div>
-                                        <div class="flex-shrink-0 text-end">
-                                            <h6 class="fs-16 fw-semibold m-0" id="referralCount">0</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3">Registration Link</h5>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" value="/member/register.html?ref=MEM00567" readonly id="refLink">
-                                        <button class="btn btn-outline-primary" type="button" onclick="copyRef()"><i class="ri-file-copy-line"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="profile-foreground position-relative mx-n4 mt-n4">
+              <div class="profile-wid-bg">
+                <img
+                  src="../assets/images/profile-bg.jpg"
+                  alt=""
+                  class="profile-wid-img"
+                />
+              </div>
             </div>
 
-            <!-- Edit User Details Modal -->
-            <div class="modal fade" id="editUserDetailsModal" tabindex="-1" aria-labelledby="editUserDetailsModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editUserDetailsModalLabel">Edit User Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="editUserDetailsForm">
-                                <div class="mb-3">
-                                    <label class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="editFirstName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="editLastName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Gender</label>
-                                    <select class="form-select" id="editGender" required>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">NRIC (IC Number)</label>
-                                    <input type="text" class="form-control" id="editIcNumber" placeholder="900101-10-1234" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="editEmail" placeholder="example@email.com" required>
-                                </div>
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
+              <div class="row justify-content-center mt-4 mb-4">
+                <div class="col-mx text-center">
+                  <div
+                    class="profile-user position-relative d-inline-block mx-auto mb-4"
+                  >
+                    <img
+                      src="../assets/images/users/user-dummy-img.jpg"
+                      class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                      alt="user-profile-image"
+                      id="profileImg"
+                    />
+                  </div>
+                  <h3 class="text-white mb-1" id="headerFullName">
+                    Member User
+                  </h3>
+                  <div class="text-white text-opacity-75">
+                    <i
+                      class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"
+                    ></i>
+                    <span id="headerEmail">member@example.com</span>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <!-- Edit Bank Details Modal -->
-            <div class="modal fade" id="editBankDetailsModal" tabindex="-1" aria-labelledby="editBankDetailsModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editBankDetailsModalLabel">Edit Bank Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="editBankDetailsForm">
-                                <div class="mb-3">
-                                    <label class="form-label">Bank Name</label>
-                                    <select class="form-select" id="editBankName" required>
-                                        <option value="Affin Bank">Affin Bank</option>
-                                        <option value="Agrobank">Agrobank</option>
-                                        <option value="Al Rajhi Bank Malaysia">Al Rajhi Bank Malaysia</option>
-                                        <option value="Alliance Bank">Alliance Bank</option>
-                                        <option value="AmBank">AmBank</option>
-                                        <option value="Bank Islam">Bank Islam</option>
-                                        <option value="Bank Muamalat">Bank Muamalat</option>
-                                        <option value="Bank Rakyat">Bank Rakyat</option>
-                                        <option value="BSN">BSN</option>
-                                        <option value="CIMB">CIMB</option>
-                                        <option value="Citibank Malaysia">Citibank Malaysia</option>
-                                        <option value="GX Bank">GX Bank</option>
-                                        <option value="Hong Leong Bank">Hong Leong Bank</option>
-                                        <option value="HSBC Malaysia">HSBC Malaysia</option>
-                                        <option value="Maybank">Maybank</option>
-                                        <option value="MBSB Bank">MBSB Bank</option>
-                                        <option value="OCBC Malaysia">OCBC Malaysia</option>
-                                        <option value="Public Bank">Public Bank</option>
-                                        <option value="RHB">RHB</option>
-                                        <option value="Standard Chartered Malaysia">Standard Chartered Malaysia</option>
-                                        <option value="Touch and Go">Touch and Go</option>
-                                        <option value="UOB Malaysia">UOB Malaysia</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Bank Account Name</label>
-                                    <input type="text" class="form-control" id="editBankAccountName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Bank Account Number</label>
-                                    <input type="text" class="form-control numeric-input" id="editBankAccountNumber" inputmode="numeric" pattern="[0-9]*" required>
-                                </div>
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="card mt-n4">
+                  <div class="card-header align-items-center d-flex">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                      <i class="ri-account-pin-box-line"></i> User Details
+                    </h5>
+                    <div class="flex-shrink-0">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-soft-info"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editUserDetailsModal"
+                      >
+                        <i class="ri-edit-box-line align-bottom"></i> Edit
+                      </button>
                     </div>
-                </div>
-            </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-borderless mb-0">
+                        <tbody>
+                          <tr>
+                            <th class="ps-0" scope="row" style="width: 200px">
+                              User ID
+                            </th>
+                            <td class="text-muted" id="userId">USR12345</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Account Status</th>
+                            <td class="text-muted" id="accountStatus">
+                              <span class="badge bg-success">Active</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Member Type</th>
+                            <td class="text-muted" id="memberTypeDetail">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Referral Name</th>
+                            <td class="text-muted" id="referralName">
+                              Referrer Agent
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Full Name</th>
+                            <td class="text-muted" id="fullName">
+                              Member User
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">NRIC</th>
+                            <td class="text-muted" id="icNumber">
+                              900101-10-1234
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Email Address</th>
+                            <td class="text-muted" id="email">
+                              member@example.com
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Gender</th>
+                            <td class="text-muted" id="gender">Male</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Phone No</th>
+                            <td class="text-muted" id="phoneNumber">
+                              +60 123456789
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
 
-            <!-- Complete Profile Modal (First Time Login) -->
-            <div class="modal fade" id="completeProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="completeProfileModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title text-white" id="completeProfileModalLabel"><i class="ri-user-smile-line"></i> Please Complete Your Profile</h5>
-                        </div>
-                        <div class="modal-body p-4">
-                            <p class="text-muted mb-4">Welcome! To ensure you can participate in surveys and receive rewards, please complete your profile details below.</p>
-                            <form id="completeProfileForm">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="compFirstName" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="compLastName" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Gender</label>
-                                        <select class="form-select" id="compGender" required>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">NRIC (IC Number)</label>
-                                        <input type="text" class="form-control" id="compIcNumber" placeholder="900101-10-1234" required>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <hr class="my-4">
-                                        <h6 class="mb-3">Bank Details</h6>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Bank Name</label>
-                                        <select class="form-select" id="compBankName" required>
-                                            <option value="Affin Bank">Affin Bank</option>
-                                            <option value="Agrobank">Agrobank</option>
-                                            <option value="Al Rajhi Bank Malaysia">Al Rajhi Bank Malaysia</option>
-                                            <option value="Alliance Bank">Alliance Bank</option>
-                                            <option value="AmBank">AmBank</option>
-                                            <option value="Bank Islam">Bank Islam</option>
-                                            <option value="Bank Muamalat">Bank Muamalat</option>
-                                            <option value="Bank Rakyat">Bank Rakyat</option>
-                                            <option value="BSN">BSN</option>
-                                            <option value="CIMB">CIMB</option>
-                                            <option value="Citibank Malaysia">Citibank Malaysia</option>
-                                            <option value="GX Bank">GX Bank</option>
-                                            <option value="Hong Leong Bank">Hong Leong Bank</option>
-                                            <option value="HSBC Malaysia">HSBC Malaysia</option>
-                                            <option value="Maybank">Maybank</option>
-                                            <option value="MBSB Bank">MBSB Bank</option>
-                                            <option value="OCBC Malaysia">OCBC Malaysia</option>
-                                            <option value="Public Bank">Public Bank</option>
-                                            <option value="RHB">RHB</option>
-                                            <option value="Standard Chartered Malaysia">Standard Chartered Malaysia</option>
-                                            <option value="Touch and Go">Touch and Go</option>
-                                            <option value="UOB Malaysia">UOB Malaysia</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Bank Account Name</label>
-                                        <input type="text" class="form-control" id="compBankAccountName" required>
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Bank Account Number</label>
-                                        <input type="text" class="form-control numeric-input" id="compBankAccountNumber" inputmode="numeric" pattern="[0-9]*" required>
-                                    </div>
-                                </div>
-                                <div class="text-end mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg px-4">Save & Complete Profile</button>
-                                </div>
-                            </form>
-                        </div>
+                  <div class="card-header align-items-center d-flex border-top">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                      <i class="ri-bank-card-line"></i> Bank Details
+                    </h5>
+                    <div class="flex-shrink-0">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-soft-info"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editBankDetailsModal"
+                      >
+                        <i class="ri-edit-box-line align-bottom"></i> Edit
+                      </button>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-borderless mb-0">
+                        <tbody>
+                          <tr>
+                            <th class="ps-0" scope="row" style="width: 200px">
+                              Bank Name
+                            </th>
+                            <td class="text-muted" id="bankName">Maybank</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Bank Account Name</th>
+                            <td class="text-muted" id="bankAccountName">
+                              Member User
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">
+                              Bank Account Number
+                            </th>
+                            <td class="text-muted" id="bankAccountNumber">
+                              164XXXXXXXXX
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-            </div>
+              </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
-                            </div>
-                        </div>
+              <div class="col-lg-4">
+                <div class="card mt-n4">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="flex-shrink-0">
+                        <span class="circle_icon"
+                          ><i class="ri-wallet-line text-primary"></i
+                        ></span>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <h6 class="fs-14 mb-1">Ganjaran</h6>
+                        <p class="text-muted mb-0">Total Rewards</p>
+                      </div>
+                      <div class="flex-shrink-0 text-end">
+                        <h6 class="fs-16 fw-semibold m-0" id="walletCash">
+                          RM 0.00
+                        </h6>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </footer>
+
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="flex-shrink-0">
+                        <span class="circle_icon"
+                          ><i class="ri-user-add-line text-success"></i
+                        ></span>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <h6 class="fs-14 mb-1">Peserta</h6>
+                        <p class="text-muted mb-0">Total Referrals</p>
+                      </div>
+                      <div class="flex-shrink-0 text-end">
+                        <h6 class="fs-16 fw-semibold m-0" id="referralCount">
+                          0
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card registration-locked-wrapper" id="regLinkCard">
+                  <div class="card-body">
+                    <h5 class="card-title mb-3">Registration Link</h5>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        id="refLink"
+                        placeholder="Loading referral link..."
+                      />
+                      <button
+                        class="btn btn-outline-primary"
+                        type="button"
+                        onclick="copyRef()"
+                      >
+                        <i class="ri-file-copy-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="registration-locked-overlay d-none"
+                    id="regLockOverlay"
+                  >
+                    <p class="mb-2">
+                      Please register as an agent to access your referral link.
+                    </p>
+                    <a href="become-agent.html" class="btn btn-sm btn-primary"
+                      >Apply Now</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Edit User Details Modal -->
+        <div
+          class="modal fade"
+          id="editUserDetailsModal"
+          tabindex="-1"
+          aria-labelledby="editUserDetailsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editUserDetailsModalLabel">
+                  Edit User Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="editUserDetailsForm">
+                  <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editFirstName"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editLastName"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select" id="editGender" required>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">NRIC (IC Number)</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editIcNumber"
+                      placeholder="900101-10-1234"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="editEmail"
+                      placeholder="example@email.com"
+                      required
+                    />
+                  </div>
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-primary">
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Bank Details Modal -->
+        <div
+          class="modal fade"
+          id="editBankDetailsModal"
+          tabindex="-1"
+          aria-labelledby="editBankDetailsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editBankDetailsModalLabel">
+                  Edit Bank Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="editBankDetailsForm">
+                  <div class="mb-3">
+                    <label class="form-label">Bank Name</label>
+                    <select class="form-select" id="editBankName" required>
+                      <option value="Affin Bank">Affin Bank</option>
+                      <option value="Agrobank">Agrobank</option>
+                      <option value="Al Rajhi Bank Malaysia">
+                        Al Rajhi Bank Malaysia
+                      </option>
+                      <option value="Alliance Bank">Alliance Bank</option>
+                      <option value="AmBank">AmBank</option>
+                      <option value="Bank Islam">Bank Islam</option>
+                      <option value="Bank Muamalat">Bank Muamalat</option>
+                      <option value="Bank Rakyat">Bank Rakyat</option>
+                      <option value="BSN">BSN</option>
+                      <option value="CIMB">CIMB</option>
+                      <option value="Citibank Malaysia">
+                        Citibank Malaysia
+                      </option>
+                      <option value="GX Bank">GX Bank</option>
+                      <option value="Hong Leong Bank">Hong Leong Bank</option>
+                      <option value="HSBC Malaysia">HSBC Malaysia</option>
+                      <option value="Maybank">Maybank</option>
+                      <option value="MBSB Bank">MBSB Bank</option>
+                      <option value="OCBC Malaysia">OCBC Malaysia</option>
+                      <option value="Public Bank">Public Bank</option>
+                      <option value="RHB">RHB</option>
+                      <option value="Standard Chartered Malaysia">
+                        Standard Chartered Malaysia
+                      </option>
+                      <option value="Touch and Go">Touch and Go</option>
+                      <option value="UOB Malaysia">UOB Malaysia</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Bank Account Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editBankAccountName"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Bank Account Number</label>
+                    <input
+                      type="text"
+                      class="form-control numeric-input"
+                      id="editBankAccountNumber"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                      required
+                    />
+                  </div>
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-primary">
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complete Profile Modal (First Time Login) -->
+        <div
+          class="modal fade"
+          id="completeProfileModal"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="completeProfileModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5
+                  class="modal-title text-white"
+                  id="completeProfileModalLabel"
+                >
+                  <i class="ri-user-smile-line"></i> Please Complete Your
+                  Profile
+                </h5>
+              </div>
+              <div class="modal-body p-4">
+                <p class="text-muted mb-4">
+                  Welcome! To ensure you can participate in surveys and receive
+                  rewards, please complete your profile details below.
+                </p>
+                <form id="completeProfileForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">First Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compFirstName"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compLastName"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Gender</label>
+                      <select class="form-select" id="compGender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">NRIC (IC Number)</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compIcNumber"
+                        placeholder="900101-10-1234"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-12">
+                      <hr class="my-4" />
+                      <h6 class="mb-3">Bank Details</h6>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Bank Name</label>
+                      <select class="form-select" id="compBankName" required>
+                        <option value="Affin Bank">Affin Bank</option>
+                        <option value="Agrobank">Agrobank</option>
+                        <option value="Al Rajhi Bank Malaysia">
+                          Al Rajhi Bank Malaysia
+                        </option>
+                        <option value="Alliance Bank">Alliance Bank</option>
+                        <option value="AmBank">AmBank</option>
+                        <option value="Bank Islam">Bank Islam</option>
+                        <option value="Bank Muamalat">Bank Muamalat</option>
+                        <option value="Bank Rakyat">Bank Rakyat</option>
+                        <option value="BSN">BSN</option>
+                        <option value="CIMB">CIMB</option>
+                        <option value="Citibank Malaysia">
+                          Citibank Malaysia
+                        </option>
+                        <option value="GX Bank">GX Bank</option>
+                        <option value="Hong Leong Bank">Hong Leong Bank</option>
+                        <option value="HSBC Malaysia">HSBC Malaysia</option>
+                        <option value="Maybank">Maybank</option>
+                        <option value="MBSB Bank">MBSB Bank</option>
+                        <option value="OCBC Malaysia">OCBC Malaysia</option>
+                        <option value="Public Bank">Public Bank</option>
+                        <option value="RHB">RHB</option>
+                        <option value="Standard Chartered Malaysia">
+                          Standard Chartered Malaysia
+                        </option>
+                        <option value="Touch and Go">Touch and Go</option>
+                        <option value="UOB Malaysia">UOB Malaysia</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Bank Account Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compBankAccountName"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Bank Account Number</label>
+                      <input
+                        type="text"
+                        class="form-control numeric-input"
+                        id="compBankAccountNumber"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg px-4">
+                      Save & Complete Profile
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                © Hak Cipta
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -419,215 +651,299 @@
     <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            const member = await initMemberPortal();
-            if (member) {
-                const formatValue = (val) => (val === null || val === undefined || val === '') ? '-' : val;
-                
-                // Header Info
-                $('#headerFullName').text(member.firstName + ' ' + member.lastName);
-                $('#headerEmail').text(formatValue(member.email));
-                if (member.profileImage) {
-                    $('#profileImg').attr('src', `${window.API_BASE_URL}/` + member.profileImage);
-                }
+      $(document).ready(async function () {
+        const member = await initMemberPortal();
+        if (member) {
+          const formatValue = (val) =>
+            val === null || val === undefined || val === "" ? "-" : val;
 
-                // Table Details
-                $('#userId').text('USR' + member.memberCode);
-                
-                // Status Badge
-                let statusHtml = '';
-                if (member.status === 1) statusHtml = '<span class="badge bg-warning">Waiting Approval</span>';
-                else if (member.status === 2) statusHtml = '<span class="badge bg-success">Active</span>';
-                else statusHtml = '<span class="badge bg-danger">Inactive</span>';
-                $('#accountStatus').html(statusHtml);
+          // Header Info
+          $("#headerFullName").text(member.firstName + " " + member.lastName);
+          $("#headerEmail").text(formatValue(member.email));
+          if (member.profileImage) {
+            $("#profileImg").attr(
+              "src",
+              `${window.API_BASE_URL}/` + member.profileImage,
+            );
+          }
 
-                $('#referralName').text(member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : '-');
-                $('#fullName').text(member.firstName + ' ' + member.lastName);
-                $('#icNumber').text(formatValue(member.icNumber));
-                $('#email').text(formatValue(member.email));
-                $('#gender').text(formatValue(member.gender));
-                $('#phoneNumber').text('+60 ' + formatValue(member.phoneNumber));
+          // Table Details
+          $("#userId").text("USR" + member.memberCode);
 
-                // Bank Details
-                $('#bankName').text(formatValue(member.bankName));
-                $('#bankAccountName').text(formatValue(member.bankAccountName));
-                $('#bankAccountNumber').text(formatValue(member.bankAccountNumber));
+          // Status Badge
+          let statusHtml = "";
+          if (member.status === 1)
+            statusHtml =
+              '<span class="badge bg-warning">Waiting Approval</span>';
+          else if (member.status === 2)
+            statusHtml = '<span class="badge bg-success">Active</span>';
+          else statusHtml = '<span class="badge bg-danger">Inactive</span>';
+          $("#accountStatus").html(statusHtml);
 
-                // Cards Info
-                $('#walletCash').text('RM ' + (member.walletCash || 0).toLocaleString(undefined, {minimumFractionDigits: 2}));
-                $('#referralCount').text(member.referralCount || 0);
+          // Member Type
+          $("#memberTypeDetail").text(
+            member.memberType === 2 ? "Agent" : "Member",
+          );
+          $(".user-name-sub-text").text(
+            member.memberType === 2 ? "Agent" : "Member",
+          );
 
-                // Referral Link
-                const relativePath = window.location.pathname.split('/').slice(0, -1).join('/'); // Gets the directory path
-                const referralUrl = window.location.origin + relativePath + '/register.html?ref=' + member.memberCode;
-                $('#refLink').val(referralUrl);
+          $("#referralName").text(
+            member.referrer
+              ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})`
+              : "-",
+          );
+          $("#fullName").text(member.firstName + " " + member.lastName);
+          $("#icNumber").text(formatValue(member.icNumber));
+          $("#email").text(formatValue(member.email));
+          $("#gender").text(formatValue(member.gender));
+          $("#phoneNumber").text("+60 " + formatValue(member.phoneNumber));
 
-                // Populate Modals
-                $('#editFirstName').val(member.firstName);
-                $('#editLastName').val(member.lastName);
-                $('#editGender').val(member.gender || 'Male');
-                $('#editIcNumber').val(member.icNumber || '');
-                $('#editEmail').val(member.email || '');
+          // Bank Details
+          $("#bankName").text(formatValue(member.bankName));
+          $("#bankAccountName").text(formatValue(member.bankAccountName));
+          $("#bankAccountNumber").text(formatValue(member.bankAccountNumber));
 
-                $('#editBankName').val(member.bankName || 'Maybank');
-                $('#editBankAccountName').val(member.bankAccountName || '');
-                $('#editBankAccountNumber').val(member.bankAccountNumber || '');
+          // Cards Info
+          $("#walletCash").text(
+            "RM " +
+              (member.walletCash || 0).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+              }),
+          );
+          $("#referralCount").text(member.referralCount || 0);
 
-                // Check if profile is incomplete
-                const isIncomplete = !member.icNumber || !member.bankAccountNumber;
-                if (isIncomplete) {
-                    $('#compFirstName').val(member.firstName);
-                    $('#compLastName').val(member.lastName);
-                    $('#compGender').val(member.gender || 'Male');
-                    $('#compBankName').val(member.bankName || 'Maybank');
-                    $('#compBankAccountName').val(member.bankAccountName || (member.firstName + ' ' + member.lastName));
-                    
-                    const profileModal = new bootstrap.Modal(document.getElementById('completeProfileModal'));
-                    profileModal.show();
-                }
-            }
+          // Referral Link
+          const relativePath = window.location.pathname
+            .split("/")
+            .slice(0, -1)
+            .join("/"); // Gets the directory path
+          const referralUrl =
+            window.location.origin +
+            relativePath +
+            "/register.html?ref=" +
+            member.memberCode;
+          $("#refLink").val(referralUrl);
 
-            // Numeric input constraint
-            $(document).on('input', '.numeric-input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
-            });
+          // Lock registration link if not an agent
+          if (member.memberType !== 2) {
+            $("#regLockOverlay").removeClass("d-none");
+          }
 
-            // Handle User Details Update
-            $('#editUserDetailsForm').submit(async function(e) {
-                e.preventDefault();
-                const firstName = $('#editFirstName').val();
-                const lastName = $('#editLastName').val();
-                const gender = $('#editGender').val();
-                const icNumber = $('#editIcNumber').val();
-                const email = $('#editEmail').val();
+          // Populate Modals
+          $("#editFirstName").val(member.firstName);
+          $("#editLastName").val(member.lastName);
+          $("#editGender").val(member.gender || "Male");
+          $("#editIcNumber").val(member.icNumber || "");
+          $("#editEmail").val(member.email || "");
 
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify({ firstName, lastName, gender, icNumber, email })
-                    });
+          $("#editBankName").val(member.bankName || "Maybank");
+          $("#editBankAccountName").val(member.bankAccountName || "");
+          $("#editBankAccountNumber").val(member.bankAccountNumber || "");
 
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'User details updated successfully!',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        const data = await response.json();
-                        Swal.fire('Error', data.msg || 'Failed to update details', 'error');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    Swal.fire('Error', 'An error occurred while updating details.', 'error');
-                }
-            });
+          // Check if profile is incomplete
+          const isIncomplete = !member.icNumber || !member.bankAccountNumber;
+          if (isIncomplete) {
+            $("#compFirstName").val(member.firstName);
+            $("#compLastName").val(member.lastName);
+            $("#compGender").val(member.gender || "Male");
+            $("#compBankName").val(member.bankName || "Maybank");
+            $("#compBankAccountName").val(
+              member.bankAccountName ||
+                member.firstName + " " + member.lastName,
+            );
 
-            // Handle Bank Details Update
-            $('#editBankDetailsForm').submit(async function(e) {
-                e.preventDefault();
-                const bankName = $('#editBankName').val();
-                const bankAccountName = $('#editBankAccountName').val();
-                const bankAccountNumber = $('#editBankAccountNumber').val();
+            const profileModal = new bootstrap.Modal(
+              document.getElementById("completeProfileModal"),
+            );
+            profileModal.show();
+          }
+        }
 
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify({ bankName, bankAccountName, bankAccountNumber })
-                    });
-
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Bank details updated successfully!',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        const data = await response.json();
-                        Swal.fire('Error', data.msg || 'Failed to update bank details', 'error');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    Swal.fire('Error', 'An error occurred while updating bank details.', 'error');
-                }
-            });
-
-            // Handle Complete Profile Update
-            $('#completeProfileForm').submit(async function(e) {
-                e.preventDefault();
-                const formData = {
-                    firstName: $('#compFirstName').val(),
-                    lastName: $('#compLastName').val(),
-                    gender: $('#compGender').val(),
-                    icNumber: $('#compIcNumber').val(),
-                    bankName: $('#compBankName').val(),
-                    bankAccountName: $('#compBankAccountName').val(),
-                    bankAccountNumber: $('#compBankAccountNumber').val()
-                };
-
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Profile Completed',
-                            text: 'Your profile has beed updated successfully!',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = 'apply.html';
-                        });
-                    } else {
-                        const data = await response.json();
-                        Swal.fire('Error', data.msg || 'Failed to update profile', 'error');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    Swal.fire('Error', 'An error occurred while updating profile.', 'error');
-                }
-            });
+        // Numeric input constraint
+        $(document).on("input", ".numeric-input", function () {
+          this.value = this.value.replace(/[^0-9]/g, "");
         });
 
-        function copyRef() {
-            var copyText = document.getElementById("refLink");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            document.execCommand("copy");
-            
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: 'Link Copied',
+        // Handle User Details Update
+        $("#editUserDetailsForm").submit(async function (e) {
+          e.preventDefault();
+          const firstName = $("#editFirstName").val();
+          const lastName = $("#editLastName").val();
+          const gender = $("#editGender").val();
+          const icNumber = $("#editIcNumber").val();
+          const email = $("#editEmail").val();
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  firstName,
+                  lastName,
+                  gender,
+                  icNumber,
+                  email,
+                }),
+              },
+            );
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "User details updated successfully!",
+                timer: 2000,
                 showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        }
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              const data = await response.json();
+              Swal.fire(
+                "Error",
+                data.msg || "Failed to update details",
+                "error",
+              );
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire(
+              "Error",
+              "An error occurred while updating details.",
+              "error",
+            );
+          }
+        });
+
+        // Handle Bank Details Update
+        $("#editBankDetailsForm").submit(async function (e) {
+          e.preventDefault();
+          const bankName = $("#editBankName").val();
+          const bankAccountName = $("#editBankAccountName").val();
+          const bankAccountNumber = $("#editBankAccountNumber").val();
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  bankName,
+                  bankAccountName,
+                  bankAccountNumber,
+                }),
+              },
+            );
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Bank details updated successfully!",
+                timer: 2000,
+                showConfirmButton: false,
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              const data = await response.json();
+              Swal.fire(
+                "Error",
+                data.msg || "Failed to update bank details",
+                "error",
+              );
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire(
+              "Error",
+              "An error occurred while updating bank details.",
+              "error",
+            );
+          }
+        });
+
+        // Handle Complete Profile Update
+        $("#completeProfileForm").submit(async function (e) {
+          e.preventDefault();
+          const formData = {
+            firstName: $("#compFirstName").val(),
+            lastName: $("#compLastName").val(),
+            gender: $("#compGender").val(),
+            icNumber: $("#compIcNumber").val(),
+            bankName: $("#compBankName").val(),
+            bankAccountName: $("#compBankAccountName").val(),
+            bankAccountNumber: $("#compBankAccountNumber").val(),
+          };
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify(formData),
+              },
+            );
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Profile Completed",
+                text: "Your profile has beed updated successfully!",
+                timer: 2000,
+                showConfirmButton: false,
+              }).then(() => {
+                window.location.href = "apply.html";
+              });
+            } else {
+              const data = await response.json();
+              Swal.fire(
+                "Error",
+                data.msg || "Failed to update profile",
+                "error",
+              );
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire(
+              "Error",
+              "An error occurred while updating profile.",
+              "error",
+            );
+          }
+        });
+      });
+
+      function copyRef() {
+        var copyText = document.getElementById("refLink");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Link Copied",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
     </script>
-</body>
+  </body>
 </html>

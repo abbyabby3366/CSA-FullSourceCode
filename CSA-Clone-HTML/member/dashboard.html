@@ -66,7 +66,7 @@
                       <div class="card overflow-hidden">
                         <div
                           id="carouselExampleFade"
-                          class="carousel slide carousel-fade carousel-fixed-height"
+                          class="carousel slide carousel-fade carousel-fixed-height carousel-dark"
                           data-bs-ride="carousel"
                         >
                           <div
@@ -85,11 +85,8 @@
                           </div>
                           <div class="carousel-inner" id="carouselInner">
                             <!-- Dynamic Images -->
-                            <div class="carousel-item active mt-4 mb-4">
-                              <div
-                                class="d-flex justify-content-center align-items-center"
-                                style="height: 150px"
-                              >
+                            <div class="carousel-item active">
+                              <div class="spinner-container">
                                 <div
                                   class="spinner-border text-primary"
                                   role="status"
@@ -154,13 +151,12 @@
                                 </p>
                               </div>
                               <div class="flex-fill text-end">
-                                <h6 class="fs-14 fw-semibold mb-1">2,500.00</h6>
-                                <p class="text-success fs-12 mb-0">
-                                  <i
-                                    class="mdi mdi-trending-up align-middle me-1"
-                                  ></i
-                                  >+50.00
-                                </p>
+                                <h6
+                                  class="fs-14 fw-semibold mb-1"
+                                  id="ganjaranValue"
+                                >
+                                  0.00
+                                </h6>
                               </div>
                             </li>
                           </ul>
@@ -228,13 +224,12 @@
                                 </p>
                               </div>
                               <div class="flex-fill text-end">
-                                <h6 class="fs-14 fw-semibold mb-1">12</h6>
-                                <p class="text-success fs-12 mb-0">
-                                  <i
-                                    class="mdi mdi-trending-up align-middle me-1"
-                                  ></i
-                                  >+2
-                                </p>
+                                <h6
+                                  class="fs-14 fw-semibold mb-1"
+                                  id="pesertaCount"
+                                >
+                                  0
+                                </h6>
                               </div>
                             </li>
                           </ul>
@@ -336,12 +331,18 @@
                               <th scope="col" class="text-center">AMOUNT</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr class="text-center">
-                              <td>#TXN12345</td>
-                              <td>2023-10-27 14:30</td>
-                              <td>Referral Bonus</td>
-                              <td>50.00</td>
+                          <tbody id="recentTransactionsBody">
+                            <tr>
+                              <td colspan="4" class="text-center">
+                                <div
+                                  class="spinner-border spinner-border-sm text-primary"
+                                  role="status"
+                                >
+                                  <span class="visually-hidden"
+                                    >Loading...</span
+                                  >
+                                </div>
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -377,11 +378,17 @@
                               <th scope="col" class="text-center">STATUS</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr class="text-center">
-                              <td>Alice Johnson</td>
-                              <td>
-                                <span class="badge bg-success">Active</span>
+                          <tbody id="referralTableBody">
+                            <tr>
+                              <td colspan="2" class="text-center">
+                                <div
+                                  class="spinner-border spinner-border-sm text-primary"
+                                  role="status"
+                                >
+                                  <span class="visually-hidden"
+                                    >Loading...</span
+                                  >
+                                </div>
                               </td>
                             </tr>
                           </tbody>
@@ -433,29 +440,104 @@
 
     <script>
       $(document).ready(async function () {
-        // Wait for member helper to finish or use a promise
         const member = await initMemberPortal();
         if (member) {
-          // Update Wallet (Placeholder selectors based on dashboard structure)
-          // Ganjaran
-          $('h6:contains("Ganjaran")')
-            .parent()
-            .next()
-            .find("h6")
-            .text(member.walletCash.toFixed(2));
-          // Savings
-          $('h6:contains("Savings")')
-            .parent()
-            .next()
-            .find("h6")
-            .text(member.walletPoint.toFixed(2));
+          // Update Wallet Cards
+          // Ganjaran (Cash)
+          $("#ganjaranValue").text(member.walletCash.toFixed(2));
+          // Peserta (Referral Count)
+          // We'll update this after fetching referrals
+          // Commission (Agent only)
+          $("#agentCommission").text((member.referralAmount || 0).toFixed(2));
 
-          // Fetch Announcements
-          await fetchAnnouncements();
-          // Fetch Carousel
-          await fetchCarouselImages();
+          // Fetch Data
+          await Promise.all([
+            fetchCarouselImages(),
+            fetchAnnouncements(),
+            fetchDashboardData(),
+          ]);
         }
       });
+
+      async function fetchDashboardData() {
+        try {
+          // 1. Fetch Transactions
+          const txResponse = await fetch(
+            `${window.API_BASE_URL}/api/members/transactions`,
+            {
+              headers: { "x-auth-token": localStorage.getItem("token") },
+            },
+          );
+          const transactions = await txResponse.json();
+          const txTableBody = $("#recentTransactionsBody");
+          txTableBody.empty();
+
+          if (transactions && transactions.length > 0) {
+            transactions.slice(0, 5).forEach((tx) => {
+              txTableBody.append(`
+                  <tr class="text-center">
+                      <td>${tx._id.substring(tx._id.length - 8).toUpperCase()}</td>
+                      <td>${new Date(tx.createDate).toLocaleDateString()}</td>
+                      <td>${tx.type}</td>
+                      <td><span class="${tx.amount >= 0 ? "text-success" : "text-danger"}">${tx.amount.toFixed(2)}</span></td>
+                  </tr>
+              `);
+            });
+          } else {
+            txTableBody.append(
+              '<tr><td colspan="4" class="text-center">No recent transactions</td></tr>',
+            );
+          }
+
+          // 2. Fetch Referrals (Peserta)
+          const refResponse = await fetch(
+            `${window.API_BASE_URL}/api/members/referrals`,
+            {
+              headers: { "x-auth-token": localStorage.getItem("token") },
+            },
+          );
+          const referrals = await refResponse.json();
+          const refTableBody = $("#referralTableBody");
+          refTableBody.empty();
+
+          // Update Peserta Count Card
+          $("#pesertaCount").text(referrals.length);
+
+          if (referrals && referrals.length > 0) {
+            referrals.slice(0, 5).forEach((ref) => {
+              let statusBadge = "";
+              switch (ref.status) {
+                case 1:
+                  statusBadge =
+                    '<span class="badge bg-warning">Waiting Approval</span>';
+                  break;
+                case 2:
+                  statusBadge = '<span class="badge bg-success">Active</span>';
+                  break;
+                case 3:
+                  statusBadge = '<span class="badge bg-danger">Inactive</span>';
+                  break;
+                default:
+                  statusBadge =
+                    '<span class="badge bg-secondary">Unknown</span>';
+              }
+
+              refTableBody.append(`
+                  <tr class="text-center">
+                      <td>${ref.firstName} ${ref.lastName}</td>
+                      <td>${statusBadge}</td>
+                  </tr>
+              `);
+            });
+          } else {
+            refTableBody.append(
+              '<tr><td colspan="2" class="text-center">No referrals found</td></tr>',
+            );
+          }
+        } catch (err) {
+          console.error("Error fetching dashboard data:", err);
+        }
+      }
 
       async function fetchCarouselImages() {
         try {
@@ -476,7 +558,7 @@
 
               inner.append(`
                             <div class="carousel-item ${index === 0 ? "active" : ""}">
-                                <img class="d-block img-fluid mx-auto" src="${img.imageUrl}" alt="${img.title || "Slide " + (index + 1)}">
+                                <img class="d-block mx-auto" src="${img.imageUrl}" alt="${img.title || "Slide " + (index + 1)}">
                             </div>
                         `);
             });
