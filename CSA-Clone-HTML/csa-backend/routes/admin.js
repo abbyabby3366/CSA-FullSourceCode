@@ -5,6 +5,8 @@ const Admin = require('../models/Admin');
 const Member = require('../models/Member');
 const Application = require('../models/Application');
 
+const Transaction = require('../models/Transaction');
+
 // Middleware to check if user is admin
 const adminOnly = (req, res, next) => {
     if (req.user.role !== 'admin') {
@@ -112,6 +114,54 @@ router.get('/stats', [auth, adminOnly], async (req, res) => {
             pendingApps,
             pendingApprovals
         });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route    GET api/admin/withdrawals
+// @desc     Get all withdrawal requests
+router.get('/withdrawals', [auth, adminOnly], async (req, res) => {
+    try {
+        const withdrawals = await Transaction.find({ type: 'Withdrawal' })
+            .populate('member', 'firstName lastName phoneNumber bankName bankAccountNumber bankAccountName')
+            .sort({ createDate: -1 });
+        res.json(withdrawals);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route    POST api/admin/withdrawal/:id/status
+// @desc     Update withdrawal status
+router.post('/withdrawal/:id/status', [auth, adminOnly], async (req, res) => {
+    const { status } = req.body;
+    try {
+        let transaction = await Transaction.findById(req.params.id);
+        if (!transaction) return res.status(404).json({ msg: 'Transaction not found' });
+
+        if (transaction.status !== 'Pending') {
+            return res.status(400).json({ msg: 'Transaction already processed' });
+        }
+
+        transaction.status = status;
+        transaction.processDate = Date.now();
+        transaction.admin = req.user.id;
+
+        if (status === 'Rejected') {
+            // Refund the member
+            const member = await Member.findById(transaction.member);
+            if (member) {
+                member.walletCash += Math.abs(transaction.amount);
+                member.lastUpdateWalletCash = Date.now();
+                await member.save();
+            }
+        }
+
+        await transaction.save();
+        res.json(transaction);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

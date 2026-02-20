@@ -175,6 +175,12 @@ function renderNavBar() {
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link menu-link ${currentPage === 'carousel-mgmt.html' ? 'active' : ''}" href="carousel-mgmt.html">
+                            <i class="ri-palette-line"></i> <span data-key="t-carousel"> Dashboard Images </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link menu-link ${currentPage === 'settings.html' ? 'active' : ''}" href="settings.html">
                             <i class="ri-settings-2-line"></i> <span data-key="t-profile-manager"> Settings </span>
                         </a>

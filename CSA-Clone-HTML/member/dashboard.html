@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - CSA Academy</title>
@@ -8,297 +16,399 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/member-portal-theme.css" />
 
-    <style>
-        .navbar-menu {
-            background: #279d69 !important;
-        }
-
-        .menu-title {
-            color: white !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            color: lightyellow !important;
-        }
-
-        .profile-wid-bg::before {
-            background: #279d69 !important;
-            background: -webkit-gradient(linear,left bottom,left top,from(whitesmoke),to(#279d69)) !important;
-            background: linear-gradient(to top,white,#279d69) !important;
-        }
-
-        .join-us {
-            background: #279d69 !important;
-        }
-
-        .auth-bg-cover {
-            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
-        }
-    </style>
-
-    <link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Dashboard</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="card">
-                                            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                                                <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                </div>
-                                                <div class="carousel-inner">
-                                                    <div class="carousel-item active">
-                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-1.jpg" alt="First slide">
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-2.jpg" alt="Second slide">
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <img class="d-block img-fluid mx-auto" src="../assets/images/small/img-3.jpg" alt="Third slide">
-                                                    </div>
-                                                </div>
-                                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+      <div class="vertical-overlay"></div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card card-height-100">
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush border-dashed mb-0">
-                                                    <li class="list-group-item d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">Ganjaran</h6>
-                                                            <p class="text-muted mb-0 fs-12">Jumlah ganjaran terkumpul</p>
-                                                        </div>
-                                                        <div class="flex-fill text-end">
-                                                            <h6 class="fs-14 fw-semibold mb-1">2,500.00</h6>
-                                                            <p class="text-success fs-12 mb-0"><i class="mdi mdi-trending-up align-middle me-1"></i>+50.00</p>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col" data-role="agent-only" style="display: none;">
-                                        <div class="card card-height-100 bg-soft-warning">
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush border-dashed mb-0">
-                                                    <li class="list-group-item d-flex align-items-center bg-transparent">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">Commission</h6>
-                                                            <p class="text-muted mb-0">Pending Payout</p>
-                                                        </div>
-                                                        <div class="flex-fill text-end">
-                                                            <h6 class="fs-14 fw-semibold mb-1" id="agentCommission">0.00</h6>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col" data-role="member-only">
-                                        <div class="card card-height-100">
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush border-dashed mb-0">
-                                                    <li class="list-group-item d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="../assets/images/giftbox.png" class="avatar-xs rounded-3 me-2" alt="">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">Peserta</h6>
-                                                            <p class="text-muted mb-0 fs-12">Jumlah Peserta Rujukan</p>
-                                                        </div>
-                                                        <div class="flex-fill text-end">
-                                                            <h6 class="fs-14 fw-semibold mb-1">12</h6>
-                                                            <p class="text-success fs-12 mb-0"><i class="mdi mdi-trending-up align-middle me-1"></i>+2</p>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Announcement</h4>
-                                        <div class="flex-shrink-0">
-                                            <button type="button" class="btn btn-soft-primary btn-sm">
-                                                View All
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush border-dashed mb-0" id="announcementList">
-                                            <li class="list-group-item d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <i class="ri-notification-3-line fs-20 text-primary"></i>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <h6 class="fs-14 mb-1">New Policy Update</h6>
-                                                    <p class="text-muted mb-0">Please review the updated referral policy.</p>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex align-items-center" id="surveyAnnouncement" style="display: none !important;">
-                                                <div class="flex-shrink-0">
-                                                    <i class="ri-survey-line fs-20 text-success"></i>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <h6 class="fs-14 mb-1">Survey YABAM</h6>
-                                                    <p class="text-muted mb-0 text-warning">Anda belum melengkapkan tinjauan YABAM. Sila lengkapkan untuk ganjaran.</p>
-                                                </div>
-                                                <div class="flex-shrink-0 text-end">
-                                                    <a href="survey.html" class="btn btn-sm btn-soft-success">Go to Survey</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row flex-row">
-                            <div class="col-lg-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Recent Transactions</h4>
-                                        <div class="flex-shrink-0">
-                                            <a class="btn btn-soft-primary btn-sm" href="wallet.html">
-                                                View All
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table class="table table-borderless table-nowrap align-middle mb-0">
-                                                <thead class="table-light text-muted">
-                                                    <tr>
-                                                        <th scope="col" class="text-center">TRANSACTION ID</th>
-                                                        <th scope="col" class="text-center">DATE</th>
-                                                        <th scope="col" class="text-center">TYPE</th>
-                                                        <th scope="col" class="text-center">AMOUNT</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="text-center">
-                                                        <td>#TXN12345</td>
-                                                        <td>2023-10-27 14:30</td>
-                                                        <td>Referral Bonus</td>
-                                                        <td>50.00</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">List of Peserta</h4>
-                                        <div class="flex-shrink-0">
-                                            <a class="btn btn-soft-primary btn-sm" href="referrals.html">
-                                                View All
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table class="table table-borderless table-nowrap align-middle mb-0">
-                                                <thead class="table-light text-muted">
-                                                    <tr>
-                                                        <th scope="col" class="text-center">NAME</th>
-                                                        <th scope="col" class="text-center">STATUS</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="text-center">
-                                                        <td>Alice Johnson</td>
-                                                        <td><span class="badge bg-success">Active</span></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Dashboard</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+            <div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card overflow-hidden">
+                        <div
+                          id="carouselExampleFade"
+                          class="carousel slide carousel-fade carousel-fixed-height"
+                          data-bs-ride="carousel"
+                        >
+                          <div
+                            class="carousel-indicators"
+                            id="carouselIndicators"
+                          >
+                            <!-- Dynamic Indicators -->
+                            <button
+                              type="button"
+                              data-bs-target="#carouselExampleFade"
+                              data-bs-slide-to="0"
+                              class="active"
+                              aria-current="true"
+                              aria-label="Slide 1"
+                            ></button>
+                          </div>
+                          <div class="carousel-inner" id="carouselInner">
+                            <!-- Dynamic Images -->
+                            <div class="carousel-item active mt-4 mb-4">
+                              <div
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: 150px"
+                              >
+                                <div
+                                  class="spinner-border text-primary"
+                                  role="status"
+                                >
+                                  <span class="visually-hidden"
+                                    >Loading...</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a
+                            class="carousel-control-prev"
+                            href="#carouselExampleFade"
+                            role="button"
+                            data-bs-slide="prev"
+                          >
+                            <span
+                              class="carousel-control-prev-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                          <a
+                            class="carousel-control-next"
+                            href="#carouselExampleFade"
+                            role="button"
+                            data-bs-slide="next"
+                          >
+                            <span
+                              class="carousel-control-next-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span class="sr-only">Next</span>
+                          </a>
                         </div>
+                      </div>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="card card-height-100">
+                        <div class="card-body">
+                          <ul
+                            class="list-group list-group-flush border-dashed mb-0"
+                          >
+                            <li
+                              class="list-group-item d-flex align-items-center"
+                            >
+                              <div class="flex-shrink-0">
+                                <img
+                                  src="../assets/images/giftbox.png"
+                                  class="avatar-xs rounded-3 me-2"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">Ganjaran</h6>
+                                <p class="text-muted mb-0 fs-12">
+                                  Jumlah ganjaran terkumpul
+                                </p>
+                              </div>
+                              <div class="flex-fill text-end">
+                                <h6 class="fs-14 fw-semibold mb-1">2,500.00</h6>
+                                <p class="text-success fs-12 mb-0">
+                                  <i
+                                    class="mdi mdi-trending-up align-middle me-1"
+                                  ></i
+                                  >+50.00
+                                </p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col"
+                      data-role="agent-only"
+                      style="display: none"
+                    >
+                      <div class="card card-height-100 bg-soft-warning">
+                        <div class="card-body">
+                          <ul
+                            class="list-group list-group-flush border-dashed mb-0"
+                          >
+                            <li
+                              class="list-group-item d-flex align-items-center bg-transparent"
+                            >
+                              <div class="flex-shrink-0">
+                                <img
+                                  src="../assets/images/giftbox.png"
+                                  class="avatar-xs rounded-3 me-2"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">Commission</h6>
+                                <p class="text-muted mb-0">Pending Payout</p>
+                              </div>
+                              <div class="flex-fill text-end">
+                                <h6
+                                  class="fs-14 fw-semibold mb-1"
+                                  id="agentCommission"
+                                >
+                                  0.00
+                                </h6>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col" data-role="member-only">
+                      <div class="card card-height-100">
+                        <div class="card-body">
+                          <ul
+                            class="list-group list-group-flush border-dashed mb-0"
+                          >
+                            <li
+                              class="list-group-item d-flex align-items-center"
+                            >
+                              <div class="flex-shrink-0">
+                                <img
+                                  src="../assets/images/giftbox.png"
+                                  class="avatar-xs rounded-3 me-2"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">Peserta</h6>
+                                <p class="text-muted mb-0 fs-12">
+                                  Jumlah Peserta Rujukan
+                                </p>
+                              </div>
+                              <div class="flex-fill text-end">
+                                <h6 class="fs-14 fw-semibold mb-1">12</h6>
+                                <p class="text-success fs-12 mb-0">
+                                  <i
+                                    class="mdi mdi-trending-up align-middle me-1"
+                                  ></i
+                                  >+2
+                                </p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </footer>
+
+                <div class="col-lg-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">Announcement</h4>
+                      <div class="flex-shrink-0">
+                        <button
+                          type="button"
+                          class="btn btn-soft-primary btn-sm"
+                        >
+                          View All
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <ul
+                        class="list-group list-group-flush border-dashed mb-0"
+                        id="announcementList"
+                      >
+                        <li class="list-group-item d-flex align-items-center">
+                          <div class="flex-shrink-0">
+                            <i
+                              class="ri-notification-3-line fs-20 text-primary"
+                            ></i>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="fs-14 mb-1">New Policy Update</h6>
+                            <p class="text-muted mb-0">
+                              Please review the updated referral policy.
+                            </p>
+                          </div>
+                        </li>
+                        <li
+                          class="list-group-item d-flex align-items-center"
+                          id="surveyAnnouncement"
+                          style="display: none !important"
+                        >
+                          <div class="flex-shrink-0">
+                            <i class="ri-survey-line fs-20 text-success"></i>
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="fs-14 mb-1">Survey YABAM</h6>
+                            <p class="text-muted mb-0 text-warning">
+                              Anda belum melengkapkan tinjauan YABAM. Sila
+                              lengkapkan untuk ganjaran.
+                            </p>
+                          </div>
+                          <div class="flex-shrink-0 text-end">
+                            <a
+                              href="survey.html"
+                              class="btn btn-sm btn-soft-success"
+                              >Go to Survey</a
+                            >
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row flex-row">
+                <div class="col-lg-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">
+                        Recent Transactions
+                      </h4>
+                      <div class="flex-shrink-0">
+                        <a
+                          class="btn btn-soft-primary btn-sm"
+                          href="wallet.html"
+                        >
+                          View All
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive table-card">
+                        <table
+                          class="table table-borderless table-nowrap align-middle mb-0"
+                        >
+                          <thead class="table-light text-muted">
+                            <tr>
+                              <th scope="col" class="text-center">
+                                TRANSACTION ID
+                              </th>
+                              <th scope="col" class="text-center">DATE</th>
+                              <th scope="col" class="text-center">TYPE</th>
+                              <th scope="col" class="text-center">AMOUNT</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="text-center">
+                              <td>#TXN12345</td>
+                              <td>2023-10-27 14:30</td>
+                              <td>Referral Bonus</td>
+                              <td>50.00</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">
+                        List of Peserta
+                      </h4>
+                      <div class="flex-shrink-0">
+                        <a
+                          class="btn btn-soft-primary btn-sm"
+                          href="referrals.html"
+                        >
+                          View All
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive table-card">
+                        <table
+                          class="table table-borderless table-nowrap align-middle mb-0"
+                        >
+                          <thead class="table-light text-muted">
+                            <tr>
+                              <th scope="col" class="text-center">NAME</th>
+                              <th scope="col" class="text-center">STATUS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="text-center">
+                              <td>Alice Johnson</td>
+                              <td>
+                                <span class="badge bg-success">Active</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                © Hak Cipta
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -322,41 +432,86 @@
     <script src="memberHelper.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            // Wait for member helper to finish or use a promise
-            const member = await initMemberPortal();
-            if (member) {
-                // Update Wallet (Placeholder selectors based on dashboard structure)
-                // Ganjaran
-                $('h6:contains("Ganjaran")').parent().next().find('h6').text(member.walletCash.toFixed(2));
-                // Savings
-                $('h6:contains("Savings")').parent().next().find('h6').text(member.walletPoint.toFixed(2));
+      $(document).ready(async function () {
+        // Wait for member helper to finish or use a promise
+        const member = await initMemberPortal();
+        if (member) {
+          // Update Wallet (Placeholder selectors based on dashboard structure)
+          // Ganjaran
+          $('h6:contains("Ganjaran")')
+            .parent()
+            .next()
+            .find("h6")
+            .text(member.walletCash.toFixed(2));
+          // Savings
+          $('h6:contains("Savings")')
+            .parent()
+            .next()
+            .find("h6")
+            .text(member.walletPoint.toFixed(2));
 
-                // Fetch Announcements
-                await fetchAnnouncements();
-            }
-        });
+          // Fetch Announcements
+          await fetchAnnouncements();
+          // Fetch Carousel
+          await fetchCarouselImages();
+        }
+      });
 
-        async function fetchAnnouncements() {
-            try {
-                const response = await fetch(`${window.API_BASE_URL}/api/announcements`, {
-                    headers: { 'x-auth-token': localStorage.getItem('token') }
-                });
-                const announcements = await response.json();
-                
-                const announcementList = $('#announcementList');
-                // Keep the "New Policy" placeholder or clear it? 
-                // Let's clear and only show dynamic ones + survey if needed
-                announcementList.empty();
+      async function fetchCarouselImages() {
+        try {
+          const response = await fetch(`${window.API_BASE_URL}/api/carousel`);
+          const images = await response.json();
 
-                announcements.forEach(ann => {
-                    let iconClass = 'ri-notification-3-line text-primary';
-                    if (ann.type === 'success') iconClass = 'ri-checkbox-circle-line text-success';
-                    else if (ann.type === 'warning') iconClass = 'ri-error-warning-line text-warning';
-                    else if (ann.type === 'danger') iconClass = 'ri-close-circle-line text-danger';
+          if (images && images.length > 0) {
+            const indicators = $("#carouselIndicators");
+            const inner = $("#carouselInner");
 
-                    announcementList.append(`
-                        <li class="list-group-item d-flex align-items-center ${ann.isRead ? 'opacity-75' : ''}">
+            indicators.empty();
+            inner.empty();
+
+            images.forEach((img, index) => {
+              indicators.append(`
+                            <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="${index}" class="${index === 0 ? "active" : ""}" aria-current="${index === 0}" aria-label="Slide ${index + 1}"></button>
+                        `);
+
+              inner.append(`
+                            <div class="carousel-item ${index === 0 ? "active" : ""}">
+                                <img class="d-block img-fluid mx-auto" src="${img.imageUrl}" alt="${img.title || "Slide " + (index + 1)}">
+                            </div>
+                        `);
+            });
+          }
+        } catch (err) {
+          console.error("Error fetching carousel images:", err);
+        }
+      }
+
+      async function fetchAnnouncements() {
+        try {
+          const response = await fetch(
+            `${window.API_BASE_URL}/api/announcements`,
+            {
+              headers: { "x-auth-token": localStorage.getItem("token") },
+            },
+          );
+          const announcements = await response.json();
+
+          const announcementList = $("#announcementList");
+          // Keep the "New Policy" placeholder or clear it?
+          // Let's clear and only show dynamic ones + survey if needed
+          announcementList.empty();
+
+          announcements.forEach((ann) => {
+            let iconClass = "ri-notification-3-line text-primary";
+            if (ann.type === "success")
+              iconClass = "ri-checkbox-circle-line text-success";
+            else if (ann.type === "warning")
+              iconClass = "ri-error-warning-line text-warning";
+            else if (ann.type === "danger")
+              iconClass = "ri-close-circle-line text-danger";
+
+            announcementList.append(`
+                        <li class="list-group-item d-flex align-items-center ${ann.isRead ? "opacity-75" : ""}">
                             <div class="flex-shrink-0">
                                 <i class="${iconClass} fs-20"></i>
                             </div>
@@ -369,16 +524,19 @@
                             </div>
                         </li>
                     `);
-                });
+          });
 
-                // Check Survey Status for specific sidebar prompt
-                try {
-                    const surveyResponse = await fetch(`${window.API_BASE_URL}/api/surveys/me`, {
-                        headers: { 'x-auth-token': localStorage.getItem('token') }
-                    });
-                    const survey = await surveyResponse.json();
-                    if (!survey) {
-                        announcementList.prepend(`
+          // Check Survey Status for specific sidebar prompt
+          try {
+            const surveyResponse = await fetch(
+              `${window.API_BASE_URL}/api/surveys/me`,
+              {
+                headers: { "x-auth-token": localStorage.getItem("token") },
+              },
+            );
+            const survey = await surveyResponse.json();
+            if (!survey) {
+              announcementList.prepend(`
                             <li class="list-group-item d-flex align-items-center" id="surveyAnnouncement">
                                 <div class="flex-shrink-0">
                                     <i class="ri-survey-line fs-20 text-success"></i>
@@ -392,15 +550,14 @@
                                 </div>
                             </li>
                         `);
-                    }
-                } catch (err) {
-                    console.error('Error fetching survey status:', err);
-                }
-
-            } catch (err) {
-                console.error('Error fetching announcements:', err);
             }
+          } catch (err) {
+            console.error("Error fetching survey status:", err);
+          }
+        } catch (err) {
+          console.error("Error fetching announcements:", err);
         }
+      }
     </script>
-</body>
+  </body>
 </html>

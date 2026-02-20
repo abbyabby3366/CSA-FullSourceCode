@@ -14,33 +14,14 @@
     <!-- app css -->
 	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
+
 
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="../assets/libs/sweetalert2/sweetalert2.min.css">
 
     <style>
-        .auth-bg-cover {
-            background: linear-gradient(-45deg, #279d69 55%, whitesmoke) !important;
-        }
-
-        .btn-tertiary {
-            background-color: #279d69;
-            border-color: #279d69;
-            color: #fff;
-        }
-
-        .btn-tertiary:hover {
-            background-color: #1e7e54;
-            border-color: #1e7e54;
-            color: #fff;
-        }
-
-        .text-primary {
-            color: #279d69 !important;
-        }
-
         .valid {
             color: #279d69;
         }
@@ -298,7 +279,7 @@
                                 // Auto Login: Store token and redirect
                                 localStorage.setItem('token', data.token);
                                 localStorage.setItem('userRole', 'member');
-                                window.location.href = 'dashboard.html';
+                                window.location.href = 'apply.html';
                             }
                         });
                     } else {

@@ -273,6 +273,29 @@
                         `);
                     });
                 }
+
+                // Fetch and display pending withdrawals
+                const withdrawals = await apiCall('/admin/withdrawals');
+                if (withdrawals) {
+                    const tbody = $('#tableBodyWithdrawalRequest');
+                    tbody.empty();
+                    withdrawals.filter(w => w.status === 'Pending').slice(0, 5).forEach(w => {
+                        tbody.append(`
+                            <tr class="text-center">
+                                <td>${new Date(w.createDate).toLocaleString()}</td>
+                                <td>${w.member ? w.member.bankAccountNumber : '-'}</td>
+                                <td>RM ${Math.abs(w.amount).toFixed(2)}</td>
+                                <td>
+                                    <a href="withdrawals.html" class="text-primary">View</a>
+                                </td>
+                            </tr>
+                        `);
+                    });
+
+                    if (withdrawals.filter(w => w.status === 'Pending').length === 0) {
+                        tbody.append('<tr><td colspan="4" class="text-center text-muted">No pending requests</td></tr>');
+                    }
+                }
             }
 
             // Static chart demo

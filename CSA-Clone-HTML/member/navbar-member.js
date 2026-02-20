@@ -106,19 +106,6 @@ function renderMemberNavBar() {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'active' : ''}" href="#surveys" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'true' : 'false'}" aria-controls="surveys">
-                                <i class="ri-survey-line"></i><span data-key="t-surveys">Surveys </span>
-                            </a>
-                            <div class="collapse menu-dropdown \${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'show' : ''}" id="surveys">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="survey.html" class="nav-link \${currentPage === 'survey.html' ? 'active' : ''}">YABAM</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
                             <a class="nav-link menu-link \${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'active' : ''}" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'true' : 'false'}" aria-controls="application-manager">
                                 <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
                             </a>
@@ -128,7 +115,20 @@ function renderMemberNavBar() {
                                         <a href="apply.html" class="nav-link \${currentPage === 'apply.html' ? 'active' : ''}">Apply Now </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="application-status.html" class="nav-link \${currentPage === 'application-status.html' ? 'active' : ''}">Application Status </a>
+                                        <a href="application-status.html" class="nav-link \${currentPage === 'application-status.html' ? 'active' : ''}">Application History </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link \${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'active' : ''}" href="#surveys" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'true' : 'false'}" aria-controls="surveys">
+                                <i class="ri-survey-line"></i><span data-key="t-surveys">Surveys </span>
+                            </a>
+                            <div class="collapse menu-dropdown \${currentPage === 'survey.html' || currentPage === 'survey-details.html' ? 'show' : ''}" id="surveys">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="survey.html" class="nav-link \${currentPage === 'survey.html' ? 'active' : ''}">YABAM</a>
                                     </li>
                                 </ul>
                             </div>

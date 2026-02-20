@@ -16,45 +16,14 @@
     <!-- app css -->
 	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
+
 
     <!-- datatables css -->
     <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
 
-    <style>
-        .navbar-menu {
-            background: #279d69 !important;
-        }
 
-        .menu-title {
-            color: white !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            color: lightyellow !important;
-        }
-
-        span.circle_icon {
-            background: #efefef;
-            border-radius: 50%;
-            display: inline-block;
-            padding: 0.65rem;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 0.95rem;
-            width: 38px;
-            height: 38px;
-        }
-
-        .dt-length label {
-            margin-left: 8px !important;
-        }
-
-        .dt-search input {
-            margin-left: 8px !important;
-        }
-    </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
@@ -128,6 +97,33 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawal Modal -->
+            <div class="modal fade" id="withdrawalModal" tabindex="-1" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="withdrawalModalLabel">Withdrawal Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-info">
+                                <p class="mb-1"><strong>Bank Details:</strong></p>
+                                <p class="mb-0" id="bankInfoDisplay">Loading bank information...</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="withdrawalAmount" class="form-control-label">Amount (RM)</label>
+                                <input type="number" class="form-control" id="withdrawalAmount" placeholder="Enter amount to withdraw" step="0.01">
+                                <div class="form-text">Available: <span id="availableBalanceDisplay">RM 0.00</span></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="confirmWithdrawalBtn">Submit Request</button>
                         </div>
                     </div>
                 </div>
@@ -213,11 +209,20 @@
                         default: typeBadge = `<span class="badge bg-soft-secondary text-secondary">${trx.type}</span>`;
                     }
 
+                    let statusBadge = '';
+                    if (trx.type === 'Withdrawal') {
+                        switch(trx.status) {
+                            case 'Pending': statusBadge = '<span class="badge bg-soft-warning text-warning ms-1">Pending</span>'; break;
+                            case 'Completed': statusBadge = '<span class="badge bg-soft-success text-success ms-1">Paid</span>'; break;
+                            case 'Rejected': statusBadge = '<span class="badge bg-soft-danger text-danger ms-1">Cancelled</span>'; break;
+                        }
+                    }
+
                     const row = `
                         <tr>
                             <td>#${trx._id.substring(trx._id.length - 6).toUpperCase()}</td>
                             <td>${date}</td>
-                            <td>${typeBadge}</td>
+                            <td>${typeBadge}${statusBadge}</td>
                             <td>${trx.description || '-'}</td>
                             <td class="text-end ${amountClass}">${amountPrefix}${absAmount}</td>
                         </tr>
@@ -231,10 +236,67 @@
                     autoWidth: false
                 });
 
-            } catch (err) {
+                } catch (err) {
                 console.error('Error loading transactions:', err);
             }
         }
+
+        // Withdrawal Modal Logic
+        $(document).on('click', '#withdrawBtn', function() {
+            if (window.currentMember) {
+                if (!window.currentMember.bankAccountNumber) {
+                    alert('Please update your bank details in your profile first');
+                    return;
+                }
+                $('#bankInfoDisplay').html(`
+                    <strong>Bank:</strong> ${window.currentMember.bankName || '-'}<br>
+                    <strong>Account No:</strong> ${window.currentMember.bankAccountNumber || '-'}<br>
+                    <strong>Account Name:</strong> ${window.currentMember.bankAccountName || (window.currentMember.firstName + ' ' + window.currentMember.lastName)}
+                `);
+                $('#availableBalanceDisplay').text('RM ' + window.currentMember.walletCash.toFixed(2));
+                $('#withdrawalModal').modal('show');
+            }
+        });
+
+        $('#confirmWithdrawalBtn').on('click', async function() {
+            const amount = parseFloat($('#withdrawalAmount').val());
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            if (amount > window.currentMember.walletCash) {
+                alert('Insufficient balance');
+                return;
+            }
+
+            $(this).prop('disabled', true).text('Processing...');
+
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/api/members/withdrawal`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({ amount })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Withdrawal request submitted successfully');
+                    $('#withdrawalModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert(result.msg || 'Error submitting request');
+                }
+            } catch (err) {
+                console.error('Error submitting withdrawal:', err);
+                alert('Server error');
+            } finally {
+                $(this).prop('disabled', false).text('Submit Request');
+            }
+        });
     </script>
 </body>
 </html>

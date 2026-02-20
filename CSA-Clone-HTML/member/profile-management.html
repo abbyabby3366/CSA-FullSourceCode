@@ -16,25 +16,14 @@
     <!-- app css -->
 	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
+
 
     <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
     <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
 
-    <style>
-        .navbar-menu {
-            background: #279d69 !important;
-        }
 
-        .menu-title {
-            color: white !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            color: lightyellow !important;
-        }
-    </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
@@ -95,6 +84,7 @@
                                 <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel" aria-labelledby="v-pills-personal-tab">
                                     <div class="card">
                                         <div class="card-header align-items-center d-flex">
+                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelPersonal" style="display: none;">Cancel</button>
                                             <h5 class="card-title mb-0 flex-grow-1">Personal Details</h5>
                                         </div>
                                         <div class="card-body">
@@ -117,7 +107,18 @@
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Email Address</label>
-                                                        <input type="email" class="form-control" value="member@example.com">
+                                                        <input type="email" class="form-control" value="member@example.com" placeholder="example@email.com">
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">Gender</label>
+                                                        <select class="form-select" id="genderSelect">
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">NRIC (IC Number)</label>
+                                                        <input type="text" class="form-control" id="icNumberInput" placeholder="900101-10-1234">
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Upload IC</label>
@@ -130,7 +131,6 @@
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
                                                             <button type="submit" class="btn btn-primary" id="btnSavePersonal">Save Changes</button>
-                                                            <button type="button" class="btn btn-soft-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,6 +142,7 @@
                                 <div class="tab-pane fade" id="v-pills-bank" role="tabpanel" aria-labelledby="v-pills-bank-tab">
                                     <div class="card">
                                         <div class="card-header align-items-center d-flex">
+                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelBank" style="display: none;">Cancel</button>
                                             <h5 class="card-title mb-0 flex-grow-1">Bank Details</h5>
                                         </div>
                                         <div class="card-body">
@@ -150,12 +151,28 @@
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Bank Name</label>
                                                         <select class="form-select select2-bank">
-                                                            <option value="1">Maybank</option>
-                                                            <option value="2">CIMB Bank</option>
-                                                            <option value="3">Public Bank</option>
-                                                            <option value="4">Hong Leong Bank</option>
-                                                            <option value="5">AmBank</option>
-                                                            <option value="0">Others</option>
+                                                            <option value="Affin Bank">Affin Bank</option>
+                                                            <option value="Agrobank">Agrobank</option>
+                                                            <option value="Al Rajhi Bank Malaysia">Al Rajhi Bank Malaysia</option>
+                                                            <option value="Alliance Bank">Alliance Bank</option>
+                                                            <option value="AmBank">AmBank</option>
+                                                            <option value="Bank Islam">Bank Islam</option>
+                                                            <option value="Bank Muamalat">Bank Muamalat</option>
+                                                            <option value="Bank Rakyat">Bank Rakyat</option>
+                                                            <option value="BSN">BSN</option>
+                                                            <option value="CIMB">CIMB</option>
+                                                            <option value="Citibank Malaysia">Citibank Malaysia</option>
+                                                            <option value="GX Bank">GX Bank</option>
+                                                            <option value="Hong Leong Bank">Hong Leong Bank</option>
+                                                            <option value="HSBC Malaysia">HSBC Malaysia</option>
+                                                            <option value="Maybank">Maybank</option>
+                                                            <option value="MBSB Bank">MBSB Bank</option>
+                                                            <option value="OCBC Malaysia">OCBC Malaysia</option>
+                                                            <option value="Public Bank">Public Bank</option>
+                                                            <option value="RHB">RHB</option>
+                                                            <option value="Standard Chartered Malaysia">Standard Chartered Malaysia</option>
+                                                            <option value="Touch and Go">Touch and Go</option>
+                                                            <option value="UOB Malaysia">UOB Malaysia</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
@@ -164,12 +181,11 @@
                                                     </div>
                                                     <div class="col-lg-12 mb-3">
                                                         <label class="form-label">Bank Account Number</label>
-                                                        <input type="text" class="form-control" value="164XXXXXXXXX">
+                                                        <input type="text" class="form-control numeric-input" id="bankAccNoInp" value="164XXXXXXXXX" inputmode="numeric" pattern="[0-9]*">
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
                                                             <button type="submit" class="btn btn-primary" id="btnSaveBank">Save Changes</button>
-                                                            <button type="button" class="btn btn-soft-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,6 +197,7 @@
                                 <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
                                     <div class="card">
                                         <div class="card-header align-items-center d-flex">
+                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelPass" style="display: none;">Cancel</button>
                                             <h5 class="card-title mb-0 flex-grow-1">Change Password</h5>
                                         </div>
                                         <div class="card-body">
@@ -201,7 +218,6 @@
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
                                                             <button type="submit" class="btn btn-primary" id="btnSavePass">Update Password</button>
-                                                            <button type="button" class="btn btn-soft-secondary">Cancel</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -257,6 +273,56 @@
 
     <script>
         $(document).ready(async function() {
+            let initialPersonal = {};
+            let initialBank = {};
+
+            function capturePersonalState() {
+                initialPersonal = {
+                    firstName: $('#v-pills-personal input[type="text"]').eq(0).val(),
+                    lastName: $('#v-pills-personal input[type="text"]').eq(1).val(),
+                    email: $('#v-pills-personal input[type="email"]').val(),
+                    gender: $('#genderSelect').val(),
+                    icNumber: $('#icNumberInput').val()
+                };
+                $('#btnCancelPersonal').hide();
+            }
+
+            function captureBankState() {
+                initialBank = {
+                    bankName: $('.select2-bank option:selected').text(),
+                    bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
+                    bankAccountNumber: $('#bankAccNoInp').val()
+                };
+                $('#btnCancelBank').hide();
+            }
+
+            function checkPersonalChanges() {
+                const current = {
+                    firstName: $('#v-pills-personal input[type="text"]').eq(0).val(),
+                    lastName: $('#v-pills-personal input[type="text"]').eq(1).val(),
+                    email: $('#v-pills-personal input[type="email"]').val(),
+                    gender: $('#genderSelect').val(),
+                    icNumber: $('#icNumberInput').val()
+                };
+                const hasChanged = JSON.stringify(current) !== JSON.stringify(initialPersonal);
+                $('#btnCancelPersonal').toggle(hasChanged);
+            }
+
+            function checkBankChanges() {
+                const current = {
+                    bankName: $('.select2-bank option:selected').text(),
+                    bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
+                    bankAccountNumber: $('#bankAccNoInp').val()
+                };
+                const hasChanged = JSON.stringify(current) !== JSON.stringify(initialBank);
+                $('#btnCancelBank').toggle(hasChanged);
+            }
+
+            function checkPassChanges() {
+                const hasInput = $('#v-pills-password input').filter(function() { return $(this).val() !== ""; }).length > 0;
+                $('#btnCancelPass').toggle(hasInput);
+            }
+
             const member = await initMemberPortal();
             if (member) {
                 // Populate Profile
@@ -264,12 +330,18 @@
                 $('#v-pills-personal input[type="text"]').eq(1).val(member.lastName);
                 $('#v-pills-personal input[type="text"]').eq(2).val(member.phoneNumber);
                 $('#v-pills-personal input[type="email"]').val(member.email || '');
+                $('#genderSelect').val(member.gender || 'Male');
+                $('#icNumberInput').val(member.icNumber || '');
+
+                capturePersonalState();
 
                 // Populate Bank
                 $('.select2-bank').val(member.bankId || '1').trigger('change');
                 $('#v-pills-bank input[type="text"]').first().val(member.bankAccountName || '');
-                $('#v-pills-bank input[type="text"]').eq(1).val(member.bankAccountNumber || '');
+                $('#bankAccNoInp').val(member.bankAccountNumber || '');
                 
+                captureBankState();
+
                 // Left Panel
                 $('.card .profile-user img').attr('src', member.profileImage ? `${window.API_BASE_URL}/` + member.profileImage : '../assets/images/users/user-dummy-img.jpg');
                 $('.card h5').text(member.firstName + ' ' + member.lastName);
@@ -279,12 +351,50 @@
                 theme: 'bootstrap-5'
             });
 
+            // Listeners for changes
+            $('#v-pills-personal input, #genderSelect').on('input change', checkPersonalChanges);
+            $('.select2-bank').on('change', checkBankChanges);
+            $('#v-pills-bank input').on('input', checkBankChanges);
+            $('#v-pills-password input').on('input', checkPassChanges);
+
+            // Numeric input constraint
+            $(document).on('input', '.numeric-input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Cancel Personal Details
+            $('#btnCancelPersonal').click(function() {
+                $('#v-pills-personal input[type="text"]').eq(0).val(initialPersonal.firstName);
+                $('#v-pills-personal input[type="text"]').eq(1).val(initialPersonal.lastName);
+                $('#v-pills-personal input[type="email"]').val(initialPersonal.email);
+                $('#genderSelect').val(initialPersonal.gender);
+                $('#icNumberInput').val(initialPersonal.icNumber);
+                $(this).hide();
+            });
+
+            // Cancel Bank Details
+            $('#btnCancelBank').click(function() {
+                const bankVal = $('.select2-bank option').filter(function() { return $(this).text() === initialBank.bankName; }).val();
+                $('.select2-bank').val(bankVal).trigger('change');
+                $('#v-pills-bank input[type="text"]').eq(0).val(initialBank.bankAccountName);
+                $('#bankAccNoInp').val(initialBank.bankAccountNumber);
+                $(this).hide();
+            });
+
+            // Cancel Password Change
+            $('#btnCancelPass').click(function() {
+                $('#v-pills-password input').val("");
+                $(this).hide();
+            });
+
             // Save Personal Details
             $('#btnSavePersonal').click(async function(e) {
                 e.preventDefault();
                 const firstName = $('#v-pills-personal input[type="text"]').eq(0).val();
                 const lastName = $('#v-pills-personal input[type="text"]').eq(1).val();
                 const email = $('#v-pills-personal input[type="email"]').val();
+                const gender = $('#genderSelect').val();
+                const icNumber = $('#icNumberInput').val();
 
                 try {
                     const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
@@ -293,11 +403,12 @@
                             'Content-Type': 'application/json',
                             'x-auth-token': localStorage.getItem('token')
                         },
-                        body: JSON.stringify({ firstName, lastName, email })
+                        body: JSON.stringify({ firstName, lastName, email, gender, icNumber })
                     });
 
                     if (response.ok) {
                         alert('Personal details updated!');
+                        capturePersonalState();
                     } else {
                         alert('Failed to update details.');
                     }
@@ -311,7 +422,7 @@
                 e.preventDefault();
                 const bankName = $('.select2-bank option:selected').text();
                 const bankAccountName = $('#v-pills-bank input[type="text"]').eq(0).val();
-                const bankAccountNumber = $('#v-pills-bank input[type="text"]').eq(1).val();
+                const bankAccountNumber = $('#bankAccNoInp').val();
 
                 try {
                     const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
@@ -325,6 +436,7 @@
 
                     if (response.ok) {
                         alert('Bank details updated!');
+                        captureBankState();
                     } else {
                         alert('Failed to update bank details.');
                     }

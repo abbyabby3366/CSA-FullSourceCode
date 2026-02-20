@@ -16,35 +16,14 @@
     <!-- app css -->
 	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
+
 
     <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
     <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
 
-    <style>
-        .navbar-menu {
-            background: #279d69 !important;
-        }
 
-        .menu-title {
-            color: white !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            color: lightyellow !important;
-        }
-
-        .profile-wid-bg {
-            height: 300px;
-        }
-
-        .profile-wid-bg::before {
-            background: #279d69 !important;
-            background: -webkit-gradient(linear,left bottom,left top,from(whitesmoke),to(#279d69)) !important;
-            background: linear-gradient(to top,white,#279d69) !important;
-        }
-    </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
@@ -70,12 +49,18 @@
                         <div class="col-12 col-xxl-10 col-xl-10 col-lg-10 col-md-12 col-sm-12 offset-xxl-1 offset-xl-1 offset-lg-1">
                             <div class="card mt-n4">
                                 <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1"><i class="ri-history-line"></i> Application History</h5>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title mb-0"><i class="ri-history-line"></i> Last Application</h5>
+                                        <p class="text-muted mb-0 fs-11">Only the last application will be taken into consideration</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <a href="application-status.html" class="text-primary fs-13" style="text-decoration: underline;">View all applications</a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive table-card">
                                         <table class="table table-nowrap table-striped-columns mb-0">
-                                            <thead class="table-light">
+                                            <thead class="table-light text-muted">
                                                 <tr>
                                                     <th scope="col">Application ID</th>
                                                     <th scope="col">Program</th>
@@ -86,7 +71,11 @@
                                             </thead>
                                             <tbody id="applicationHistory">
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Loading history...</td>
+                                                    <td colspan="5" class="text-center">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -94,10 +83,22 @@
                                 </div>
                             </div>
 
-                            <div class="card">
-                                <div class="card-header d-flex align-items-center">
-                                    <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Apply Now</h5>
+                            <div id="applyAgainSection" class="card mb-3" style="display: none;">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <h5 class="flex-grow-1 mb-0">Want to change your application details? <a href="javascript:void(0);" id="expandApplyForm" class="text-primary" style="text-decoration: underline;">Apply again</a></h5>
+                                        <div class="flex-shrink-0">
+                                            <i class="ri-arrow-down-s-line fs-20"></i>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div id="applyFormContainer" style="display: none;">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-center">
+                                        <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Apply Now</h5>
+                                    </div>
 
                                 <div class="card-body">
                                     <div class="row g-3 mb-2">
@@ -268,6 +269,53 @@
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div class="modal fade zoomIn" id="successModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-success"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#279d69,secondary:#333333" style="width:120px;height:120px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-15">
+                            <h4>Application Submitted Successfully!</h4>
+                            <p class="text-muted mx-4 mb-0">Your application has been received. You can now proceed to the survey or close this to view your application status.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">OK</button>
+                        <a href="survey.html" class="btn w-sm btn-success">Go to Survey</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade zoomIn" id="errorModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-error"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#333333" style="width:120px;height:120px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-15">
+                            <h4 id="errorModalTitle">Submission Failed</h4>
+                            <p id="errorModalMsg" class="text-muted mx-4 mb-0">An error occurred during submission. Please try again later.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-danger" data-bs-dismiss="modal">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             // Start fetching history immediately
@@ -283,14 +331,34 @@
                     $('#fullName').val(member.firstName + ' ' + member.lastName);
                     $('#phoneNumber').val(member.phoneNumber);
                     $('#email').val(member.email || '');
+                    $('#icNumber').val(member.icNumber || '');
                     
                     if (member.gender) {
                         const genderVal = member.gender === 'Male' ? '1' : (member.gender === 'Female' ? '2' : '');
                         $('#gender').val(genderVal);
                     }
+
+                    // Pre-fill address if components are available
+                    if (member.streetAddress1 || member.city || member.state || member.postcode) {
+                        const address = [member.streetAddress1, member.streetAddress2, member.postcode, member.city, member.state]
+                            .filter(val => val && val.trim() !== '')
+                            .join(', ');
+                        $('#address').val(address);
+                    }
                 }
             }).catch(err => {
                 console.error('Member init failed:', err);
+            });
+
+            $('#expandApplyForm').click(function() {
+                $('#applyFormContainer').slideToggle();
+                // Toggle the arrow icon
+                const icon = $(this).closest('.card-body').find('i');
+                if (icon.hasClass('ri-arrow-down-s-line')) {
+                    icon.removeClass('ri-arrow-down-s-line').addClass('ri-arrow-up-s-line');
+                } else {
+                    icon.removeClass('ri-arrow-up-s-line').addClass('ri-arrow-down-s-line');
+                }
             });
 
             let applicationData = [];
@@ -305,6 +373,15 @@
 
                     const apps = await response.json();
                     applicationData = apps;
+
+                    if (apps.length > 0) {
+                        $('#applyAgainSection').show();
+                        $('#applyFormContainer').hide();
+                    } else {
+                        $('#applyAgainSection').hide();
+                        $('#applyFormContainer').show();
+                    }
+
                     const tbody = $('#applicationHistory');
                     tbody.empty();
 
@@ -320,7 +397,8 @@
                         3: '<span class="badge bg-danger">Burst</span>'
                     };
 
-                    apps.forEach(app => {
+                    if (apps.length > 0) {
+                        const app = apps[0]; // Only show the first (last) application
                         const d = new Date(app.createDate);
                         const day = String(d.getDate()).padStart(2, '0');
                         const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -352,7 +430,7 @@
                                 <td><button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View</button></td>
                             </tr>
                         `);
-                    });
+                    }
 
                     // Add click handler for View Details
                     $('.view-details').on('click', function() {
@@ -468,7 +546,7 @@
                     console.log('Submission Result:', result);
 
                     if (response.ok) {
-                        alert('Application submitted successfully!');
+                        $('#successModal').modal('show');
                         // Refresh history
                         fetchHistory();
                         // Reset form fields (except pre-populated ones)
@@ -483,11 +561,13 @@
                         $('#payslip').val('');
                         $('#offerLetter').val('');
                     } else {
-                        alert('Submission failed: ' + (result.msg || 'Unknown error'));
+                        $('#errorModalMsg').text(result.msg || 'Unknown error');
+                        $('#errorModal').modal('show');
                     }
                 } catch (err) {
                     console.error('Error:', err);
-                    alert('An error occurred during submission.');
+                    $('#errorModalMsg').text('An error occurred during submission.');
+                    $('#errorModal').modal('show');
                 }
             });
         });

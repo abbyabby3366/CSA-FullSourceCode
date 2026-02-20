@@ -56,6 +56,19 @@ async function initMemberPortal() {
                 window.location.href = 'index.html';
             });
 
+            // Global Profile Completion Check
+            const currentPage = window.location.pathname.split('/').pop();
+            const isAuthPage = ['index.html', 'register.html', 'forgot-password.html'].includes(currentPage);
+            const isProfilePage = currentPage === 'profile.html' || currentPage === 'profile-management.html';
+
+            if (!isAuthPage && !isProfilePage) {
+                const isIncomplete = !member.icNumber || !member.bankAccountNumber;
+                if (isIncomplete) {
+                    window.location.href = 'profile.html';
+                    return;
+                }
+            }
+
             return member;
         } catch (err) {
             console.error('Error initializing portal:', err);

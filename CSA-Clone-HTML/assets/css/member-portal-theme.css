@@ -1,0 +1,78 @@
+/* Member Portal Theme Overrides */
+:root {
+    --vz-primary: #279d69;
+    --vz-primary-rgb: 39, 157, 105;
+    --vz-link-color: #279d69;
+    --vz-link-hover-color: #1e7d54;
+}
+
+/* Button Overrides */
+.btn-primary {
+    --vz-btn-bg: #279d69;
+    --vz-btn-border-color: #279d69;
+    --vz-btn-hover-bg: #218c5c;
+    --vz-btn-hover-border-color: #218c5c;
+    --vz-btn-active-bg: #1e7d54;
+    --vz-btn-active-border-color: #1e7d54;
+}
+
+.btn-soft-primary {
+    --vz-btn-color: #279d69;
+    --vz-btn-bg: rgba(39, 157, 105, 0.1);
+    --vz-btn-border-color: transparent;
+    --vz-btn-hover-color: #fff;
+    --vz-btn-hover-bg: #279d69;
+}
+
+.btn-outline-primary {
+    --vz-btn-color: #279d69;
+    --vz-btn-border-color: #279d69;
+    --vz-btn-hover-bg: #279d69;
+    --vz-btn-hover-border-color: #279d69;
+}
+
+/* Text & Icon Overrides */
+.text-primary {
+    --vz-text-opacity: 1;
+    color: rgba(39, 157, 105, var(--vz-text-opacity)) !important;
+}
+
+/* Badge Overrides */
+.badge-soft-primary {
+    background-color: rgba(39, 157, 105, 0.1);
+    color: #279d69;
+}
+
+/* Sidebar & Navbar Overrides (Global for Member) */
+.navbar-menu {
+    background: #279d69 !important;
+}
+
+.menu-title {
+    color: white !important;
+}
+
+.navbar-menu .navbar-nav .nav-link {
+    color: lightyellow !important;
+}
+
+/* Modal Overrides */
+.modal-header {
+    border-bottom: 2px solid rgba(39, 157, 105, 0.1);
+}
+
+/* Profile specific background */
+.profile-wid-bg::before {
+    background: #279d69 !important;
+    background: -webkit-gradient(linear, left bottom, left top, from(whitesmoke), to(#279d69)) !important;
+    background: linear-gradient(to top, white, #279d69) !important;
+}
+
+/* Success colors often mixed with primary */
+.text-success {
+    color: #279d69 !important;
+}
+
+.bg-success {
+    background-color: #279d69 !important;
+}

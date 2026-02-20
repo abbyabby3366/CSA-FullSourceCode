@@ -155,13 +155,89 @@
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
+    <script src="../Scripts/config.js"></script>
+    <script src="../Scripts/adminHelper.js"></script>
 
     <script>
         $(document).ready(function() {
-            $('#gvWithdraw').DataTable({
-                "order": [[ 0, "desc" ]]
-            });
+            loadWithdrawals();
         });
+
+        async function loadWithdrawals() {
+            try {
+                const withdrawals = await apiCall('/admin/withdrawals');
+                if (!withdrawals) return;
+
+                const tbody = $('#gvWithdraw tbody');
+                tbody.empty();
+
+                withdrawals.forEach((w, index) => {
+                    const date = new Date(w.createDate).toLocaleString();
+                    const memberName = w.member ? `${w.member.firstName} ${w.member.lastName}` : 'Unknown';
+                    const bankAcc = w.member ? w.member.bankAccountNumber : '-';
+                    const amount = Math.abs(w.amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    
+                    let statusBadge = '';
+                    switch(w.status) {
+                        case 'Pending': statusBadge = '<span class="badge bg-warning">PENDING</span>'; break;
+                        case 'Completed': statusBadge = '<span class="badge bg-success">PAID</span>'; break;
+                        case 'Rejected': statusBadge = '<span class="badge bg-danger">CANCELLED</span>'; break;
+                        default: statusBadge = `<span class="badge bg-secondary">${w.status}</span>`;
+                    }
+
+                    let actions = '';
+                    if (w.status === 'Pending') {
+                        actions = `
+                            <div class="hstack gap-3 fs-13 justify-content-center">
+                                <a href="javascript:void(0);" class="text-success" onclick="updateStatus('${w._id}', 'Completed')">Paid</a>
+                                <a href="javascript:void(0);" class="text-danger" onclick="updateStatus('${w._id}', 'Rejected')">Cancel</a>
+                            </div>
+                        `;
+                    } else {
+                        actions = '<span class="text-muted">No Actions</span>';
+                    }
+
+                    const row = `
+                        <tr>
+                            <td>${date}</td>
+                            <td>${memberName}</td>
+                            <td>${bankAcc}</td>
+                            <td>RM ${amount}</td>
+                            <td>${statusBadge}</td>
+                            <td class="text-center">${actions}</td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+
+                if ($.fn.DataTable.isDataTable('#gvWithdraw')) {
+                    $('#gvWithdraw').DataTable().destroy();
+                }
+
+                $('#gvWithdraw').DataTable({
+                    "order": [[ 0, "desc" ]],
+                    responsive: true
+                });
+
+            } catch (err) {
+                console.error('Error loading withdrawals:', err);
+            }
+        }
+
+        async function updateStatus(id, status) {
+            const actionText = status === 'Completed' ? 'mark as Paid' : 'Cancel';
+            if (!confirm(`Are you sure you want to ${actionText} this request?`)) return;
+
+            try {
+                const result = await apiCall(`/admin/withdrawal/${id}/status`, 'POST', { status });
+                if (result) {
+                    loadWithdrawals();
+                }
+            } catch (err) {
+                console.error('Error updating status:', err);
+                alert('Server error');
+            }
+        }
     </script>
 </body>
 </html>

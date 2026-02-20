@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Status of Application | Member Portal</title>
+    <title>Application History | Member Portal</title>
 
     <script src="../assets/js/layout.js"></script>
 
@@ -16,25 +16,14 @@
     <!-- app css -->
 	<link rel="stylesheet" href="../assets/css/app.min.css" />
 
-    <!-- custom css -->
 	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
+
 
     <!-- datatables css -->
     <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
 
-    <style>
-        .navbar-menu {
-            background: #279d69 !important;
-        }
 
-        .menu-title {
-            color: white !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            color: lightyellow !important;
-        }
-    </style>
 
     <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
@@ -55,7 +44,7 @@
                         <div class="col-12">
                             <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                                 <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Status of Application</h4>
+                                    <h4 class="fs-16 mb-1">Application History</h4>
                                 </div>
                             </div>
                         </div>
@@ -78,48 +67,16 @@
                                         <table class="table table-nowrap align-middle" id="applicationTable">
                                             <thead class="table-light text-muted">
                                                 <tr>
-                                                    <th>NO.</th>
-                                                    <th>CUSTOMER NAME</th>
-                                                    <th>CUSTOMER ID</th>
-                                                    <th>CONTACT NO</th>
-                                                    <th>SALARY RANGE</th>
+                                                    <th>APPLICATION ID</th>
+                                                    <th>PROGRAM</th>
+                                                    <th>DATE & TIME</th>
                                                     <th>STATUS</th>
                                                     <th class="text-center">ACTION</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="applicationHistory">
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>John Doe</td>
-                                                    <td>CUST001</td>
-                                                    <td>+60 123456789</td>
-                                                    <td>RM 3,001 - RM 5,000</td>
-                                                    <td><span class="badge bg-soft-warning text-warning">Pending</span></td>
-                                                    <td class="text-center">
-                                                        <a href="application-details.html" class="text-primary" style="text-decoration: underline;">View Details</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Jane Smith</td>
-                                                    <td>CUST002</td>
-                                                    <td>+60 987654321</td>
-                                                    <td>RM 5,001 - RM 8,000</td>
-                                                    <td><span class="badge bg-soft-success text-success">Approved</span></td>
-                                                    <td class="text-center">
-                                                        <a href="application-details.html" class="text-primary" style="text-decoration: underline;">View Details</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Michael Wong</td>
-                                                    <td>CUST003</td>
-                                                    <td>+60 112233445</td>
-                                                    <td>RM 2,000 - RM 3,000</td>
-                                                    <td><span class="badge bg-soft-danger text-danger">Rejected</span></td>
-                                                    <td class="text-center">
-                                                        <a href="application-details.html" class="text-primary" style="text-decoration: underline;">View Details</a>
-                                                    </td>
+                                                    <td colspan="5" class="text-center">Loading status...</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -165,15 +122,170 @@
     <!-- datatables js -->
     <script src="../assets/libs/datatables/datatables.min.js"></script>
 
+    <script src="../Scripts/config.js"></script>
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
     <script src="navbar-member.js"></script>
+    <script src="memberHelper.js"></script>
+
+    <!-- View Details Modal -->
+    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDetailsModalLabel">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent">
+                        <!-- Content will be populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function() {
-            $('#applicationTable').DataTable({
-                "dom": '<"row mx-0"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mx-0"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
-            });
+            // Start fetching history immediately
+            if (localStorage.getItem('token')) {
+                fetchHistory();
+            } else {
+                $('#applicationHistory').html('<tr><td colspan="5" class="text-center">Please login to view history</td></tr>');
+            }
+
+            let applicationData = [];
+
+            async function fetchHistory() {
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/api/applications/my`, {
+                        headers: {
+                            'x-auth-token': localStorage.getItem('token')
+                        }
+                    });
+
+                    const apps = await response.json();
+                    applicationData = apps;
+                    const tbody = $('#applicationHistory');
+                    tbody.empty();
+
+                    if (apps.length === 0) {
+                        tbody.append('<tr><td colspan="5" class="text-center">No history available</td></tr>');
+                        return;
+                    }
+
+                    apps.forEach(app => {
+                        const d = new Date(app.createDate);
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = d.getFullYear();
+                        const hours = String(d.getHours()).padStart(2, '0');
+                        const minutes = String(d.getMinutes()).padStart(2, '0');
+                        const date = `${day}/${month}/${year} ${hours}:${minutes}`;
+                        const appId = app._id.substring(0, 8).toUpperCase();
+                        
+                        const programMap = {
+                            "1": "YABAM"
+                        };
+                        const program = app.details && app.details.programEvent ? (programMap[app.details.programEvent] || "Standard") : "YABAM";
+                        
+                        const statusMap = {
+                            0: '<span class="badge bg-warning">Pre-checking</span>',
+                            1: '<span class="badge bg-info">Processing</span>',
+                            2: '<span class="badge bg-success">Eligible</span>',
+                            3: '<span class="badge bg-danger">Burst</span>'
+                        };
+                        const status = statusMap[app.applicationStatus] || '<span class="badge bg-secondary">Unknown</span>';
+                        
+                        tbody.append(`
+                            <tr>
+                                <td>${appId}</td>
+                                <td>${program}</td>
+                                <td>${date}</td>
+                                <td>${status}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View Details</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+
+                    // Initialize DataTable after data is loaded
+                    $('#applicationTable').DataTable({
+                        "dom": '<"row mx-0"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mx-0"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        "destroy": true // Allow re-initialization
+                    });
+
+                    // Add click handler for View Details
+                    $('.view-details').on('click', function() {
+                        const appId = $(this).data('id');
+                        const app = applicationData.find(a => a._id === appId);
+                        
+                        if (app) {
+                            const details = app.details || {};
+                            const spouse = details.spouseDetails || {};
+                            const employment = details.employmentDetails || {};
+                            
+                            const d = new Date(app.createDate);
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const year = d.getFullYear();
+                            const hours = String(d.getHours()).padStart(2, '0');
+                            const minutes = String(d.getMinutes()).padStart(2, '0');
+                            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                            let html = `
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Personal Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
+                                    <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
+                                    <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Spouse Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Employment Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Submitted Documents</h6>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Copy:</strong><br>
+                                        ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Payslip:</strong><br>
+                                        ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Offer Letter:</strong><br>
+                                        ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            $('#modalContent').html(html);
+                            $('#viewDetailsModal').modal('show');
+                        }
+                    });
+                } catch (err) {
+                    console.error('Error fetching history:', err);
+                    $('#applicationHistory').html('<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>');
+                }
+            }
         });
     </script>
 </body>
