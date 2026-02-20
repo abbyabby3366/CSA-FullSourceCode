@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Withdrawal Requests | CSA Admin</title>
@@ -8,131 +16,144 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- datatables css -->
-    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../assets/libs/datatables/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Withdrawal Requests</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row px-2 gy-2">
-                                        <div class="col-md-3 col-sm-12 d-flex align-items-center">
-                                            <h5 class="m-0 p-0">Withdrawal Requests List</h5>
-                                        </div>
-                                        <div class="col-md-9 col-sm-12 ">
-                                            <div class="row justify-content-end gy-3">
-                                                <div class="col-md-3 col-sm-12">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="txtSearch" placeholder="Search" />
-                                                        <button type="button" class="btn btn-primary btn-label ms-auto" id="btnSearch">
-                                                            <i class="ri-search-line label-icon align-middle fs-16 me-2"></i> Search
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <table id="gvWithdraw" class="table dt-responsive nowrap align-middle" style="width: 100%">
-                                        <thead class="table-light text-muted">
-                                            <tr>
-                                                <th>DATETIME OF REQUEST</th>
-                                                <th>MEMBER</th>
-                                                <th>BANK ACCOUNT NUMBER</th>
-                                                <th>TRANSACTION AMOUNT</th>
-                                                <th>STATUS</th>
-                                                <th class="text-center">ACTION</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Static data for demonstration -->
-                                            <tr>
-                                                <td>2023-10-27 10:30</td>
-                                                <td>Ahmad Bin Ibrahim</td>
-                                                <td>1234567890</td>
-                                                <td>500.00</td>
-                                                <td><span class="badge bg-warning">PENDING</span></td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                       <a href='#' class="text-success">Paid</a>
-                                                       <a href="javascript:void(0);" class="text-danger">Cancel</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-10-26 14:15</td>
-                                                <td>Siti Nurhaliza</td>
-                                                <td>0987654321</td>
-                                                <td>1,200.00</td>
-                                                <td><span class="badge bg-primary">PROCESSING</span></td>
-                                                <td class="text-center">
-                                                    <div class="hstack gap-3 fs-13 justify-content-center">
-                                                       <a href='#' class="text-success">Paid</a>
-                                                       <a href="javascript:void(0);" class="text-danger">Cancel</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="vertical-overlay"></div>
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Withdrawal Requests</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            Copyright <script>document.write(new Date().getFullYear())</script> © CSA Academy - All right reserved.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="row px-2 gy-2">
+                      <div class="col-md-3 col-sm-12 d-flex align-items-center">
+                        <h5 class="m-0 p-0">Withdrawal Requests List</h5>
+                      </div>
+                      <div class="col-md-9 col-sm-12">
+                        <div class="row justify-content-end gy-3">
+                          <div class="col-md-3 col-sm-12">
+                            <div class="input-group">
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="txtSearch"
+                                placeholder="Search"
+                              />
+                              <button
+                                type="button"
+                                class="btn btn-primary btn-label ms-auto"
+                                id="btnSearch"
+                              >
+                                <i
+                                  class="ri-search-line label-icon align-middle fs-16 me-2"
+                                ></i>
+                                Search
+                              </button>
                             </div>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <table
+                      id="gvWithdraw"
+                      class="table dt-responsive nowrap align-middle"
+                      style="width: 100%"
+                    >
+                      <thead class="table-light text-muted">
+                        <tr>
+                          <th>DATETIME OF REQUEST</th>
+                          <th>MEMBER</th>
+                          <th>BANK ACCOUNT NUMBER</th>
+                          <th>TRANSACTION AMOUNT</th>
+                          <th>STATUS</th>
+                          <th class="text-center">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="6" class="text-center">
+                            <div
+                              class="spinner-border text-primary"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-            </footer>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                Copyright
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © CSA Academy - All right reserved.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -159,45 +180,56 @@
     <script src="../Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
-            loadWithdrawals();
-        });
+      $(document).ready(function () {
+        loadWithdrawals();
+      });
 
-        async function loadWithdrawals() {
-            try {
-                const withdrawals = await apiCall('/admin/withdrawals');
-                if (!withdrawals) return;
+      async function loadWithdrawals() {
+        try {
+          const withdrawals = await apiCall("/admin/withdrawals");
+          if (!withdrawals) return;
 
-                const tbody = $('#gvWithdraw tbody');
-                tbody.empty();
+          const tbody = $("#gvWithdraw tbody");
+          tbody.empty();
 
-                withdrawals.forEach((w, index) => {
-                    const date = new Date(w.createDate).toLocaleString();
-                    const memberName = w.member ? `${w.member.firstName} ${w.member.lastName}` : 'Unknown';
-                    const bankAcc = w.member ? w.member.bankAccountNumber : '-';
-                    const amount = Math.abs(w.amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    
-                    let statusBadge = '';
-                    switch(w.status) {
-                        case 'Pending': statusBadge = '<span class="badge bg-warning">PENDING</span>'; break;
-                        case 'Completed': statusBadge = '<span class="badge bg-success">PAID</span>'; break;
-                        case 'Rejected': statusBadge = '<span class="badge bg-danger">CANCELLED</span>'; break;
-                        default: statusBadge = `<span class="badge bg-secondary">${w.status}</span>`;
-                    }
+          withdrawals.forEach((w, index) => {
+            const date = new Date(w.createDate).toLocaleString();
+            const memberName = w.member
+              ? `${w.member.firstName} ${w.member.lastName}`
+              : "Unknown";
+            const bankAcc = w.member ? w.member.bankAccountNumber : "-";
+            const amount = Math.abs(w.amount).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            });
 
-                    let actions = '';
-                    if (w.status === 'Pending') {
-                        actions = `
+            let statusBadge = "";
+            switch (w.status) {
+              case "Pending":
+                statusBadge = '<span class="badge bg-warning">PENDING</span>';
+                break;
+              case "Completed":
+                statusBadge = '<span class="badge bg-success">PAID</span>';
+                break;
+              case "Rejected":
+                statusBadge = '<span class="badge bg-danger">CANCELLED</span>';
+                break;
+              default:
+                statusBadge = `<span class="badge bg-secondary">${w.status}</span>`;
+            }
+
+            let actions = "";
+            if (w.status === "Pending") {
+              actions = `
                             <div class="hstack gap-3 fs-13 justify-content-center">
                                 <a href="javascript:void(0);" class="text-success" onclick="updateStatus('${w._id}', 'Completed')">Paid</a>
                                 <a href="javascript:void(0);" class="text-danger" onclick="updateStatus('${w._id}', 'Rejected')">Cancel</a>
                             </div>
                         `;
-                    } else {
-                        actions = '<span class="text-muted">No Actions</span>';
-                    }
+            } else {
+              actions = '<span class="text-muted">No Actions</span>';
+            }
 
-                    const row = `
+            const row = `
                         <tr>
                             <td>${date}</td>
                             <td>${memberName}</td>
@@ -207,37 +239,41 @@
                             <td class="text-center">${actions}</td>
                         </tr>
                     `;
-                    tbody.append(row);
-                });
+            tbody.append(row);
+          });
 
-                if ($.fn.DataTable.isDataTable('#gvWithdraw')) {
-                    $('#gvWithdraw').DataTable().destroy();
-                }
+          if ($.fn.DataTable.isDataTable("#gvWithdraw")) {
+            $("#gvWithdraw").DataTable().destroy();
+          }
 
-                $('#gvWithdraw').DataTable({
-                    "order": [[ 0, "desc" ]],
-                    responsive: true
-                });
-
-            } catch (err) {
-                console.error('Error loading withdrawals:', err);
-            }
+          $("#gvWithdraw").DataTable({
+            order: [[0, "desc"]],
+            responsive: true,
+          });
+        } catch (err) {
+          console.error("Error loading withdrawals:", err);
         }
+      }
 
-        async function updateStatus(id, status) {
-            const actionText = status === 'Completed' ? 'mark as Paid' : 'Cancel';
-            if (!confirm(`Are you sure you want to ${actionText} this request?`)) return;
+      async function updateStatus(id, status) {
+        const actionText = status === "Completed" ? "mark as Paid" : "Cancel";
+        if (!confirm(`Are you sure you want to ${actionText} this request?`))
+          return;
 
-            try {
-                const result = await apiCall(`/admin/withdrawal/${id}/status`, 'POST', { status });
-                if (result) {
-                    loadWithdrawals();
-                }
-            } catch (err) {
-                console.error('Error updating status:', err);
-                alert('Server error');
-            }
+        try {
+          const result = await apiCall(
+            `/admin/withdrawal/${id}/status`,
+            "POST",
+            { status },
+          );
+          if (result) {
+            loadWithdrawals();
+          }
+        } catch (err) {
+          console.error("Error updating status:", err);
+          alert("Server error");
         }
+      }
     </script>
-</body>
+  </body>
 </html>

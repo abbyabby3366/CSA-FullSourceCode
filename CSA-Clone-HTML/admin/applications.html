@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Application Management | CSA Admin</title>
@@ -8,193 +16,290 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- datatables css -->
-    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
-    
+    <link
+      href="../assets/libs/datatables/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
     <!-- select2 -->
     <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
-    <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css"
+    />
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Application Management</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row px-2 gy-2">
-                                        <div class="col-md-3 col-sm-12 d-flex align-items-center">
-                                            <h5 class="m-0 p-0">Applicant List</h5>
-                                        </div>
-                                        <div class="col-md-9 col-sm-12 ">
-                                            <div class="row justify-content-end gy-3">
-                                                <div class="col-md-3 col-sm-12">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="txtSearch" placeholder="Search" />
-                                                        <button type="button" class="btn btn-primary btn-label ms-auto" id="btnSearch">
-                                                            <i class="ri-search-line label-icon align-middle fs-16 me-2"></i> Search
-                                                        </button>
-                                                    </div>
-                                                </div>
+      <div class="vertical-overlay"></div>
 
-                                                <div class="col-md-2 col-sm-12">
-                                                    <select class="form-control" id="ddlApplicationStatusId">
-                                                        <option value="-1" selected>All Status</option>
-                                                        <option value="0">Unassigned</option>
-                                                        <option value="1">Pre-checking</option>
-                                                        <option value="2">Proposal Preparation</option>
-                                                        <option value="3">Proposal Presentation</option>
-                                                        <option value="4">Pre-Signing</option>
-                                                        <option value="5">Pending Zoom & Acceptance</option>
-                                                        <option value="6">Settlement</option>
-                                                        <option value="7">CCRIS Cleaning/Monitoring</option>
-                                                        <option value="8">Queue For Reloan</option>
-                                                        <option value="9">Reloan Submission</option>
-                                                        <option value="10">Collection</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3 col-sm-12">
-                                                    <button class="btn btn-soft-primary waves-effect waves-light w-100">Add New Application</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <table id="gvApplicant" class="table dt-responsive nowrap align-middle" style="width: 100%">
-                                        <thead class="table-light text-muted">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>CUSTOMER NAME</th>
-                                                <th>FILE NUMBER</th>
-                                                <th>CONTACT</th>
-                                                <th>EMPLOYER</th>
-                                                <th>SALARY RM</th>
-                                                <th>STAGE</th>
-                                                <th>CREATED DATE & TIME</th>
-                                                <th class="text-center">ACTION</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="9" class="text-center">Loading data...</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Application Management</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            Copyright <script>document.write(new Date().getFullYear())</script> © CSA Academy - All right reserved.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="row px-2 gy-2">
+                      <div class="col-md-3 col-sm-12 d-flex align-items-center">
+                        <h5 class="m-0 p-0">Applicant List</h5>
+                      </div>
+                      <div class="col-md-9 col-sm-12">
+                        <div class="row justify-content-end gy-3">
+                          <div class="col-md-3 col-sm-12">
+                            <div class="input-group">
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="txtSearch"
+                                placeholder="Search"
+                              />
+                              <button
+                                type="button"
+                                class="btn btn-primary btn-label ms-auto"
+                                id="btnSearch"
+                              >
+                                <i
+                                  class="ri-search-line label-icon align-middle fs-16 me-2"
+                                ></i>
+                                Search
+                              </button>
                             </div>
+                          </div>
+
+                          <div class="col-md-2 col-sm-12">
+                            <select
+                              class="form-control"
+                              id="ddlApplicationStatusId"
+                            >
+                              <option value="-1" selected>All Status</option>
+                              <option value="0">Unassigned</option>
+                              <option value="1">Pre-checking</option>
+                              <option value="2">Proposal Preparation</option>
+                              <option value="3">Proposal Presentation</option>
+                              <option value="4">Pre-Signing</option>
+                              <option value="5">
+                                Pending Zoom & Acceptance
+                              </option>
+                              <option value="6">Settlement</option>
+                              <option value="7">
+                                CCRIS Cleaning/Monitoring
+                              </option>
+                              <option value="8">Queue For Reloan</option>
+                              <option value="9">Reloan Submission</option>
+                              <option value="10">Collection</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3 col-sm-12">
+                            <button
+                              class="btn btn-soft-primary waves-effect waves-light w-100"
+                            >
+                              Add New Application
+                            </button>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <table
+                      id="gvApplicant"
+                      class="table dt-responsive nowrap align-middle"
+                      style="width: 100%"
+                    >
+                      <thead class="table-light text-muted">
+                        <tr>
+                          <th>ID</th>
+                          <th>CUSTOMER NAME</th>
+                          <th>FILE NUMBER</th>
+                          <th>CONTACT</th>
+                          <th>EMPLOYER</th>
+                          <th>SALARY RM</th>
+                          <th>STAGE</th>
+                          <th>CREATED DATE & TIME</th>
+                          <th class="text-center">ACTION</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="9" class="text-center">
+                            <div
+                              class="spinner-border text-primary"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-            </footer>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                Copyright
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © CSA Academy - All right reserved.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- View Details Modal -->
-    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewDetailsModalLabel">Application Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="modalContent">
-                        <!-- Content will be populated by JS -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+    <div
+      class="modal fade"
+      id="viewDetailsModal"
+      tabindex="-1"
+      aria-labelledby="viewDetailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="viewDetailsModalLabel">
+              Application Details
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="modalContent">
+              <!-- Content will be populated by JS -->
             </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Assign Modal -->
-    <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="assignModalLabel">Assign Application</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="assignAppId">
-                    <div class="mb-3">
-                        <label class="form-label">AM (Account Manager)</label>
-                        <select class="form-select admin-select" id="selAM"></select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">PFC (Personal Finance Consultant)</label>
-                        <select class="form-select admin-select" id="selPFC"></select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">RM (Relationship Manager)</label>
-                        <select class="form-select admin-select" id="selRM"></select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">UM (Unit Manager)</label>
-                        <select class="form-select admin-select" id="selUM"></select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">PA (Personal Assistant)</label>
-                        <select class="form-select admin-select" id="selPA"></select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="btnSaveAssignment">Save Changes</button>
-                </div>
+    <div
+      class="modal fade"
+      id="assignModal"
+      tabindex="-1"
+      aria-labelledby="assignModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="assignModalLabel">
+              Assign Application
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="assignAppId" />
+            <div class="mb-3">
+              <label class="form-label">AM (Account Manager)</label>
+              <select class="form-select admin-select" id="selAM"></select>
             </div>
+            <div class="mb-3">
+              <label class="form-label"
+                >PFC (Personal Finance Consultant)</label
+              >
+              <select class="form-select admin-select" id="selPFC"></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">RM (Relationship Manager)</label>
+              <select class="form-select admin-select" id="selRM"></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">UM (Unit Manager)</label>
+              <select class="form-select admin-select" id="selUM"></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">PA (Personal Assistant)</label>
+              <select class="form-select admin-select" id="selPA"></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="btnSaveAssignment"
+            >
+              Save Changes
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -214,7 +319,7 @@
 
     <!-- datatables js -->
     <script src="../assets/libs/datatables/datatables.min.js"></script>
-    
+
     <!-- select2 js -->
     <script src="../assets/libs/select2/js/select2.min.js"></script>
 
@@ -224,50 +329,55 @@
     <script src="../Scripts/adminHelper.js"></script>
 
     <script>
-        const statusMap = {
-            0: { text: "Unassigned", class: "bg-light text-dark" },
-            1: { text: "Pre-checking", class: "bg-info" },
-            2: { text: "Proposal Preparation", class: "bg-warning" },
-            3: { text: "Proposal Presentation", class: "bg-primary" },
-            4: { text: "Pre-Signing", class: "bg-secondary" },
-            5: { text: "Pending Acceptance", class: "bg-info" },
-            6: { text: "Settlement", class: "bg-success" },
-            7: { text: "Monitoring", class: "bg-dark" },
-            8: { text: "Queue For Reloan", class: "bg-light text-dark" },
-            9: { text: "Reloan Submission", class: "bg-primary" },
-            10: { text: "Collection", class: "bg-danger" }
-        };
+      const statusMap = {
+        0: { text: "Unassigned", class: "bg-light text-dark" },
+        1: { text: "Pre-checking", class: "bg-info" },
+        2: { text: "Proposal Preparation", class: "bg-warning" },
+        3: { text: "Proposal Presentation", class: "bg-primary" },
+        4: { text: "Pre-Signing", class: "bg-secondary" },
+        5: { text: "Pending Acceptance", class: "bg-info" },
+        6: { text: "Settlement", class: "bg-success" },
+        7: { text: "Monitoring", class: "bg-dark" },
+        8: { text: "Queue For Reloan", class: "bg-light text-dark" },
+        9: { text: "Reloan Submission", class: "bg-primary" },
+        10: { text: "Collection", class: "bg-danger" },
+      };
 
-        let applicationData = [];
-        let adminData = [];
+      let applicationData = [];
+      let adminData = [];
 
-        $(document).ready(async function() {
-            // Load Admins for assignment
-            const rawAdmins = await apiCall('/admin/admins');
-            if (rawAdmins) {
-                adminData = rawAdmins;
-                const selects = $('.admin-select');
-                selects.empty().append('<option value="">Unassigned</option>');
-                adminData.forEach(admin => {
-                    selects.append(`<option value="${admin._id}">${admin.name} (${admin.role})</option>`);
-                });
-            }
+      $(document).ready(async function () {
+        // Load Admins for assignment
+        const rawAdmins = await apiCall("/admin/admins");
+        if (rawAdmins) {
+          adminData = rawAdmins;
+          const selects = $(".admin-select");
+          selects.empty().append('<option value="">Unassigned</option>');
+          adminData.forEach((admin) => {
+            selects.append(
+              `<option value="${admin._id}">${admin.name} (${admin.role})</option>`,
+            );
+          });
+        }
 
-            const apps = await apiCall('/admin/applications');
-            if (apps) {
-                applicationData = apps;
-                const tbody = $('#gvApplicant tbody');
-                tbody.empty();
-                apps.forEach(app => {
-                    const status = statusMap[app.applicationStatus] || { text: "Unknown", class: "bg-secondary" };
-                    tbody.append(`
+        const apps = await apiCall("/admin/applications");
+        if (apps) {
+          applicationData = apps;
+          const tbody = $("#gvApplicant tbody");
+          tbody.empty();
+          apps.forEach((app) => {
+            const status = statusMap[app.applicationStatus] || {
+              text: "Unknown",
+              class: "bg-secondary",
+            };
+            tbody.append(`
                         <tr>
                             <td>${app._id.substring(18)}</td>
-                            <td>${app.member ? app.member.firstName + ' ' + app.member.lastName : 'N/A'}</td>
-                            <td>${app.fileNumber || 'Pending'}</td>
-                            <td>${app.member ? app.member.phoneNumber : 'N/A'}</td>
-                            <td>${app.details ? (app.details.employerName || 'N/A') : 'N/A'}</td>
-                            <td>RM ${app.details && app.details.employmentDetails ? (app.details.employmentDetails.salaryRange || '0.00') : '0.00'}</td>
+                            <td>${app.member ? app.member.firstName + " " + app.member.lastName : "N/A"}</td>
+                            <td>${app.fileNumber || "Pending"}</td>
+                            <td>${app.member ? app.member.phoneNumber : "N/A"}</td>
+                            <td>${app.details ? app.details.employerName || "N/A" : "N/A"}</td>
+                            <td>RM ${app.details && app.details.employmentDetails ? app.details.employmentDetails.salaryRange || "0.00" : "0.00"}</td>
                             <td><span class="badge ${status.class}">${status.text}</span></td>
                             <td>${new Date(app.createDate).toLocaleString()}</td>
                             <td class="text-center">
@@ -278,122 +388,135 @@
                             </td>
                         </tr>
                     `);
-                });
-                $('#gvApplicant').DataTable({
-                    "order": [[ 7, "desc" ]]
-                });
-            }
+          });
+          $("#gvApplicant").DataTable({
+            order: [[7, "desc"]],
+          });
+        }
 
-            // View Handler
-            $(document).on('click', '.view-btn', function() {
-                const appId = $(this).data('id');
-                const app = applicationData.find(a => a._id === appId);
-                if (app) {
-                    const details = app.details || {};
-                    const spouse = details.spouseDetails || {};
-                    const employment = details.employmentDetails || {};
-                    
-                    const d = new Date(app.createDate);
-                    const formattedDate = d.toLocaleString();
+        // View Handler
+        $(document).on("click", ".view-btn", function () {
+          const appId = $(this).data("id");
+          const app = applicationData.find((a) => a._id === appId);
+          if (app) {
+            const details = app.details || {};
+            const spouse = details.spouseDetails || {};
+            const employment = details.employmentDetails || {};
 
-                    let html = `
+            const d = new Date(app.createDate);
+            const formattedDate = d.toLocaleString();
+
+            let html = `
                         <div class="row">
                             <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
                             <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Personal Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
-                            <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
-                            <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
-                            <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
-                            <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
+                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
+                            <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === "1" ? "Male" : details.gender === "2" ? "Female" : "N/A"}</div>
+                            <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || "N/A"}</div>
+                            <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
+                            <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || "N/A"}</div>
                             
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Spouse Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
-                            <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || "N/A"}</div>
+                            <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || "N/A"}</div>
                             
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Employment Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
-                            <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
-                            <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+                            <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || "N/A"}</div>
+                            <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
+                            <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || "0"}</div>
 
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Submitted Documents</h6>
                             <div class="col-md-4 mb-2">
                                 <strong>IC Copy:</strong><br>
-                                ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                                ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : "Not uploaded"}
                             </div>
                             <div class="col-md-4 mb-2">
                                 <strong>Payslip:</strong><br>
-                                ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
+                                ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : "Not uploaded"}
                             </div>
                             <div class="col-md-4 mb-2">
                                 <strong>Offer Letter:</strong><br>
-                                ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
+                                ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : "Not uploaded"}
                             </div>
                         </div>
                     `;
-                    
-                    $('#modalContent').html(html);
-                    $('#viewDetailsModal').modal('show');
-                }
-            });
 
-            // Assign Handler
-            $(document).on('click', '.assign-btn', function() {
-                const appId = $(this).data('id');
-                const app = applicationData.find(a => a._id === appId);
-                if (app) {
-                    $('#assignAppId').val(appId);
-                    const admins = app.admins || {};
-                    $('#selAM').val(admins.am || '').trigger('change');
-                    $('#selPFC').val(admins.pfc || '').trigger('change');
-                    $('#selRM').val(admins.rm || '').trigger('change');
-                    $('#selUM').val(admins.um || '').trigger('change');
-                    $('#selPA').val(admins.pa || '').trigger('change');
-                    $('#assignModal').modal('show');
-                }
-            });
-
-            // Save Assignment
-            $('#btnSaveAssignment').on('click', async function() {
-                const appId = $('#assignAppId').val();
-                const data = {
-                    am: $('#selAM').val(),
-                    pfc: $('#selPFC').val(),
-                    rm: $('#selRM').val(),
-                    um: $('#selUM').val(),
-                    pa: $('#selPA').val()
-                };
-
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/admin/application/${appId}/assign`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (response.ok) {
-                        alert('Application assigned successfully!');
-                        $('#assignModal').modal('hide');
-                        location.reload(); // Refresh to show updated data
-                    } else {
-                        const err = await response.json();
-                        alert('Assignment failed: ' + (err.msg || 'Unknown error'));
-                    }
-                } catch (err) {
-                    console.error('Save error:', err);
-                    alert('Error saving assignment.');
-                }
-            });
-
-            $('select').select2({ theme: 'bootstrap-5' });
+            $("#modalContent").html(html);
+            $("#viewDetailsModal").modal("show");
+          }
         });
+
+        // Assign Handler
+        $(document).on("click", ".assign-btn", function () {
+          const appId = $(this).data("id");
+          const app = applicationData.find((a) => a._id === appId);
+          if (app) {
+            $("#assignAppId").val(appId);
+            const admins = app.admins || {};
+            $("#selAM")
+              .val(admins.am || "")
+              .trigger("change");
+            $("#selPFC")
+              .val(admins.pfc || "")
+              .trigger("change");
+            $("#selRM")
+              .val(admins.rm || "")
+              .trigger("change");
+            $("#selUM")
+              .val(admins.um || "")
+              .trigger("change");
+            $("#selPA")
+              .val(admins.pa || "")
+              .trigger("change");
+            $("#assignModal").modal("show");
+          }
+        });
+
+        // Save Assignment
+        $("#btnSaveAssignment").on("click", async function () {
+          const appId = $("#assignAppId").val();
+          const data = {
+            am: $("#selAM").val(),
+            pfc: $("#selPFC").val(),
+            rm: $("#selRM").val(),
+            um: $("#selUM").val(),
+            pa: $("#selPA").val(),
+          };
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/admin/application/${appId}/assign`,
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify(data),
+              },
+            );
+
+            if (response.ok) {
+              alert("Application assigned successfully!");
+              $("#assignModal").modal("hide");
+              location.reload(); // Refresh to show updated data
+            } else {
+              const err = await response.json();
+              alert("Assignment failed: " + (err.msg || "Unknown error"));
+            }
+          } catch (err) {
+            console.error("Save error:", err);
+            alert("Error saving assignment.");
+          }
+        });
+
+        $("select").select2({ theme: "bootstrap-5" });
+      });
     </script>
-</body>
+  </body>
 </html>

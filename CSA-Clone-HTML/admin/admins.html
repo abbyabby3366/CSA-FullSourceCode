@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Management | Admin Portal</title>
@@ -8,124 +16,128 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- datatables css -->
-    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../assets/libs/datatables/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Admin List</h4>
-                                </div>
-                                <div class="mt-3 mt-lg-0">
-                                    <button type="button" class="btn btn-primary"><i class="ri-add-line align-bottom me-1"></i> Add New Admin</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header border-0">
-                                    <div class="row g-4 align-items-center">
-                                        <div class="col-sm-3">
-                                            <div class="search-box">
-                                                <input type="text" class="form-control" placeholder="Search admins...">
-                                                <i class="ri-search-line search-icon"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive table-card">
-                                        <table class="table align-middle table-nowrap mb-0" id="adminTable">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Full Name</th>
-                                                    <th>Email</th>
-                                                    <th>Super Admin</th>
-                                                    <th>Status</th>
-                                                    <th>Create Date</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="fw-medium">John Doe</td>
-                                                    <td>john.doe@csa.com</td>
-                                                    <td><span class="badge bg-primary">Yes</span></td>
-                                                    <td><span class="badge bg-success">Active</span></td>
-                                                    <td>20 Jan 2024</td>
-                                                    <td>
-                                                        <div class="hstack gap-3 flex-wrap justify-content-center">
-                                                            <a href="javascript:void(0);" class="link-success fs-15"><i class="ri-edit-line"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fw-medium">Jane Smith</td>
-                                                    <td>jane.smith@csa.com</td>
-                                                    <td><span class="badge bg-light text-dark">No</span></td>
-                                                    <td><span class="badge bg-success">Active</span></td>
-                                                    <td>22 Jan 2024</td>
-                                                    <td>
-                                                        <div class="hstack gap-3 flex-wrap justify-content-center">
-                                                            <a href="javascript:void(0);" class="link-success fs-15"><i class="ri-edit-line"></i></a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="vertical-overlay"></div>
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Admin List</h4>
+                  </div>
+                  <div class="mt-3 mt-lg-0">
+                    <button type="button" class="btn btn-primary">
+                      <i class="ri-add-line align-bottom me-1"></i> Add New
+                      Admin
+                    </button>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © CSA.
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header border-0">
+                    <div class="row g-4 align-items-center">
+                      <div class="col-sm-3">
+                        <div class="search-box">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search admins..."
+                          />
+                          <i class="ri-search-line search-icon"></i>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
-                            </div>
-                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive table-card">
+                      <table
+                        class="table align-middle table-nowrap mb-0"
+                        id="adminTable"
+                      >
+                        <thead class="table-light">
+                          <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Super Admin</th>
+                            <th>Status</th>
+                            <th>Create Date</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colspan="6" class="text-center">
+                              <div
+                                class="spinner-border text-primary"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-            </footer>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">© CSA.</div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- JAVASCRIPT -->
@@ -141,18 +153,18 @@
     <script src="../Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            const admins = await apiCall('/admin/admins');
-            if (admins) {
-                const tbody = $('#adminTable tbody');
-                tbody.empty();
-                admins.forEach(admin => {
-                    tbody.append(`
+      $(document).ready(async function () {
+        const admins = await apiCall("/admin/admins");
+        if (admins) {
+          const tbody = $("#adminTable tbody");
+          tbody.empty();
+          admins.forEach((admin) => {
+            tbody.append(`
                         <tr>
                             <td class="fw-medium">${admin.name}</td>
                             <td>${admin.email}</td>
-                            <td><span class="badge bg-${admin.isSuperAdmin ? 'primary' : 'light text-dark'}">${admin.isSuperAdmin ? 'Yes' : 'No'}</span></td>
-                            <td><span class="badge bg-${admin.status === 1 ? 'success' : 'danger'}">${admin.status === 1 ? 'Active' : 'Inactive'}</span></td>
+                            <td><span class="badge bg-${admin.isSuperAdmin ? "primary" : "light text-dark"}">${admin.isSuperAdmin ? "Yes" : "No"}</span></td>
+                            <td><span class="badge bg-${admin.status === 1 ? "success" : "danger"}">${admin.status === 1 ? "Active" : "Inactive"}</span></td>
                             <td>${new Date(admin.createDate).toLocaleDateString()}</td>
                             <td>
                                 <div class="hstack gap-3 flex-wrap justify-content-center">
@@ -161,9 +173,9 @@
                             </td>
                         </tr>
                     `);
-                });
-            }
-        });
+          });
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
