@@ -1,159 +1,292 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register | Member Portal</title>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
-	<link rel="stylesheet" href="../assets/css/custom.css">
-	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
-
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/member-portal-theme.css" />
 
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="../assets/libs/sweetalert2/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="../assets/libs/sweetalert2/sweetalert2.min.css"
+    />
 
     <style>
-        .valid {
-            color: #279d69;
-        }
+      .valid {
+        color: #279d69;
+      }
 
-        .valid:before {
-            position: relative;
-            left: -5px;
-            content: "✔";
-        }
+      .valid:before {
+        position: relative;
+        left: -5px;
+        content: "✔";
+      }
 
-        .invalid {
-            color: #f06548;
-        }
+      .invalid {
+        color: #f06548;
+      }
 
-        .invalid:before {
-            position: relative;
-            left: -5px;
-            content: "✖";
-        }
+      .invalid:before {
+        position: relative;
+        left: -5px;
+        content: "✖";
+      }
     </style>
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
-    <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-        <div class="bg-overlay"></div>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <div
+      class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100"
+    >
+      <div class="bg-overlay"></div>
 
-        <div class="auth-page-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center mt-sm-3 text-white-50">
-                            <div>
-                                <a href="index.html" class="d-inline-block auth-logo">
-                                    <img src="../assets/images/logos/yabam-logo-dark.png" alt="" height="100">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+      <div class="auth-page-content">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center mt-sm-3 text-white-50">
+                <div>
+                  <a href="index.html" class="d-inline-block auth-logo">
+                    <img
+                      src="../assets/images/logos/yabam-logo-dark.png"
+                      alt=""
+                      height="100"
+                    />
+                  </a>
                 </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card mt-4">
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <h5 class="text-primary fw-semibold">Create New Account</h5>
-                                    <p class="mb-0 text-muted">Already have an account? <a href="index.html" class="fw-semibold text-primary text-decoration-underline">Sign In</a></p>
-                                </div>
-
-                                <div class="p-2 mt-4" id="registrationForm">
-                                    <form action="index.html" class="needs-validation" novalidate>
-                                        <div class="mb-3" id="referrerDiv" style="display: none;">
-                                            <label for="referrerCode" class="form-label">Referral Code</label>
-                                            <input type="text" class="form-control bg-light" id="referrerCode" readonly>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="firstName" placeholder="Enter first name" required>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="phoneNo" class="form-label">Phone No <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text bg-light border-light text-muted">+60</span>
-                                                <input type="text" class="form-control" id="phoneNo" placeholder="Enter phone number" required>
-                                            </div>
-                                            <p class="text-muted fs-11 mt-1">Format: 0123456789</p>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="password-input">Password</label>
-                                            <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" required>
-                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
-                                                <div class="invalid-feedback">
-                                                    Please enter password
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
-                                            <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Confirm password" id="confirm-password-input" required>
-                                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
-                                                <div class="invalid-feedback">
-                                                    Passwords do not match
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="password-contain" class="p-3 bg-light mb-4 rounded">
-                                            <h5 class="fs-13">Password must contain:</h5>
-                                            <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
-                                            <p id="pass-lower" class="invalid fs-12 mb-2">At least one <b>lowercase</b> letter (a-z)</p>
-                                            <p id="pass-upper" class="invalid fs-12 mb-2">At least one <b>uppercase</b> letter (A-Z)</p>
-                                            <p id="pass-number" class="invalid fs-12 mb-0">At least one <b>number</b> (0-9)</p>
-                                        </div>
-
-                                        <div class="mt-4">
-                                            <button class="btn btn-tertiary w-100" type="submit">Sign Up</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+              <div class="card mt-4">
+                <div class="card-body p-4">
+                  <div class="text-center">
+                    <h5 class="text-primary fw-semibold">Create New Account</h5>
+                    <p class="mb-0 text-muted">
+                      Already have an account?
+                      <a
+                        href="index.html"
+                        class="fw-semibold text-primary text-decoration-underline"
+                        >Sign In</a
+                      >
+                    </p>
+                  </div>
+
+                  <div class="p-2 mt-4" id="registrationForm">
+                    <form
+                      action="index.html"
+                      class="needs-validation"
+                      novalidate
+                    >
+                      <div class="mb-3" id="referrerDiv" style="display: none">
+                        <label for="referrerCode" class="form-label"
+                          >Referral Code</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control bg-light"
+                          id="referrerCode"
+                          readonly
+                        />
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label for="firstName" class="form-label"
+                            >First Name
+                            <span class="text-danger">*</span></label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="firstName"
+                            placeholder="Enter first name"
+                            required
+                          />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label for="lastName" class="form-label"
+                            >Last Name <span class="text-danger">*</span></label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="lastName"
+                            placeholder="Enter last name"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="phoneNo" class="form-label"
+                          >Phone No <span class="text-danger">*</span></label
+                        >
+                        <div class="input-group">
+                          <span
+                            class="input-group-text bg-light border-light text-muted"
+                            >+60</span
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="phoneNo"
+                            placeholder="Enter phone number"
+                            required
+                          />
+                          <button
+                            class="btn btn-secondary"
+                            type="button"
+                            id="btnGetTac"
+                          >
+                            Get TAC
+                          </button>
+                        </div>
+                        <p class="text-muted fs-11 mt-1">Format: 0123456789</p>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="tacCode" class="form-label"
+                          >Verification Code (TAC)
+                          <span class="text-danger">*</span></label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="tacCode"
+                          placeholder="Enter 6-digit TAC"
+                          required
+                          maxlength="6"
+                        />
+                        <div class="invalid-feedback">
+                          Please enter 6-digit verification code
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label" for="password-input"
+                          >Password</label
+                        >
+                        <div class="position-relative auth-pass-inputgroup">
+                          <input
+                            type="password"
+                            class="form-control pe-5 password-input"
+                            placeholder="Enter password"
+                            id="password-input"
+                            required
+                          />
+                          <button
+                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                            type="button"
+                          >
+                            <i class="ri-eye-fill align-middle"></i>
+                          </button>
+                          <div class="invalid-feedback">
+                            Please enter password
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label" for="confirm-password-input"
+                          >Confirm Password</label
+                        >
+                        <div class="position-relative auth-pass-inputgroup">
+                          <input
+                            type="password"
+                            class="form-control pe-5 password-input"
+                            placeholder="Confirm password"
+                            id="confirm-password-input"
+                            required
+                          />
+                          <button
+                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                            type="button"
+                          >
+                            <i class="ri-eye-fill align-middle"></i>
+                          </button>
+                          <div class="invalid-feedback">
+                            Passwords do not match
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        id="password-contain"
+                        class="p-3 bg-light mb-4 rounded"
+                      >
+                        <h5 class="fs-13">Password must contain:</h5>
+                        <p id="pass-length" class="invalid fs-12 mb-2">
+                          Minimum <b>8 characters</b>
+                        </p>
+                        <p id="pass-lower" class="invalid fs-12 mb-2">
+                          At least one <b>lowercase</b> letter (a-z)
+                        </p>
+                        <p id="pass-upper" class="invalid fs-12 mb-2">
+                          At least one <b>uppercase</b> letter (A-Z)
+                        </p>
+                        <p id="pass-number" class="invalid fs-12 mb-0">
+                          At least one <b>number</b> (0-9)
+                        </p>
+                      </div>
+
+                      <div class="mt-4">
+                        <button class="btn btn-tertiary w-100" type="submit">
+                          Sign Up
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0 text-muted">&copy;
-                                 <script>document.write(new Date().getFullYear())</script> YAYASAN AMANAH BANTUAN AWAM MALAYSIA. All rights reserved.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center">
+                <p class="mb-0 text-muted">
+                  &copy;
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  YAYASAN AMANAH BANTUAN AWAM MALAYSIA. All rights reserved.
+                </p>
+              </div>
             </div>
-        </footer>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <!-- JAVASCRIPT -->
@@ -162,143 +295,257 @@
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
-    
+
     <script>
-        $(document).ready(function() {
-            $(".password-addon").on("click", function() {
-                var passInput = $(this).closest(".auth-pass-inputgroup").find(".password-input");
-                if (passInput.attr("type") === "password") {
-                    passInput.attr("type", "text");
-                } else {
-                    passInput.attr("type", "password");
-                }
-            });
-
-            // Password validation logic
-            var myInput = document.getElementById("password-input");
-            var letter = document.getElementById("pass-lower");
-            var capital = document.getElementById("pass-upper");
-            var number = document.getElementById("pass-number");
-            var length = document.getElementById("pass-length");
-
-            myInput.onkeyup = function() {
-                // Validate lowercase letters
-                var lowerCaseLetters = /[a-z]/g;
-                if(myInput.value.match(lowerCaseLetters)) {
-                    letter.classList.remove("invalid");
-                    letter.classList.add("valid");
-                } else {
-                    letter.classList.remove("valid");
-                    letter.classList.add("invalid");
-                }
-
-                // Validate uppercase letters
-                var upperCaseLetters = /[A-Z]/g;
-                if(myInput.value.match(upperCaseLetters)) {
-                    capital.classList.remove("invalid");
-                    capital.classList.add("valid");
-                } else {
-                    capital.classList.remove("valid");
-                    capital.classList.add("invalid");
-                }
-
-                // Validate numbers
-                var numbers = /[0-9]/g;
-                if(myInput.value.match(numbers)) {
-                    number.classList.remove("invalid");
-                    number.classList.add("valid");
-                } else {
-                    number.classList.remove("valid");
-                    number.classList.add("invalid");
-                }
-
-                // Validate length
-                if(myInput.value.length >= 8) {
-                    length.classList.remove("invalid");
-                    length.classList.add("valid");
-                } else {
-                    length.classList.remove("valid");
-                    length.classList.add("invalid");
-                }
-            };
-
-            // Capture Referral Code
-            const urlParams = new URLSearchParams(window.location.search);
-            const refCode = urlParams.get('ref');
-            if (refCode) {
-                $('#referrerCode').val(refCode);
-                $('#referrerDiv').show();
-            }
-
-            // Registration Logic
-            $('form').on('submit', async function(e) {
-                e.preventDefault();
-                
-                const firstName = $('#firstName').val();
-                const lastName = $('#lastName').val();
-                const phoneNumber = $('#phoneNo').val();
-                const password = $('#password-input').val();
-                const confirmPassword = $('#confirm-password-input').val();
-
-                if (password !== confirmPassword) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Passwords do not match!'
-                    });
-                    return;
-                }
-
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/auth/member/register`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ 
-                            firstName, 
-                            lastName, 
-                            phoneNumber, 
-                            password,
-                            referrerCode: refCode // Include referral code if present
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Register Success',
-                            text: 'Your account has been created successfully. You can now login.',
-                            confirmButtonText: 'Login Now',
-                            confirmButtonColor: '#279d69',
-                            allowOutsideClick: false
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Auto Login: Store token and redirect
-                                localStorage.setItem('token', data.token);
-                                localStorage.setItem('userRole', 'member');
-                                window.location.href = 'apply.html';
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Registration Failed',
-                            text: data.msg || 'Please try again.'
-                        });
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Server Error',
-                        text: 'Make sure the backend is running.'
-                    });
-                }
-            });
+      $(document).ready(function () {
+        $(".password-addon").on("click", function () {
+          var passInput = $(this)
+            .closest(".auth-pass-inputgroup")
+            .find(".password-input");
+          if (passInput.attr("type") === "password") {
+            passInput.attr("type", "text");
+          } else {
+            passInput.attr("type", "password");
+          }
         });
+
+        // Password validation logic
+        var myInput = document.getElementById("password-input");
+        var letter = document.getElementById("pass-lower");
+        var capital = document.getElementById("pass-upper");
+        var number = document.getElementById("pass-number");
+        var length = document.getElementById("pass-length");
+
+        myInput.onkeyup = function () {
+          // Validate lowercase letters
+          var lowerCaseLetters = /[a-z]/g;
+          if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+          } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+          }
+
+          // Validate uppercase letters
+          var upperCaseLetters = /[A-Z]/g;
+          if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+          } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+          }
+
+          // Validate numbers
+          var numbers = /[0-9]/g;
+          if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+          } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+          }
+
+          // Validate length
+          if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+          } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+          }
+        };
+
+        // Capture Referral Code
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get("ref");
+        if (refCode) {
+          $("#referrerCode").val(refCode);
+          $("#referrerDiv").show();
+        }
+
+        // TAC sending logic
+        let countdown = 0;
+        let timerId = null;
+
+        function startTimer() {
+          countdown = 60;
+          $("#btnGetTac").prop("disabled", true).text(`Retry in ${countdown}s`);
+
+          timerId = setInterval(() => {
+            countdown--;
+            if (countdown <= 0) {
+              clearInterval(timerId);
+              $("#btnGetTac").prop("disabled", false).text("Get TAC");
+            } else {
+              $("#btnGetTac").text(`Retry in ${countdown}s`);
+            }
+          }, 1000);
+        }
+
+        $("#btnGetTac").on("click", async function () {
+          const phoneNumber = $("#phoneNo").val();
+          if (!phoneNumber) {
+            Swal.fire({
+              icon: "warning",
+              title: "Wait!",
+              text: "Please enter your phone number first.",
+            });
+            return;
+          }
+
+          // Simple format check (0123456789)
+          if (!/^\d{9,11}$/.test(phoneNumber)) {
+            Swal.fire({
+              icon: "warning",
+              title: "Invalid Format",
+              text: "Please enter a valid phone number (e.g., 0123456789).",
+            });
+            return;
+          }
+
+          try {
+            $("#btnGetTac")
+              .prop("disabled", true)
+              .html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...',
+              );
+
+            // Format phone with +60 prefix for the backend (backend expects the final format)
+            const fullPhone = phoneNumber.startsWith("0")
+              ? "6" + phoneNumber
+              : phoneNumber.startsWith("60")
+                ? phoneNumber
+                : "60" + phoneNumber;
+
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/auth/send-tac`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phoneNumber: fullPhone }),
+              },
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "TAC Sent",
+                text: "Verification code has been sent to your WhatsApp.",
+              });
+              startTimer();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Failed",
+                text: data.msg || "Failed to send TAC. Please try again later.",
+              });
+              $("#btnGetTac").prop("disabled", false).text("Get TAC");
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Failed to connect to the server.",
+            });
+            $("#btnGetTac").prop("disabled", false).text("Get TAC");
+          }
+        });
+
+        // Registration Logic
+        $("form").on("submit", async function (e) {
+          e.preventDefault();
+
+          const firstName = $("#firstName").val();
+          const lastName = $("#lastName").val();
+          const phoneNumber = $("#phoneNo").val();
+          const password = $("#password-input").val();
+          const confirmPassword = $("#confirm-password-input").val();
+          const tacCode = $("#tacCode").val();
+
+          if (!tacCode) {
+            Swal.fire({
+              icon: "error",
+              title: "TAC Required",
+              text: "Please enter the verification code sent to your WhatsApp.",
+            });
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Passwords do not match!",
+            });
+            return;
+          }
+
+          try {
+            // Format phone with +60 prefix
+            const fullPhone = phoneNumber.startsWith("0")
+              ? "6" + phoneNumber
+              : phoneNumber.startsWith("60")
+                ? phoneNumber
+                : "60" + phoneNumber;
+
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/auth/member/register`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  firstName,
+                  lastName,
+                  phoneNumber: fullPhone,
+                  password,
+                  tacCode,
+                  referrerCode: refCode, // Include referral code if present
+                }),
+              },
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Register Success",
+                text: "Your account has been created successfully. You can now login.",
+                confirmButtonText: "Login Now",
+                confirmButtonColor: "#279d69",
+                allowOutsideClick: false,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Auto Login: Store token and redirect
+                  localStorage.setItem("token", data.token);
+                  localStorage.setItem("userRole", "member");
+                  window.location.href = "apply.html";
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Registration Failed",
+                text: data.msg || "Please try again.",
+              });
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Server Error",
+              text: "Make sure the backend is running.",
+            });
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

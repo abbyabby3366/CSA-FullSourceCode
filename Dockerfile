@@ -1,29 +1,46 @@
-# Use a stable Node.js LTS version on a lightweight Alpine Linux base
-FROM node:20-alpine
+# Use Node.js LTS version on Alpine Linux
+FROM node:22-alpine
 
-# Set the working directory inside the container
+# Install PM2 globally
+RUN npm install -g pm2
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the package files first to leverage Docker's build cache
-# This ensures npm install is only re-run if package.json or package-lock.json changes
+# --- Setup WhatsApp Server ---
+# Copy package files and install dependencies
+COPY whatsapp-server/package*.json ./whatsapp-server/
+RUN cd whatsapp-server && npm install --production
+
+# Copy source files
+COPY whatsapp-server/whatsapp-server.js ./whatsapp-server/
+COPY whatsapp-server/index.html ./whatsapp-server/
+
+# --- Setup CSA Backend ---
+# Copy package files and install dependencies
 COPY CSA-Clone-HTML/csa-backend/package*.json ./CSA-Clone-HTML/csa-backend/
+RUN cd CSA-Clone-HTML/csa-backend && npm install --production
 
-# Change to the backend directory and install production dependencies
-WORKDIR /app/CSA-Clone-HTML/csa-backend
-RUN npm install --production
-
-# Go back to the /app root to copy the rest of the application
-WORKDIR /app
-
-# Copy the entire CSA-Clone-HTML directory (which includes frontend assets and backend code)
-# Files excluded by .dockerignore (like node_modules and .env) will not be copied
+# Copy entire directory structure (frontend + backend)
 COPY CSA-Clone-HTML/ ./CSA-Clone-HTML/
 
-# Change directory back to the backend where server.js resides
-WORKDIR /app/CSA-Clone-HTML/csa-backend
+# --- Main configuration ---
+# Copy PM2 ecosystem config
+COPY ecosystem.config.cjs ./
 
-# The server defaults to port 5000 as per server.js
-EXPOSE 5000
+# Set production environment
+ENV NODE_ENV=production
+ENV PORT=5000
+ENV WHATSAPP_SERVER_PORT=3182
 
-# Start the Express server using node
-CMD ["node", "server.js"]
+# Expose ports
+# csa-backend: 5000
+# whatsapp-server: 3182
+EXPOSE 5000 3182
+
+# Health check (checks if backend is responding)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:5000/ || exit 1
+
+# Start both services with PM2
+CMD ["pm2-runtime", "ecosystem.config.cjs"]

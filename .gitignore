@@ -5,3 +5,4 @@ documents/
 files/
 CSA-Clone-HTML/csa-backend/.env
 */node_modules
+.env
