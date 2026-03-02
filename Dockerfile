@@ -43,8 +43,8 @@ COPY whatsapp-server/package.json whatsapp-server/
 # PM2 ecosystem config
 COPY ecosystem.config.cjs ./
 
-# Environment file template
-COPY .env.example ./.env.example 2>/dev/null || true
+# Environment file template (optional)
+COPY .env.exampl[e] ./.env.example
 
 # ============================================
 # Configuration & Environment
