@@ -146,10 +146,9 @@
                       <thead class="table-light text-muted">
                         <tr>
                           <th>ID</th>
-                          <th>CUSTOMER NAME</th>
+                          <th>CUSTOMER NAME (ID)</th>
+                          <th>REFERRER ID</th>
                           <th>FILE NUMBER</th>
-                          <th>CONTACT</th>
-                          <th>EMPLOYER</th>
                           <th>SALARY RM</th>
                           <th>STATUS</th>
                           <th>CREATED DATE & TIME</th>
@@ -354,19 +353,21 @@
               class: "bg-secondary",
             };
             let memberInfo = "N/A";
+            let referrerCode = "N/A";
             if (app.member) {
-              const typeMap = { 1: "Member", 2: "Agent", 3: "Hero" };
-              const typeLabel = typeMap[app.member.memberType] || "Member";
-              memberInfo = `[${app.member.memberCode || "-"}] ${app.member.firstName} ${app.member.lastName} (${typeLabel})`;
+              memberInfo = `${app.member.firstName} ${app.member.lastName} (${app.member.memberCode || "-"})`;
+              referrerCode =
+                app.referrerMember?.memberCode ||
+                app.member.referrer?.memberCode ||
+                "N/A";
             }
 
             tbody.append(`
                         <tr>
                             <td>${app._id.substring(18)}</td>
                             <td>${memberInfo}</td>
+                            <td>${referrerCode}</td>
                             <td>${app.fileNumber || "Pending"}</td>
-                            <td>${app.member ? app.member.phoneNumber : "N/A"}</td>
-                            <td>${app.details ? app.details.employerName || "N/A" : "N/A"}</td>
                             <td>RM ${app.details && app.details.employmentDetails ? app.details.employmentDetails.salaryRange || "0.00" : "0.00"}</td>
                             <td><span class="badge ${status.class}">${status.text}</span></td>
                             <td>${new Date(app.createDate).toLocaleString()}</td>

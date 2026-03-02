@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 <head>
     <meta charset="utf-8" />
@@ -217,7 +217,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                            © Copyright <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - All rights reserved.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
@@ -287,6 +287,30 @@
                     <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
                         <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">OK</button>
                         <a href="survey.html" class="btn w-sm btn-success">Go to Survey</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade zoomIn" id="confirmModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f7b84b,secondary:#333333" style="width:120px;height:120px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-15">
+                            <h4>Please double check your information</h4>
+                            <p class="text-muted mx-4 mb-0">Are you sure you want to submit this application? Please ensure all details and documents are correct before confirming.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn w-sm btn-primary" id="btnConfirmSubmit">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -375,8 +399,22 @@
                     applicationData = apps;
 
                     if (apps.length > 0) {
-                        $('#applyAgainSection').show();
-                        $('#applyFormContainer').hide();
+                        const hasApproved = apps.some(app => app.applicationStatus === 6);
+                        if (hasApproved) {
+                            $('#applyAgainSection').hide();
+                            $('#applyFormContainer').html(`
+                                <div class="card bg-soft-success border-success text-success">
+                                    <div class="card-body text-center py-4">
+                                        <i class="ri-checkbox-circle-line fs-40"></i>
+                                        <h4 class="mt-3 text-success">Application Already Approved</h4>
+                                        <p class="mb-0">You have already been approved for this program and cannot submit another application.</p>
+                                    </div>
+                                </div>
+                            `).show();
+                        } else {
+                            $('#applyAgainSection').show();
+                            $('#applyFormContainer').hide();
+                        }
                     } else {
                         $('#applyAgainSection').hide();
                         $('#applyFormContainer').show();
@@ -391,10 +429,17 @@
                     }
 
                     const statusMap = {
-                        0: '<span class="badge bg-warning">Pre-checking</span>',
-                        1: '<span class="badge bg-info">Processing</span>',
-                        2: '<span class="badge bg-success">Eligible</span>',
-                        3: '<span class="badge bg-danger">Burst</span>'
+                        0: '<span class="badge bg-warning">Pending (Unassigned)</span>',
+                        1: '<span class="badge bg-info">Pending</span>',
+                        2: '<span class="badge bg-primary">Proposal Preparation</span>',
+                        3: '<span class="badge bg-primary">Proposal Presentation</span>',
+                        4: '<span class="badge bg-secondary">Pre-Signing</span>',
+                        5: '<span class="badge bg-info">Pending Acceptance</span>',
+                        6: '<span class="badge bg-success">Approved</span>',
+                        7: '<span class="badge bg-dark">Monitoring</span>',
+                        8: '<span class="badge bg-light text-dark">Queue For Reloan</span>',
+                        9: '<span class="badge bg-primary">Reloan Submission</span>',
+                        10: '<span class="badge bg-danger">Rejected</span>'
                     };
 
                     if (apps.length > 0) {
@@ -414,10 +459,17 @@
                         const program = app.details && app.details.programEvent ? (programMap[app.details.programEvent] || "Standard") : "YABAM";
                         
                         const statusMap = {
-                            0: '<span class="badge bg-warning">Pre-checking</span>',
-                            1: '<span class="badge bg-info">Processing</span>',
-                            2: '<span class="badge bg-success">Eligible</span>',
-                            3: '<span class="badge bg-danger">Burst</span>'
+                            0: '<span class="badge bg-warning">Pending (Unassigned)</span>',
+                            1: '<span class="badge bg-info">Pending</span>',
+                            2: '<span class="badge bg-primary">Proposal Preparation</span>',
+                            3: '<span class="badge bg-primary">Proposal Presentation</span>',
+                            4: '<span class="badge bg-secondary">Pre-Signing</span>',
+                            5: '<span class="badge bg-info">Pending Acceptance</span>',
+                            6: '<span class="badge bg-success">Approved</span>',
+                            7: '<span class="badge bg-dark">Monitoring</span>',
+                            8: '<span class="badge bg-light text-dark">Queue For Reloan</span>',
+                            9: '<span class="badge bg-primary">Reloan Submission</span>',
+                            10: '<span class="badge bg-danger">Rejected</span>'
                         };
                         const status = statusMap[app.applicationStatus] || '<span class="badge bg-secondary">Unknown</span>';
                         
@@ -500,7 +552,18 @@
                 }
             }
 
-            $('#btnSubmit').click(async function() {
+            $('#btnSubmit').click(function() {
+                // Perform basic validation before showing confirmation modal
+                if (!$('#dob').val() || !$('#icNumber').val() || !$('#address').val()) {
+                    $('#errorModalMsg').text('Please fill in all required fields (DOB, IC Number, and Address).');
+                    $('#errorModal').modal('show');
+                    return;
+                }
+                $('#confirmModal').modal('show');
+            });
+
+            $('#btnConfirmSubmit').click(async function() {
+                $('#confirmModal').modal('hide');
                 const applicationDetails = {
                     programEvent: $('#programEvent').val(),
                     fullName: $('#fullName').val(),

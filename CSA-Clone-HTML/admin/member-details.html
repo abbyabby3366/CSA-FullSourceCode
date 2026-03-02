@@ -362,5 +362,118 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
     <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
+    <script src="../Scripts/config.js"></script>
+    <script src="../Scripts/adminHelper.js"></script>
+
+    <script>
+      $(document).ready(async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const memberId = urlParams.get("id");
+
+        if (!memberId) {
+          alert("No member ID provided");
+          window.location.href = "members.html";
+          return;
+        }
+
+        try {
+          const member = await apiCall(`/admin/member/${memberId}`);
+          if (member) {
+            // Update Page Header
+            $(".fs-16.mb-1").text(
+              `Member Details: ${member.firstName} ${member.lastName}`,
+            );
+
+            // Update Left Panel
+            $(".profile-user img").attr(
+              "src",
+              member.profileImage || "../assets/images/users/avatar-1.jpg",
+            );
+            $(".card-body h5.fs-16").text(
+              `${member.firstName} ${member.lastName}`,
+            );
+            $(".card-body p.text-muted").text(
+              `Member ID: ${member.memberCode || "N/A"}`,
+            );
+
+            // Member Information Card
+            const createDate = new Date(member.createDate).toLocaleDateString(
+              "en-GB",
+              {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              },
+            );
+            $(`.card:contains("Member Information") .fw-medium:eq(0)`).text(
+              createDate,
+            );
+            $(`.card:contains("Member Information") .fw-medium:eq(1)`).text(
+              `${member.referralAmount || 0} Members`,
+            );
+
+            // User Details Tab
+            $(`#user-details input:eq(0)`).val(member.firstName);
+            $(`#user-details input:eq(1)`).val(member.lastName);
+            $(`#user-details input:eq(2)`).val(member.phoneNumber);
+            $(`#user-details input:eq(3)`).val(member.email || "N/A");
+            $(`#user-details input:eq(4)`).val(member.icNumber || "N/A");
+
+            let statusBadge = "";
+            switch (member.status) {
+              case 1:
+                statusBadge =
+                  '<span class="badge bg-warning-subtle text-warning d-block p-2">Pending Approval</span>';
+                break;
+              case 2:
+                statusBadge =
+                  '<span class="badge bg-success-subtle text-success d-block p-2">Active</span>';
+                break;
+              case 3:
+                statusBadge =
+                  '<span class="badge bg-danger-subtle text-danger d-block p-2">Inactive</span>';
+                break;
+              default:
+                statusBadge =
+                  '<span class="badge bg-secondary-subtle text-secondary d-block p-2">Unknown</span>';
+            }
+            $(`#user-details .col-lg-6:eq(5)`)
+              .find("span, .badge")
+              .replaceWith(statusBadge);
+
+            const fullAddress = [
+              member.streetAddress1,
+              member.streetAddress2,
+              member.city,
+              member.postcode,
+              member.state,
+              member.country,
+            ]
+              .filter(Boolean)
+              .join(", ");
+            $(`#user-details textarea`).val(fullAddress || "N/A");
+
+            // Bank Details Tab
+            $(`#bank-details input:eq(0)`).val(member.bankName || "N/A");
+            $(`#bank-details input:eq(1)`).val(
+              member.bankAccountNumber || "N/A",
+            );
+
+            // Wallet & Savings Tab
+            $("#wallet-info .counter-value:eq(0)").text(
+              member.walletCash.toLocaleString("en-MY", {
+                minimumFractionDigits: 2,
+              }),
+            );
+            $("#wallet-info .counter-value:eq(1)").text(
+              (5000).toLocaleString("en-MY", { minimumFractionDigits: 2 }),
+            ); // Savings might need a real field if available
+          }
+        } catch (err) {
+          console.error("Error fetching member details:", err);
+          alert("Error loading member details");
+        }
+      });
+    </script>
   </body>
 </html>

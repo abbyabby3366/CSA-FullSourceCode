@@ -46,6 +46,13 @@ router.post("/member/register", async (req, res) => {
 
     await member.save();
 
+    // Increment referrer's referral count
+    if (referrerId) {
+      await Member.findByIdAndUpdate(referrerId, {
+        $inc: { referralAmount: 1 },
+      });
+    }
+
     // Delete TAC after successful registration
     await Tac.deleteOne({ _id: tac._id });
 
@@ -109,6 +116,13 @@ router.post("/agent/register", async (req, res) => {
     });
 
     await agent.save();
+
+    // Increment referrer's referral count
+    if (referrerId) {
+      await Member.findByIdAndUpdate(referrerId, {
+        $inc: { referralAmount: 1 },
+      });
+    }
 
     // Delete TAC after successful registration
     await Tac.deleteOne({ _id: tac._id });

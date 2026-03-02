@@ -97,18 +97,16 @@
                         <thead class="table-light">
                           <tr>
                             <th>No</th>
-                            <th>File Number</th>
+                            <th>Agent ID</th>
                             <th>Full Name</th>
                             <th>Contact No</th>
-                            <th>State</th>
-                            <th>Sector</th>
-                            <th>Referrals</th>
+                            <th>Number of Referrals</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td colspan="8" class="text-center">
+                            <td colspan="6" class="text-center">
                               <div
                                 class="spinner-border text-primary"
                                 role="status"
@@ -199,7 +197,7 @@
 
           if (agents.length === 0) {
             tbody.append(
-              '<tr><td colspan="8" class="text-center">No agent applications found</td></tr>',
+              '<tr><td colspan="6" class="text-center">No agent applications found</td></tr>',
             );
             return;
           }
@@ -213,25 +211,17 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <h5 class="fs-14 mb-1">${agent.firstName} ${agent.lastName}</h5>
-                                        <p class="text-muted mb-0">${agent.email || "-"}</p>
                                     </div>
                                 </div>
                             </td>
                             <td>${agent.phoneNumber}</td>
-                            <td>${agent.state || "-"}</td>
-                            <td>${agent.occupation || "-"}</td>
                             <td>${agent.referralAmount || 0}</td>
                             <td>
-                                <div class="dropdown d-inline-block">
-                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="ri-more-fill align-middle"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Details</a></li>
-                                        <li><a class="dropdown-item view-referrals-btn" data-agent-id="${agent._id}" data-agent-name="${agent.firstName} ${agent.lastName}" href="javascript:void(0);"><i class="ri-team-line align-bottom me-2 text-muted"></i> View Referrals</a></li>
-                                        <li><a class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                    </ul>
-                                </div>
+                                <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
+                                    data-agent-id="${agent._id}" 
+                                    data-agent-name="${agent.firstName} ${agent.lastName}">
+                                    <i class="ri-team-line align-bottom me-1"></i> View Referral
+                                </button>
                             </td>
                         </tr>
                     `);
@@ -262,24 +252,43 @@
                   return;
                 }
                 let rows = referrals
-                  .map(
-                    (r, i) => `
+                  .map((r, i) => {
+                    let statusBadge = "";
+                    switch (r.status) {
+                      case 1:
+                        statusBadge =
+                          '<span class="badge bg-warning">Pending</span>';
+                        break;
+                      case 2:
+                        statusBadge =
+                          '<span class="badge bg-success">Active</span>';
+                        break;
+                      case 3:
+                        statusBadge =
+                          '<span class="badge bg-danger">Inactive</span>';
+                        break;
+                      default:
+                        statusBadge =
+                          '<span class="badge bg-secondary">Unknown</span>';
+                        break;
+                    }
+                    return `
                 <tr>
                   <td>${i + 1}</td>
                   <td>${r.memberCode || "N/A"}</td>
                   <td>${r.firstName} ${r.lastName}</td>
                   <td>${r.phoneNumber || "N/A"}</td>
-                  <td>${r.state || "N/A"}</td>
                   <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
+                  <td>${statusBadge}</td>
                   <td>${new Date(r.createDate).toLocaleDateString()}</td>
-                </tr>`,
-                  )
+                </tr>`;
+                  })
                   .join("");
                 $("#referralsModalBody").html(`
                 <table class="table table-sm table-bordered align-middle">
                   <thead class="table-light">
                     <tr>
-                      <th>No</th><th>File No</th><th>Full Name</th><th>Contact</th><th>State</th><th>Type</th><th>Joined</th>
+                      <th>No</th><th>Agent ID</th><th>Full Name</th><th>Contact</th><th>Type</th><th>Status</th><th>Joined</th>
                     </tr>
                   </thead>
                   <tbody>${rows}</tbody>
@@ -294,7 +303,7 @@
         } catch (err) {
           console.error("Error loading agents:", err);
           $("#agentTable tbody").html(
-            '<tr><td colspan="9" class="text-center text-danger">Error loading agent data</td></tr>',
+            '<tr><td colspan="6" class="text-center text-danger">Error loading agent data</td></tr>',
           );
         }
       }

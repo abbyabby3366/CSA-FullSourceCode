@@ -34,6 +34,18 @@ router.post(
   ],
   async (req, res) => {
     try {
+      // Check if user already has an approved application (status 6)
+      const existingApprovedApp = await Application.findOne({
+        member: req.user.id,
+        applicationStatus: 6,
+      });
+
+      if (existingApprovedApp) {
+        return res.status(400).json({
+          msg: "You have already been approved and cannot submit another application.",
+        });
+      }
+
       const files = req.files;
       let details = {};
       if (req.body.details) {

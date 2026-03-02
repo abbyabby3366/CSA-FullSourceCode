@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -201,41 +201,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col" data-role="member-only">
-                      <div class="card card-height-100">
-                        <div class="card-body">
-                          <ul
-                            class="list-group list-group-flush border-dashed mb-0"
-                          >
-                            <li
-                              class="list-group-item d-flex align-items-center"
-                            >
-                              <div class="flex-shrink-0">
-                                <img
-                                  src="../assets/images/giftbox.png"
-                                  class="avatar-xs rounded-3 me-2"
-                                  alt=""
-                                />
-                              </div>
-                              <div class="flex-grow-1 ms-3">
-                                <h6 class="fs-14 mb-1">Referrals</h6>
-                                <p class="text-muted mb-0 fs-12">
-                                  Total referral count
-                                </p>
-                              </div>
-                              <div class="flex-fill text-end">
-                                <h6
-                                  class="fs-14 fw-semibold mb-1"
-                                  id="pesertaCount"
-                                >
-                                  0
-                                </h6>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
 
@@ -329,52 +295,6 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6">
-                  <div class="card card-height-100">
-                    <div class="card-header align-items-center d-flex">
-                      <h4 class="card-title mb-0 flex-grow-1">
-                        List of Peserta
-                      </h4>
-                      <div class="flex-shrink-0">
-                        <a
-                          class="btn btn-soft-primary btn-sm"
-                          href="referrals.html"
-                        >
-                          View All
-                        </a>
-                      </div>
-                    </div>
-
-                    <div class="card-body">
-                      <div class="table-responsive table-card">
-                        <table
-                          class="table table-borderless table-nowrap align-middle mb-0"
-                        >
-                          <thead class="table-light text-muted">
-                            <tr>
-                              <th scope="col" class="text-center">NAME</th>
-                              <th scope="col" class="text-center">STATUS</th>
-                            </tr>
-                          </thead>
-                          <tbody id="referralTableBody">
-                            <tr>
-                              <td colspan="2" class="text-center">
-                                <div
-                                  class="spinner-border spinner-border-sm text-primary"
-                                  role="status"
-                                >
-                                  <span class="visually-hidden"
-                                    >Loading...</span
-                                  >
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -384,11 +304,11 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-6">
-                © Hak Cipta
+                © Copyright
                 <script>
                   document.write(new Date().getFullYear());
                 </script>
-                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - All rights reserved.
               </div>
             </div>
           </div>
@@ -467,51 +387,6 @@
             );
           }
 
-          // 2. Fetch Referrals (Peserta)
-          const refResponse = await fetch(
-            `${window.API_BASE_URL}/api/members/referrals`,
-            {
-              headers: { "x-auth-token": localStorage.getItem("token") },
-            },
-          );
-          const referrals = await refResponse.json();
-          const refTableBody = $("#referralTableBody");
-          refTableBody.empty();
-
-          // Update Peserta Count Card
-          $("#pesertaCount").text(referrals.length);
-
-          if (referrals && referrals.length > 0) {
-            referrals.slice(0, 5).forEach((ref) => {
-              let statusBadge = "";
-              switch (ref.status) {
-                case 1:
-                  statusBadge =
-                    '<span class="badge bg-warning">Waiting Approval</span>';
-                  break;
-                case 2:
-                  statusBadge = '<span class="badge bg-success">Active</span>';
-                  break;
-                case 3:
-                  statusBadge = '<span class="badge bg-danger">Inactive</span>';
-                  break;
-                default:
-                  statusBadge =
-                    '<span class="badge bg-secondary">Unknown</span>';
-              }
-
-              refTableBody.append(`
-                  <tr class="text-center">
-                      <td>${ref.firstName} ${ref.lastName}</td>
-                      <td>${statusBadge}</td>
-                  </tr>
-              `);
-            });
-          } else {
-            refTableBody.append(
-              '<tr><td colspan="2" class="text-center">No referrals found</td></tr>',
-            );
-          }
         } catch (err) {
           console.error("Error fetching dashboard data:", err);
         }

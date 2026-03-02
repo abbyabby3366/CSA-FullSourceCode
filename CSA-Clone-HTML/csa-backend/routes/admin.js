@@ -44,17 +44,77 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
   }
 });
 
+// @route    GET api/admin/member/:id
+// @desc     Get member by ID
+router.get("/member/:id", [auth, adminOnly], async (req, res) => {
+  try {
+    const member = await Member.findById(req.params.id)
+      .select("-password")
+      .populate("referrer", "firstName lastName memberCode");
+
+    if (!member) {
+      return res.status(404).json({ msg: "Member not found" });
+    }
+
+    res.json(member);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Member not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/admin/member/:id/status
+// @desc     Update member status
+router.post("/member/:id/status", [auth, adminOnly], async (req, res) => {
+  const { status } = req.body;
+  try {
+    let member = await Member.findById(req.params.id);
+    if (!member) return res.status(404).json({ msg: "Member not found" });
+
+    member.status = status;
+    member.lastUpdate = Date.now();
+
+    await member.save();
+    res.json(member);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    GET api/admin/applications
 // @desc     Get all applications
 router.get("/applications", [auth, adminOnly], async (req, res) => {
   try {
-    const apps = await Application.find()
-      .populate(
-        "member",
-        "firstName lastName phoneNumber memberCode memberType",
-      )
-      .sort({ createDate: -1 });
-    res.json(apps);
+    const apps = await Application.aggregate([
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestApp: { $first: "$$ROOT" },
+        },
+      },
+      { $replaceRoot: { newRoot: "$latestApp" } },
+      { $sort: { createDate: -1 } },
+    ]);
+
+    // Populate the aggregated results
+    const populatedApps = await Application.populate(apps, [
+      {
+        path: "member",
+        select: "firstName lastName phoneNumber memberCode memberType referrer",
+        populate: {
+          path: "referrer",
+          select: "memberCode",
+        },
+      },
+      { path: "referrerMember", select: "memberCode" },
+    ]);
+
+    res.json(populatedApps);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -242,10 +302,39 @@ router.post("/withdrawal/:id/status", [auth, adminOnly], async (req, res) => {
 // @desc     Get all agents
 router.get("/agents", [auth, adminOnly], async (req, res) => {
   try {
-    const agents = await Member.find({ memberType: 2 })
-      .select("-password")
-      .populate("referrer", "firstName lastName memberCode")
-      .sort({ agentApplicationDate: -1 });
+    const agents = await Member.aggregate([
+      { $match: { memberType: 2 } },
+      {
+        $lookup: {
+          from: "members",
+          localField: "_id",
+          foreignField: "referrer",
+          as: "referrals",
+        },
+      },
+      {
+        $lookup: {
+          from: "members",
+          localField: "referrer",
+          foreignField: "_id",
+          as: "referrerInfo",
+        },
+      },
+      {
+        $addFields: {
+          referralAmount: { $size: "$referrals" },
+          referrer: { $arrayElemAt: ["$referrerInfo", 0] },
+        },
+      },
+      {
+        $project: {
+          password: 0,
+          referrals: 0,
+          referrerInfo: 0,
+        },
+      },
+      { $sort: { agentApplicationDate: -1 } },
+    ]);
     res.json(agents);
   } catch (err) {
     console.error(err.message);
@@ -259,7 +348,7 @@ router.get("/agents/:id/referrals", [auth, adminOnly], async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.params.id })
       .select(
-        "firstName lastName memberCode phoneNumber state createDate memberType",
+        "firstName lastName memberCode phoneNumber state createDate memberType status",
       )
       .sort({ createDate: -1 });
     res.json(referrals);

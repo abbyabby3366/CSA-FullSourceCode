@@ -116,14 +116,11 @@
                         <tr>
                           <th>NO</th>
                           <th>FILE NUMBER</th>
-                          <th>MEMBER TYPE</th>
                           <th>FULL NAME</th>
                           <th>IC</th>
                           <th>CONTACT NO</th>
                           <th>SALARY RANGE</th>
                           <th>REFERRAL NAME</th>
-                          <th>EMPLOYER NAME</th>
-                          <th>STATE</th>
                           <th>STATUS</th>
                           <th>ACTION</th>
                         </tr>
@@ -198,19 +195,19 @@
         if (members) {
           const tbody = $("#gvData tbody");
           tbody.empty();
-          members.forEach((member, index) => {
+          let count = 1;
+          members.forEach((member) => {
+            if (member.memberType === 2) return; // Skip Agents
+
             tbody.append(`
                         <tr>
-                            <td>${index + 1}</td>
+                            <td>${count++}</td>
                             <td>${member.memberCode || "N/A"}</td>
-                            <td>${member.memberType === 2 ? "Agent" : "Member"}</td>
                             <td>${member.firstName} ${member.lastName}</td>
                             <td>${member.icNumber || "N/A"}</td>
                             <td>${member.phoneNumber}</td>
                             <td>${member.salary || "N/A"}</td>
                             <td>${member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : "N/A"}</td>
-                            <td>${member.companyName || "N/A"}</td>
-                            <td>${member.state || "N/A"}</td>
                             <td>
                                 ${
                                   member.isApproved
@@ -219,11 +216,14 @@
                                 }
                             </td>
                             <td class="text-center">
-                                <div class="hstack gap-3 fs-13 justify-content-center">
-                                    <a href="javascript:void(0);" class="text-warning"><i class="ri-price-tag-line"></i></a>
-                                    <a href="#" class="text-success"><i class="ri-edit-line"></i></a>
-                                    <a href="javascript:void(0);" class="text-primary"><i class="ri-lock-unlock-line"></i></a>
-                                    <a href="javascript:void(0);" class="text-primary"><i class="ri-links-line"></i></a>
+                                <div class="hstack gap-2 justify-content-center">
+                                    <button class="btn btn-sm btn-soft-info" onclick="viewMember('${member._id}')">View</button>
+                                    ${
+                                      member.status === 1
+                                        ? `<button class="btn btn-sm btn-soft-success" onclick="approveMember('${member._id}')">Approve</button>
+                                           <button class="btn btn-sm btn-soft-danger" onclick="rejectMember('${member._id}')">Reject</button>`
+                                        : ""
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -232,6 +232,42 @@
           $("#gvData").DataTable();
         }
       });
+
+      async function viewMember(id) {
+        window.location.href = `member-details.html?id=${id}`;
+      }
+
+      async function approveMember(id) {
+        if (confirm("Are you sure you want to approve this member?")) {
+          try {
+            const res = await apiCall(`/admin/member/${id}/status`, "POST", {
+              status: 2,
+            });
+            if (res) {
+              alert("Member approved successfully");
+              location.reload();
+            }
+          } catch (err) {
+            alert("Error approving member");
+          }
+        }
+      }
+
+      async function rejectMember(id) {
+        if (confirm("Are you sure you want to reject this member?")) {
+          try {
+            const res = await apiCall(`/admin/member/${id}/status`, "POST", {
+              status: 3,
+            });
+            if (res) {
+              alert("Member rejected successfully");
+              location.reload();
+            }
+          } catch (err) {
+            alert("Error rejecting member");
+          }
+        }
+      }
     </script>
   </body>
 </html>
