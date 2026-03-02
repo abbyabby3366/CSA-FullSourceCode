@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Member Details | Admin Portal</title>
@@ -8,221 +16,341 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- select2 -->
     <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
-    <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css"
+    />
 
     <style>
-        .no-border { border: none; background: none; outline: none; }
-        .readonly-select { pointer-events: none; }
-        .user-profile-image { object-fit: cover; }
+      .no-border {
+        border: none;
+        background: none;
+        outline: none;
+      }
+      .readonly-select {
+        pointer-events: none;
+      }
+      .user-profile-image {
+        object-fit: cover;
+      }
     </style>
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Member Details: Ahmad bin Abdullah</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row">
-                        <!-- left panel -->
-                        <div class="col-xl-3 col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="text-center px-4 py-4">
-                                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                            <img src="../assets/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                                        </div>
-                                        <h5 class="fs-16 mb-1">Ahmad bin Abdullah</h5>
-                                        <p class="text-muted mb-0">Member ID: CSA-2024-00124</p>
-                                    </div>
+      <div class="vertical-overlay"></div>
 
-                                    <div class="nav flex-column nav-pills" role="tablist">
-                                        <button class="nav-link active mb-2 text-start" data-bs-toggle="pill" href="#user-details" role="tab"><i class="ri-file-user-line me-2"></i>User Details</button>
-                                        <button class="nav-link mb-2 text-start" data-bs-toggle="pill" href="#bank-details" role="tab"><i class="ri-bank-line me-2"></i>Bank Details</button>
-                                        <button class="nav-link mb-2 text-start" data-bs-toggle="pill" href="#wallet-info" role="tab"><i class="ri-wallet-line me-2"></i>Wallet & Savings</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3">Member Information</h5>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-muted">Create Date</span>
-                                        <span class="fw-medium">15 Jan 2024</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="text-muted">Referral Count</span>
-                                        <span class="fw-medium">12 Clients</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- right panel -->
-                        <div class="col-xl-9 col-lg-8">
-                            <div class="tab-content">
-                                <!-- User Details Tab -->
-                                <div class="tab-pane fade show active" id="user-details" role="tabpanel">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title mb-0">Personal Information</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row g-3">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" value="Ahmad" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" value="bin Abdullah" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Phone Number</label>
-                                                    <input type="text" class="form-control" value="+60 12-345 6789" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Email Address</label>
-                                                    <input type="text" class="form-control" value="ahmad.abdullah@email.com" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">IC Number</label>
-                                                    <input type="text" class="form-control" value="850101-14-1234" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Account Status</label>
-                                                    <span class="badge bg-success-subtle text-success d-block p-2">Active</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Home Address</label>
-                                                    <textarea class="form-control" rows="3" readonly>No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Bank Details Tab -->
-                                <div class="tab-pane fade" id="bank-details" role="tabpanel">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title mb-0">Bank Account Information</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row g-3">
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Bank Name</label>
-                                                    <input type="text" class="form-control" value="Maybank" readonly>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <label class="form-label">Account Number</label>
-                                                    <input type="text" class="form-control" value="1640 1234 5678" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Wallet info Tab -->
-                                <div class="tab-pane fade" id="wallet-info" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Cash Wallet</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">RM <span class="counter-value" data-target="1500.50">1,500.50</span></h4>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-success-subtle rounded fs-3">
-                                                                <i class="ri-wallet-3-line text-success"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Savings</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">RM <span class="counter-value" data-target="5000.00">5,000.00</span></h4>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info-subtle rounded fs-3">
-                                                                <i class="ri-safe-2-line text-info"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">
+                      Member Details: Ahmad bin Abdullah
+                    </h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © CSA.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
-                            </div>
-                        </div>
+            <div class="row">
+              <!-- left panel -->
+              <div class="col-xl-3 col-lg-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="text-center px-4 py-4">
+                      <div
+                        class="profile-user position-relative d-inline-block mx-auto mb-4"
+                      >
+                        <img
+                          src="../assets/images/users/avatar-1.jpg"
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                          alt="user-profile-image"
+                        />
+                      </div>
+                      <h5 class="fs-16 mb-1">Ahmad bin Abdullah</h5>
+                      <p class="text-muted mb-0">Member ID: CSA-2024-00124</p>
                     </div>
+
+                    <div class="nav flex-column nav-pills" role="tablist">
+                      <button
+                        class="nav-link active mb-2 text-start"
+                        data-bs-toggle="pill"
+                        href="#user-details"
+                        role="tab"
+                      >
+                        <i class="ri-file-user-line me-2"></i>User Details
+                      </button>
+                      <button
+                        class="nav-link mb-2 text-start"
+                        data-bs-toggle="pill"
+                        href="#bank-details"
+                        role="tab"
+                      >
+                        <i class="ri-bank-line me-2"></i>Bank Details
+                      </button>
+                      <button
+                        class="nav-link mb-2 text-start"
+                        data-bs-toggle="pill"
+                        href="#wallet-info"
+                        role="tab"
+                      >
+                        <i class="ri-wallet-line me-2"></i>Wallet & Savings
+                      </button>
+                    </div>
+                  </div>
                 </div>
-            </footer>
+
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title mb-3">Member Information</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                      <span class="text-muted">Create Date</span>
+                      <span class="fw-medium">15 Jan 2024</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span class="text-muted">Referral Count</span>
+                      <span class="fw-medium">12 Members</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- right panel -->
+              <div class="col-xl-9 col-lg-8">
+                <div class="tab-content">
+                  <!-- User Details Tab -->
+                  <div
+                    class="tab-pane fade show active"
+                    id="user-details"
+                    role="tabpanel"
+                  >
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">Personal Information</h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-lg-6">
+                            <label class="form-label">First Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="Ahmad"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Last Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="bin Abdullah"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Phone Number</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="+60 12-345 6789"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Email Address</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="ahmad.abdullah@email.com"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">IC Number</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="850101-14-1234"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Account Status</label>
+                            <span
+                              class="badge bg-success-subtle text-success d-block p-2"
+                              >Active</span
+                            >
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label">Home Address</label>
+                            <textarea class="form-control" rows="3" readonly>
+No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bank Details Tab -->
+                  <div class="tab-pane fade" id="bank-details" role="tabpanel">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          Bank Account Information
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-lg-6">
+                            <label class="form-label">Bank Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="Maybank"
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Account Number</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value="1640 1234 5678"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Wallet info Tab -->
+                  <div class="tab-pane fade" id="wallet-info" role="tabpanel">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="card card-animate">
+                          <div class="card-body">
+                            <div class="d-flex align-items-center">
+                              <div class="flex-grow-1 overflow-hidden">
+                                <p
+                                  class="text-uppercase fw-medium text-muted text-truncate mb-0"
+                                >
+                                  Cash Wallet
+                                </p>
+                              </div>
+                            </div>
+                            <div
+                              class="d-flex align-items-end justify-content-between mt-4"
+                            >
+                              <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                  RM
+                                  <span
+                                    class="counter-value"
+                                    data-target="1500.50"
+                                    >1,500.50</span
+                                  >
+                                </h4>
+                              </div>
+                              <div class="avatar-sm flex-shrink-0">
+                                <span
+                                  class="avatar-title bg-success-subtle rounded fs-3"
+                                >
+                                  <i class="ri-wallet-3-line text-success"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card card-animate">
+                          <div class="card-body">
+                            <div class="d-flex align-items-center">
+                              <div class="flex-grow-1 overflow-hidden">
+                                <p
+                                  class="text-uppercase fw-medium text-muted text-truncate mb-0"
+                                >
+                                  Savings
+                                </p>
+                              </div>
+                            </div>
+                            <div
+                              class="d-flex align-items-end justify-content-between mt-4"
+                            >
+                              <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                  RM
+                                  <span
+                                    class="counter-value"
+                                    data-target="5000.00"
+                                    >5,000.00</span
+                                  >
+                                </h4>
+                              </div>
+                              <div class="avatar-sm flex-shrink-0">
+                                <span
+                                  class="avatar-title bg-info-subtle rounded fs-3"
+                                >
+                                  <i class="ri-safe-2-line text-info"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">© CSA.</div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- JAVASCRIPT -->
@@ -234,5 +362,5 @@
     <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
-</body>
+  </body>
 </html>

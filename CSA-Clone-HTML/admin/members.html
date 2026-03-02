@@ -11,7 +11,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Client List | CSA Admin</title>
+    <title>Member List | CSA Admin</title>
 
     <script src="../assets/js/layout.js"></script>
 
@@ -59,7 +59,7 @@
                   class="d-flex align-items-lg-center flex-lg-row flex-column"
                 >
                   <div class="flex-grow-1">
-                    <h4 class="fs-16 mb-1">Client List</h4>
+                    <h4 class="fs-16 mb-1">Member List</h4>
                   </div>
                 </div>
               </div>
@@ -99,7 +99,7 @@
                             <button
                               class="btn btn-soft-primary waves-effect waves-light w-100"
                             >
-                              Add New Client
+                              Add New Member
                             </button>
                           </div>
                         </div>
@@ -124,6 +124,7 @@
                           <th>REFERRAL NAME</th>
                           <th>EMPLOYER NAME</th>
                           <th>STATE</th>
+                          <th>STATUS</th>
                           <th>ACTION</th>
                         </tr>
                       </thead>
@@ -210,6 +211,13 @@
                             <td>${member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : "N/A"}</td>
                             <td>${member.companyName || "N/A"}</td>
                             <td>${member.state || "N/A"}</td>
+                            <td>
+                                ${
+                                  member.isApproved
+                                    ? '<span class="badge bg-success">Approved</span>'
+                                    : '<span class="badge bg-warning text-dark">Pending</span>'
+                                }
+                            </td>
                             <td class="text-center">
                                 <div class="hstack gap-3 fs-13 justify-content-center">
                                     <a href="javascript:void(0);" class="text-warning"><i class="ri-price-tag-line"></i></a>

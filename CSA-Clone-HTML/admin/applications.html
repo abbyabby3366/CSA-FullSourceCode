@@ -151,7 +151,7 @@
                           <th>CONTACT</th>
                           <th>EMPLOYER</th>
                           <th>SALARY RM</th>
-                          <th>STAGE</th>
+                          <th>STATUS</th>
                           <th>CREATED DATE & TIME</th>
                           <th class="text-center">ACTION</th>
                         </tr>
@@ -236,19 +236,19 @@
       </div>
     </div>
 
-    <!-- Assign Modal -->
+    <!-- Reject Modal -->
     <div
       class="modal fade"
-      id="assignModal"
+      id="rejectModal"
       tabindex="-1"
-      aria-labelledby="assignModalLabel"
+      aria-labelledby="rejectModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="assignModalLabel">
-              Assign Application
+            <h5 class="modal-title" id="rejectModalLabel">
+              Reject Application
             </h5>
             <button
               type="button"
@@ -258,28 +258,15 @@
             ></button>
           </div>
           <div class="modal-body">
-            <input type="hidden" id="assignAppId" />
+            <input type="hidden" id="rejectAppId" />
             <div class="mb-3">
-              <label class="form-label">AM (Account Manager)</label>
-              <select class="form-select admin-select" id="selAM"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label"
-                >PFC (Personal Finance Consultant)</label
-              >
-              <select class="form-select admin-select" id="selPFC"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">RM (Relationship Manager)</label>
-              <select class="form-select admin-select" id="selRM"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">UM (Unit Manager)</label>
-              <select class="form-select admin-select" id="selUM"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">PA (Personal Assistant)</label>
-              <select class="form-select admin-select" id="selPA"></select>
+              <label class="form-label">Reason for Rejection</label>
+              <textarea
+                class="form-control"
+                id="txtRejectionReason"
+                rows="4"
+                placeholder="Enter reason for rejection..."
+              ></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -290,12 +277,8 @@
             >
               Cancel
             </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              id="btnSaveAssignment"
-            >
-              Save Changes
+            <button type="button" class="btn btn-danger" id="btnConfirmReject">
+              Confirm Reject
             </button>
           </div>
         </div>
@@ -330,17 +313,17 @@
 
     <script>
       const statusMap = {
-        0: { text: "Unassigned", class: "bg-light text-dark" },
-        1: { text: "Pre-checking", class: "bg-info" },
-        2: { text: "Proposal Preparation", class: "bg-warning" },
-        3: { text: "Proposal Presentation", class: "bg-primary" },
-        4: { text: "Pre-Signing", class: "bg-secondary" },
+        0: { text: "Pending (Unassigned)", class: "bg-light text-dark" },
+        1: { text: "Pending (Pre-checking)", class: "bg-info" },
+        2: { text: "Pending (Proposal Preparation)", class: "bg-warning" },
+        3: { text: "Pending (Proposal Presentation)", class: "bg-primary" },
+        4: { text: "Pending (Pre-Signing)", class: "bg-secondary" },
         5: { text: "Pending Acceptance", class: "bg-info" },
-        6: { text: "Settlement", class: "bg-success" },
+        6: { text: "Approved", class: "bg-success" },
         7: { text: "Monitoring", class: "bg-dark" },
         8: { text: "Queue For Reloan", class: "bg-light text-dark" },
         9: { text: "Reloan Submission", class: "bg-primary" },
-        10: { text: "Collection", class: "bg-danger" },
+        10: { text: "Rejected", class: "bg-danger" },
       };
 
       let applicationData = [];
@@ -370,10 +353,17 @@
               text: "Unknown",
               class: "bg-secondary",
             };
+            let memberInfo = "N/A";
+            if (app.member) {
+              const typeMap = { 1: "Member", 2: "Agent", 3: "Hero" };
+              const typeLabel = typeMap[app.member.memberType] || "Member";
+              memberInfo = `[${app.member.memberCode || "-"}] ${app.member.firstName} ${app.member.lastName} (${typeLabel})`;
+            }
+
             tbody.append(`
                         <tr>
                             <td>${app._id.substring(18)}</td>
-                            <td>${app.member ? app.member.firstName + " " + app.member.lastName : "N/A"}</td>
+                            <td>${memberInfo}</td>
                             <td>${app.fileNumber || "Pending"}</td>
                             <td>${app.member ? app.member.phoneNumber : "N/A"}</td>
                             <td>${app.details ? app.details.employerName || "N/A" : "N/A"}</td>
@@ -382,15 +372,23 @@
                             <td>${new Date(app.createDate).toLocaleString()}</td>
                             <td class="text-center">
                                 <div class="hstack gap-3 fs-13 justify-content-center">
-                                    <a href="javascript:void(0);" class="text-success view-btn" data-id="${app._id}" style='text-decoration: underline;'>View</a>
-                                    <a href="javascript:void(0);" class="text-warning assign-btn" data-id="${app._id}" style='text-decoration: underline;'>Assign</a>
+                                    <a href="javascript:void(0);" class="text-primary view-btn" data-id="${app._id}" style='text-decoration: underline;'>View</a>
+                                    ${
+                                      app.applicationStatus === 6 ||
+                                      app.applicationStatus === 10
+                                        ? ""
+                                        : `
+                                        <a href="javascript:void(0);" class="text-success approve-btn" data-id="${app._id}" style='text-decoration: underline;'>Approve</a>
+                                        <a href="javascript:void(0);" class="text-danger reject-btn" data-id="${app._id}" style='text-decoration: underline;'>Reject</a>
+                                    `
+                                    }
                                 </div>
                             </td>
                         </tr>
                     `);
           });
           $("#gvApplicant").DataTable({
-            order: [[7, "desc"]],
+            order: [[6, "desc"]],
           });
         }
 
@@ -451,67 +449,84 @@
           }
         });
 
-        // Assign Handler
-        $(document).on("click", ".assign-btn", function () {
+        // Approve Handler
+        $(document).on("click", ".approve-btn", async function () {
           const appId = $(this).data("id");
-          const app = applicationData.find((a) => a._id === appId);
-          if (app) {
-            $("#assignAppId").val(appId);
-            const admins = app.admins || {};
-            $("#selAM")
-              .val(admins.am || "")
-              .trigger("change");
-            $("#selPFC")
-              .val(admins.pfc || "")
-              .trigger("change");
-            $("#selRM")
-              .val(admins.rm || "")
-              .trigger("change");
-            $("#selUM")
-              .val(admins.um || "")
-              .trigger("change");
-            $("#selPA")
-              .val(admins.pa || "")
-              .trigger("change");
-            $("#assignModal").modal("show");
-          }
-        });
-
-        // Save Assignment
-        $("#btnSaveAssignment").on("click", async function () {
-          const appId = $("#assignAppId").val();
-          const data = {
-            am: $("#selAM").val(),
-            pfc: $("#selPFC").val(),
-            rm: $("#selRM").val(),
-            um: $("#selUM").val(),
-            pa: $("#selPA").val(),
-          };
+          if (
+            !confirm(
+              "Are you sure you want to approve this application? This will credit RM100 rewards to the member and upline.",
+            )
+          )
+            return;
 
           try {
             const response = await fetch(
-              `${window.API_BASE_URL}/api/admin/application/${appId}/assign`,
+              `${window.API_BASE_URL}/api/admin/application/${appId}/status`,
               {
-                method: "PATCH",
+                method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                   "x-auth-token": localStorage.getItem("token"),
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ status: 6 }), // Status 6 = Settlement/Approved
               },
             );
 
             if (response.ok) {
-              alert("Application assigned successfully!");
-              $("#assignModal").modal("hide");
-              location.reload(); // Refresh to show updated data
+              alert("Application approved and rewards issued successfully!");
+              location.reload();
             } else {
               const err = await response.json();
-              alert("Assignment failed: " + (err.msg || "Unknown error"));
+              alert("Approval failed: " + (err.msg || "Unknown error"));
             }
           } catch (err) {
-            console.error("Save error:", err);
-            alert("Error saving assignment.");
+            console.error("Approve error:", err);
+            alert("Error approving application.");
+          }
+        });
+
+        // Reject Handler
+        $(document).on("click", ".reject-btn", function () {
+          const appId = $(this).data("id");
+          $("#rejectAppId").val(appId);
+          $("#txtRejectionReason").val("");
+          $("#rejectModal").modal("show");
+        });
+
+        // Confirm Reject
+        $("#btnConfirmReject").on("click", async function () {
+          const appId = $("#rejectAppId").val();
+          const reason = $("#txtRejectionReason").val();
+
+          if (!reason) {
+            alert("Please enter a reason for rejection.");
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/admin/application/${appId}/status`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({ status: 10, reason }), // Status 10 = Collection/Rejected
+              },
+            );
+
+            if (response.ok) {
+              alert("Application rejected.");
+              $("#rejectModal").modal("hide");
+              location.reload();
+            } else {
+              const err = await response.json();
+              alert("Rejection failed: " + (err.msg || "Unknown error"));
+            }
+          } catch (err) {
+            console.error("Reject error:", err);
+            alert("Error rejecting application.");
           }
         });
 

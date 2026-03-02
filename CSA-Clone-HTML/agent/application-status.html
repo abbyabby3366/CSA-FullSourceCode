@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application History | Member Portal</title>
+
+    <script src="../assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- font css -->
+	<link rel="stylesheet" href="../assets/css/icons.min.css">
+
+    <!-- app css -->
+	<link rel="stylesheet" href="../assets/css/app.min.css" />
+
+	<link rel="stylesheet" href="../assets/css/custom.css">
+	<link rel="stylesheet" href="../assets/css/agent-portal-theme.css">
+
+
+    <!-- datatables css -->
+    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+
+
+
+    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- page header -->
+        <header id="page-topbar"></header>					
+        
+        <div class="app-menu navbar-menu"></div>
+        
+        <div class="vertical-overlay"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- page header -->
+                    <div class="row mb-3 pb-1">
+                        <div class="col-12">
+                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                <div class="flex-grow-1">
+                                    <h4 class="fs-16 mb-1">Application History</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header border-0 align-items-center d-flex">
+                                    <h5 class="card-title mb-0 flex-grow-1">Application List</h5>
+                                    <div class="flex-shrink-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="customSearch" placeholder="Search application...">
+                                            <button class="btn btn-primary" type="button"><i class="ri-search-line"></i> Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-nowrap align-middle" id="applicationTable">
+                                            <thead class="table-light text-muted">
+                                                <tr>
+                                                    <th>APPLICATION ID</th>
+                                                    <th>PROGRAM</th>
+                                                    <th>DATE & TIME</th>
+                                                    <th>STATUS</th>
+                                                    <th class="text-center">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="applicationHistory">
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Loading status...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            © Hak Cipta <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - Hak cipta terpelihara.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Epic Unicorn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jquery js -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- utils js -->
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- font js -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+
+    <!-- datatables js -->
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
+
+    <script src="../Scripts/config.js"></script>
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+    <script src="navbar-member.js"></script>
+    <script src="memberHelper.js"></script>
+
+    <!-- View Details Modal -->
+    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDetailsModalLabel">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent">
+                        <!-- Content will be populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Start fetching history immediately
+            if (localStorage.getItem('token')) {
+                fetchHistory();
+            } else {
+                $('#applicationHistory').html('<tr><td colspan="5" class="text-center">Please login to view history</td></tr>');
+            }
+
+            let applicationData = [];
+
+            async function fetchHistory() {
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/api/applications/my`, {
+                        headers: {
+                            'x-auth-token': localStorage.getItem('token')
+                        }
+                    });
+
+                    const apps = await response.json();
+                    applicationData = apps;
+                    const tbody = $('#applicationHistory');
+                    tbody.empty();
+
+                    if (apps.length === 0) {
+                        tbody.append('<tr><td colspan="5" class="text-center">No history available</td></tr>');
+                        return;
+                    }
+
+                    apps.forEach(app => {
+                        const d = new Date(app.createDate);
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = d.getFullYear();
+                        const hours = String(d.getHours()).padStart(2, '0');
+                        const minutes = String(d.getMinutes()).padStart(2, '0');
+                        const date = `${day}/${month}/${year} ${hours}:${minutes}`;
+                        const appId = app._id.substring(0, 8).toUpperCase();
+                        
+                        const programMap = {
+                            "1": "YABAM"
+                        };
+                        const program = app.details && app.details.programEvent ? (programMap[app.details.programEvent] || "Standard") : "YABAM";
+                        
+                        const statusMap = {
+                            0: '<span class="badge bg-warning">Pre-checking</span>',
+                            1: '<span class="badge bg-info">Processing</span>',
+                            2: '<span class="badge bg-success">Eligible</span>',
+                            3: '<span class="badge bg-danger">Burst</span>'
+                        };
+                        const status = statusMap[app.applicationStatus] || '<span class="badge bg-secondary">Unknown</span>';
+                        
+                        tbody.append(`
+                            <tr>
+                                <td>${appId}</td>
+                                <td>${program}</td>
+                                <td>${date}</td>
+                                <td>${status}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View Details</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+
+                    // Initialize DataTable after data is loaded
+                    $('#applicationTable').DataTable({
+                        "dom": '<"row mx-0"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mx-0"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                        "destroy": true // Allow re-initialization
+                    });
+
+                    // Add click handler for View Details
+                    $('.view-details').on('click', function() {
+                        const appId = $(this).data('id');
+                        const app = applicationData.find(a => a._id === appId);
+                        
+                        if (app) {
+                            const details = app.details || {};
+                            const spouse = details.spouseDetails || {};
+                            const employment = details.employmentDetails || {};
+                            
+                            const d = new Date(app.createDate);
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const month = String(d.getMonth() + 1).padStart(2, '0');
+                            const year = d.getFullYear();
+                            const hours = String(d.getHours()).padStart(2, '0');
+                            const minutes = String(d.getMinutes()).padStart(2, '0');
+                            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+
+                            let html = `
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Personal Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
+                                    <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
+                                    <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Spouse Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Employment Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Submitted Documents</h6>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Copy:</strong><br>
+                                        ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Payslip:</strong><br>
+                                        ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Offer Letter:</strong><br>
+                                        ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            $('#modalContent').html(html);
+                            $('#viewDetailsModal').modal('show');
+                        }
+                    });
+                } catch (err) {
+                    console.error('Error fetching history:', err);
+                    $('#applicationHistory').html('<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

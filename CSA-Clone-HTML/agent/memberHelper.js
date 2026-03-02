@@ -44,6 +44,11 @@ async function initMemberPortal() {
       $(".user-name-sub-text").text(
         member.memberType === 2 ? "Agent" : "Member",
       );
+      if (member.memberType !== 2) {
+        alert("Access Denied: This portal is for Agents only.");
+        window.location.href = "index.html";
+        return;
+      }
       $(".dropdown-header").text("Welcome " + member.firstName + "!");
 
       if (member.profileImage) {
@@ -101,7 +106,7 @@ function showProfileCompletionModal(member) {
                 </div>
                 <div class="modal-body p-4">
                     <p class="text-muted mb-4">
-                      Welcome! To ensure you can submit applications and receive
+                      Welcome! To ensure you can participate in surveys and receive
                       rewards, please complete your profile details below.
                     </p>
                     <form id="completeProfileForm">

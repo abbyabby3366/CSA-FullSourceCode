@@ -5,8 +5,8 @@ const MemberSchema = new mongoose.Schema({
   memberCode: { type: String, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  email: { type: String, unique: true, sparse: true },
-  phoneNumber: { type: String, required: true, unique: true },
+  email: { type: String, sparse: true },
+  phoneNumber: { type: String, required: true },
   password: { type: String, required: true },
   icNumber: { type: String },
   birthdate: { type: Date },
@@ -57,6 +57,10 @@ const MemberSchema = new mongoose.Schema({
   lastLogin: { type: Date },
 });
 
+// Compound index to allow same phone/email for different member types
+MemberSchema.index({ phoneNumber: 1, memberType: 1 }, { unique: true });
+MemberSchema.index({ email: 1, memberType: 1 }, { unique: true });
+
 // Generate memberCode before saving
 MemberSchema.pre("save", async function () {
   if (this.isNew && !this.memberCode) {
@@ -73,11 +77,11 @@ MemberSchema.pre("save", async function () {
         },
       );
 
-      let nextCode = 10001; // Default starting code
+      let nextCode = 80000; // Default starting code
       if (lastMember && lastMember.memberCode) {
         const lastCode = parseInt(lastMember.memberCode);
         if (!isNaN(lastCode)) {
-          nextCode = lastCode + 1;
+          nextCode = Math.max(80000, lastCode + 1);
         }
       }
       this.memberCode = nextCode.toString();

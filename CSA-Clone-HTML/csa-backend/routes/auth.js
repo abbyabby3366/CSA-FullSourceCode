@@ -22,7 +22,7 @@ router.post("/member/register", async (req, res) => {
         .json({ msg: "Invalid or expired verification code" });
     }
 
-    let member = await Member.findOne({ phoneNumber });
+    let member = await Member.findOne({ phoneNumber, memberType: 1 });
     if (member) {
       return res.status(400).json({ msg: "Member already exists" });
     }
@@ -41,6 +41,7 @@ router.post("/member/register", async (req, res) => {
       phoneNumber,
       password,
       referrer: referrerId,
+      memberType: 1, // Explicitly Member
     });
 
     await member.save();
@@ -69,13 +70,77 @@ router.post("/member/register", async (req, res) => {
   }
 });
 
+// @route    POST api/auth/agent/register
+// @desc     Register a new agent
+// @access   Public
+router.post("/agent/register", async (req, res) => {
+  const { firstName, lastName, phoneNumber, password, referrerCode, tacCode } =
+    req.body;
+
+  try {
+    // Verify TAC
+    const tac = await Tac.findOne({ phoneNumber, code: tacCode });
+    if (!tac) {
+      return res
+        .status(400)
+        .json({ msg: "Invalid or expired verification code" });
+    }
+
+    let agent = await Member.findOne({ phoneNumber, memberType: 2 });
+    if (agent) {
+      return res.status(400).json({ msg: "Agent already exists" });
+    }
+
+    let referrerId = null;
+    if (referrerCode) {
+      const referrer = await Member.findOne({ memberCode: referrerCode });
+      if (referrer) {
+        referrerId = referrer._id;
+      }
+    }
+
+    agent = new Member({
+      firstName,
+      lastName,
+      phoneNumber,
+      password,
+      referrer: referrerId,
+      memberType: 2, // Explicitly Agent
+    });
+
+    await agent.save();
+
+    // Delete TAC after successful registration
+    await Tac.deleteOne({ _id: tac._id });
+
+    const payload = {
+      user: { id: agent.id, role: "agent" },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" },
+      (err, token) => {
+        if (err) throw err;
+        const agentData = agent.toObject();
+        delete agentData.password;
+        res.json({ token, member: agentData });
+      },
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    POST api/auth/member/login
 // @desc     Authenticate member & get token
 router.post("/member/login", async (req, res) => {
   const { phoneNumber, password } = req.body;
 
   try {
-    let member = await Member.findOne({ phoneNumber });
+    let member = await Member.findOne({ phoneNumber, memberType: 1 });
     if (!member) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
@@ -86,7 +151,10 @@ router.post("/member/login", async (req, res) => {
     }
 
     const payload = {
-      user: { id: member.id, role: "member" },
+      user: {
+        id: member.id,
+        role: "member",
+      },
     };
 
     jwt.sign(
@@ -95,7 +163,49 @@ router.post("/member/login", async (req, res) => {
       { expiresIn: "24h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        const memberData = member.toObject();
+        delete memberData.password;
+        res.json({ token, member: memberData });
+      },
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/auth/agent/login
+// @desc     Authenticate agent & get token
+router.post("/agent/login", async (req, res) => {
+  const { phoneNumber, password } = req.body;
+
+  try {
+    let agent = await Member.findOne({ phoneNumber, memberType: 2 });
+    if (!agent) {
+      return res.status(400).json({ msg: "Invalid Credentials" });
+    }
+
+    const isMatch = await agent.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Invalid Credentials" });
+    }
+
+    const payload = {
+      user: {
+        id: agent.id,
+        role: "agent",
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" },
+      (err, token) => {
+        if (err) throw err;
+        const agentData = agent.toObject();
+        delete agentData.password;
+        res.json({ token, member: agentData });
       },
     );
   } catch (err) {

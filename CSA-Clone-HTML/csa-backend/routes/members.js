@@ -113,7 +113,7 @@ router.get("/referrals", auth, async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.user.id })
       .select(
-        "firstName lastName memberCode state status createDate referralType referralAmount",
+        "firstName lastName memberCode state status createDate referralType referralAmount email",
       )
       .sort({ createDate: -1 });
     res.json(referrals);

@@ -144,3 +144,9 @@
   font-weight: 500;
   margin-bottom: 10px;
 }
+
+/* Auth Background Overlay */
+.bg-overlay {
+  background: linear-gradient(-45deg, #279d69 50%, #0d3825) !important;
+  opacity: 0.9 !important;
+}

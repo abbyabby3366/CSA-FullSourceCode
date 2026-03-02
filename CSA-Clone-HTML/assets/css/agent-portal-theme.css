@@ -1,0 +1,101 @@
+/* Agent Portal Theme Overrides - RED Version */
+:root {
+  --vz-primary: #d63333; /* Red instead of Green */
+  --vz-primary-rgb: 214, 51, 51;
+  --vz-link-color: #d63333;
+  --vz-link-hover-color: #a52828;
+}
+
+/* Button Overrides */
+.btn-primary {
+  --vz-btn-bg: #d63333;
+  --vz-btn-border-color: #d63333;
+  --vz-btn-hover-bg: #b82b2b;
+  --vz-btn-hover-border-color: #b82b2b;
+  --vz-btn-active-bg: #a52828;
+  --vz-btn-active-border-color: #a52828;
+}
+
+.btn-soft-primary {
+  --vz-btn-color: #d63333;
+  --vz-btn-bg: rgba(214, 51, 51, 0.1);
+  --vz-btn-border-color: transparent;
+  --vz-btn-hover-color: #fff;
+  --vz-btn-hover-bg: #d63333;
+}
+
+.btn-outline-primary {
+  --vz-btn-color: #d63333;
+  --vz-btn-border-color: #d63333;
+  --vz-btn-hover-bg: #d63333;
+  --vz-btn-hover-border-color: #d63333;
+}
+
+/* Text & Icon Overrides */
+.text-primary {
+  --vz-text-opacity: 1;
+  color: rgba(214, 51, 51, var(--vz-text-opacity)) !important;
+}
+
+/* Badge Overrides */
+.badge-soft-primary {
+  background-color: rgba(214, 51, 51, 0.1);
+  color: #d63333;
+}
+
+/* Sidebar & Navbar Overrides (Global for Agent) */
+.navbar-menu {
+  background: #d63333 !important;
+}
+
+.menu-title {
+  color: white !important;
+}
+
+.navbar-menu .navbar-nav .nav-link {
+  color: #ffebeb !important; /* Lighter red tint */
+}
+
+/* Modal Overrides */
+.modal-header {
+  border-bottom: 2px solid rgba(214, 51, 51, 0.1);
+}
+
+/* Profile specific background */
+.profile-wid-bg::before {
+  background: #d63333 !important;
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(whitesmoke),
+    to(#d63333)
+  ) !important;
+  background: linear-gradient(to top, white, #d63333) !important;
+}
+
+/* Success colors often mixed with primary - but for agent we might want to keep success green OR make it red if it represents agent status */
+/* Let's keep success as green if it means 'completed' as per normal UX, but primary is definitely red now. */
+
+/* Carousel Fixed Height */
+.carousel-fixed-height .carousel-inner {
+  height: 350px;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+}
+
+.carousel-fixed-height .carousel-item {
+  height: 350px;
+}
+
+.carousel-fixed-height .carousel-item img {
+  height: 350px;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Auth Background Overlay */
+.bg-overlay {
+  background: linear-gradient(-45deg, #d63333 50%, #4a1111) !important;
+  opacity: 0.9 !important;
+}

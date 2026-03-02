@@ -41,14 +41,14 @@ function renderMemberNavBar() {
                                 <span class="d-flex align-items-center">
                                     <img class="rounded-circle header-profile-user" src="../assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Member User</span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Active Member</span>
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Agent User</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Active Agent</span>
                                     </span>
                                 </span>
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-end">
-                                <h6 class="dropdown-header">Welcome Member!</h6>
+                                <h6 class="dropdown-header">Welcome Agent!</h6>
                                 <a class="dropdown-item" href="profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item logout-member" href="#"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
@@ -93,37 +93,28 @@ function renderMemberNavBar() {
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'dashboard.html' ? 'active' : ''}" href="dashboard.html">
+                            <a class="nav-link menu-link ${currentPage === "dashboard.html" ? "active" : ""}" href="dashboard.html">
                                 <i class="ri-home-8-line"></i><span data-key="t-dashboard">Dashboard </span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'active' : ''}" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'true' : 'false'}" aria-controls="application-manager">
-                                <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
+                            <a class="nav-link menu-link ${currentPage === "referrals.html" ? "active" : ""}" href="#referrals" data-bs-toggle="collapse" role="button" aria-expanded="${currentPage === "referrals.html" ? "true" : "false"}" aria-controls="referrals">
+                                <i class="ri-user-add-line"></i><span>Referrals </span>
                             </a>
-                            <div class="collapse menu-dropdown \${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'show' : ''}" id="application-manager">
+                            <div class="collapse menu-dropdown ${currentPage === "referrals.html" ? "show" : ""}" id="referrals">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="apply.html" class="nav-link \${currentPage === 'apply.html' ? 'active' : ''}">Apply Now </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="application-status.html" class="nav-link \${currentPage === 'application-status.html' ? 'active' : ''}">Application History </a>
+                                        <a href="referrals.html" class="nav-link ${currentPage === "referrals.html" ? "active" : ""}">View Referrals </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="nav-item" id="become-agent-nav" style="display: none;">
-                            <a class="nav-link menu-link ${currentPage === "become-agent.html" ? "active" : ""}" href="become-agent.html">
-                                <i class="ri-user-star-line"></i><span>Become an Agent </span>
-                            </a>
-                        </li>
-
                         <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'active' : ''}" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'true' : 'false'}" aria-controls="user-profile">
+                            <a class="nav-link menu-link ${currentPage === "profile.html" || currentPage === "profile-management.html" ? "active" : ""}" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="${currentPage === "profile.html" || currentPage === "profile-management.html" ? "true" : "false"}" aria-controls="user-profile">
                                 <i class="mdi mdi-card-account-details-outline"></i><span data-key="t-user-profile">My Profile </span>
                             </a>
                             <div class="collapse menu-dropdown \${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'show' : ''}" id="user-profile">
@@ -141,6 +132,14 @@ function renderMemberNavBar() {
                         <li class="nav-item">
                             <a class="nav-link menu-link \${currentPage === 'wallet.html' ? 'active' : ''}" href="wallet.html">
                                 <i class="ri-wallet-line"></i><span >Rewards </span>
+                            </a>
+                        </li>
+
+                        <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-support">Support</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="https://wa.me/60122273341" target="_blank" rel="noopener noreferrer">
+                                <i class="ri-customer-service-2-line"></i><span data-key="t-contact-cs">Contact Customer Service</span>
                             </a>
                         </li>
                     </ul>
@@ -196,36 +195,8 @@ function renderMemberNavBar() {
       document
         .querySelectorAll('[data-role="member-only"]')
         .forEach((el) => (el.style.display = "block"));
-
-      // Only show "Become an Agent" if an application is approved (status 6)
-      checkBecomeAgentStatus();
     }
   };
-
-  const checkBecomeAgentStatus = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const response = await fetch(
-        `${window.API_BASE_URL}/api/applications/my`,
-        {
-          headers: { "x-auth-token": token },
-        },
-      );
-      if (response.ok) {
-        const apps = await response.json();
-        const hasApproved = apps.some((app) => app.applicationStatus === 6);
-        const navItem = document.getElementById("become-agent-nav");
-        if (navItem && hasApproved) {
-          navItem.style.setProperty("display", "block", "important");
-        }
-      }
-    } catch (err) {
-      console.error("Error checking agent application status:", err);
-    }
-  };
-
   updateRoleMenu();
 }
 

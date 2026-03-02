@@ -1,7 +1,7 @@
 function renderNavBar() {
-    const currentPage = window.location.pathname.split("/").pop() || 'index.html';
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-    const headerHTML = `
+  const headerHTML = `
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
@@ -66,7 +66,7 @@ function renderNavBar() {
         </div>
     `;
 
-    const sidebarHTML = `
+  const sidebarHTML = `
         <!-- logo -->
         <div class="navbar-brand-box">
             <!-- dark -->
@@ -102,86 +102,78 @@ function renderNavBar() {
                     <li class="menu-title"><span data-key="t-main">Main</span></li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'dashboard.html' ? 'active' : ''}" href="dashboard.html">
+                        <a class="nav-link menu-link ${currentPage === "dashboard.html" ? "active" : ""}" href="dashboard.html">
                             <i class="ri-home-8-line"></i> <span data-key="t-dashboard"> Dashboards </span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'applications.html' ? 'active' : ''}" href="applications.html">
+                        <a class="nav-link menu-link ${currentPage === "applications.html" ? "active" : ""}" href="applications.html">
                             <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-application-manager"> Application Management </span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'surveys.html' ? 'active' : ''}" href="surveys.html">
-                            <i class="ri-survey-line"></i> <span data-key="t-surveys"> Submitted Surveys </span>
+                        <a class="nav-link menu-link ${["members.html", "agents.html"].includes(currentPage) ? "active" : ""}" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="member-manager">
+                            <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Member Management </span>
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${['member-approval.html', 'clients.html', 'agents.html'].includes(currentPage) ? 'active' : ''}" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="member-manager">
-                            <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Client Registration & Management </span>
-                        </a>
-                        <div class="collapse menu-dropdown ${['member-approval.html', 'clients.html', 'agents.html'].includes(currentPage) ? 'show' : ''}" id="member-manager">
+                        <div class="collapse menu-dropdown ${["members.html", "agents.html"].includes(currentPage) ? "show" : ""}" id="member-manager">
                             <ul class="nav nav-sm flex-column">
+
                                 <li class="nav-item">
-                                    <a href="member-approval.html" class="nav-link ${currentPage === 'member-approval.html' ? 'active' : ''}"> Registration </a>
+                                    <a href="members.html" class="nav-link ${currentPage === "members.html" ? "active" : ""}"> Member List </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="clients.html" class="nav-link ${currentPage === 'clients.html' ? 'active' : ''}"> Client List </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="agents.html" class="nav-link ${currentPage === 'agents.html' ? 'active' : ''}"> Agent List </a>
+                                    <a href="agents.html" class="nav-link ${currentPage === "agents.html" ? "active" : ""}"> Agent List </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${['withdrawals.html', 'finance-history.html'].includes(currentPage) ? 'active' : ''}" href="#finance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="finance">
+                        <a class="nav-link menu-link ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "active" : ""}" href="#finance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="finance">
                             <i class="ri-money-dollar-circle-line"></i> <span data-key="t-finance"> Finance </span>
                         </a>
-                        <div class="collapse menu-dropdown ${['withdrawals.html', 'finance-history.html'].includes(currentPage) ? 'show' : ''}" id="finance">
+                        <div class="collapse menu-dropdown ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "show" : ""}" id="finance">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="withdrawals.html" class="nav-link ${currentPage === 'withdrawals.html' ? 'active' : ''}"> Withdrawal Requests </a>
+                                    <a href="withdrawals.html" class="nav-link ${currentPage === "withdrawals.html" ? "active" : ""}"> Withdrawal Requests </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="finance-history.html" class="nav-link ${currentPage === 'finance-history.html' ? 'active' : ''}"> Transaction History </a>
+                                    <a href="finance-history.html" class="nav-link ${currentPage === "finance-history.html" ? "active" : ""}"> Transaction History </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'admins.html' ? 'active' : ''}" href="admins.html">
+                        <a class="nav-link menu-link ${currentPage === "admins.html" ? "active" : ""}" href="admins.html">
                             <i class="ri-file-user-line"></i> <span data-key="t-application-manager"> Admin Management </span>
                         </a>
                     </li>
 
                     <li class="menu-title"><span data-key="t-marketing">Marketing</span></li>
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'email-campaigns.html' ? 'active' : ''}" href="email-campaigns.html">
+                        <a class="nav-link menu-link ${currentPage === "email-campaigns.html" ? "active" : ""}" href="email-campaigns.html">
                             <i class="ri-mail-line"></i> <span data-key="t-campaigns"> Email Campaigns </span>
                         </a>
                     </li>
 
                     <li class="menu-title"><span data-key="t-configurations">Configurations</span></li>
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'roles.html' ? 'active' : ''}" href="roles.html">
+                        <a class="nav-link menu-link ${currentPage === "roles.html" ? "active" : ""}" href="roles.html">
                             <i class="ri-user-settings-line"></i> <span data-key="t-roles"> Role & privileges </span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'carousel-mgmt.html' ? 'active' : ''}" href="carousel-mgmt.html">
+                        <a class="nav-link menu-link ${currentPage === "carousel-mgmt.html" ? "active" : ""}" href="carousel-mgmt.html">
                             <i class="ri-palette-line"></i> <span data-key="t-carousel"> Dashboard Images </span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === 'settings.html' ? 'active' : ''}" href="settings.html">
+                        <a class="nav-link menu-link ${currentPage === "settings.html" ? "active" : ""}" href="settings.html">
                             <i class="ri-settings-2-line"></i> <span data-key="t-profile-manager"> Settings </span>
                         </a>
                     </li>
@@ -192,30 +184,30 @@ function renderNavBar() {
         <div class="sidebar-background"></div>
     `;
 
-    // Inject Header
-    const topbar = document.getElementById('page-topbar');
-    if (topbar) {
-        topbar.innerHTML = headerHTML;
-    }
+  // Inject Header
+  const topbar = document.getElementById("page-topbar");
+  if (topbar) {
+    topbar.innerHTML = headerHTML;
+  }
 
-    // Inject Sidebar
-    const sideMenu = document.querySelector('.navbar-menu');
-    if (sideMenu) {
-        sideMenu.innerHTML = sidebarHTML;
-    }
+  // Inject Sidebar
+  const sideMenu = document.querySelector(".navbar-menu");
+  if (sideMenu) {
+    sideMenu.innerHTML = sidebarHTML;
+  }
 
-    // Handle Logout
-    $('.logout-admin').on('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        window.location.href = 'index.html';
-    });
+  // Handle Logout
+  $(".logout-admin").on("click", function (e) {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    window.location.href = "index.html";
+  });
 }
 
 // Ensure it runs after DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderNavBar);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderNavBar);
 } else {
-    renderNavBar();
+  renderNavBar();
 }

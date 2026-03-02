@@ -23,7 +23,21 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
       .select("-password")
       .populate("referrer", "firstName lastName memberCode")
       .sort({ createDate: -1 });
-    res.json(members);
+
+    // Attach isApproved: true if member has at least one approved application (status 6)
+    const memberIds = members.map((m) => m._id);
+    const approvedApps = await Application.find({
+      member: { $in: memberIds },
+      applicationStatus: 6,
+    }).select("member");
+    const approvedSet = new Set(approvedApps.map((a) => a.member.toString()));
+
+    const result = members.map((m) => ({
+      ...m.toObject(),
+      isApproved: approvedSet.has(m._id.toString()),
+    }));
+
+    res.json(result);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -35,7 +49,10 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
 router.get("/applications", [auth, adminOnly], async (req, res) => {
   try {
     const apps = await Application.find()
-      .populate("member", "firstName lastName phoneNumber")
+      .populate(
+        "member",
+        "firstName lastName phoneNumber memberCode memberType",
+      )
       .sort({ createDate: -1 });
     res.json(apps);
   } catch (err) {
@@ -67,6 +84,49 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
     app.applicationStatus = status;
     if (reason)
       app.rejection = { reason, date: Date.now(), admin: req.user.id };
+
+    // Trigger RM100 Reward on status 6 (Settlement)
+    if (status == 6 && !app.rewardPaid) {
+      const member = await Member.findById(app.member);
+      if (member) {
+        // 1. Reward the User (RM100)
+        member.walletCash += 100;
+        await member.save();
+
+        const userReward = new Transaction({
+          member: member._id,
+          type: "Reward",
+          amount: 100,
+          description: "Application Approval Reward (Settlement)",
+          status: "Completed",
+          processDate: Date.now(),
+        });
+        await userReward.save();
+
+        // 2. Reward the Upline (RM100)
+        // Check Application.referrerMember first, then Member.referrer
+        const uplineId = app.referrerMember || member.referrer;
+        if (uplineId) {
+          const referrer = await Member.findById(uplineId);
+          if (referrer) {
+            referrer.walletCash += 100;
+            await referrer.save();
+
+            const referralReward = new Transaction({
+              member: referrer._id,
+              type: "Referral",
+              amount: 100,
+              description: `Referral Reward - ${member.firstName} ${member.lastName}'s Application Settlement`,
+              status: "Completed",
+              processDate: Date.now(),
+            });
+            await referralReward.save();
+          }
+        }
+
+        app.rewardPaid = true;
+      }
+    }
 
     await app.save();
     res.json(app);
@@ -133,7 +193,7 @@ router.get("/withdrawals", [auth, adminOnly], async (req, res) => {
     const withdrawals = await Transaction.find({ type: "Withdrawal" })
       .populate(
         "member",
-        "firstName lastName phoneNumber bankName bankAccountNumber bankAccountName",
+        "firstName lastName phoneNumber bankName bankAccountNumber bankAccountName memberCode memberType",
       )
       .sort({ createDate: -1 });
     res.json(withdrawals);
@@ -187,6 +247,22 @@ router.get("/agents", [auth, adminOnly], async (req, res) => {
       .populate("referrer", "firstName lastName memberCode")
       .sort({ agentApplicationDate: -1 });
     res.json(agents);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    GET api/admin/agents/:id/referrals
+// @desc     Get all members referred by a specific agent
+router.get("/agents/:id/referrals", [auth, adminOnly], async (req, res) => {
+  try {
+    const referrals = await Member.find({ referrer: req.params.id })
+      .select(
+        "firstName lastName memberCode phoneNumber state createDate memberType",
+      )
+      .sort({ createDate: -1 });
+    res.json(referrals);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

@@ -103,13 +103,12 @@
                             <th>State</th>
                             <th>Sector</th>
                             <th>Referrals</th>
-                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td colspan="9" class="text-center">
+                            <td colspan="8" class="text-center">
                               <div
                                 class="spinner-border text-primary"
                                 role="status"
@@ -143,6 +142,38 @@
       </div>
     </div>
 
+    <!-- Referrals Modal -->
+    <div
+      class="modal fade"
+      id="referralsModal"
+      tabindex="-1"
+      aria-labelledby="referralsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="referralsModalLabel">Referrals</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="referralsModalBody">
+              <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- JAVASCRIPT -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -168,32 +199,12 @@
 
           if (agents.length === 0) {
             tbody.append(
-              '<tr><td colspan="9" class="text-center">No agent applications found</td></tr>',
+              '<tr><td colspan="8" class="text-center">No agent applications found</td></tr>',
             );
             return;
           }
 
           agents.forEach((agent, index) => {
-            let statusBadge = "";
-            switch (agent.status) {
-              case 0:
-                statusBadge =
-                  '<span class="badge bg-warning">Pending Approval</span>';
-                break;
-              case 1:
-                statusBadge =
-                  '<span class="badge bg-info">Waiting Approval</span>';
-                break;
-              case 2:
-                statusBadge = '<span class="badge bg-success">Active</span>';
-                break;
-              case 3:
-                statusBadge = '<span class="badge bg-danger">Inactive</span>';
-                break;
-              default:
-                statusBadge = `<span class="badge bg-secondary">Unknown (${agent.status})</span>`;
-            }
-
             tbody.append(`
                         <tr>
                             <td>${index + 1}</td>
@@ -210,7 +221,6 @@
                             <td>${agent.state || "-"}</td>
                             <td>${agent.occupation || "-"}</td>
                             <td>${agent.referralAmount || 0}</td>
-                            <td>${statusBadge}</td>
                             <td>
                                 <div class="dropdown d-inline-block">
                                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -218,6 +228,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Details</a></li>
+                                        <li><a class="dropdown-item view-referrals-btn" data-agent-id="${agent._id}" data-agent-name="${agent.firstName} ${agent.lastName}" href="javascript:void(0);"><i class="ri-team-line align-bottom me-2 text-muted"></i> View Referrals</a></li>
                                         <li><a class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
                                     </ul>
                                 </div>
@@ -225,6 +236,61 @@
                         </tr>
                     `);
           });
+
+          // Attach View Referrals handler
+          $("#agentTable").on(
+            "click",
+            ".view-referrals-btn",
+            async function () {
+              const agentId = $(this).data("agent-id");
+              const agentName = $(this).data("agent-name");
+              $("#referralsModalLabel").text(`Referrals - ${agentName}`);
+              $("#referralsModalBody").html(
+                '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>',
+              );
+              $("#referralsModal").modal("show");
+
+              try {
+                const referrals = await apiCall(
+                  `/admin/agents/${agentId}/referrals`,
+                  "GET",
+                );
+                if (!referrals || referrals.length === 0) {
+                  $("#referralsModalBody").html(
+                    '<p class="text-muted text-center">No referrals found for this agent.</p>',
+                  );
+                  return;
+                }
+                let rows = referrals
+                  .map(
+                    (r, i) => `
+                <tr>
+                  <td>${i + 1}</td>
+                  <td>${r.memberCode || "N/A"}</td>
+                  <td>${r.firstName} ${r.lastName}</td>
+                  <td>${r.phoneNumber || "N/A"}</td>
+                  <td>${r.state || "N/A"}</td>
+                  <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
+                  <td>${new Date(r.createDate).toLocaleDateString()}</td>
+                </tr>`,
+                  )
+                  .join("");
+                $("#referralsModalBody").html(`
+                <table class="table table-sm table-bordered align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>No</th><th>File No</th><th>Full Name</th><th>Contact</th><th>State</th><th>Type</th><th>Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody>${rows}</tbody>
+                </table>`);
+              } catch (e) {
+                $("#referralsModalBody").html(
+                  '<p class="text-danger text-center">Failed to load referrals.</p>',
+                );
+              }
+            },
+          );
         } catch (err) {
           console.error("Error loading agents:", err);
           $("#agentTable tbody").html(

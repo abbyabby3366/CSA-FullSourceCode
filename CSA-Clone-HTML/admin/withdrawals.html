@@ -194,9 +194,14 @@
 
           withdrawals.forEach((w, index) => {
             const date = new Date(w.createDate).toLocaleString();
-            const memberName = w.member
-              ? `${w.member.firstName} ${w.member.lastName}`
-              : "Unknown";
+
+            let memberInfo = "Unknown";
+            if (w.member) {
+              const typeMap = { 1: "Member", 2: "Agent", 3: "Hero" };
+              const typeLabel = typeMap[w.member.memberType] || "Member";
+              memberInfo = `[${w.member.memberCode || "-"}] ${w.member.firstName} ${w.member.lastName} (${typeLabel})`;
+            }
+
             const bankAcc = w.member ? w.member.bankAccountNumber : "-";
             const amount = Math.abs(w.amount).toLocaleString(undefined, {
               minimumFractionDigits: 2,
@@ -232,7 +237,7 @@
             const row = `
                         <tr>
                             <td>${date}</td>
-                            <td>${memberName}</td>
+                            <td>${memberInfo}</td>
                             <td>${bankAcc}</td>
                             <td>RM ${amount}</td>
                             <td>${statusBadge}</td>
