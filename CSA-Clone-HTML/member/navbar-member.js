@@ -99,16 +99,16 @@ function renderMemberNavBar() {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'active' : ''}" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'true' : 'false'}" aria-controls="application-manager">
+                            <a class="nav-link menu-link ${currentPage === "apply.html" || currentPage === "application-status.html" || currentPage === "application-details.html" ? "active" : ""}" href="#application-manager" data-bs-toggle="collapse" role="button" aria-expanded="${currentPage === "apply.html" || currentPage === "application-status.html" || currentPage === "application-details.html" ? "true" : "false"}" aria-controls="application-manager">
                                 <i class="mdi mdi-file-document-edit-outline"></i><span data-key="t-application-manager">Application Manager </span>
                             </a>
-                            <div class="collapse menu-dropdown \${currentPage === 'apply.html' || currentPage === 'application-status.html' || currentPage === 'application-details.html' ? 'show' : ''}" id="application-manager">
+                            <div class="collapse menu-dropdown ${currentPage === "apply.html" || currentPage === "application-status.html" || currentPage === "application-details.html" ? "show" : ""}" id="application-manager">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="apply.html" class="nav-link \${currentPage === 'apply.html' ? 'active' : ''}">Apply Now </a>
+                                        <a href="apply.html" class="nav-link ${currentPage === "apply.html" ? "active" : ""}">Apply Now </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="application-status.html" class="nav-link \${currentPage === 'application-status.html' ? 'active' : ''}">Application History </a>
+                                        <a href="application-status.html" class="nav-link ${currentPage === "application-status.html" ? "active" : ""}">Application History </a>
                                     </li>
                                 </ul>
                             </div>
@@ -123,16 +123,16 @@ function renderMemberNavBar() {
                         <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link \${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'active' : ''}" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="\${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'true' : 'false'}" aria-controls="user-profile">
+                            <a class="nav-link menu-link ${currentPage === "profile.html" || currentPage === "profile-management.html" ? "active" : ""}" href="#user-profile" data-bs-toggle="collapse" role="button" aria-expanded="${currentPage === "profile.html" || currentPage === "profile-management.html" ? "true" : "false"}" aria-controls="user-profile">
                                 <i class="mdi mdi-card-account-details-outline"></i><span data-key="t-user-profile">My Profile </span>
                             </a>
-                            <div class="collapse menu-dropdown \${currentPage === 'profile.html' || currentPage === 'profile-management.html' ? 'show' : ''}" id="user-profile">
+                            <div class="collapse menu-dropdown ${currentPage === "profile.html" || currentPage === "profile-management.html" ? "show" : ""}" id="user-profile">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="profile.html" class="nav-link \${currentPage === 'profile.html' ? 'active' : ''}">User Profile </a>
+                                        <a href="profile.html" class="nav-link ${currentPage === "profile.html" ? "active" : ""}">User Profile </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="profile-management.html" class="nav-link \${currentPage === 'profile-management.html' ? 'active' : ''}">Profile Management </a>
+                                        <a href="profile-management.html" class="nav-link ${currentPage === "profile-management.html" ? "active" : ""}">Profile Management </a>
                                     </li>
                                 </ul>
                             </div>
@@ -245,7 +245,11 @@ function renderMemberNavBar() {
       if (data && data.value) {
         const waLink = document.getElementById("whatsapp-link-nav");
         if (waLink) {
-          waLink.href = data.value;
+          let url = data.value;
+          if (url && !url.startsWith("http")) {
+            url = "https://" + url;
+          }
+          waLink.href = url;
         }
       }
     } catch (err) {

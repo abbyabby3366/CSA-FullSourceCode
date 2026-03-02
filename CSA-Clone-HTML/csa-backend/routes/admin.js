@@ -170,6 +170,8 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
           const referrer = await Member.findById(uplineId);
           if (referrer) {
             referrer.walletCash += 100;
+            referrer.referralCommission =
+              (referrer.referralCommission || 0) + 100;
             await referrer.save();
 
             const referralReward = new Transaction({

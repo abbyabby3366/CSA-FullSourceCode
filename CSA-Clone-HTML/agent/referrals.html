@@ -127,8 +127,7 @@
                             <th scope="col">NO.</th>
                             <th scope="col">REFERRAL NAME</th>
                             <th scope="col">REFERRAL ACCOUNT ID</th>
-                            <th scope="col">DATETIME</th>
-                            <th scope="col">REFERRAL TYPE</th>
+                            <th scope="col">REGISTRATION DATETIME</th>
                             <th scope="col">STATUS</th>
                             <th scope="col">REFERRAL AMOUNT</th>
                           </tr>
@@ -256,9 +255,6 @@
                     })
                   : "-";
 
-                // Format Referral Type (stored in member model as referralType)
-                const typeStr = ref.referralType === 1 ? "Direct" : "Indirect";
-
                 const row = `
                                   <tr>
                                       <td>${index + 1}</td>
@@ -266,15 +262,14 @@
                                           <div class="d-flex align-items-center">
                                               <div class="flex-grow-1">
                                                   <h5 class="fs-14 mb-1">${ref.firstName} ${ref.lastName}</h5>
-                                                  <p class="text-muted mb-0">${ref.email || "-"}</p>
+                                                  <p class="text-muted mb-0">${ref.email || ""}</p>
                                               </div>
                                           </div>
                                       </td>
                                       <td><span class="badge badge-soft-primary">${ref.memberCode || "-"}</span></td>
                                       <td data-sort="${ref.createDate || ""}">${dateStr}</td>
-                                      <td><span class="text-info fw-medium">${typeStr}</span></td>
                                       <td>${statusHtml}</td>
-                                      <td><span class="text-success fw-bold">RM ${(ref.referralAmount || 0).toFixed(2)}</span></td>
+                                      <td><span class="text-success fw-bold">RM ${(ref.referralCommission || 0).toFixed(2)}</span></td>
                                   </tr>
                               `;
                 tbody.append(row);
@@ -297,12 +292,12 @@
               });
             } else {
               $("#referralsTable tbody").append(
-                '<tr><td colspan="7" class="text-center text-danger">Failed to fetch referrals. Please try again later.</td></tr>',
+                '<tr><td colspan="6" class="text-center text-danger">Failed to fetch referrals. Please try again later.</td></tr>',
               );
             }
           } catch (err) {
             $("#referralsTable tbody").append(
-              '<tr><td colspan="7" class="text-center text-danger">Error loading referrals. Please reload the page.</td></tr>',
+              '<tr><td colspan="6" class="text-center text-danger">Error loading referrals. Please reload the page.</td></tr>',
             );
             console.error("Error loading referrals:", err);
           }

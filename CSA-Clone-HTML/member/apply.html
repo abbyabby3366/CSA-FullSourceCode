@@ -137,10 +137,7 @@
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Phone Number</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">+60</span>
-                                                            <input type="text" class="form-control" id="phoneNumber" disabled />
-                                                        </div>
+                                                        <input type="text" class="form-control" id="phoneNumber" disabled />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Email Address</label>
@@ -174,9 +171,9 @@
                                                         <label class="form-label">Salary Range</label>
                                                         <select class="form-select" id="salaryRange">
                                                             <option value="0">Select an option</option>
-                                                            <option value="1">Kurang RM2,500</option>
-                                                            <option value="2">RM2,501 - RM3,170</option>
-                                                            <option value="3">RM3,171 - RM3,970</option>
+                                                            <option value="1">below 3k</option>
+                                                            <option value="2">3001 - 5k</option>
+                                                            <option value="3">5k and above</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -288,6 +285,44 @@
                         <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">OK</button>
                         <a href="application-status.html" class="btn w-sm btn-success">Go to Application History</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal fade zoomIn" id="bookingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalTitle">Book Offline Survey</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookingForm">
+                        <input type="hidden" id="bookingId" value="">
+                        <div class="mb-3">
+                            <label class="form-label">Select Date (Monday - Friday)</label>
+                            <input type="date" class="form-control" id="bookingDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Select Time Slot</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeSlot" id="slot1" value="12-2pm" checked>
+                                    <label class="form-check-label" for="slot1">12:00 PM - 2:00 PM</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeSlot" id="slot2" value="5-7pm">
+                                    <label class="form-check-label" for="slot2">5:00 PM - 7:00 PM</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmBooking">Confirm Booking</button>
                 </div>
             </div>
         </div>
@@ -407,10 +442,15 @@
                                     <div class="card-body text-center py-4">
                                         <i class="ri-checkbox-circle-line fs-40"></i>
                                         <h4 class="mt-3 text-success">Application Already Approved</h4>
-                                        <p class="mb-0">You have already been approved for this program and cannot submit another application.</p>
+                                        <p class="">You have already been approved for this program and cannot submit another application. <strong>Earn an extra RM300</strong> by completing an offline survey!</p>
+                                        <div id="bookingSection" class="mt-4 pt-2 border-top border-success-subtle">
+                                            <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                                            <p class="mb-0 fs-13">Loading booking information...</p>
+                                        </div>
                                     </div>
                                 </div>
                             `).show();
+                            fetchBooking();
                         } else {
                             $('#applyAgainSection').show();
                             $('#applyFormContainer').hide();
@@ -493,6 +533,12 @@
                             const details = app.details || {};
                             const spouse = details.spouseDetails || {};
                             const employment = details.employmentDetails || {};
+                            const salaryRangeMap = {
+                                "1": "below 3k",
+                                "2": "3001 - 5k",
+                                "3": "5k and above"
+                            };
+                            const salaryLabel = salaryRangeMap[employment.salaryRange] || 'N/A';
                             
                             const d = new Date(app.createDate);
                             const day = String(d.getDate()).padStart(2, '0');
@@ -551,6 +597,120 @@
                     $('#applicationHistory').html('<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>');
                 }
             }
+
+            async function fetchBooking() {
+                try {
+                    const response = await fetch(`${window.API_BASE_URL}/api/bookings/my`, {
+                        headers: { 'x-auth-token': localStorage.getItem('token') }
+                    });
+                    const booking = await response.json();
+                    const section = $('#bookingSection');
+                    
+                    if (booking && booking._id) {
+                        const date = new Date(booking.bookingDate).toLocaleDateString('en-MY', { 
+                            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+                        });
+                        section.html(`
+                            <h5 class="text-success mb-2"><i class="ri-calendar-event-line align-middle me-1"></i> Offline Survey Booking</h5>
+                            <p class="mb-1 text-dark"><strong>Date:</strong> ${date}</p>
+                            <p class="mb-3 text-dark"><strong>Time:</strong> ${booking.timeSlot}</p>
+                            <div class="hstack gap-2 justify-content-center">
+                                <button class="btn btn-sm btn-outline-success edit-booking" data-id="${booking._id}" data-date="${booking.bookingDate.split('T')[0]}" data-slot="${booking.timeSlot}">Edit Booking</button>
+                                <button class="btn btn-sm btn-outline-danger cancel-booking" data-id="${booking._id}">Cancel Booking</button>
+                            </div>
+                        `);
+                    } else {
+                        section.html(`
+                            <h5 class="text-success mb-2">Offline Survey</h5>
+                            <p class="text-muted fs-13 mb-3">You haven't booked your offline survey yet.</p>
+                            <button class="btn btn-success btn-sm book-survey">Book Survey Now</button>
+                        `);
+                    }
+
+                    // Event handlers for booking
+                    $('.book-survey').click(function() {
+                        $('#bookingModalTitle').text('Book Offline Survey');
+                        $('#bookingId').val('');
+                        $('#bookingDate').val('');
+                        $('#bookingModal').modal('show');
+                    });
+
+                    $('.edit-booking').click(function() {
+                        const id = $(this).data('id');
+                        const date = $(this).data('date');
+                        const slot = $(this).data('slot');
+                        $('#bookingModalTitle').text('Edit Survey Booking');
+                        $('#bookingId').val(id);
+                        $('#bookingDate').val(date);
+                        $(`input[name="timeSlot"][value="${slot}"]`).prop('checked', true);
+                        $('#bookingModal').modal('show');
+                    });
+
+                    $('.cancel-booking').click(async function() {
+                        if (confirm('Are you sure you want to cancel your survey booking?')) {
+                            const id = $(this).data('id');
+                            try {
+                                const response = await fetch(`${window.API_BASE_URL}/api/bookings/${id}`, {
+                                    method: 'DELETE',
+                                    headers: { 'x-auth-token': localStorage.getItem('token') }
+                                });
+                                if (response.ok) {
+                                    fetchBooking();
+                                }
+                            } catch (err) {
+                                console.error('Error cancelling booking:', err);
+                            }
+                        }
+                    });
+
+                } catch (err) {
+                    console.error('Error fetching booking:', err);
+                    $('#bookingSection').html('<p class="text-danger">Error loading booking info.</p>');
+                }
+            }
+
+            $('#btnConfirmBooking').click(async function() {
+                const id = $('#bookingId').val();
+                const bookingDate = $('#bookingDate').val();
+                const timeSlot = $('input[name="timeSlot"]:checked').val();
+
+                if (!bookingDate) {
+                    alert('Please select a date');
+                    return;
+                }
+
+                // Client-side Mon-Fri check
+                const date = new Date(bookingDate);
+                const day = date.getDay();
+                if (day === 0 || day === 6) {
+                    alert('Offline surveys are only available Monday to Friday');
+                    return;
+                }
+
+                const url = id ? `${window.API_BASE_URL}/api/bookings/${id}` : `${window.API_BASE_URL}/api/bookings`;
+                const method = id ? 'PUT' : 'POST';
+
+                try {
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-auth-token': localStorage.getItem('token') 
+                        },
+                        body: JSON.stringify({ bookingDate, timeSlot })
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        $('#bookingModal').modal('hide');
+                        fetchBooking();
+                    } else {
+                        alert(result.msg || 'Error saving booking');
+                    }
+                } catch (err) {
+                    console.error('Error saving booking:', err);
+                    alert('An error occurred');
+                }
+            });
 
             $('#btnSubmit').click(function() {
                 // Perform basic validation before showing confirmation modal

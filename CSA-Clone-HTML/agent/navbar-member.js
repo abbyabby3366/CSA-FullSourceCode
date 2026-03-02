@@ -209,7 +209,11 @@ function renderMemberNavBar() {
       if (data && data.value) {
         const waLink = document.getElementById("whatsapp-link-nav");
         if (waLink) {
-          waLink.href = data.value;
+          let url = data.value;
+          if (url && !url.startsWith("http")) {
+            url = "https://" + url;
+          }
+          waLink.href = url;
         }
       }
     } catch (err) {

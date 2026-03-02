@@ -16,6 +16,7 @@ const MemberSchema = new mongoose.Schema({
   referrer: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
   referralType: { type: Number }, // 1-Direct, etc.
   referralAmount: { type: Number, default: 0 },
+  referralCommission: { type: Number, default: 0 },
 
   // Career Detail
   companyName: { type: String },
