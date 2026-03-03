@@ -428,9 +428,8 @@
               },
             );
 
-            const data = await response.json();
-
             if (response.ok) {
+              const data = await response.json();
               Swal.fire({
                 icon: "success",
                 title: "TAC Sent",
@@ -438,10 +437,17 @@
               });
               startTimer();
             } else {
+              let errorMsg = "Failed to send TAC. Please try again later.";
+              try {
+                const data = await response.json();
+                errorMsg = data.msg || errorMsg;
+              } catch (e) {
+                errorMsg = `Server Error (${response.status}): ${response.statusText}`;
+              }
               Swal.fire({
                 icon: "error",
                 title: "Failed",
-                text: data.msg || "Failed to send TAC. Please try again later.",
+                text: errorMsg,
               });
               $("#btnGetTac").prop("disabled", false).text("Get TAC");
             }
@@ -449,8 +455,8 @@
             console.error("Error:", err);
             Swal.fire({
               icon: "error",
-              title: "Error",
-              text: "Failed to connect to the server.",
+              title: "Connection Error",
+              text: "Failed to connect to the server. Make sure the backend is running.",
             });
             $("#btnGetTac").prop("disabled", false).text("Get TAC");
           }
@@ -511,9 +517,8 @@
               },
             );
 
-            const data = await response.json();
-
             if (response.ok) {
+              const data = await response.json();
               Swal.fire({
                 icon: "success",
                 title: "Register Success",
@@ -530,18 +535,25 @@
                 }
               });
             } else {
+              let errorMsg = "Registration failed. Please try again.";
+              try {
+                const data = await response.json();
+                errorMsg = data.msg || errorMsg;
+              } catch (e) {
+                errorMsg = `Server Error (${response.status}): ${response.statusText}`;
+              }
               Swal.fire({
                 icon: "error",
                 title: "Registration Failed",
-                text: data.msg || "Please try again.",
+                text: errorMsg,
               });
             }
           } catch (err) {
             console.error("Error:", err);
             Swal.fire({
               icon: "error",
-              title: "Server Error",
-              text: "Make sure the backend is running.",
+              title: "Connection Error",
+              text: "Failed to connect to the server. Make sure the backend is running.",
             });
           }
         });

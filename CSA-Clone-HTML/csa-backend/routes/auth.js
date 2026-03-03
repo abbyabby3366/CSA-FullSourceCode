@@ -73,7 +73,7 @@ router.post("/member/register", async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -144,7 +144,7 @@ router.post("/agent/register", async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -184,7 +184,7 @@ router.post("/member/login", async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -224,7 +224,7 @@ router.post("/agent/login", async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -259,7 +259,7 @@ router.post("/admin/login", async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -305,7 +305,7 @@ router.post("/send-tac", async (req, res) => {
     }
   } catch (err) {
     console.error("Send TAC Error:", err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
