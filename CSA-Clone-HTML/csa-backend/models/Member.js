@@ -5,7 +5,7 @@ const MemberSchema = new mongoose.Schema({
   memberCode: { type: String, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  email: { type: String, sparse: true },
+
   phoneNumber: { type: String, required: true },
   password: { type: String, required: true },
   icNumber: { type: String },
@@ -60,7 +60,6 @@ const MemberSchema = new mongoose.Schema({
 
 // Compound index to allow same phone/email for different member types
 MemberSchema.index({ phoneNumber: 1, memberType: 1 }, { unique: true });
-MemberSchema.index({ email: 1, memberType: 1 }, { unique: true });
 
 // Generate memberCode before saving
 MemberSchema.pre("save", async function () {

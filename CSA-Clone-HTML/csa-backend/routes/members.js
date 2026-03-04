@@ -113,7 +113,7 @@ router.get("/referrals", auth, async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.user.id })
       .select(
-        "firstName lastName memberCode state status createDate referralType referralCommission email",
+        "firstName lastName memberCode state status createDate referralType referralCommission",
       )
       .sort({ createDate: -1 });
     res.json(referrals);
@@ -134,14 +134,13 @@ router.post(
       let member = await Member.findById(req.user.id);
       if (!member) return res.status(404).json({ msg: "Member not found" });
 
-      const { firstName, lastName, icNumber, phoneNumber, email } = req.body;
+      const { firstName, lastName, icNumber, phoneNumber } = req.body;
 
       // Update member details
       if (firstName) member.firstName = firstName;
       if (lastName) member.lastName = lastName;
       if (icNumber) member.icNumber = icNumber;
       if (phoneNumber) member.phoneNumber = phoneNumber;
-      if (email) member.email = email;
 
       // Set agent application fields
       member.memberType = 2; // Agent

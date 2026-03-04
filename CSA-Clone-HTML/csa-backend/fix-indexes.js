@@ -29,6 +29,13 @@ const fixIndexes = async () => {
       console.log("email_1 index not found or already dropped");
     }
 
+    try {
+      await collection.dropIndex("email_1_memberType_1");
+      console.log("Successfully dropped email_1_memberType_1 index");
+    } catch (e) {
+      console.log("email_1_memberType_1 index not found or already dropped");
+    }
+
     console.log("Index synchronization complete.");
     process.exit(0);
   } catch (err) {
