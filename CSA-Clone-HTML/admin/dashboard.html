@@ -1,6 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSA Admin Dashboard</title>
@@ -8,220 +16,316 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- jsvectormap css -->
-    <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../assets/libs/jsvectormap/css/jsvectormap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
     <!--Swiper slider css-->
-    <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../assets/libs/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">CSA Admin Dashboard</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div>
-                        <div class="row flex-row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card card-height-100">
-                                            <div class="card-header align-items-center d-flex">
-                                                <h4 class="card-title mb-0 flex-grow-1">New Users</h4>
-                                                <div class="flex-shrink-0">
-                                                    <div class="dropdown card-header-dropdown">
-                                                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <span class="fw-semibold text-uppercase fs-12">Sort by: </span><span class="text-muted" id="spanTypeChart">Current Year<i class="mdi mdi-chevron-down ms-1"></i></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item chart-type-item" href="#">Today</a>
-                                                            <a class="dropdown-item chart-type-item" href="#">Last Week</a>
-                                                            <a class="dropdown-item chart-type-item" href="#">Last Month</a>
-                                                            <a class="dropdown-item chart-type-item" href="#">Current Year</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+      <div class="vertical-overlay"></div>
 
-                                            <div class="card-body">
-                                                <div id="revenue-expenses-charts" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card card-height-100">
-                                            <div class="card-header align-items-center d-flex">
-                                                <h4 class="card-title mb-0 flex-grow-1">Top Performers</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush border-dashed mb-0">
-                                                    <li class="list-group-item d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="../assets/images/svg/crypto-icons/btc.svg" class="avatar-xs rounded-3 me-2" alt="">
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-1">KPI Counter</h6>
-                                                            <p class="text-muted mb-0">Monthly KPI Counter</p>
-                                                        </div>
-                                                        <div class="flex-fill text-end">
-                                                            <div class="live-preview w-100">
-                                                                <div class="progress animated-progress mb-4">
-                                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-
-                                                                <div class="me-auto">
-                                                                    <span class="text-sm text-gray-800 dark:text-white">14% Target</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Top 10 Performing Referrers</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush border-dashed mb-0" id="contentTopReferrals">
-                                            <li class="list-group-item d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-3">
-                                                    <h6 class="fs-14 mb-1">John Doe</h6>
-                                                </div>
-                                                <div class="flex-fill text-end">
-                                                    <span class="fs-14">25</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row flex-row">
-                            <div class="col-md-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Withdrawal Requests List</h4>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table class="table table-borderless table-nowrap align-middle mb-0">
-                                                <thead class="table-light text-muted">
-                                                    <tr>
-                                                        <th scope="col" class="text-center">DATETIME OF REQUEST</th>
-                                                        <th scope="col" class="text-center">BANK ACCOUNT NUMBER</th>
-                                                        <th scope="col" class="text-center">TRANSACTION AMOUNT</th>
-                                                        <th scope="col" class="text-center">ACTION</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tableBodyWithdrawalRequest">
-                                                    <tr class="text-center">
-                                                        <td>2023-10-27 10:30</td>
-                                                        <td>1234567890</td>
-                                                        <td>500.00</td>
-                                                        <td>
-                                                            <span class="text-success">Approve</span> | <span class="text-danger">Reject</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card card-height-100">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">New Member Approval List</h4>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table class="table table-borderless table-nowrap align-middle mb-0">
-                                                <thead class="table-light text-muted">
-                                                    <tr>
-                                                        <th scope="col" class="text-center">FULL NAME</th>
-                                                        <th scope="col" class="text-center">IC NUMBER</th>
-                                                        <th scope="col" class="text-center">CONTACT NUMBER</th>
-                                                        <th scope="col" class="text-center">ACTION</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tableBodyMemberApproval">
-                                                    <tr class="text-center">
-                                                        <td>Jane Smith</td>
-                                                        <td>900101-01-1234</td>
-                                                        <td>0123456789</td>
-                                                        <td>
-                                                            <span class="text-success">Approve</span> | <span class="text-danger">Reject</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">CSA Admin Dashboard</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            Copyright <script>document.write(new Date().getFullYear())</script> © CSA Academy - All right reserved.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
+            <div>
+              <div class="row flex-row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col">
+                      <div class="card card-height-100">
+                        <div class="card-header align-items-center d-flex">
+                          <h4 class="card-title mb-0 flex-grow-1">New Users</h4>
+                          <div class="flex-shrink-0">
+                            <div class="dropdown card-header-dropdown">
+                              <a
+                                class="text-reset dropdown-btn"
+                                href="#"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                              >
+                                <span class="fw-semibold text-uppercase fs-12"
+                                  >Sort by: </span
+                                ><span class="text-muted" id="spanTypeChart"
+                                  >Current Year<i
+                                    class="mdi mdi-chevron-down ms-1"
+                                  ></i
+                                ></span>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-end">
+                                <a
+                                  class="dropdown-item chart-type-item"
+                                  href="#"
+                                  >Today</a
+                                >
+                                <a
+                                  class="dropdown-item chart-type-item"
+                                  href="#"
+                                  >Last Week</a
+                                >
+                                <a
+                                  class="dropdown-item chart-type-item"
+                                  href="#"
+                                  >Last Month</a
+                                >
+                                <a
+                                  class="dropdown-item chart-type-item"
+                                  href="#"
+                                  >Current Year</a
+                                >
+                              </div>
                             </div>
+                          </div>
                         </div>
+
+                        <div class="card-body">
+                          <div
+                            id="revenue-expenses-charts"
+                            data-colors='["--vz-success"]'
+                            class="apex-charts"
+                            dir="ltr"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="card card-height-100">
+                        <div class="card-header align-items-center d-flex">
+                          <h4 class="card-title mb-0 flex-grow-1">
+                            Top Performers
+                          </h4>
+                        </div>
+                        <div class="card-body">
+                          <ul
+                            class="list-group list-group-flush border-dashed mb-0"
+                          >
+                            <li
+                              class="list-group-item d-flex align-items-center"
+                            >
+                              <div class="flex-shrink-0">
+                                <img
+                                  src="../assets/images/svg/crypto-icons/btc.svg"
+                                  class="avatar-xs rounded-3 me-2"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="flex-grow-1 ms-3">
+                                <h6 class="fs-14 mb-1">KPI Counter</h6>
+                                <p class="text-muted mb-0">
+                                  Monthly KPI Counter
+                                </p>
+                              </div>
+                              <div class="flex-fill text-end">
+                                <div class="live-preview w-100">
+                                  <div class="progress animated-progress mb-4">
+                                    <div
+                                      class="progress-bar bg-primary"
+                                      role="progressbar"
+                                      style="width: 15%"
+                                      aria-valuenow="15"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                    ></div>
+                                  </div>
+
+                                  <div class="me-auto">
+                                    <span
+                                      class="text-sm text-gray-800 dark:text-white"
+                                      >14% Target</span
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </footer>
+
+                <div class="col-md-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">
+                        Top 10 Performing Referrers
+                      </h4>
+                    </div>
+                    <div class="card-body">
+                      <ul
+                        class="list-group list-group-flush border-dashed mb-0"
+                        id="contentTopReferrals"
+                      >
+                        <li class="list-group-item d-flex align-items-center">
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="fs-14 mb-1">John Doe</h6>
+                          </div>
+                          <div class="flex-fill text-end">
+                            <span class="fs-14">25</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row flex-row">
+                <div class="col-md-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">
+                        Withdrawal Requests List
+                      </h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive table-card">
+                        <table
+                          class="table table-borderless table-nowrap align-middle mb-0"
+                        >
+                          <thead class="table-light text-muted">
+                            <tr>
+                              <th scope="col" class="text-center">
+                                DATETIME OF REQUEST
+                              </th>
+                              <th scope="col" class="text-center">
+                                BANK ACCOUNT NUMBER
+                              </th>
+                              <th scope="col" class="text-center">
+                                TRANSACTION AMOUNT
+                              </th>
+                              <th scope="col" class="text-center">ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tableBodyWithdrawalRequest">
+                            <tr class="text-center">
+                              <td>2023-10-27 10:30</td>
+                              <td>1234567890</td>
+                              <td>500.00</td>
+                              <td>
+                                <span class="text-success">Approve</span> |
+                                <span class="text-danger">Reject</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card card-height-100">
+                    <div class="card-header align-items-center d-flex">
+                      <h4 class="card-title mb-0 flex-grow-1">
+                        New Member Approval List
+                      </h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive table-card">
+                        <table
+                          class="table table-borderless table-nowrap align-middle mb-0"
+                        >
+                          <thead class="table-light text-muted">
+                            <tr>
+                              <th scope="col" class="text-center">FULL NAME</th>
+                              <th scope="col" class="text-center">IC NUMBER</th>
+                              <th scope="col" class="text-center">
+                                CONTACT NUMBER
+                              </th>
+                              <th scope="col" class="text-center">ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tableBodyMemberApproval">
+                            <tr class="text-center">
+                              <td>Jane Smith</td>
+                              <td>900101-01-1234</td>
+                              <td>0123456789</td>
+                              <td>
+                                <span class="text-success">Approve</span> |
+                                <span class="text-danger">Reject</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                Copyright
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © CSA Academy - All right reserved.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -248,78 +352,119 @@
     <script src="../Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            const stats = await apiCall('/admin/stats');
-            if (stats) {
-                // Update UI with stats if there are specific slots
-                // For now, let's log them to ensure they reach the UI
-                console.log('Dashboard Stats:', stats);
-                
-                // Example: Inject into New Member Approval List if we fetch real members
-                const pendingMembers = await apiCall('/admin/members');
-                if (pendingMembers) {
-                    const tbody = $('#tableBodyMemberApproval');
-                    tbody.empty();
-                    pendingMembers.filter(m => m.status === 0).slice(0, 5).forEach(m => {
-                        tbody.append(`
+      $(document).ready(async function () {
+        const stats = await apiCall("/admin/stats");
+        if (stats) {
+          // Update UI with stats if there are specific slots
+          // For now, let's log them to ensure they reach the UI
+          console.log("Dashboard Stats:", stats);
+
+          // Example: Inject into New Member Approval List if we fetch real members
+          const pendingMembers = await apiCall("/admin/members");
+          if (pendingMembers) {
+            const tbody = $("#tableBodyMemberApproval");
+            tbody.empty();
+            pendingMembers
+              .filter((m) => m.status === 0)
+              .slice(0, 5)
+              .forEach((m) => {
+                tbody.append(`
                             <tr class="text-center">
-                                <td>${m.firstName} ${m.lastName}</td>
-                                <td>${m.icNumber || 'N/A'}</td>
+                                <td>${m.fullName}</td>
+                                <td>${m.icNumber || "N/A"}</td>
                                 <td>${m.phoneNumber}</td>
                                 <td>
                                     <span class="text-success">Approve</span> | <span class="text-danger">Reject</span>
                                 </td>
                             </tr>
                         `);
-                    });
-                }
+              });
+          }
 
-                // Fetch and display pending withdrawals
-                const withdrawals = await apiCall('/admin/withdrawals');
-                if (withdrawals) {
-                    const tbody = $('#tableBodyWithdrawalRequest');
-                    tbody.empty();
-                    withdrawals.filter(w => w.status === 'Pending').slice(0, 5).forEach(w => {
-                        tbody.append(`
+          // Fetch and display pending withdrawals
+          const withdrawals = await apiCall("/admin/withdrawals");
+          if (withdrawals) {
+            const tbody = $("#tableBodyWithdrawalRequest");
+            tbody.empty();
+            withdrawals
+              .filter((w) => w.status === "Pending")
+              .slice(0, 5)
+              .forEach((w) => {
+                tbody.append(`
                             <tr class="text-center">
                                 <td>${new Date(w.createDate).toLocaleString()}</td>
-                                <td>${w.member ? w.member.bankAccountNumber : '-'}</td>
+                                <td>${w.member ? w.member.bankAccountNumber : "-"}</td>
                                 <td>RM ${Math.abs(w.amount).toFixed(2)}</td>
                                 <td>
                                     <a href="withdrawals.html" class="text-primary">View</a>
                                 </td>
                             </tr>
                         `);
-                    });
+              });
 
-                    if (withdrawals.filter(w => w.status === 'Pending').length === 0) {
-                        tbody.append('<tr><td colspan="4" class="text-center text-muted">No pending requests</td></tr>');
-                    }
-                }
+            if (
+              withdrawals.filter((w) => w.status === "Pending").length === 0
+            ) {
+              tbody.append(
+                '<tr><td colspan="4" class="text-center text-muted">No pending requests</td></tr>',
+              );
             }
+          }
+        }
 
-            // Static chart demo
-            var options = {
-                series: [{
-                    name: 'New Users',
-                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 150, 180, stats ? stats.totalMembers : 200]
-                }],
-                chart: {
-                    height: 350,
-                    type: 'area',
-                    toolbar: { show: false }
-                },
-                dataLabels: { enabled: false },
-                stroke: { curve: 'smooth' },
-                xaxis: {
-                    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-                },
-                colors: ['#0ab39c']
-            };
+        // Static chart demo
+        var options = {
+          series: [
+            {
+              name: "New Users",
+              data: [
+                30,
+                40,
+                35,
+                50,
+                49,
+                60,
+                70,
+                91,
+                125,
+                150,
+                180,
+                stats ? stats.totalMembers : 200,
+              ],
+            },
+          ],
+          chart: {
+            height: 350,
+            type: "area",
+            toolbar: { show: false },
+          },
+          dataLabels: { enabled: false },
+          stroke: { curve: "smooth" },
+          xaxis: {
+            categories: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+          },
+          colors: ["#0ab39c"],
+        };
 
-            var chart = new ApexCharts(document.querySelector("#revenue-expenses-charts"), options);
-            chart.render();
-        });
+        var chart = new ApexCharts(
+          document.querySelector("#revenue-expenses-charts"),
+          options,
+        );
+        chart.render();
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -32,6 +32,122 @@
       rel="shortcut icon"
       type="image/x-icon"
     />
+    <style>
+      .progress-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin: 10px 0 20px;
+        position: relative;
+        padding: 0 5px;
+      }
+      .progress-line {
+        position: absolute;
+        top: 20px;
+        left: 40px;
+        right: 40px;
+        height: 3px;
+        background: #e9ebec;
+        z-index: 1;
+        border-radius: 10px;
+      }
+      .progress-line-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #0ab39c 0%, #405189 100%);
+        width: 0%;
+        transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        border-radius: 10px;
+      }
+      .progress-step {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        flex: 1;
+        cursor: default;
+      }
+      .step-icon {
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        border: 2px solid #e9ebec;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        transition: all 0.4s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        font-size: 16px;
+      }
+      .progress-step.active .step-icon {
+        border-color: #0ab39c;
+        color: #0ab39c;
+        transform: scale(1.05);
+      }
+      .progress-step.completed .step-icon {
+        background: #0ab39c;
+        border-color: #0ab39c;
+        color: #fff;
+      }
+      .step-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 2px;
+        transition: color 0.3s ease;
+      }
+      .progress-step.active .step-title {
+        color: #0ab39c;
+      }
+      .step-desc {
+        font-size: 10px;
+        color: #878a99;
+        max-width: 120px;
+        margin: 0 auto;
+        line-height: 1.2;
+      }
+      .reward-badge {
+        display: inline-block;
+        background: #e3f9ef;
+        color: #0ab39c;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 9px;
+        font-weight: 700;
+        margin-top: 2px;
+        border: 1px solid rgba(10, 179, 156, 0.1);
+      }
+      .dashboard-welcome {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
+      }
+
+      /* Mobile Friendliness */
+      @media (max-width: 768px) {
+        .step-desc {
+          display: none;
+        }
+        .step-title {
+          font-size: 10px;
+        }
+        .step-icon {
+          width: 32px;
+          height: 32px;
+          font-size: 14px;
+        }
+        .progress-line {
+          top: 16px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="layout-wrapper">
@@ -45,14 +161,58 @@
       <div class="main-content">
         <div class="page-content">
           <div class="container-fluid">
-            <!-- page header -->
-            <div class="row mb-3 pb-1">
+            <!-- Premium Progress Bar -->
+            <div class="row mb-0">
               <div class="col-12">
-                <div
-                  class="d-flex align-items-lg-center flex-lg-row flex-column"
-                >
-                  <div class="flex-grow-1">
-                    <h4 class="fs-16 mb-1">Dashboard</h4>
+                <div class="dashboard-welcome">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="flex-grow-1">
+                      <h4 class="fs-16 fw-bold mb-0">Track your progress</h4>
+                    </div>
+                  </div>
+
+                  <div class="progress-container" id="progressBarContainer">
+                    <div class="progress-line">
+                      <div class="progress-line-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <div class="progress-step" id="step1">
+                      <div class="step-icon">
+                        <i class="ri-user-settings-line"></i>
+                      </div>
+                      <div class="step-title">Profile</div>
+                      <div class="step-desc">Complete onboarding</div>
+                    </div>
+
+                    <div class="progress-step" id="step2">
+                      <div class="step-icon">
+                        <i class="ri-file-edit-line"></i>
+                      </div>
+                      <div class="step-title">Application</div>
+                      <div class="step-desc">Fill in form</div>
+                    </div>
+
+                    <div class="progress-step" id="step3">
+                      <div class="step-icon">
+                        <i class="ri-checkbox-circle-line"></i>
+                      </div>
+                      <div class="step-title">Approval</div>
+                      <div class="step-desc">Status verification</div>
+                      <div id="rewardBadge" style="display: none;">
+                        <span class="reward-badge">EARNED RM100</span>
+                      </div>
+                    </div>
+
+                    <div class="progress-step" id="step4">
+                      <div class="step-icon">
+                        <i class="ri-star-line"></i>
+                      </div>
+                      <div class="step-title">Agent</div>
+                      <div class="step-desc" id="step4Desc">Apply as agent</div>
+                      <div id="agentButtonContainer" style="display: none; margin-top: 5px;">
+                        <a href="become-agent.html" class="btn btn-sm btn-primary py-0 px-2 fs-10">Become an Agent Now</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -353,9 +513,95 @@
             fetchCarouselImages(),
             fetchAnnouncements(),
             fetchDashboardData(),
+            fetchMemberProgress(),
           ]);
         }
       });
+
+      async function fetchMemberProgress() {
+        try {
+          const response = await fetch(`${window.API_BASE_URL}/api/members/progress`, {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+          });
+          const data = await response.json();
+
+          // Reset all steps first
+          $(".progress-step").removeClass("completed active");
+          $("#rewardBadge").hide();
+
+          let currentStepIndex = 0; // 0, 1, 2, 3
+
+          // Logic for ascending completion
+          if (data.profileComplete) {
+            $("#step1").addClass("completed");
+            $("#step1 .step-icon").html('<i class="ri-checkbox-circle-fill"></i>');
+            $("#step1 .step-desc").text("Completed");
+            currentStepIndex = 1;
+          } else {
+            $("#step1").addClass("active");
+            $("#step1 .step-desc").text("Click to complete");
+            $("#step1").css("cursor", "pointer").on("click", () => {
+              window.location.href = "profile.html";
+            });
+          }
+
+          if (data.appSubmitted && data.profileComplete) {
+            $("#step2").addClass("completed");
+            $("#step2 .step-icon").html('<i class="ri-checkbox-circle-fill"></i>');
+            $("#step2 .step-desc").text("Submitted");
+            currentStepIndex = 2;
+          } else if (data.profileComplete) {
+            $("#step2").addClass("active");
+            $("#step2 .step-desc").text("Apply now");
+            $("#step2").css("cursor", "pointer").on("click", () => {
+              window.location.href = "apply.html";
+            });
+          }
+
+          if (data.appApproved && data.appSubmitted && data.profileComplete) {
+            $("#step3").addClass("completed");
+            $("#step3 .step-icon").html('<i class="ri-checkbox-circle-fill"></i>');
+            $("#step3 .step-desc").text("Approved");
+            $("#rewardBadge").show();
+            currentStepIndex = 3;
+          } else if (data.appSubmitted) {
+            $("#step3").addClass("active");
+            $("#step3 .step-desc").text("Processing...");
+          }
+
+          if (data.agentExists && data.appApproved) {
+            $("#step4").addClass("completed");
+            $("#step4 .step-icon").html('<i class="ri-checkbox-circle-fill"></i>');
+            $("#step4Desc").text("Active").show();
+            $("#agentButtonContainer").hide();
+            currentStepIndex = 4;
+          } else if (data.appApproved) {
+            $("#step4").addClass("active");
+            $("#step4Desc").hide();
+            $("#agentButtonContainer").show();
+          } else {
+            $("#step4").removeClass("active completed");
+            $("#step4Desc").text("Unlock after approval").show();
+            $("#agentButtonContainer").hide();
+          }
+
+          // Strict ascending logic check: if currentStepIndex > i, step i+1 must be done
+          for (let i = 1; i <= currentStepIndex; i++) {
+             $(`#step${i}`).addClass("completed").removeClass("active");
+             $(`#step${i} .step-icon`).html('<i class="ri-checkbox-circle-fill"></i>');
+          }
+
+          // Calculate percent for the 4 steps (3 segments)
+          let totalSegments = 3;
+          let progressPercent = (Math.max(0, currentStepIndex - 1) / totalSegments) * 100;
+          if (currentStepIndex === 4) progressPercent = 100;
+
+          $("#progressFill").css("width", progressPercent + "%");
+
+        } catch (err) {
+          console.error("Error fetching progress:", err);
+        }
+      }
 
       async function fetchDashboardData() {
         try {

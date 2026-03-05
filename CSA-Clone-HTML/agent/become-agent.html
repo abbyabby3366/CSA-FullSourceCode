@@ -144,23 +144,19 @@
 
                   <div class="card-body p-4">
                     <div class="row">
-                      <div class="col-lg-6 mb-3">
-                        <label class="form-label">First Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="firstName"
-                          placeholder="Enter first name"
-                        />
-                      </div>
-                      <div class="col-lg-6 mb-3">
-                        <label class="form-label">Last Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="lastName"
-                          placeholder="Enter last name"
-                        />
+                      <div class="col-lg-12">
+                        <div class="mb-3">
+                          <label for="fullName" class="form-label"
+                            >Full Name (as per NRIC)</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="fullName"
+                            placeholder="Enter full name"
+                            required
+                          />
+                        </div>
                       </div>
                       <div class="col-lg-6 mb-3">
                         <label class="form-label">Your IC Number</label>
@@ -269,8 +265,7 @@
             method: "GET",
             headers: { "x-auth-token": token },
             success: function (member) {
-              $("#firstName").val(member.firstName);
-              $("#lastName").val(member.lastName);
+              $("#fullName").val(member.fullName);
               $("#icNumber").val(member.icNumber || "");
               $("#phoneNumber").val(member.phoneNumber);
               $("#email").val(member.email || "");
@@ -283,8 +278,7 @@
           const spinner = btn.find(".spinner-border");
 
           const formData = new FormData();
-          formData.append("firstName", $("#firstName").val());
-          formData.append("lastName", $("#lastName").val());
+          formData.append("fullName", $("#fullName").val());
           formData.append("icNumber", $("#icNumber").val());
           formData.append("phoneNumber", $("#phoneNumber").val());
           formData.append("email", $("#email").val());

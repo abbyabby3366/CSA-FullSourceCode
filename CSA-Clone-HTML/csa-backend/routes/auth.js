@@ -10,8 +10,7 @@ const bcrypt = require("bcryptjs");
 // @desc     Register a new member
 // @access   Public
 router.post("/member/register", async (req, res) => {
-  const { firstName, lastName, phoneNumber, password, referrerCode, tacCode } =
-    req.body;
+  const { fullName, phoneNumber, password, referrerCode, tacCode } = req.body;
 
   try {
     // Verify TAC
@@ -36,8 +35,7 @@ router.post("/member/register", async (req, res) => {
     }
 
     member = new Member({
-      firstName,
-      lastName,
+      fullName,
       phoneNumber,
       password,
       referrer: referrerId,
@@ -81,8 +79,7 @@ router.post("/member/register", async (req, res) => {
 // @desc     Register a new agent
 // @access   Public
 router.post("/agent/register", async (req, res) => {
-  const { firstName, lastName, phoneNumber, password, referrerCode, tacCode } =
-    req.body;
+  const { fullName, phoneNumber, password, referrerCode, tacCode } = req.body;
 
   try {
     // Verify TAC
@@ -107,8 +104,7 @@ router.post("/agent/register", async (req, res) => {
     }
 
     agent = new Member({
-      firstName,
-      lastName,
+      fullName,
       phoneNumber,
       password,
       referrer: referrerId,
@@ -283,6 +279,14 @@ router.post("/send-tac", async (req, res) => {
       { code, createdAt: Date.now() },
       { upsert: true, new: true },
     );
+
+    // Also log this TAC request permanently
+    const TacLog = require("../models/TacLog");
+    const newTacLog = new TacLog({
+      phoneNumber,
+      code,
+    });
+    await newTacLog.save();
 
     // Send via WhatsApp server
     const waServerUrl =

@@ -1,0 +1,178 @@
+<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAC History | CSA Admin</title>
+
+    <script src="../assets/js/layout.js"></script>
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
+
+    <!-- font css -->
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
+
+    <!-- app css -->
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+
+    <!-- datatables css -->
+    <link
+      href="../assets/libs/datatables/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <div class="layout-wrapper">
+      <!-- page header -->
+      <header id="page-topbar"></header>
+
+      <div class="app-menu navbar-menu"></div>
+
+      <div class="vertical-overlay"></div>
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">TAC History</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header border-0">
+                    <div class="d-flex align-items-center">
+                      <h5 class="card-title mb-0 flex-grow-1">TAC Logs</h5>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <table
+                      id="gvData"
+                      class="table dt-responsive nowrap align-middle"
+                      style="width: 100%"
+                    >
+                      <thead class="table-light text-muted">
+                        <tr>
+                          <th>NO</th>
+                          <th>PHONE NUMBER</th>
+                          <th>TAC CODE</th>
+                          <th>DATE & TIME</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="4" class="text-center">
+                            <div
+                              class="spinner-border text-primary"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                Copyright
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © CSA Academy - All right reserved.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- jquery js -->
+    <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- utils js -->
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+    <!-- font js -->
+    <script src="../assets/libs/feather-icons/feather.min.js"></script>
+    <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+
+    <!-- datatables js -->
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
+
+    <!-- App js -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../Scripts/navbar.js"></script>
+    <script src="../Scripts/config.js"></script>
+    <script src="../Scripts/adminHelper.js"></script>
+
+    <script>
+      $(document).ready(async function () {
+        const logs = await apiCall("/admin/tac-logs");
+        if (logs) {
+          const tbody = $("#gvData tbody");
+          tbody.empty();
+          let total = logs.length;
+          logs.forEach((log, index) => {
+            tbody.append(`
+                        <tr>
+                            <td>${total - index}</td>
+                            <td>${log.phoneNumber}</td>
+                            <td>${log.code}</td>
+                            <td>${new Date(log.createdAt).toLocaleString()}</td>
+                        </tr>
+                    `);
+          });
+          $("#gvData").DataTable({
+            order: [[0, "desc"]],
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

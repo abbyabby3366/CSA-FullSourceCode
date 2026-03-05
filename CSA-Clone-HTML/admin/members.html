@@ -203,11 +203,11 @@
                         <tr>
                             <td>${count++}</td>
                             <td>${member.memberCode || "N/A"}</td>
-                            <td>${member.firstName} ${member.lastName}</td>
+                            <td>${member.fullName}</td>
                             <td>${member.icNumber || "N/A"}</td>
                             <td>${member.phoneNumber}</td>
                             <td>${member.salary || "N/A"}</td>
-                            <td>${member.referrer ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})` : "N/A"}</td>
+                            <td>${member.referrer ? `${member.referrer.fullName} (${member.referrer.memberCode})` : "N/A"}</td>
                             <td>
                                 ${
                                   member.isApproved

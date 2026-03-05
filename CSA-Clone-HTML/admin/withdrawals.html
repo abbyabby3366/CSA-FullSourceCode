@@ -199,7 +199,7 @@
             if (w.member) {
               const typeMap = { 1: "Member", 2: "Agent", 3: "Hero" };
               const typeLabel = typeMap[w.member.memberType] || "Member";
-              memberInfo = `[${w.member.memberCode || "-"}] ${w.member.firstName} ${w.member.lastName} (${typeLabel})`;
+              memberInfo = `[${w.member.memberCode || "-"}] ${w.member.fullName} (${typeLabel})`;
             }
 
             const bankAcc = w.member ? w.member.bankAccountNumber : "-";

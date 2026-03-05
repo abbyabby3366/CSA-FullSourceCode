@@ -10,6 +10,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Public ping endpoint for uptime monitoring
+app.get("/ping", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // DB Connection
 mongoose
   .connect(process.env.MONGODB_URI)

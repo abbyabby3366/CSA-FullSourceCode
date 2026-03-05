@@ -116,32 +116,18 @@
                           readonly
                         />
                       </div>
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="firstName" class="form-label"
-                            >First Name
-                            <span class="text-danger">*</span></label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="firstName"
-                            placeholder="Enter first name"
-                            required
-                          />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label for="lastName" class="form-label"
-                            >Last Name <span class="text-danger">*</span></label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="lastName"
-                            placeholder="Enter last name"
-                            required
-                          />
-                        </div>
+                      <div class="mb-3">
+                        <label for="fullName" class="form-label"
+                          >Full Name (as per NRIC)
+                          <span class="text-danger">*</span></label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="fullName"
+                          placeholder="Enter your full name as per NRIC"
+                          required
+                        />
                       </div>
 
                       <div class="mb-3">
@@ -157,7 +143,7 @@
                             type="text"
                             class="form-control"
                             id="phoneNo"
-                            placeholder="Enter phone number"
+                            placeholder="123333444"
                             required
                           />
                           <button
@@ -168,7 +154,9 @@
                             Get TAC
                           </button>
                         </div>
-                        <p class="text-muted fs-11 mt-1">Format: 0123456789</p>
+                        <p class="text-muted fs-11 mt-1">
+                          Format: (+60)123333444
+                        </p>
                       </div>
 
                       <div class="mb-3">
@@ -400,7 +388,7 @@
             Swal.fire({
               icon: "warning",
               title: "Invalid Format",
-              text: "Please enter a valid phone number (e.g., 0123456789).",
+              text: "Please enter a valid phone number (e.g., (+60)123333444).",
             });
             return;
           }
@@ -466,8 +454,7 @@
         $("form").on("submit", async function (e) {
           e.preventDefault();
 
-          const firstName = $("#firstName").val();
-          const lastName = $("#lastName").val();
+          const fullName = $("#fullName").val();
           const phoneNumber = $("#phoneNo").val();
           const password = $("#password-input").val();
           const confirmPassword = $("#confirm-password-input").val();
@@ -507,8 +494,7 @@
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  firstName,
-                  lastName,
+                  fullName,
                   phoneNumber: fullPhone,
                   password,
                   tacCode,

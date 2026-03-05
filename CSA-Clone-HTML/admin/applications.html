@@ -355,16 +355,16 @@
             let memberInfo = "N/A";
             let referrerCode = "N/A";
             if (app.member) {
-              memberInfo = `${app.member.firstName} ${app.member.lastName} (${app.member.memberCode || "-"})`;
+              memberInfo = `${app.member.fullName} (${app.member.memberCode || "-"})`;
               referrerCode =
                 app.referrerMember?.memberCode ||
                 app.member.referrer?.memberCode ||
                 "N/A";
             }
             const salaryRangeMap = {
-              1: "below 3k",
+              1: "Below 3k",
               2: "3001 - 5k",
-              3: "5k and above",
+              3: "5k and Above",
             };
             const salaryValue = app.details?.employmentDetails?.salaryRange;
             const salaryLabel = salaryRangeMap[salaryValue] || "N/A";
@@ -406,12 +406,11 @@
           const app = applicationData.find((a) => a._id === appId);
           if (app) {
             const details = app.details || {};
-            const spouse = details.spouseDetails || {};
             const employment = details.employmentDetails || {};
             const salaryRangeMap = {
-              1: "below 3k",
+              1: "Below 3k",
               2: "3001 - 5k",
-              3: "5k and above",
+              3: "5k and Above",
             };
             const salaryLabel = salaryRangeMap[employment.salaryRange] || "N/A";
 
@@ -425,35 +424,29 @@
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Personal Details</h6>
                             <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
-                            <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === "1" ? "Male" : details.gender === "2" ? "Female" : "N/A"}</div>
-                            <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || "N/A"}</div>
-                            <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
-                            <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || "N/A"}</div>
-                            
-                            <div class="col-md-12"><hr></div>
-                            <h6 class="mb-3 text-primary">Spouse Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || "N/A"}</div>
-                            <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || "N/A"}</div>
-                            
-                            <div class="col-md-12"><hr></div>
-                            <h6 class="mb-3 text-primary">Employment Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || "N/A"}</div>
-                            <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
-                            <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
+                                    <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
+                                    
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Employment Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
 
                             <div class="col-md-12"><hr></div>
                             <h6 class="mb-3 text-primary">Submitted Documents</h6>
                             <div class="col-md-4 mb-2">
-                                <strong>IC Copy:</strong><br>
-                                ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : "Not uploaded"}
+                                <strong>IC Front:</strong><br>
+                                ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a>` : "Not uploaded"}
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <strong>IC Back:</strong><br>
+                                ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a>` : "Not uploaded"}
                             </div>
                             <div class="col-md-4 mb-2">
                                 <strong>Payslip:</strong><br>
                                 ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : "Not uploaded"}
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong>Offer Letter:</strong><br>
-                                ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : "Not uploaded"}
                             </div>
                         </div>
                     `;

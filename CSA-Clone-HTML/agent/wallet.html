@@ -351,7 +351,7 @@
           $("#bankInfoDisplay").html(`
                     <strong>Bank:</strong> ${window.currentMember.bankName || "-"}<br>
                     <strong>Account No:</strong> ${window.currentMember.bankAccountNumber || "-"}<br>
-                    <strong>Account Name:</strong> ${window.currentMember.bankAccountName || window.currentMember.firstName + " " + window.currentMember.lastName}
+                    <strong>Account Name:</strong> ${window.currentMember.bankAccountName || window.currentMember.fullName}
                 `);
           $("#availableBalanceDisplay").text(
             "RM " + window.currentMember.walletCash.toFixed(2),

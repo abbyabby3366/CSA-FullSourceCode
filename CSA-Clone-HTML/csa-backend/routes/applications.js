@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const multer = require("multer");
 const upload = require("../middleware/upload");
 const Application = require("../models/Application");
 
@@ -22,17 +23,23 @@ router.get("/my", auth, async (req, res) => {
 // @route    POST api/applications/submit
 // @desc     Submit new application with files
 // @access   Private
-router.post(
-  "/submit",
-  [
-    auth,
-    upload.fields([
-      { name: "icFrontBack", maxCount: 1 },
-      { name: "payslip", maxCount: 1 },
-      { name: "offerLetter", maxCount: 1 },
-    ]),
-  ],
-  async (req, res) => {
+router.post("/submit", auth, (req, res) => {
+  const uploadFields = upload.fields([
+    { name: "icFront", maxCount: 1 },
+    { name: "icBack", maxCount: 1 },
+    { name: "payslip", maxCount: 1 },
+  ]);
+
+  uploadFields(req, res, async (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ msg: `Upload error: ${err.message}` });
+      } else if (err === "Error: Images, PDFs, and Docs only!") {
+        return res.status(400).json({ msg: err });
+      }
+      return res.status(400).json({ msg: err.message || err });
+    }
+
     try {
       // Check if user already has an approved application (status 6)
       const existingApprovedApp = await Application.findOne({
@@ -47,6 +54,12 @@ router.post(
       }
 
       const files = req.files;
+      if (!files || !files.icFront || !files.icBack || !files.payslip) {
+        return res
+          .status(400)
+          .json({ msg: "Please upload all required documents." });
+      }
+
       let details = {};
       if (req.body.details) {
         try {
@@ -55,7 +68,6 @@ router.post(
               ? JSON.parse(req.body.details)
               : req.body.details;
         } catch (err) {
-          console.error("JSON parsing error for details:", err);
           return res.status(400).json({ msg: "Invalid JSON in details field" });
         }
       }
@@ -64,9 +76,9 @@ router.post(
         member: req.user.id,
         details: {
           ...details,
-          icFile: files.icFrontBack ? files.icFrontBack[0].key : null,
-          payslipFile: files.payslip ? files.payslip[0].key : null,
-          offerLetterFile: files.offerLetter ? files.offerLetter[0].key : null,
+          icFrontFile: files.icFront[0].key,
+          icBackFile: files.icBack[0].key,
+          payslipFile: files.payslip[0].key,
         },
         applicationStatus: 1, // Processing
       });
@@ -76,17 +88,11 @@ router.post(
       // Construct full URLs for response (using custom domain)
       const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
 
-      // Convert to plain object to add full URLs without modifying the saved DB record permanently in memory
+      // Convert to plain object to add full URLs
       const responseData = app.toObject();
-      responseData.details.icFileUrl = app.details.icFile
-        ? `${baseUrl}/${app.details.icFile}`
-        : null;
-      responseData.details.payslipFileUrl = app.details.payslipFile
-        ? `${baseUrl}/${app.details.payslipFile}`
-        : null;
-      responseData.details.offerLetterFileUrl = app.details.offerLetterFile
-        ? `${baseUrl}/${app.details.offerLetterFile}`
-        : null;
+      responseData.details.icFrontFileUrl = `${baseUrl}/${app.details.icFrontFile}`;
+      responseData.details.icBackFileUrl = `${baseUrl}/${app.details.icBackFile}`;
+      responseData.details.payslipFileUrl = `${baseUrl}/${app.details.payslipFile}`;
 
       res.json({
         msg: "Application submitted successfully!",
@@ -96,7 +102,7 @@ router.post(
       console.error(err.message);
       res.status(500).send("Server Error");
     }
-  },
-);
+  });
+});
 
 module.exports = router;

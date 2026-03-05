@@ -95,7 +95,6 @@
                         <thead class="table-light text-muted">
                           <tr>
                             <th>APPLICATION ID</th>
-                            <th>PROGRAM</th>
                             <th>DATE & TIME</th>
                             <th>STATUS</th>
                             <th class="text-center">ACTION</th>
@@ -103,7 +102,7 @@
                         </thead>
                         <tbody id="applicationHistory">
                           <tr>
-                            <td colspan="5" class="text-center">
+                            <td colspan="4" class="text-center">
                               Loading status...
                             </td>
                           </tr>
@@ -246,14 +245,6 @@
               const date = `${day}/${month}/${year} ${hours}:${minutes}`;
               const appId = app._id.substring(0, 8).toUpperCase();
 
-              const programMap = {
-                1: "YABAM",
-              };
-              const program =
-                app.details && app.details.programEvent
-                  ? programMap[app.details.programEvent] || "Standard"
-                  : "YABAM";
-
               const statusMap = {
                 0: '<span class="badge bg-warning">Pending (Unassigned)</span>',
                 1: '<span class="badge bg-info">Pending</span>',
@@ -274,7 +265,6 @@
               tbody.append(`
                             <tr>
                                 <td>${appId}</td>
-                                <td>${program}</td>
                                 <td>${date}</td>
                                 <td>${status}</td>
                                 <td class="text-center">
@@ -297,8 +287,14 @@
 
               if (app) {
                 const details = app.details || {};
-                const spouse = details.spouseDetails || {};
                 const employment = details.employmentDetails || {};
+                const salaryRangeMap = {
+                  1: "Below 3k",
+                  2: "3001 - 5k",
+                  3: "5k and Above",
+                };
+                const salaryLabel =
+                  salaryRangeMap[employment.salaryRange] || "N/A";
 
                 const d = new Date(app.createDate);
                 const day = String(d.getDate()).padStart(2, "0");
@@ -315,35 +311,29 @@
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Personal Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === "1" ? "Male" : details.gender === "2" ? "Female" : "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
-                                    <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || "N/A"}</div>
-                                    
-                                    <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Spouse Details</h6>
-                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || "N/A"}</div>
-                                    <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
                                     
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Employment Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
-                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || "0"}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
 
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Submitted Documents</h6>
                                     <div class="col-md-4 mb-2">
-                                        <strong>IC Copy:</strong><br>
-                                        ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : "Not uploaded"}
+                                        <strong>IC Front:</strong><br>
+                                        ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a>` : "Not uploaded"}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Back:</strong><br>
+                                        ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a>` : "Not uploaded"}
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <strong>Payslip:</strong><br>
                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : "Not uploaded"}
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>Offer Letter:</strong><br>
-                                        ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : "Not uploaded"}
                                     </div>
                                 </div>
                             `;
@@ -355,7 +345,7 @@
           } catch (err) {
             console.error("Error fetching history:", err);
             $("#applicationHistory").html(
-              '<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>',
+              '<tr><td colspan="4" class="text-center text-danger">Error loading history.</td></tr>',
             );
           }
         }

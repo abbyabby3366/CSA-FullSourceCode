@@ -532,6 +532,11 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Public ping endpoint for uptime monitoring
+app.get("/ping", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // Start server
 app.listen(PORT, async () => {
   console.log(`🚀 WhatsApp server running on port ${PORT}`);

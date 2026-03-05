@@ -21,7 +21,7 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
   try {
     const members = await Member.find()
       .select("-password")
-      .populate("referrer", "firstName lastName memberCode")
+      .populate("referrer", "fullName memberCode")
       .sort({ createDate: -1 });
 
     // Attach isApproved: true if member has at least one approved application (status 6)
@@ -50,7 +50,7 @@ router.get("/member/:id", [auth, adminOnly], async (req, res) => {
   try {
     const member = await Member.findById(req.params.id)
       .select("-password")
-      .populate("referrer", "firstName lastName memberCode");
+      .populate("referrer", "fullName memberCode");
 
     if (!member) {
       return res.status(404).json({ msg: "Member not found" });
@@ -105,7 +105,7 @@ router.get("/applications", [auth, adminOnly], async (req, res) => {
     const populatedApps = await Application.populate(apps, [
       {
         path: "member",
-        select: "firstName lastName phoneNumber memberCode memberType referrer",
+        select: "fullName phoneNumber memberCode memberType referrer",
         populate: {
           path: "referrer",
           select: "memberCode",
@@ -178,7 +178,7 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
               member: referrer._id,
               type: "Referral",
               amount: 100,
-              description: `Referral Reward - ${member.firstName} ${member.lastName}'s Application Settlement`,
+              description: `Referral Reward - ${member.fullName}'s Application Settlement`,
               status: "Completed",
               processDate: Date.now(),
             });
@@ -255,7 +255,7 @@ router.get("/withdrawals", [auth, adminOnly], async (req, res) => {
     const withdrawals = await Transaction.find({ type: "Withdrawal" })
       .populate(
         "member",
-        "firstName lastName phoneNumber bankName bankAccountNumber bankAccountName memberCode memberType",
+        "fullName phoneNumber bankName bankAccountNumber bankAccountName memberCode memberType",
       )
       .sort({ createDate: -1 });
     res.json(withdrawals);
@@ -350,10 +350,23 @@ router.get("/agents/:id/referrals", [auth, adminOnly], async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.params.id })
       .select(
-        "firstName lastName memberCode phoneNumber state createDate memberType status",
+        "fullName memberCode phoneNumber state createDate memberType status",
       )
       .sort({ createDate: -1 });
     res.json(referrals);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    GET api/admin/tac-logs
+// @desc     Get all TAC logs
+router.get("/tac-logs", [auth, adminOnly], async (req, res) => {
+  try {
+    const TacLog = require("../models/TacLog");
+    const logs = await TacLog.find().sort({ createdAt: -1 });
+    res.json(logs);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

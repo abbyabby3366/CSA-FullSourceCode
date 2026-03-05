@@ -1,6 +1,14 @@
-﻿<!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+﻿<!doctype html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile Management | Member Portal</title>
@@ -8,244 +16,435 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
-	<link rel="stylesheet" href="../assets/css/custom.css">
-	<link rel="stylesheet" href="../assets/css/member-portal-theme.css">
-
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/member-portal-theme.css" />
 
     <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
-    <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css"
+    />
 
-
-
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <!-- page header -->
+      <header id="page-topbar"></header>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Profile Management</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="app-menu navbar-menu"></div>
 
-                    <div class="row">
-                        <!-- left panel -->
-                        <div class="col-lg-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="text-center mb-4">
-                                        <div class="profile-user position-relative d-inline-block mx-auto mb-3">
-                                            <img src="../assets/images/users/user-dummy-img.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                <input id="profile-img-file-input" type="file" class="profile-img-file-input" accept="image/*">
-                                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                                    <span class="avatar-title rounded-circle bg-light text-body"><i class="ri-camera-fill"></i></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <h5 class="fs-16 mb-1">Member User</h5>
-                                        <p class="text-muted mb-0">Active Member</p>
-                                    </div>
+      <div class="vertical-overlay"></div>
 
-                                    <div class="nav flex-column nav-pills text-center text-sm-start" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                        <a class="nav-link active mb-2" id="v-pills-personal-tab" data-bs-toggle="pill" href="#v-pills-personal" role="tab" aria-controls="v-pills-personal" aria-selected="true"><i class="ri-file-user-line me-2 align-middle"></i>Personal Details</a>
-                                        <a class="nav-link mb-2" id="v-pills-bank-tab" data-bs-toggle="pill" href="#v-pills-bank" role="tab" aria-controls="v-pills-bank" aria-selected="false"><i class="ri-bank-line me-2 align-middle"></i>Bank Details</a>
-                                        <a class="nav-link mb-2" id="v-pills-password-tab" data-bs-toggle="pill" href="#v-pills-password" role="tab" aria-controls="v-pills-password" aria-selected="false"><i class="ri-lock-line me-2 align-middle"></i>Change Password</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- right panel -->
-                        <div class="col-lg-9">
-                            <div class="tab-content text-muted" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel" aria-labelledby="v-pills-personal-tab">
-                                    <div class="card">
-                                        <div class="card-header align-items-center d-flex">
-                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelPersonal" style="display: none;">Cancel</button>
-                                            <h5 class="card-title mb-0 flex-grow-1">Personal Details</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form action="javascript:void(0);">
-                                                <div class="row">
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">First Name</label>
-                                                        <input type="text" class="form-control" value="Member">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Last Name</label>
-                                                        <input type="text" class="form-control" value="User">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Phone Number</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">+60</span>
-                                                            <input type="text" class="form-control" value="123456789" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Email Address</label>
-                                                        <input type="email" class="form-control" value="member@example.com" placeholder="example@email.com">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Gender</label>
-                                                        <select class="form-select" id="genderSelect">
-                                                            <option value="Male">Male</option>
-                                                            <option value="Female">Female</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">NRIC (IC Number)</label>
-                                                        <input type="text" class="form-control" id="icNumberInput" placeholder="900101-10-1234">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Upload IC</label>
-                                                        <input type="file" class="form-control">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Upload Payslip</label>
-                                                        <input type="file" class="form-control">
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="hstack gap-2 justify-content-end">
-                                                            <button type="submit" class="btn btn-primary" id="btnSavePersonal">Save Changes</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-pane fade" id="v-pills-bank" role="tabpanel" aria-labelledby="v-pills-bank-tab">
-                                    <div class="card">
-                                        <div class="card-header align-items-center d-flex">
-                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelBank" style="display: none;">Cancel</button>
-                                            <h5 class="card-title mb-0 flex-grow-1">Bank Details</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form action="javascript:void(0);">
-                                                <div class="row">
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Bank Name</label>
-                                                        <select class="form-select select2-bank">
-                                                            <option value="Affin Bank">Affin Bank</option>
-                                                            <option value="Agrobank">Agrobank</option>
-                                                            <option value="Al Rajhi Bank Malaysia">Al Rajhi Bank Malaysia</option>
-                                                            <option value="Alliance Bank">Alliance Bank</option>
-                                                            <option value="AmBank">AmBank</option>
-                                                            <option value="Bank Islam">Bank Islam</option>
-                                                            <option value="Bank Muamalat">Bank Muamalat</option>
-                                                            <option value="Bank Rakyat">Bank Rakyat</option>
-                                                            <option value="BSN">BSN</option>
-                                                            <option value="CIMB">CIMB</option>
-                                                            <option value="Citibank Malaysia">Citibank Malaysia</option>
-                                                            <option value="GX Bank">GX Bank</option>
-                                                            <option value="Hong Leong Bank">Hong Leong Bank</option>
-                                                            <option value="HSBC Malaysia">HSBC Malaysia</option>
-                                                            <option value="Maybank">Maybank</option>
-                                                            <option value="MBSB Bank">MBSB Bank</option>
-                                                            <option value="OCBC Malaysia">OCBC Malaysia</option>
-                                                            <option value="Public Bank">Public Bank</option>
-                                                            <option value="RHB">RHB</option>
-                                                            <option value="Standard Chartered Malaysia">Standard Chartered Malaysia</option>
-                                                            <option value="Touch and Go">Touch and Go</option>
-                                                            <option value="UOB Malaysia">UOB Malaysia</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Bank Account Name</label>
-                                                        <input type="text" class="form-control" value="Member User">
-                                                    </div>
-                                                    <div class="col-lg-12 mb-3">
-                                                        <label class="form-label">Bank Account Number</label>
-                                                        <input type="text" class="form-control numeric-input" id="bankAccNoInp" value="164XXXXXXXXX" inputmode="numeric" pattern="[0-9]*">
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="hstack gap-2 justify-content-end">
-                                                            <button type="submit" class="btn btn-primary" id="btnSaveBank">Save Changes</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
-                                    <div class="card">
-                                        <div class="card-header align-items-center d-flex">
-                                            <button type="button" class="btn btn-soft-secondary btn-sm me-2" id="btnCancelPass" style="display: none;">Cancel</button>
-                                            <h5 class="card-title mb-0 flex-grow-1">Change Password</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form action="javascript:void(0);">
-                                                <div class="row">
-                                                    <div class="col-lg-12 mb-3">
-                                                        <label class="form-label">Current Password</label>
-                                                        <input type="password" class="form-control" placeholder="Enter current password">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">New Password</label>
-                                                        <input type="password" class="form-control" placeholder="Enter new password">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Confirm New Password</label>
-                                                        <input type="password" class="form-control" placeholder="Confirm new password">
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="hstack gap-2 justify-content-end">
-                                                            <button type="submit" class="btn btn-primary" id="btnSavePass">Update Password</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- page header -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div
+                  class="d-flex align-items-lg-center flex-lg-row flex-column"
+                >
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Profile Management</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            © Copyright <script>document.write(new Date().getFullYear())</script> © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - All rights reserved.
+            <div class="row">
+              <!-- left panel -->
+              <div class="col-lg-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="text-center mb-4">
+                      <div
+                        class="profile-user position-relative d-inline-block mx-auto mb-3"
+                      >
+                        <img
+                          src="../assets/images/users/user-dummy-img.jpg"
+                          class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                          alt="user-profile-image"
+                        />
+                        <div
+                          class="avatar-xs p-0 rounded-circle profile-photo-edit"
+                        >
+                          <input
+                            id="profile-img-file-input"
+                            type="file"
+                            class="profile-img-file-input"
+                            accept="image/*"
+                          />
+                          <label
+                            for="profile-img-file-input"
+                            class="profile-photo-edit avatar-xs"
+                          >
+                            <span
+                              class="avatar-title rounded-circle bg-light text-body"
+                              ><i class="ri-camera-fill"></i
+                            ></span>
+                          </label>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Epic Unicorn
-                            </div>
-                        </div>
+                      </div>
+                      <h5 class="fs-16 mb-1 fullNameDisplay">Member User</h5>
+                      <p class="text-muted mb-0">Active Member</p>
                     </div>
+
+                    <div
+                      class="nav flex-column nav-pills text-center text-sm-start"
+                      id="v-pills-tab"
+                      role="tablist"
+                      aria-orientation="vertical"
+                    >
+                      <a
+                        class="nav-link active mb-2"
+                        id="v-pills-personal-tab"
+                        data-bs-toggle="pill"
+                        href="#v-pills-personal"
+                        role="tab"
+                        aria-controls="v-pills-personal"
+                        aria-selected="true"
+                        ><i class="ri-file-user-line me-2 align-middle"></i
+                        >Personal Details</a
+                      >
+                      <a
+                        class="nav-link mb-2"
+                        id="v-pills-bank-tab"
+                        data-bs-toggle="pill"
+                        href="#v-pills-bank"
+                        role="tab"
+                        aria-controls="v-pills-bank"
+                        aria-selected="false"
+                        ><i class="ri-bank-line me-2 align-middle"></i>Bank
+                        Details</a
+                      >
+                      <a
+                        class="nav-link mb-2"
+                        id="v-pills-password-tab"
+                        data-bs-toggle="pill"
+                        href="#v-pills-password"
+                        role="tab"
+                        aria-controls="v-pills-password"
+                        aria-selected="false"
+                        ><i class="ri-lock-line me-2 align-middle"></i>Change
+                        Password</a
+                      >
+                    </div>
+                  </div>
                 </div>
-            </footer>
+              </div>
+
+              <!-- right panel -->
+              <div class="col-lg-9">
+                <div class="tab-content text-muted" id="v-pills-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="v-pills-personal"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-personal-tab"
+                  >
+                    <div class="card">
+                      <div class="card-header align-items-center d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-soft-secondary btn-sm me-2"
+                          id="btnCancelPersonal"
+                          style="display: none"
+                        >
+                          Cancel
+                        </button>
+                        <h5 class="card-title mb-0 flex-grow-1">
+                          Personal Details
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <form action="javascript:void(0);">
+                          <div class="row">
+                            <div class="col-lg-12 mb-3">
+                              <label class="form-label"
+                                >Full Name (as per NRIC)</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="personalFullName"
+                                value=""
+                              />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Phone Number</label>
+                              <div class="input-group">
+                                <span class="input-group-text">+60</span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  value="123456789"
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Email Address</label>
+                              <input
+                                type="email"
+                                class="form-control"
+                                value="member@example.com"
+                                placeholder="example@email.com"
+                              />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Gender</label>
+                              <select class="form-select" id="genderSelect">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                              </select>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">NRIC (IC Number)</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="icNumberInput"
+                                placeholder="900101-10-1234"
+                              />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Upload IC</label>
+                              <input type="file" class="form-control" />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Upload Payslip</label>
+                              <input type="file" class="form-control" />
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="hstack gap-2 justify-content-end">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary"
+                                  id="btnSavePersonal"
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="tab-pane fade"
+                    id="v-pills-bank"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-bank-tab"
+                  >
+                    <div class="card">
+                      <div class="card-header align-items-center d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-soft-secondary btn-sm me-2"
+                          id="btnCancelBank"
+                          style="display: none"
+                        >
+                          Cancel
+                        </button>
+                        <h5 class="card-title mb-0 flex-grow-1">
+                          Bank Details
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <form action="javascript:void(0);">
+                          <div class="row">
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">Bank Name</label>
+                              <select class="form-select select2-bank">
+                                <option value="Affin Bank">Affin Bank</option>
+                                <option value="Agrobank">Agrobank</option>
+                                <option value="Al Rajhi Bank Malaysia">
+                                  Al Rajhi Bank Malaysia
+                                </option>
+                                <option value="Alliance Bank">
+                                  Alliance Bank
+                                </option>
+                                <option value="AmBank">AmBank</option>
+                                <option value="Bank Islam">Bank Islam</option>
+                                <option value="Bank Muamalat">
+                                  Bank Muamalat
+                                </option>
+                                <option value="Bank Rakyat">Bank Rakyat</option>
+                                <option value="BSN">BSN</option>
+                                <option value="CIMB">CIMB</option>
+                                <option value="Citibank Malaysia">
+                                  Citibank Malaysia
+                                </option>
+                                <option value="GX Bank">GX Bank</option>
+                                <option value="Hong Leong Bank">
+                                  Hong Leong Bank
+                                </option>
+                                <option value="HSBC Malaysia">
+                                  HSBC Malaysia
+                                </option>
+                                <option value="Maybank">Maybank</option>
+                                <option value="MBSB Bank">MBSB Bank</option>
+                                <option value="OCBC Malaysia">
+                                  OCBC Malaysia
+                                </option>
+                                <option value="Public Bank">Public Bank</option>
+                                <option value="RHB">RHB</option>
+                                <option value="Standard Chartered Malaysia">
+                                  Standard Chartered Malaysia
+                                </option>
+                                <option value="Touch and Go">
+                                  Touch and Go
+                                </option>
+                                <option value="UOB Malaysia">
+                                  UOB Malaysia
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label"
+                                >Bank Account Name</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                value="Member User"
+                              />
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                              <label class="form-label"
+                                >Bank Account Number</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control numeric-input"
+                                id="bankAccNoInp"
+                                value="164XXXXXXXXX"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                              />
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="hstack gap-2 justify-content-end">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary"
+                                  id="btnSaveBank"
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="tab-pane fade"
+                    id="v-pills-password"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-password-tab"
+                  >
+                    <div class="card">
+                      <div class="card-header align-items-center d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-soft-secondary btn-sm me-2"
+                          id="btnCancelPass"
+                          style="display: none"
+                        >
+                          Cancel
+                        </button>
+                        <h5 class="card-title mb-0 flex-grow-1">
+                          Change Password
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <form action="javascript:void(0);">
+                          <div class="row">
+                            <div class="col-lg-12 mb-3">
+                              <label class="form-label">Current Password</label>
+                              <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Enter current password"
+                              />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label">New Password</label>
+                              <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Enter new password"
+                              />
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                              <label class="form-label"
+                                >Confirm New Password</label
+                              >
+                              <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Confirm new password"
+                              />
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="hstack gap-2 justify-content-end">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary"
+                                  id="btnSavePass"
+                                >
+                                  Update Password
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                © Copyright
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © YAYASAN AMANAH BANTUAN AWAM MALAYSIA - All rights reserved.
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Design & Develop by Epic Unicorn
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- jquery js -->
@@ -272,179 +471,211 @@
     <script src="memberHelper.js"></script>
 
     <script>
-        $(document).ready(async function() {
-            let initialPersonal = {};
-            let initialBank = {};
+      $(document).ready(async function () {
+        let initialPersonal = {};
+        let initialBank = {};
 
-            function capturePersonalState() {
-                initialPersonal = {
-                    firstName: $('#v-pills-personal input[type="text"]').eq(0).val(),
-                    lastName: $('#v-pills-personal input[type="text"]').eq(1).val(),
-                    email: $('#v-pills-personal input[type="email"]').val(),
-                    gender: $('#genderSelect').val(),
-                    icNumber: $('#icNumberInput').val()
-                };
-                $('#btnCancelPersonal').hide();
-            }
+        function capturePersonalState() {
+          initialPersonal = {
+            fullName: $("#personalFullName").val(),
+            email: $('#v-pills-personal input[type="email"]').val(),
+            gender: $("#genderSelect").val(),
+            icNumber: $("#icNumberInput").val(),
+          };
+          $("#btnCancelPersonal").hide();
+        }
 
-            function captureBankState() {
-                initialBank = {
-                    bankName: $('.select2-bank option:selected').text(),
-                    bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
-                    bankAccountNumber: $('#bankAccNoInp').val()
-                };
-                $('#btnCancelBank').hide();
-            }
+        function captureBankState() {
+          initialBank = {
+            bankName: $(".select2-bank option:selected").text(),
+            bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
+            bankAccountNumber: $("#bankAccNoInp").val(),
+          };
+          $("#btnCancelBank").hide();
+        }
 
-            function checkPersonalChanges() {
-                const current = {
-                    firstName: $('#v-pills-personal input[type="text"]').eq(0).val(),
-                    lastName: $('#v-pills-personal input[type="text"]').eq(1).val(),
-                    email: $('#v-pills-personal input[type="email"]').val(),
-                    gender: $('#genderSelect').val(),
-                    icNumber: $('#icNumberInput').val()
-                };
-                const hasChanged = JSON.stringify(current) !== JSON.stringify(initialPersonal);
-                $('#btnCancelPersonal').toggle(hasChanged);
-            }
+        function checkPersonalChanges() {
+          const current = {
+            fullName: $("#personalFullName").val(),
+            email: $('#v-pills-personal input[type="email"]').val(),
+            gender: $("#genderSelect").val(),
+            icNumber: $("#icNumberInput").val(),
+          };
+          const hasChanged =
+            JSON.stringify(current) !== JSON.stringify(initialPersonal);
+          $("#btnCancelPersonal").toggle(hasChanged);
+        }
 
-            function checkBankChanges() {
-                const current = {
-                    bankName: $('.select2-bank option:selected').text(),
-                    bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
-                    bankAccountNumber: $('#bankAccNoInp').val()
-                };
-                const hasChanged = JSON.stringify(current) !== JSON.stringify(initialBank);
-                $('#btnCancelBank').toggle(hasChanged);
-            }
+        function checkBankChanges() {
+          const current = {
+            bankName: $(".select2-bank option:selected").text(),
+            bankAccountName: $('#v-pills-bank input[type="text"]').eq(0).val(),
+            bankAccountNumber: $("#bankAccNoInp").val(),
+          };
+          const hasChanged =
+            JSON.stringify(current) !== JSON.stringify(initialBank);
+          $("#btnCancelBank").toggle(hasChanged);
+        }
 
-            function checkPassChanges() {
-                const hasInput = $('#v-pills-password input').filter(function() { return $(this).val() !== ""; }).length > 0;
-                $('#btnCancelPass').toggle(hasInput);
-            }
+        function checkPassChanges() {
+          const hasInput =
+            $("#v-pills-password input").filter(function () {
+              return $(this).val() !== "";
+            }).length > 0;
+          $("#btnCancelPass").toggle(hasInput);
+        }
 
-            const member = await initMemberPortal();
-            if (member) {
-                // Populate Profile
-                $('#v-pills-personal input[type="text"]').first().val(member.firstName);
-                $('#v-pills-personal input[type="text"]').eq(1).val(member.lastName);
-                $('#v-pills-personal input[type="text"]').eq(2).val(member.phoneNumber);
-                $('#v-pills-personal input[type="email"]').val(member.email || '');
-                $('#genderSelect').val(member.gender || 'Male');
-                $('#icNumberInput').val(member.icNumber || '');
+        const member = await initMemberPortal();
+        if (member) {
+          // Populate Profile
+          $("#personalFullName").val(member.fullName);
+          $('#v-pills-personal input[type="text"]')
+            .eq(2)
+            .val(member.phoneNumber);
+          $('#v-pills-personal input[type="email"]').val(member.email || "");
+          $("#genderSelect").val(member.gender || "Male");
+          $("#icNumberInput").val(member.icNumber || "");
 
-                capturePersonalState();
+          capturePersonalState();
 
-                // Populate Bank
-                $('.select2-bank').val(member.bankId || '1').trigger('change');
-                $('#v-pills-bank input[type="text"]').first().val(member.bankAccountName || '');
-                $('#bankAccNoInp').val(member.bankAccountNumber || '');
-                
-                captureBankState();
+          // Populate Bank
+          $(".select2-bank")
+            .val(member.bankId || "1")
+            .trigger("change");
+          $('#v-pills-bank input[type="text"]')
+            .first()
+            .val(member.bankAccountName || "");
+          $("#bankAccNoInp").val(member.bankAccountNumber || "");
 
-                // Left Panel
-                $('.card .profile-user img').attr('src', member.profileImage ? `${window.API_BASE_URL}/` + member.profileImage : '../assets/images/users/user-dummy-img.jpg');
-                $('.card h5').text(member.firstName + ' ' + member.lastName);
-            }
+          captureBankState();
 
-            $('.select2-bank').select2({
-                theme: 'bootstrap-5'
-            });
+          // Left Panel
+          $(".card .profile-user img").attr(
+            "src",
+            member.profileImage
+              ? `${window.API_BASE_URL}/` + member.profileImage
+              : "../assets/images/users/user-dummy-img.jpg",
+          );
+          $(".fullNameDisplay").text(member.fullName);
+        }
 
-            // Listeners for changes
-            $('#v-pills-personal input, #genderSelect').on('input change', checkPersonalChanges);
-            $('.select2-bank').on('change', checkBankChanges);
-            $('#v-pills-bank input').on('input', checkBankChanges);
-            $('#v-pills-password input').on('input', checkPassChanges);
-
-            // Numeric input constraint
-            $(document).on('input', '.numeric-input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
-            });
-
-            // Cancel Personal Details
-            $('#btnCancelPersonal').click(function() {
-                $('#v-pills-personal input[type="text"]').eq(0).val(initialPersonal.firstName);
-                $('#v-pills-personal input[type="text"]').eq(1).val(initialPersonal.lastName);
-                $('#v-pills-personal input[type="email"]').val(initialPersonal.email);
-                $('#genderSelect').val(initialPersonal.gender);
-                $('#icNumberInput').val(initialPersonal.icNumber);
-                $(this).hide();
-            });
-
-            // Cancel Bank Details
-            $('#btnCancelBank').click(function() {
-                const bankVal = $('.select2-bank option').filter(function() { return $(this).text() === initialBank.bankName; }).val();
-                $('.select2-bank').val(bankVal).trigger('change');
-                $('#v-pills-bank input[type="text"]').eq(0).val(initialBank.bankAccountName);
-                $('#bankAccNoInp').val(initialBank.bankAccountNumber);
-                $(this).hide();
-            });
-
-            // Cancel Password Change
-            $('#btnCancelPass').click(function() {
-                $('#v-pills-password input').val("");
-                $(this).hide();
-            });
-
-            // Save Personal Details
-            $('#btnSavePersonal').click(async function(e) {
-                e.preventDefault();
-                const firstName = $('#v-pills-personal input[type="text"]').eq(0).val();
-                const lastName = $('#v-pills-personal input[type="text"]').eq(1).val();
-                const email = $('#v-pills-personal input[type="email"]').val();
-                const gender = $('#genderSelect').val();
-                const icNumber = $('#icNumberInput').val();
-
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify({ firstName, lastName, email, gender, icNumber })
-                    });
-
-                    if (response.ok) {
-                        alert('Personal details updated!');
-                        capturePersonalState();
-                    } else {
-                        alert('Failed to update details.');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                }
-            });
-
-            // Save Bank Details
-            $('#btnSaveBank').click(async function(e) {
-                e.preventDefault();
-                const bankName = $('.select2-bank option:selected').text();
-                const bankAccountName = $('#v-pills-bank input[type="text"]').eq(0).val();
-                const bankAccountNumber = $('#bankAccNoInp').val();
-
-                try {
-                    const response = await fetch(`${window.API_BASE_URL}/api/members/update`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'x-auth-token': localStorage.getItem('token')
-                        },
-                        body: JSON.stringify({ bankName, bankAccountName, bankAccountNumber })
-                    });
-
-                    if (response.ok) {
-                        alert('Bank details updated!');
-                        captureBankState();
-                    } else {
-                        alert('Failed to update bank details.');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                }
-            });
+        $(".select2-bank").select2({
+          theme: "bootstrap-5",
         });
+
+        // Listeners for changes
+        $("#v-pills-personal input, #genderSelect").on(
+          "input change",
+          checkPersonalChanges,
+        );
+        $(".select2-bank").on("change", checkBankChanges);
+        $("#v-pills-bank input").on("input", checkBankChanges);
+        $("#v-pills-password input").on("input", checkPassChanges);
+
+        // Numeric input constraint
+        $(document).on("input", ".numeric-input", function () {
+          this.value = this.value.replace(/[^0-9]/g, "");
+        });
+
+        // Cancel Personal Details
+        $("#btnCancelPersonal").click(function () {
+          $("#personalFullName").val(initialPersonal.fullName);
+          $('#v-pills-personal input[type="email"]').val(initialPersonal.email);
+          $("#genderSelect").val(initialPersonal.gender);
+          $("#icNumberInput").val(initialPersonal.icNumber);
+          $(this).hide();
+        });
+
+        // Cancel Bank Details
+        $("#btnCancelBank").click(function () {
+          const bankVal = $(".select2-bank option")
+            .filter(function () {
+              return $(this).text() === initialBank.bankName;
+            })
+            .val();
+          $(".select2-bank").val(bankVal).trigger("change");
+          $('#v-pills-bank input[type="text"]')
+            .eq(0)
+            .val(initialBank.bankAccountName);
+          $("#bankAccNoInp").val(initialBank.bankAccountNumber);
+          $(this).hide();
+        });
+
+        // Cancel Password Change
+        $("#btnCancelPass").click(function () {
+          $("#v-pills-password input").val("");
+          $(this).hide();
+        });
+
+        // Save Personal Details
+        $("#btnSavePersonal").click(async function (e) {
+          e.preventDefault();
+          const fullName = $("#personalFullName").val();
+          const email = $('#v-pills-personal input[type="email"]').val();
+          const gender = $("#genderSelect").val();
+          const icNumber = $("#icNumberInput").val();
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({ fullName, email, gender, icNumber }),
+              },
+            );
+
+            if (response.ok) {
+              alert("Personal details updated!");
+              capturePersonalState();
+            } else {
+              alert("Failed to update details.");
+            }
+          } catch (err) {
+            console.error("Error:", err);
+          }
+        });
+
+        // Save Bank Details
+        $("#btnSaveBank").click(async function (e) {
+          e.preventDefault();
+          const bankName = $(".select2-bank option:selected").text();
+          const bankAccountName = $('#v-pills-bank input[type="text"]')
+            .eq(0)
+            .val();
+          const bankAccountNumber = $("#bankAccNoInp").val();
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  bankName,
+                  bankAccountName,
+                  bankAccountNumber,
+                }),
+              },
+            );
+
+            if (response.ok) {
+              alert("Bank details updated!");
+              captureBankState();
+            } else {
+              alert("Failed to update bank details.");
+            }
+          } catch (err) {
+            console.error("Error:", err);
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -21,28 +21,21 @@ const ApplicationSchema = new mongoose.Schema({
     pa: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
   },
 
-  // Detailed Application Sections (Consolidated from Application1-10 SQL tables)
+  // Detailed Application Sections (Simplified as per request)
   details: {
-    programEvent: { type: String },
-    fullName: { type: String },
-    dob: { type: String },
-    gender: { type: String },
-    icNumber: { type: String },
-    address: { type: String },
-    phoneNumber: { type: String },
-    email: { type: String },
-    spouseDetails: {
-      fullName: { type: String },
-      icNumber: { type: String },
-    },
+    programEvent: { type: String, required: false },
+    fullName: { type: String, required: true },
+    icNumber: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
+    email: { type: String, required: true },
     employmentDetails: {
-      employerName: { type: String },
-      jobTitle: { type: String },
-      salaryRange: { type: String },
+      employerName: { type: String, required: true },
+      jobTitle: { type: String, required: true },
+      salaryRange: { type: String, required: true }, // Below 3k, 3001-5k, 5k and Above
     },
-    icFile: { type: String },
-    payslipFile: { type: String },
-    offerLetterFile: { type: String },
+    icFrontFile: { type: String },
+    icBackFile: { type: String },
+    payslipFile: { type: String }, // Optional attachment but usually expected
 
     ramciReport: { file: String, lastUpdate: Date },
     ccrisDocument: { file: String, lastUpdate: Date },

@@ -332,20 +332,11 @@
               <div class="modal-body">
                 <form id="editUserDetailsForm">
                   <div class="mb-3">
-                    <label class="form-label">First Name</label>
+                    <label class="form-label">Full Name (as per NRIC)</label>
                     <input
                       type="text"
                       class="form-control"
-                      id="editFirstName"
-                      required
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Last Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="editLastName"
+                      id="editFullName"
                       required
                     />
                   </div>
@@ -502,21 +493,12 @@
                 </p>
                 <form id="completeProfileForm">
                   <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label">First Name</label>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Full Name (as per NRIC)</label>
                       <input
                         type="text"
                         class="form-control"
-                        id="compFirstName"
-                        required
-                      />
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label">Last Name</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="compLastName"
+                        id="compFullName"
                         required
                       />
                     </div>
@@ -658,7 +640,8 @@
             val === null || val === undefined || val === "" ? "-" : val;
 
           // Header Info
-          $("#headerFullName").text(member.firstName + " " + member.lastName);
+          // Header Info
+          $("#headerFullName").text(formatValue(member.fullName));
           $("#headerEmail").text(formatValue(member.email));
           if (member.profileImage) {
             $("#profileImg").attr(
@@ -690,10 +673,10 @@
 
           $("#referralName").text(
             member.referrer
-              ? `${member.referrer.firstName} ${member.referrer.lastName} (${member.referrer.memberCode})`
+              ? `${member.referrer.fullName} (${member.referrer.memberCode})`
               : "-",
           );
-          $("#fullName").text(member.firstName + " " + member.lastName);
+          $("#fullName").text(formatValue(member.fullName));
           $("#icNumber").text(formatValue(member.icNumber));
           $("#email").text(formatValue(member.email));
           $("#gender").text(formatValue(member.gender));
@@ -730,8 +713,7 @@
           }
 
           // Populate Modals
-          $("#editFirstName").val(member.firstName);
-          $("#editLastName").val(member.lastName);
+          $("#editFullName").val(member.fullName);
           $("#editGender").val(member.gender || "Male");
           $("#editIcNumber").val(member.icNumber || "");
           $("#editEmail").val(member.email || "");
@@ -743,13 +725,11 @@
           // Check if profile is incomplete
           const isIncomplete = !member.icNumber || !member.bankAccountNumber;
           if (isIncomplete) {
-            $("#compFirstName").val(member.firstName);
-            $("#compLastName").val(member.lastName);
+            $("#compFullName").val(member.fullName);
             $("#compGender").val(member.gender || "Male");
             $("#compBankName").val(member.bankName || "Maybank");
             $("#compBankAccountName").val(
-              member.bankAccountName ||
-                member.firstName + " " + member.lastName,
+              member.bankAccountName || member.fullName,
             );
 
             const profileModal = new bootstrap.Modal(
@@ -767,8 +747,7 @@
         // Handle User Details Update
         $("#editUserDetailsForm").submit(async function (e) {
           e.preventDefault();
-          const firstName = $("#editFirstName").val();
-          const lastName = $("#editLastName").val();
+          const fullName = $("#editFullName").val();
           const gender = $("#editGender").val();
           const icNumber = $("#editIcNumber").val();
           const email = $("#editEmail").val();
@@ -783,8 +762,7 @@
                   "x-auth-token": localStorage.getItem("token"),
                 },
                 body: JSON.stringify({
-                  firstName,
-                  lastName,
+                  fullName,
                   gender,
                   icNumber,
                   email,

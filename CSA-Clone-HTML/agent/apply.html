@@ -63,7 +63,6 @@
                                             <thead class="table-light text-muted">
                                                 <tr>
                                                     <th scope="col">Application ID</th>
-                                                    <th scope="col">Program</th>
                                                     <th scope="col">Date & Time</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Details</th>
@@ -112,71 +111,40 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Full Name as per IC</label>
-                                                        <input type="text" class="form-control" id="fullName" />
+                                                        <label class="form-label">Full Name as per IC <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="fullName" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Date of Birth</label>
-                                                        <input type="date" class="form-control" id="dob" />
+                                                        <label class="form-label">Identification Number <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="icNumber" placeholder="900101-10-1234" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Gender</label>
-                                                        <select class="form-select" id="gender">
-                                                            <option value="">Select Gender</option>
-                                                            <option value="1">Male</option>
-                                                            <option value="2">Female</option>
-                                                        </select>
+                                                        <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="phoneNumber" placeholder="60123456789" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Identification Number</label>
-                                                        <input type="text" class="form-control" id="icNumber" placeholder="900101-10-1234" />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Address (Home/Current)</label>
-                                                        <input type="text" class="form-control" id="address" />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Phone Number</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">+60</span>
-                                                            <input type="text" class="form-control" id="phoneNumber" disabled />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Email Address</label>
-                                                        <input type="email" class="form-control" id="email" />
-                                                    </div>
-                                                </div>
-
-                                                <h5 class="fs-15 col-12 mt-4 text-primary">Spouse Details</h5>
-                                                <div class="row">
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Spouse's Full Name</label>
-                                                        <input type="text" class="form-control" id="spouseFullName" />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Spouse's Identification Number</label>
-                                                        <input type="text" class="form-control" id="spouseIcNumber" />
+                                                        <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                                        <input type="email" class="form-control" id="email" required />
                                                     </div>
                                                 </div>
 
                                                 <h5 class="fs-15 col-12 mt-4 text-primary">Company/Employment Details</h5>
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Employer Name</label>
-                                                        <input type="text" class="form-control" id="employerName" />
+                                                        <label class="form-label">Employer Name <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="employerName" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Job Title</label>
-                                                        <input type="text" class="form-control" id="jobTitle" />
+                                                        <label class="form-label">Job Title <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="jobTitle" required />
                                                     </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Salary Range</label>
-                                                        <select class="form-select" id="salaryRange">
+                                                    <div class="col-lg-12 mb-3">
+                                                        <label class="form-label">Salary Range <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="salaryRange" required>
                                                             <option value="0">Select an option</option>
-                                                            <option value="1">Kurang RM2,500</option>
-                                                            <option value="2">RM2,501 - RM3,170</option>
-                                                            <option value="3">RM3,171 - RM3,970</option>
+                                                            <option value="1">Below 3k</option>
+                                                            <option value="2">3001 - 5k</option>
+                                                            <option value="3">5k and Above</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -184,16 +152,16 @@
                                                 <h5 class="fs-15 col-12 mt-4 text-primary">Upload Documents</h5>
                                                 <div class="row">
                                                     <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">IC (Front & Back)</label>
-                                                        <input type="file" class="form-control" id="icFrontBack" />
+                                                        <label class="form-label">IC (Front) <span class="text-danger">*</span></label>
+                                                        <input type="file" class="form-control" id="icFront" required />
                                                     </div>
                                                     <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">Latest Payslip</label>
-                                                        <input type="file" class="form-control" id="payslip" />
+                                                        <label class="form-label">IC (Back) <span class="text-danger">*</span></label>
+                                                        <input type="file" class="form-control" id="icBack" required />
                                                     </div>
                                                     <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">Offer/Confirmation Letter</label>
-                                                        <input type="file" class="form-control" id="offerLetter" />
+                                                        <label class="form-label">Latest Payslip <span class="text-danger">*</span></label>
+                                                        <input type="file" class="form-control" id="payslip" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -390,23 +358,10 @@
             // Initialize member portal data
             initMemberPortal().then(member => {
                 if (member) {
-                    $('#fullName').val(member.firstName + ' ' + member.lastName);
+                    $('#fullName').val(member.fullName);
                     $('#phoneNumber').val(member.phoneNumber);
                     $('#email').val(member.email || '');
                     $('#icNumber').val(member.icNumber || '');
-                    
-                    if (member.gender) {
-                        const genderVal = member.gender === 'Male' ? '1' : (member.gender === 'Female' ? '2' : '');
-                        $('#gender').val(genderVal);
-                    }
-
-                    // Pre-fill address if components are available
-                    if (member.streetAddress1 || member.city || member.state || member.postcode) {
-                        const address = [member.streetAddress1, member.streetAddress2, member.postcode, member.city, member.state]
-                            .filter(val => val && val.trim() !== '')
-                            .join(', ');
-                        $('#address').val(address);
-                    }
                 }
             }).catch(err => {
                 console.error('Member init failed:', err);
@@ -497,10 +452,6 @@
                         const date = `${day}/${month}/${year} ${hours}:${minutes}`;
                         const appId = app._id.substring(0, 8).toUpperCase();
                         
-                        const programMap = {
-                            "1": "YABAM"
-                        };
-                        const program = app.details && app.details.programEvent ? (programMap[app.details.programEvent] || "Standard") : "YABAM";
                         
                         const statusMap = {
                             0: '<span class="badge bg-warning">Pending (Unassigned)</span>',
@@ -520,7 +471,6 @@
                         tbody.append(`
                             <tr>
                                 <td>${appId}</td>
-                                <td>${program}</td>
                                 <td>${date}</td>
                                 <td>${status}</td>
                                 <td><button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View</button></td>
@@ -535,9 +485,14 @@
                         
                         if (app) {
                             const details = app.details || {};
-                            const spouse = details.spouseDetails || {};
                             const employment = details.employmentDetails || {};
-                            
+                            const salaryRangeMap = {
+                                "1": "Below 3k",
+                                "2": "3001 - 5k",
+                                "3": "5k and Above"
+                            };
+                            const salaryLabel = salaryRangeMap[employment.salaryRange] || 'N/A';
+
                             const d = new Date(app.createDate);
                             const day = String(d.getDate()).padStart(2, '0');
                             const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -553,35 +508,29 @@
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Personal Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
-                                    <div class="col-md-6 mb-2"><strong>Gender:</strong> ${details.gender === '1' ? 'Male' : (details.gender === '2' ? 'Female' : 'N/A')}</div>
-                                    <div class="col-md-6 mb-2"><strong>DOB:</strong> ${details.dob || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || 'N/A'}</div>
                                     <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
-                                    <div class="col-md-12 mb-3"><strong>Address:</strong> ${details.address || 'N/A'}</div>
-                                    
-                                    <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Spouse Details</h6>
-                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${spouse.fullName || 'N/A'}</div>
-                                    <div class="col-md-6 mb-3"><strong>IC Number:</strong> ${spouse.icNumber || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || 'N/A'}</div>
                                     
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Employment Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
                                     <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
-                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> RM ${employment.salaryRange || '0'}</div>
+                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
 
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>IC Copy:</strong><br>
-                                        ${details.icFile ? `<a href="https://x.neuronwww.com/${details.icFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View IC</a>` : 'Not uploaded'}
+                                    <div class="col-md-6 mb-2">
+                                        <strong>IC (Front):</strong><br>
+                                        ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View</a>` : 'Not uploaded'}
                                     </div>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-6 mb-2">
+                                        <strong>IC (Back):</strong><br>
+                                        ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View</a>` : 'Not uploaded'}
+                                    </div>
+                                    <div class="col-md-6 mb-2">
                                         <strong>Payslip:</strong><br>
                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : 'Not uploaded'}
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>Offer Letter:</strong><br>
-                                        ${details.offerLetterFile ? `<a href="https://x.neuronwww.com/${details.offerLetterFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Letter</a>` : 'Not uploaded'}
                                     </div>
                                 </div>
                             `;
@@ -592,7 +541,7 @@
                     });
                 } catch (err) {
                     console.error('Error fetching history:', err);
-                    $('#applicationHistory').html('<tr><td colspan="5" class="text-center text-danger">Error loading history.</td></tr>');
+                    $('#applicationHistory').html('<tr><td colspan="4" class="text-center text-danger">Error loading history.</td></tr>');
                 }
             }
 
@@ -712,8 +661,8 @@
 
             $('#btnSubmit').click(function() {
                 // Perform basic validation before showing confirmation modal
-                if (!$('#dob').val() || !$('#icNumber').val() || !$('#address').val()) {
-                    $('#errorModalMsg').text('Please fill in all required fields (DOB, IC Number, and Address).');
+                if (!$('#fullName').val() || !$('#icNumber').val() || !$('#phoneNumber').val() || !$('#email').val() || !$('#employerName').val() || !$('#jobTitle').val() || $('#salaryRange').val() === '0' || !$('#icFront')[0].files[0] || !$('#icBack')[0].files[0] || !$('#payslip')[0].files[0]) {
+                    $('#errorModalMsg').text('Please fill in all required fields and upload all required documents.');
                     $('#errorModal').modal('show');
                     return;
                 }
@@ -723,18 +672,10 @@
             $('#btnConfirmSubmit').click(async function() {
                 $('#confirmModal').modal('hide');
                 const applicationDetails = {
-                    programEvent: $('#programEvent').val(),
                     fullName: $('#fullName').val(),
-                    dob: $('#dob').val(),
-                    gender: $('#gender').val(),
                     icNumber: $('#icNumber').val(),
-                    address: $('#address').val(),
                     phoneNumber: $('#phoneNumber').val(),
                     email: $('#email').val(),
-                    spouseDetails: {
-                        fullName: $('#spouseFullName').val(),
-                        icNumber: $('#spouseIcNumber').val()
-                    },
                     employmentDetails: {
                         employerName: $('#employerName').val(),
                         jobTitle: $('#jobTitle').val(),
@@ -746,11 +687,13 @@
                 formData.append('details', JSON.stringify(applicationDetails));
                 
                 // Append files
-                const icFile = $('#icFrontBack')[0].files[0];
+                const icFrontFile = $('#icFront')[0].files[0];
+                const icBackFile = $('#icBack')[0].files[0];
                 const payslipFile = $('#payslip')[0].files[0];
                 const offerLetterFile = $('#offerLetter')[0].files[0];
 
-                if (icFile) formData.append('icFrontBack', icFile);
+                if (icFrontFile) formData.append('icFront', icFrontFile);
+                if (icBackFile) formData.append('icBack', icBackFile);
                 if (payslipFile) formData.append('payslip', payslipFile);
                 if (offerLetterFile) formData.append('offerLetter', offerLetterFile);
 
@@ -763,24 +706,26 @@
                         body: formData
                     });
 
-                    const result = await response.json();
+                    let result;
+                    try {
+                        result = await response.json();
+                    } catch (e) {
+                        result = { msg: 'Server error occurred.' };
+                    }
+
                     console.log('Submission Result:', result);
 
                     if (response.ok) {
                         $('#successModal').modal('show');
                         // Refresh history
                         fetchHistory();
-                        // Reset form fields (except pre-populated ones)
-                        $('#dob').val('');
-                        $('#address').val('');
-                        $('#spouseFullName').val('');
-                        $('#spouseIcNumber').val('');
+                        // Reset form fields
                         $('#employerName').val('');
                         $('#jobTitle').val('');
                         $('#salaryRange').val('0');
-                        $('#icFrontBack').val('');
+                        $('#icFront').val('');
+                        $('#icBack').val('');
                         $('#payslip').val('');
-                        $('#offerLetter').val('');
                     } else {
                         $('#errorModalMsg').text(result.msg || 'Unknown error');
                         $('#errorModal').modal('show');

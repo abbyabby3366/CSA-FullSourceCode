@@ -209,9 +209,7 @@
                             <td>${agent.memberCode}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <h5 class="fs-14 mb-1">${agent.firstName} ${agent.lastName}</h5>
-                                    </div>
+                                        <h5 class="fs-14 mb-1">${agent.fullName}</h5>
                                 </div>
                             </td>
                             <td>${agent.phoneNumber}</td>
@@ -219,7 +217,7 @@
                             <td>
                                 <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
                                     data-agent-id="${agent._id}" 
-                                    data-agent-name="${agent.firstName} ${agent.lastName}">
+                                    data-agent-name="${agent.fullName}">
                                     <i class="ri-team-line align-bottom me-1"></i> View Referral
                                 </button>
                             </td>
@@ -276,7 +274,7 @@
                 <tr>
                   <td>${i + 1}</td>
                   <td>${r.memberCode || "N/A"}</td>
-                  <td>${r.firstName} ${r.lastName}</td>
+                  <td>${r.fullName}</td>
                   <td>${r.phoneNumber || "N/A"}</td>
                   <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
                   <td>${statusBadge}</td>

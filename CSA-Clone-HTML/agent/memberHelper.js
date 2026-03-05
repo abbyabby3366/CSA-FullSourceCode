@@ -40,7 +40,7 @@ async function initMemberPortal() {
       applyRolePermissions(member.memberType);
 
       // Update Header UI
-      $(".user-name-text").text(member.firstName + " " + member.lastName);
+      $(".user-name-text").text(member.fullName);
       $(".user-name-sub-text").text(
         member.memberType === 2 ? "Agent" : "Member",
       );
@@ -49,7 +49,7 @@ async function initMemberPortal() {
         window.location.href = "index.html";
         return;
       }
-      $(".dropdown-header").text("Welcome " + member.firstName + "!");
+      $(".dropdown-header").text("Welcome " + member.fullName + "!");
 
       if (member.profileImage) {
         $(".header-profile-user").attr(
@@ -111,14 +111,10 @@ function showProfileCompletionModal(member) {
                     </p>
                     <form id="completeProfileForm">
                       <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">First Name</label>
-                          <input type="text" class="form-control" id="compFirstName" value="${member.firstName || ""}" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Last Name</label>
-                          <input type="text" class="form-control" id="compLastName" value="${member.lastName || ""}" required>
-                        </div>
+                          <div class="col-lg-12 mb-3">
+                            <label class="form-label">Full Name (as per NRIC)</label>
+                            <input type="text" class="form-control" id="compFullName" value="${member.fullName || ""}" required>
+                          </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Gender</label>
                           <select class="form-select" id="compGender" required>
@@ -201,8 +197,7 @@ function showProfileCompletionModal(member) {
       );
 
     const updateData = {
-      firstName: $("#compFirstName").val(),
-      lastName: $("#compLastName").val(),
+      fullName: $("#compFullName").val(),
       gender: $("#compGender").val(),
       icNumber: $("#compIcNumber").val(),
       bankName: $("#compBankName").val(),

@@ -159,21 +159,13 @@
                       </div>
                       <div class="card-body">
                         <div class="row g-3">
-                          <div class="col-lg-6">
-                            <label class="form-label">First Name</label>
+                          <div class="col-lg-12">
+                            <label class="form-label">Full Name</label>
                             <input
                               type="text"
                               class="form-control"
-                              value="Ahmad"
-                              readonly
-                            />
-                          </div>
-                          <div class="col-lg-6">
-                            <label class="form-label">Last Name</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              value="bin Abdullah"
+                              id="detFullName"
+                              value=""
                               readonly
                             />
                           </div>
@@ -380,18 +372,14 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
           const member = await apiCall(`/admin/member/${memberId}`);
           if (member) {
             // Update Page Header
-            $(".fs-16.mb-1").text(
-              `Member Details: ${member.firstName} ${member.lastName}`,
-            );
+            $(".fs-16.mb-1").text(`Member Details: ${member.fullName}`);
 
             // Update Left Panel
             $(".profile-user img").attr(
               "src",
               member.profileImage || "../assets/images/users/avatar-1.jpg",
             );
-            $(".card-body h5.fs-16").text(
-              `${member.firstName} ${member.lastName}`,
-            );
+            $(".card-body h5.fs-16").text(`${member.fullName}`);
             $(".card-body p.text-muted").text(
               `Member ID: ${member.memberCode || "N/A"}`,
             );
@@ -413,8 +401,7 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
             );
 
             // User Details Tab
-            $(`#user-details input:eq(0)`).val(member.firstName);
-            $(`#user-details input:eq(1)`).val(member.lastName);
+            $(`#detFullName`).val(member.fullName);
             $(`#user-details input:eq(2)`).val(member.phoneNumber);
             $(`#user-details input:eq(3)`).val(member.email || "N/A");
             $(`#user-details input:eq(4)`).val(member.icNumber || "N/A");

@@ -173,6 +173,12 @@ function renderNavBar() {
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link menu-link ${currentPage === "tac-history.html" ? "active" : ""}" href="tac-history.html">
+                            <i class="ri-key-2-line"></i> <span data-key="t-tac-history"> TAC History </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link menu-link ${currentPage === "settings.html" ? "active" : ""}" href="settings.html">
                             <i class="ri-settings-2-line"></i> <span data-key="t-profile-manager"> Settings </span>
                         </a>
