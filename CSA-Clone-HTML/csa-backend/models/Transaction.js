@@ -26,6 +26,7 @@ const TransactionSchema = new mongoose.Schema({
 
   createDate: { type: Date, default: Date.now },
   processDate: { type: Date },
+  receiptUrl: { type: String },
 });
 
 module.exports = mongoose.model("Transaction", TransactionSchema);

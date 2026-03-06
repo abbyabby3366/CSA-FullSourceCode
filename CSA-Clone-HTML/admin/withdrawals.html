@@ -100,37 +100,104 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    <table
-                      id="gvWithdraw"
-                      class="table dt-responsive nowrap align-middle"
-                      style="width: 100%"
-                    >
-                      <thead class="table-light text-muted">
-                        <tr>
-                          <th>DATETIME OF REQUEST</th>
-                          <th>MEMBER</th>
-                          <th>BANK ACCOUNT NUMBER</th>
-                          <th>TRANSACTION AMOUNT</th>
-                          <th>STATUS</th>
-                          <th class="text-center">ACTION</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td colspan="6" class="text-center">
-                            <div
-                              class="spinner-border text-primary"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div class="table-responsive">
+                      <table
+                        id="gvWithdraw"
+                        class="table nowrap align-middle"
+                        style="width: 100%"
+                      >
+                        <thead class="table-light text-muted">
+                          <tr>
+                            <th>DATETIME OF REQUEST</th>
+                            <th>MEMBER</th>
+                            <th>BANK ACCOUNT</th>
+                            <th>TRANSACTION AMOUNT</th>
+                            <th>STATUS</th>
+                            <th>RECEIPT</th>
+                            <th class="text-center">ACTION</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colspan="7" class="text-center">
+                              <div
+                                class="spinner-border text-primary"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Approval Modal -->
+        <div
+          class="modal fade"
+          id="approvalModal"
+          tabindex="-1"
+          aria-labelledby="approvalModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="approvalModalLabel">
+                  Approve Withdrawal
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <form id="approvalForm">
+                <div class="modal-body">
+                  <input type="hidden" id="withdrawId" name="withdrawId" />
+                  <div class="mb-3">
+                    <label class="form-label">Upload Receipt (Optional)</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      name="receipt"
+                      id="receiptFile"
+                      accept="image/*,application/pdf"
+                    />
+                    <small class="text-muted"
+                      >Max file size: 50MB. Allowed: Images, PDF</small
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-success"
+                    id="btnApproveSubmit"
+                  >
+                    <span
+                      class="spinner-border spinner-border-sm d-none"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Confirm Approval
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -193,7 +260,18 @@
           tbody.empty();
 
           withdrawals.forEach((w, index) => {
-            const date = new Date(w.createDate).toLocaleString();
+            const d = new Date(w.createDate);
+            const date =
+              d.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }) +
+              " " +
+              d.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
 
             let memberInfo = "Unknown";
             if (w.member) {
@@ -202,7 +280,17 @@
               memberInfo = `[${w.member.memberCode || "-"}] ${w.member.fullName} (${typeLabel})`;
             }
 
-            const bankAcc = w.member ? w.member.bankAccountNumber : "-";
+            let bankInfo = "-";
+            if (w.member) {
+              bankInfo = `
+                <div class="fs-12">
+                  <div class="fw-medium">${w.member.bankName || "-"}</div>
+                  <div>${w.member.bankAccountNumber || "-"}</div>
+                  <div class="text-muted">${w.member.bankAccountName || "-"}</div>
+                </div>
+              `;
+            }
+
             const amount = Math.abs(w.amount).toLocaleString(undefined, {
               minimumFractionDigits: 2,
             });
@@ -222,11 +310,16 @@
                 statusBadge = `<span class="badge bg-secondary">${w.status}</span>`;
             }
 
+            let receiptBtn = "-";
+            if (w.receiptUrl) {
+              receiptBtn = `<a href="${w.receiptUrl}" target="_blank" class="btn btn-sm btn-soft-primary">View</a>`;
+            }
+
             let actions = "";
             if (w.status === "Pending") {
               actions = `
                             <div class="hstack gap-3 fs-13 justify-content-center">
-                                <a href="javascript:void(0);" class="text-success" onclick="updateStatus('${w._id}', 'Completed')">Paid</a>
+                                <a href="javascript:void(0);" class="text-success" onclick="openApprovalModal('${w._id}')">Approve</a>
                                 <a href="javascript:void(0);" class="text-danger" onclick="updateStatus('${w._id}', 'Rejected')">Cancel</a>
                             </div>
                         `;
@@ -238,9 +331,10 @@
                         <tr>
                             <td>${date}</td>
                             <td>${memberInfo}</td>
-                            <td>${bankAcc}</td>
+                            <td>${bankInfo}</td>
                             <td>RM ${amount}</td>
                             <td>${statusBadge}</td>
+                            <td class="text-center">${receiptBtn}</td>
                             <td class="text-center">${actions}</td>
                         </tr>
                     `;
@@ -253,12 +347,58 @@
 
           $("#gvWithdraw").DataTable({
             order: [[0, "desc"]],
-            responsive: true,
+            responsive: false,
           });
         } catch (err) {
           console.error("Error loading withdrawals:", err);
         }
       }
+
+      function openApprovalModal(id) {
+        $("#withdrawId").val(id);
+        $("#receiptFile").val("");
+        $("#approvalModal").modal("show");
+      }
+
+      $("#approvalForm").on("submit", async function (e) {
+        e.preventDefault();
+        const id = $("#withdrawId").val();
+        const formData = new FormData(this);
+        formData.append("status", "Completed");
+
+        const btn = $("#btnApproveSubmit");
+        const spinner = btn.find(".spinner-border");
+
+        btn.prop("disabled", true);
+        spinner.removeClass("d-none");
+
+        try {
+          const response = await fetch(
+            `${window.API_BASE_URL}/api/admin/withdrawal/${id}/status`,
+            {
+              method: "POST",
+              headers: {
+                "x-auth-token": localStorage.getItem("token"),
+              },
+              body: formData,
+            },
+          );
+
+          if (response.ok) {
+            $("#approvalModal").modal("hide");
+            loadWithdrawals();
+          } else {
+            const data = await response.json();
+            alert(data.msg || "Approval failed");
+          }
+        } catch (err) {
+          console.error("Approval Error:", err);
+          alert("An error occurred during approval");
+        } finally {
+          btn.prop("disabled", false);
+          spinner.addClass("d-none");
+        }
+      });
 
       async function updateStatus(id, status) {
         const actionText = status === "Completed" ? "mark as Paid" : "Cancel";

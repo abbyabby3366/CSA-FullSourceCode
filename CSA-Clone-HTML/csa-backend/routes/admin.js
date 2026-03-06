@@ -265,40 +265,54 @@ router.get("/withdrawals", [auth, adminOnly], async (req, res) => {
   }
 });
 
+const upload = require("../middleware/upload");
+
 // @route    POST api/admin/withdrawal/:id/status
 // @desc     Update withdrawal status
-router.post("/withdrawal/:id/status", [auth, adminOnly], async (req, res) => {
-  const { status } = req.body;
-  try {
-    let transaction = await Transaction.findById(req.params.id);
-    if (!transaction)
-      return res.status(404).json({ msg: "Transaction not found" });
+router.post(
+  "/withdrawal/:id/status",
+  [auth, adminOnly, upload.single("receipt")],
+  async (req, res) => {
+    const { status, receiptUrl: manualReceiptUrl } = req.body;
+    try {
+      let transaction = await Transaction.findById(req.params.id);
+      if (!transaction)
+        return res.status(404).json({ msg: "Transaction not found" });
 
-    if (transaction.status !== "Pending") {
-      return res.status(400).json({ msg: "Transaction already processed" });
-    }
-
-    transaction.status = status;
-    transaction.processDate = Date.now();
-    transaction.admin = req.user.id;
-
-    if (status === "Rejected") {
-      // Refund the member
-      const member = await Member.findById(transaction.member);
-      if (member) {
-        member.walletCash += Math.abs(transaction.amount);
-        member.lastUpdateWalletCash = Date.now();
-        await member.save();
+      if (transaction.status !== "Pending") {
+        return res.status(400).json({ msg: "Transaction already processed" });
       }
-    }
 
-    await transaction.save();
-    res.json(transaction);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+      transaction.status = status;
+      transaction.processDate = Date.now();
+      transaction.admin = req.user.id;
+
+      // Handle receipt upload
+      if (req.file) {
+        const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
+        transaction.receiptUrl = `${baseUrl}/${req.file.key}`;
+      } else if (manualReceiptUrl) {
+        transaction.receiptUrl = manualReceiptUrl;
+      }
+
+      if (status === "Rejected") {
+        // Refund the member
+        const member = await Member.findById(transaction.member);
+        if (member) {
+          member.walletCash += Math.abs(transaction.amount);
+          member.lastUpdateWalletCash = Date.now();
+          await member.save();
+        }
+      }
+
+      await transaction.save();
+      res.json(transaction);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  },
+);
 
 // @route    GET api/admin/agents
 // @desc     Get all agents
