@@ -160,6 +160,45 @@ function renderMemberNavBar() {
   const topbar = document.getElementById("page-topbar");
   if (topbar) {
     topbar.innerHTML = headerHTML;
+
+    // Fix: Attach click listener to the hamburger button for mobile toggle
+    const hamburgerIcon = document.getElementById("topnav-hamburger-icon");
+    if (hamburgerIcon) {
+      hamburgerIcon.addEventListener("click", function () {
+        const windowWidth = document.documentElement.clientWidth;
+        if (windowWidth <= 767) {
+          document.body.classList.toggle("vertical-sidebar-enable");
+        } else {
+          document.querySelector(".hamburger-icon").classList.toggle("open");
+          const layout = document.documentElement.getAttribute("data-layout");
+          if (layout === "vertical") {
+            if (windowWidth > 1025) {
+              const currentSize =
+                document.documentElement.getAttribute("data-sidebar-size");
+              document.documentElement.setAttribute(
+                "data-sidebar-size",
+                currentSize === "sm" ? "lg" : "sm",
+              );
+            } else if (windowWidth > 767) {
+              const currentSize =
+                document.documentElement.getAttribute("data-sidebar-size");
+              document.documentElement.setAttribute(
+                "data-sidebar-size",
+                currentSize === "sm" ? "" : "sm",
+              );
+            }
+          }
+        }
+      });
+    }
+
+    // Fix: Attach click listener to overlay to collapse sidebar on mobile
+    const overlay = document.querySelector(".vertical-overlay");
+    if (overlay) {
+      overlay.addEventListener("click", function () {
+        document.body.classList.remove("vertical-sidebar-enable");
+      });
+    }
   }
 
   // Inject Sidebar
