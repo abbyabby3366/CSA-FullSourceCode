@@ -386,7 +386,7 @@
 
           if (response.ok) {
             $("#approvalModal").modal("hide");
-            loadWithdrawals();
+            window.location.reload();
           } else {
             const data = await response.json();
             alert(data.msg || "Approval failed");
@@ -412,7 +412,7 @@
             { status },
           );
           if (result) {
-            loadWithdrawals();
+            window.location.reload();
           }
         } catch (err) {
           console.error("Error updating status:", err);
