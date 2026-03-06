@@ -114,7 +114,7 @@ function renderMemberNavBar() {
                             </div>
                         </li>
 
-                        <li class="nav-item" id="become-agent-nav" style="display: none;">
+                        <li class="nav-item" id="become-agent-nav">
                             <a class="nav-link menu-link ${currentPage === "become-agent.html" ? "active" : ""}" href="become-agent.html">
                                 <i class="ri-user-star-line"></i><span>Become an Agent </span>
                             </a>
@@ -244,32 +244,8 @@ function renderMemberNavBar() {
         .querySelectorAll('[data-role="member-only"]')
         .forEach((el) => (el.style.display = "block"));
 
-      // Only show "Become an Agent" if an application is approved (status 6)
-      checkBecomeAgentStatus();
-    }
-  };
-
-  const checkBecomeAgentStatus = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const response = await fetch(
-        `${window.API_BASE_URL}/api/applications/my`,
-        {
-          headers: { "x-auth-token": token },
-        },
-      );
-      if (response.ok) {
-        const apps = await response.json();
-        const hasApproved = apps.some((app) => app.applicationStatus === 6);
-        const navItem = document.getElementById("become-agent-nav");
-        if (navItem && hasApproved) {
-          navItem.style.setProperty("display", "block", "important");
-        }
-      }
-    } catch (err) {
-      console.error("Error checking agent application status:", err);
+      // Always show "Become an Agent" link in sidebar
+      // (The logic that used to check for approved application is removed)
     }
   };
 

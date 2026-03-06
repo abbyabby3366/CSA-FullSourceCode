@@ -569,20 +569,16 @@
             $("#step3 .step-desc").text("Processing...");
           }
 
-          if (data.agentExists && data.appApproved) {
+          if (data.agentExists) {
             $("#step4").addClass("completed");
             $("#step4 .step-icon").html('<i class="ri-checkbox-circle-fill"></i>');
             $("#step4Desc").text("Active").show();
             $("#agentButtonContainer").hide();
             currentStepIndex = 4;
-          } else if (data.appApproved) {
+          } else {
             $("#step4").addClass("active");
             $("#step4Desc").hide();
             $("#agentButtonContainer").show();
-          } else {
-            $("#step4").removeClass("active completed");
-            $("#step4Desc").text("Unlock after approval").show();
-            $("#agentButtonContainer").hide();
           }
 
           // Strict ascending logic check: if currentStepIndex > i, step i+1 must be done

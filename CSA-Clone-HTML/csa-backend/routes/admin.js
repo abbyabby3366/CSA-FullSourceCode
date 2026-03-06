@@ -306,6 +306,35 @@ router.post(
       }
 
       await transaction.save();
+
+      // Notify via WhatsApp if approved
+      if (status === "Completed") {
+        try {
+          const member = await Member.findById(transaction.member);
+          if (member && member.phoneNumber) {
+            const waServerUrl =
+              process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
+            const amountStr = Math.abs(transaction.amount).toLocaleString(
+              undefined,
+              { minimumFractionDigits: 2 },
+            );
+            const message = `[CSA] Your withdrawal request of RM ${amountStr} has been approved and processed. Reference: ${transaction._id}`;
+
+            await fetch(`${waServerUrl}/send-message`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                phoneNumber: member.phoneNumber,
+                message,
+              }),
+            });
+          }
+        } catch (waErr) {
+          console.error("WhatsApp Notification Error:", waErr.message);
+          // Don't fail the whole request if WA fails
+        }
+      }
+
       res.json(transaction);
     } catch (err) {
       console.error(err.message);
