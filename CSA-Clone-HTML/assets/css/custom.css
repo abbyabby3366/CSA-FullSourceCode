@@ -14,3 +14,13 @@
 		display: flex !important;
 	}
 }
+
+/* Force Navbar Brand Box background to match topbar color */
+.navbar-brand-box {
+    background-color: var(--vz-header-bg) !important;
+}
+
+/* Ensure logo images within the brand box look good on white */
+.navbar-brand-box .logo img {
+    max-width: 100%;
+}

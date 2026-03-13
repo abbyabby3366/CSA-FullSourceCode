@@ -9,19 +9,19 @@ function renderNavBar() {
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="dashboard.html" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                                <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                             </span>
                             <span class="logo-lg">
-                                <img src="../assets/images/logos/logo-dark.png" alt="" height="37">
+                                <img src="../assets/images/logos/logo-dark.png" alt="" height="60">
                             </span>
                         </a>
 
                         <a href="dashboard.html" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                                <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                             </span>
                             <span class="logo-lg">
-                                <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                                <img src="../assets/images/logos/logo-light.png" alt="" height="60">
                             </span>
                         </a>
                     </div>
@@ -72,20 +72,20 @@ function renderNavBar() {
             <!-- dark -->
             <a href="dashboard.html" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                    <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                 </span>
                 <span class="logo-lg">
-                    <img src="../assets/images/logos/logo-light.png" alt="" height="37">
+                    <img src="../assets/images/logos/logo-light.png" alt="" height="60">
                 </span>
             </a>
 
             <!-- light -->
             <a href="dashboard.html" class="logo logo-light">
                 <span class="logo-sm">
-                    <img src="../assets/images/logos/logo-main.png" alt="" height="22">
+                    <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                 </span>
                 <span class="logo-lg">
-                    <img src="../assets/images/logos/logo-dark.png" alt="" height="37">
+                    <img src="../assets/images/logos/logo-dark.png" alt="" height="60">
                 </span>
             </a>
 

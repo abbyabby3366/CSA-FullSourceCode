@@ -313,4 +313,91 @@ router.post("/send-tac", async (req, res) => {
   }
 });
 
+// @route    POST api/auth/member/forgot-password
+// @desc     Send TAC for password reset
+// @access   Public
+router.post("/member/forgot-password", async (req, res) => {
+  const { phoneNumber } = req.body;
+
+  if (!phoneNumber) {
+    return res.status(400).json({ msg: "Phone number is required" });
+  }
+
+  try {
+    // Check if member exists
+    let member = await Member.findOne({ phoneNumber, memberType: 1 });
+    if (!member) {
+      return res.status(400).json({ msg: "No member found with this phone number" });
+    }
+
+    // Generate 6-digit code
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Store in DB (update if exists)
+    await Tac.findOneAndUpdate(
+      { phoneNumber },
+      { code, createdAt: Date.now() },
+      { upsert: true, new: true },
+    );
+
+    // Send via WhatsApp server
+    const waServerUrl = process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
+    const message = `[CSA] Your password reset code is: ${code}. Valid for 5 minutes.`;
+
+    const waResponse = await fetch(`${waServerUrl}/send-message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phoneNumber, message }),
+    });
+
+    const waData = await waResponse.json();
+
+    if (waData.success) {
+      res.json({ msg: "Reset code sent successfully via WhatsApp" });
+    } else {
+      console.error("WhatsApp Server Error:", waData.error);
+      res.status(500).json({ msg: "Failed to send reset code" });
+    }
+  } catch (err) {
+    console.error("Forgot Password Error:", err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+// @route    POST api/auth/member/reset-password
+// @desc     Verify TAC and reset password
+// @access   Public
+router.post("/member/reset-password", async (req, res) => {
+  const { phoneNumber, tacCode, newPassword } = req.body;
+
+  if (!phoneNumber || !tacCode || !newPassword) {
+    return res.status(400).json({ msg: "Please provide all fields" });
+  }
+
+  try {
+    // Verify TAC
+    const tac = await Tac.findOne({ phoneNumber, code: tacCode });
+    if (!tac) {
+      return res.status(400).json({ msg: "Invalid or expired reset code" });
+    }
+
+    // Find member and update password
+    let member = await Member.findOne({ phoneNumber, memberType: 1 });
+    if (!member) {
+      return res.status(400).json({ msg: "Member not found" });
+    }
+
+    member.password = newPassword;
+    await member.save();
+
+    // Delete TAC after successful reset
+    await Tac.deleteOne({ _id: tac._id });
+
+    res.json({ msg: "Password has been reset successfully. You can now login." });
+  } catch (err) {
+    console.error("Reset Password Error:", err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 module.exports = router;

@@ -23,13 +23,13 @@ mongoose
 
 const path = require("path");
 
+// Route to serve the Member login page at the root
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "member", "index.html"));
+});
+
 // Serve static files from the frontend directory (parent folder)
 app.use(express.static(path.join(__dirname, "..")));
-
-// Route to serve the Admin login page at the root
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "index.html"));
-});
 
 // Define Routes
 app.use("/api/auth", require("./routes/auth"));
