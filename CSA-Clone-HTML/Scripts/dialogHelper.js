@@ -1,4 +1,4 @@
-﻿const dialogHelper = function () {
+const dialogHelper = function () {
     const info = (message) => {
         Swal.fire({
             title: 'CSA',

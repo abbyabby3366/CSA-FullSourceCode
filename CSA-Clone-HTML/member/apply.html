@@ -267,20 +267,37 @@
                     <form id="bookingForm">
                         <input type="hidden" id="bookingId" value="">
                         <div class="mb-3">
-                            <label class="form-label">Select Date (Monday - Friday)</label>
+                            <label class="form-label">Select Date</label>
                             <input type="date" class="form-control" id="bookingDate" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Select Time Slot</label>
-                            <div class="d-flex gap-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeSlot" id="slot1" value="12-2pm" checked>
-                                    <label class="form-check-label" for="slot1">12:00 PM - 2:00 PM</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="timeSlot" id="slot2" value="5-7pm">
-                                    <label class="form-check-label" for="slot2">5:00 PM - 7:00 PM</label>
-                                </div>
+                            <label class="form-label">Select Time</label>
+                            <div class="d-flex gap-2 align-items-center">
+                                <select class="form-select" id="bookingHour" style="width: 80px;" required>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11" selected>11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="fw-bold">:</span>
+                                <select class="form-select" id="bookingMinute" style="width: 80px;" required>
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select class="form-select" id="bookingAMPM" style="width: 80px;" required>
+                                    <option value="AM">AM</option>
+                                    <option value="PM" selected>PM</option>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -578,11 +595,31 @@
                     $('.edit-booking').click(function() {
                         const id = $(this).data('id');
                         const date = $(this).data('date');
-                        const slot = $(this).data('slot');
+                        const slot = $(this).data('slot'); // Format: "HH:mm AM/PM"
                         $('#bookingModalTitle').text('Edit Survey Booking');
                         $('#bookingId').val(id);
                         $('#bookingDate').val(date);
-                        $(`input[name="timeSlot"][value="${slot}"]`).prop('checked', true);
+                        
+                        // Parse slot if it's in the new format "11:00 AM"
+                        if (slot.includes(':')) {
+                            const parts = slot.split(' ');
+                            const timeParts = parts[0].split(':');
+                            $('#bookingHour').val(timeParts[0]);
+                            $('#bookingMinute').val(timeParts[1]);
+                            $('#bookingAMPM').val(parts[1]);
+                        } else {
+                            // Fallback for old slot formats like "12-2pm"
+                            if (slot === '12-2pm') {
+                                $('#bookingHour').val('12');
+                                $('#bookingMinute').val('00');
+                                $('#bookingAMPM').val('PM');
+                            } else if (slot === '5-7pm') {
+                                $('#bookingHour').val('05');
+                                $('#bookingMinute').val('00');
+                                $('#bookingAMPM').val('PM');
+                            }
+                        }
+                        
                         $('#bookingModal').modal('show');
                     });
 
@@ -612,18 +649,14 @@
             $('#btnConfirmBooking').click(async function() {
                 const id = $('#bookingId').val();
                 const bookingDate = $('#bookingDate').val();
-                const timeSlot = $('input[name="timeSlot"]:checked').val();
+                
+                const hour = $('#bookingHour').val();
+                const minute = $('#bookingMinute').val();
+                const ampm = $('#bookingAMPM').val();
+                const timeSlot = `${hour}:${minute} ${ampm}`;
 
                 if (!bookingDate) {
                     alert('Please select a date');
-                    return;
-                }
-
-                // Client-side Mon-Fri check
-                const date = new Date(bookingDate);
-                const day = date.getDay();
-                if (day === 0 || day === 6) {
-                    alert('Offline surveys are only available Monday to Friday');
                     return;
                 }
 

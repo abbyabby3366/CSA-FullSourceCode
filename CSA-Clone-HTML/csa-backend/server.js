@@ -25,7 +25,7 @@ const path = require("path");
 
 // Route to serve the Member login page at the root
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "member", "index.html"));
+  res.redirect("/member/index.html");
 });
 
 // Serve static files from the frontend directory (parent folder)
