@@ -1,7 +1,7 @@
 const dialogHelper = function () {
     const info = (message) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             text: message,
             icon: 'info',
             confirmButtonColor: '#3085d6',
@@ -11,7 +11,7 @@ const dialogHelper = function () {
 
     const success = (message) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             text: message,
             icon: 'success',
             confirmButtonColor: '#3085d6',
@@ -21,7 +21,7 @@ const dialogHelper = function () {
 
     const successAutoRedirect = (message,redirect) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             text: message,
             icon: 'success',
             confirmButtonColor: '#3085d6',
@@ -35,7 +35,7 @@ const dialogHelper = function () {
 
     const confirmation = (message,callback) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             text: message,
             icon: 'warning',
             confirmButtonColor: '#3085d6',
@@ -51,7 +51,7 @@ const dialogHelper = function () {
 
     const confirmationHTML = (message, callback) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             html: message,
             icon: 'warning',
             confirmButtonColor: '#3085d6',
@@ -67,7 +67,7 @@ const dialogHelper = function () {
 
     const error = (message) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             text: message,
             icon: 'error',
             confirmButtonColor: '#3085d6',
@@ -77,7 +77,7 @@ const dialogHelper = function () {
 
     const errorHTML = (message) => {
         Swal.fire({
-            title: 'CSA',
+            title: 'iBelanja',
             html: message,
             icon: 'error',
             confirmButtonColor: '#3085d6',
