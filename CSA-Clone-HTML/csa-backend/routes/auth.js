@@ -291,7 +291,7 @@ router.post("/send-tac", async (req, res) => {
     // Send via WhatsApp server
     const waServerUrl =
       process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[CSA] Your verification code is: ${code}. Valid for 5 minutes.`;
+    const message = `[iBelanja Survey] Your verification code is: ${code}. Valid for 5 minutes.`;
 
     const waResponse = await fetch(`${waServerUrl}/send-message`, {
       method: "POST",
@@ -327,7 +327,9 @@ router.post("/member/forgot-password", async (req, res) => {
     // Check if member exists
     let member = await Member.findOne({ phoneNumber, memberType: 1 });
     if (!member) {
-      return res.status(400).json({ msg: "No member found with this phone number" });
+      return res
+        .status(400)
+        .json({ msg: "No member found with this phone number" });
     }
 
     // Generate 6-digit code
@@ -341,8 +343,9 @@ router.post("/member/forgot-password", async (req, res) => {
     );
 
     // Send via WhatsApp server
-    const waServerUrl = process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[CSA] Your password reset code is: ${code}. Valid for 5 minutes.`;
+    const waServerUrl =
+      process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
+    const message = `[iBelanja Survey] Your password reset code is: ${code}. Valid for 5 minutes.`;
 
     const waResponse = await fetch(`${waServerUrl}/send-message`, {
       method: "POST",
@@ -393,7 +396,9 @@ router.post("/member/reset-password", async (req, res) => {
     // Delete TAC after successful reset
     await Tac.deleteOne({ _id: tac._id });
 
-    res.json({ msg: "Password has been reset successfully. You can now login." });
+    res.json({
+      msg: "Password has been reset successfully. You can now login.",
+    });
   } catch (err) {
     console.error("Reset Password Error:", err.message);
     res.status(500).json({ msg: "Server Error" });
@@ -414,7 +419,9 @@ router.post("/agent/forgot-password", async (req, res) => {
     // Check if agent exists
     let agent = await Member.findOne({ phoneNumber, memberType: 2 });
     if (!agent) {
-      return res.status(400).json({ msg: "No agent found with this phone number" });
+      return res
+        .status(400)
+        .json({ msg: "No agent found with this phone number" });
     }
 
     // Generate 6-digit code
@@ -428,8 +435,9 @@ router.post("/agent/forgot-password", async (req, res) => {
     );
 
     // Send via WhatsApp server
-    const waServerUrl = process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[CSA] Your agent password reset code is: ${code}. Valid for 5 minutes.`;
+    const waServerUrl =
+      process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
+    const message = `[iBelanja Survey] Your agent password reset code is: ${code}. Valid for 5 minutes.`;
 
     const waResponse = await fetch(`${waServerUrl}/send-message`, {
       method: "POST",
@@ -480,7 +488,9 @@ router.post("/agent/reset-password", async (req, res) => {
     // Delete TAC after successful reset
     await Tac.deleteOne({ _id: tac._id });
 
-    res.json({ msg: "Agent password has been reset successfully. You can now login." });
+    res.json({
+      msg: "Agent password has been reset successfully. You can now login.",
+    });
   } catch (err) {
     console.error("Agent Reset Password Error:", err.message);
     res.status(500).json({ msg: "Server Error" });

@@ -318,7 +318,7 @@ router.post(
               undefined,
               { minimumFractionDigits: 2 },
             );
-            const message = `[CSA] Your withdrawal request of RM ${amountStr} has been approved and processed. Reference: ${transaction._id}`;
+            const message = `[iBelanja Survey] Your withdrawal request of RM ${amountStr} has been approved and processed. Reference: ${transaction._id}`;
 
             await fetch(`${waServerUrl}/send-message`, {
               method: "POST",
