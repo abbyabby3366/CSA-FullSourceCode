@@ -38,6 +38,7 @@ const MemberSchema = new mongoose.Schema({
   bankName: { type: String },
   bankAccountName: { type: String },
   bankAccountNumber: { type: String },
+  ewallets: { type: [String], default: [] }, // E.g., Grabpay, Shopeepay
 
   // Wallet
   walletCash: { type: Number, default: 0 },
@@ -47,7 +48,7 @@ const MemberSchema = new mongoose.Schema({
 
   // Role & Status
   memberType: { type: Number, default: 1 }, // 1-Member, 2-Agent, 3-Hero
-  status: { type: Number, default: 1 }, // 1-WaitingApproval, 2-Active, 3-Inactive
+  status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
 
   profileImage: { type: String }, // File path or ID
   icImage: { type: String },

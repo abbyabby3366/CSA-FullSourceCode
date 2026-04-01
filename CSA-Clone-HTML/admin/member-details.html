@@ -242,6 +242,15 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
                               readonly
                             />
                           </div>
+                          <div class="col-lg-12">
+                            <label class="form-label">Active E-Wallets</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value=""
+                              readonly
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -408,15 +417,21 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
 
             let statusBadge = "";
             switch (member.status) {
+              case 'pending':
               case 1:
+              case "1":
                 statusBadge =
                   '<span class="badge bg-warning-subtle text-warning d-block p-2">Pending Approval</span>';
                 break;
+              case 'approved':
               case 2:
+              case "2":
                 statusBadge =
                   '<span class="badge bg-success-subtle text-success d-block p-2">Active</span>';
                 break;
+              case 'rejected':
               case 3:
+              case "3":
                 statusBadge =
                   '<span class="badge bg-danger-subtle text-danger d-block p-2">Inactive</span>';
                 break;
@@ -444,6 +459,9 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
             $(`#bank-details input:eq(0)`).val(member.bankName || "N/A");
             $(`#bank-details input:eq(1)`).val(
               member.bankAccountNumber || "N/A",
+            );
+            $(`#bank-details input:eq(2)`).val(
+              (member.ewallets && member.ewallets.length > 0) ? member.ewallets.join(", ") : "None",
             );
 
             // Wallet & Savings Tab

@@ -253,15 +253,21 @@
                   .map((r, i) => {
                     let statusBadge = "";
                     switch (r.status) {
+                      case 'pending':
                       case 1:
+                      case "1":
                         statusBadge =
                           '<span class="badge bg-warning">Pending</span>';
                         break;
+                      case 'approved':
                       case 2:
+                      case "2":
                         statusBadge =
                           '<span class="badge bg-success">Active</span>';
                         break;
+                      case 'rejected':
                       case 3:
+                      case "3":
                         statusBadge =
                           '<span class="badge bg-danger">Inactive</span>';
                         break;

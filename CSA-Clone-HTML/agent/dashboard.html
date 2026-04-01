@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -185,15 +185,15 @@
                                 />
                               </div>
                               <div class="flex-grow-1 ms-3">
-                                <h6 class="fs-14 mb-1">Commission</h6>
-                                <p class="text-muted mb-0">Pending Payout</p>
+                                <h6 class="fs-14 mb-1">Successful Referrals</h6>
+                                <p class="text-muted mb-0">Total Count</p>
                               </div>
                               <div class="flex-fill text-end">
                                 <h6
                                   class="fs-14 fw-semibold mb-1"
                                   id="agentCommission"
                                 >
-                                  0.00
+                                  0
                                 </h6>
                               </div>
                             </li>
@@ -447,8 +447,8 @@
           $("#ganjaranValue").text(member.walletCash.toFixed(2));
           // Peserta (Referral Count)
           // We'll update this after fetching referrals
-          // Commission (Agent only)
-          $("#agentCommission").text((member.referralAmount || 0).toFixed(2));
+          // Successful Referrals (Agent only)
+          $("#agentCommission").text(member.referralAmount || 0);
 
           // Fetch Data
           await Promise.all([
@@ -507,14 +507,20 @@
             referrals.slice(0, 5).forEach((ref) => {
               let statusBadge = "";
               switch (ref.status) {
+                case 'pending':
                 case 1:
+                case "1":
                   statusBadge =
                     '<span class="badge bg-warning">Waiting Approval</span>';
                   break;
+                case 'approved':
                 case 2:
+                case "2":
                   statusBadge = '<span class="badge bg-success">Active</span>';
                   break;
+                case 'rejected':
                 case 3:
+                case "3":
                   statusBadge = '<span class="badge bg-danger">Inactive</span>';
                   break;
                 default:

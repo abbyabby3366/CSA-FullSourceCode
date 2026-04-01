@@ -249,10 +249,49 @@
                           Sign Up
                         </button>
                       </div>
+
+                      <div class="mt-3 text-center">
+                        <p class="mb-0 text-muted fs-13">
+                          By registering, you agree to the
+                          <a href="#" class="text-primary text-decoration-underline fw-medium" data-bs-toggle="modal" data-bs-target="#tncModal">Terms and Conditions</a> above.
+                        </p>
+                      </div>
                     </form>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TNC Modal -->
+      <div class="modal fade" id="tncModal" tabindex="-1" aria-labelledby="tncModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-primary" id="tncModalLabel">Terms and Conditions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <h6 class="fw-semibold">1. Acceptance of Terms</h6>
+              <p class="text-muted fs-14">By registering and opening an account, you agree to abide by these Terms and Conditions. Please read them carefully.</p>
+              
+              <h6 class="fw-semibold">2. Account Registration</h6>
+              <p class="text-muted fs-14">You must provide accurate and complete information when creating your account. You are responsible for maintaining the confidentiality of your account credentials.</p>
+              
+              <h6 class="fw-semibold">3. User Obligations</h6>
+              <p class="text-muted fs-14">You agree to use the platform only for lawful purposes and in accordance with our policies. Any unauthorized use may result in account termination.</p>
+              
+              <h6 class="fw-semibold">4. Privacy Policy</h6>
+              <p class="text-muted fs-14">Your use of the platform is also governed by our Privacy Policy, which outlines how we collect, use, and protect your personal information.</p>
+              
+              <h6 class="fw-semibold">5. Modifications</h6>
+              <p class="text-muted fs-14">We reserve the right to modify these terms at any time. Continued use of the platform constitutes acceptance of any updated terms.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="btnAgreeTnc">Agree & Continue</button>
             </div>
           </div>
         </div>
@@ -451,6 +490,18 @@
         });
 
         // Registration Logic
+        let tncAccepted = false;
+        
+        $("#btnAgreeTnc").on("click", function () {
+          tncAccepted = true;
+          const tncModalEl = document.getElementById('tncModal');
+          const tncModal = bootstrap.Modal.getInstance(tncModalEl);
+          if (tncModal) {
+             tncModal.hide();
+          }
+          $("form").trigger("submit");
+        });
+
         $("form").on("submit", async function (e) {
           e.preventDefault();
 
@@ -475,6 +526,12 @@
               title: "Oops...",
               text: "Passwords do not match!",
             });
+            return;
+          }
+
+          if (!tncAccepted) {
+            const tncModal = new bootstrap.Modal(document.getElementById("tncModal"));
+            tncModal.show();
             return;
           }
 

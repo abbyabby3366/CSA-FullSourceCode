@@ -162,6 +162,30 @@ function showProfileCompletionModal(member) {
                           <label class="form-label">Bank Account Number</label>
                           <input type="text" class="form-control numeric-input" id="compBankAccountNumber" inputmode="numeric" pattern="[0-9]*" placeholder="Enter Account Number" required>
                         </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-label d-block">Are you using any of these? (Optional)</label>
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input comp-ewallet-checkbox" type="checkbox" value="Grabpay later" id="compEwalletGrab">
+                            <label class="form-check-label" for="compEwalletGrab">Grabpay later</label>
+                          </div>
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input comp-ewallet-checkbox" type="checkbox" value="Shopeepay later" id="compEwalletShopee">
+                            <label class="form-check-label" for="compEwalletShopee">Shopeepay later</label>
+                          </div>
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input comp-ewallet-checkbox" type="checkbox" value="Atome" id="compEwalletAtome">
+                            <label class="form-check-label" for="compEwalletAtome">Atome</label>
+                          </div>
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input comp-ewallet-checkbox" type="checkbox" value="Boost" id="compEwalletBoost">
+                            <label class="form-check-label" for="compEwalletBoost">Boost</label>
+                          </div>
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input comp-ewallet-checkbox" type="checkbox" value="Fave" id="compEwalletFave">
+                            <label class="form-check-label" for="compEwalletFave">Fave</label>
+                          </div>
+                          <div class="form-text mt-1">You can select more than 1 option.</div>
+                        </div>
                       </div>
                       <div class="text-end mt-4">
                         <button type="submit" class="btn btn-primary btn-lg px-4" id="saveProfileBtn">
@@ -198,6 +222,7 @@ function showProfileCompletionModal(member) {
       bankName: $("#compBankName").val(),
       bankAccountName: $("#compBankAccountName").val(),
       bankAccountNumber: $("#compBankAccountNumber").val(),
+      ewallets: $(".comp-ewallet-checkbox:checked").map(function() { return $(this).val(); }).get(),
     };
 
     try {

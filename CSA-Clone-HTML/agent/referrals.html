@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -235,14 +235,22 @@
 
               referrals.forEach((ref, index) => {
                 // Format status badge
-                let statusHtml = "";
-                if (ref.status === 1)
-                  statusHtml =
-                    '<span class="badge bg-warning">Waiting Approval</span>';
-                else if (ref.status === 2)
-                  statusHtml = '<span class="badge bg-success">Active</span>';
-                else
-                  statusHtml = '<span class="badge bg-danger">Inactive</span>';
+                let badgeClass = "";
+                let statusText = "";
+                if (ref.status === 'pending' || ref.status == 1) {
+                  badgeClass = "bg-warning";
+                  statusText = "Waiting Approval";
+                } else if (ref.status === 'approved' || ref.status == 2) {
+                  badgeClass = "bg-success";
+                  statusText = "Active";
+                } else if (ref.status === 'rejected' || ref.status == 3) {
+                  badgeClass = "bg-danger";
+                  statusText = "Inactive";
+                } else {
+                  badgeClass = "bg-secondary";
+                  statusText = "Unknown";
+                }
+                const statusHtml = `<span class="badge ${badgeClass}">${statusText}</span>`;
 
                 // Format date
                 const dateStr = ref.createDate

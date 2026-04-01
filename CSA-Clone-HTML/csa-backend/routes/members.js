@@ -144,7 +144,7 @@ router.post(
 
       // Set agent application fields
       member.memberType = 2; // Agent
-      member.status = 1; // WaitingApproval
+      member.status = "pending";
       member.agentApplicationDate = Date.now();
 
       if (req.file) {

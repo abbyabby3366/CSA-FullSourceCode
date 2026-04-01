@@ -234,7 +234,7 @@ router.get("/stats", [auth, adminOnly], async (req, res) => {
     const pendingApps = await Application.countDocuments({
       applicationStatus: 1,
     });
-    const pendingApprovals = await Member.countDocuments({ status: 0 }); // Assuming 0 is pending approval
+    const pendingApprovals = await Member.countDocuments({ status: { $in: ["pending", 0, 1] } }); // Pending approval
 
     res.json({
       totalMembers,

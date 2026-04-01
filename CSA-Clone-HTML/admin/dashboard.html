@@ -365,7 +365,7 @@
             const tbody = $("#tableBodyMemberApproval");
             tbody.empty();
             pendingMembers
-              .filter((m) => m.status === 0)
+              .filter((m) => m.status === 'pending' || m.status == 1 || m.status == 0 || !m.status)
               .slice(0, 5)
               .forEach((m) => {
                 tbody.append(`

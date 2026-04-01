@@ -251,7 +251,7 @@
                         ></span>
                       </div>
                       <div class="flex-grow-1 ms-3">
-                        <h6 class="fs-14 mb-1">Peserta</h6>
+                        <h6 class="fs-14 mb-1">Referrals</h6>
                         <p class="text-muted mb-0">Total Referrals</p>
                       </div>
                       <div class="flex-shrink-0 text-end">
@@ -546,6 +546,79 @@
                         required
                       />
                     </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label d-block"
+                        >Are you using any of these? (Optional)</label
+                      >
+                      <div class="form-check form-check-inline mt-1">
+                        <input
+                          class="form-check-input comp-ewallet-checkbox"
+                          type="checkbox"
+                          value="Grabpay later"
+                          id="compEwalletGrab_member"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="compEwalletGrab_member"
+                          >Grabpay later</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline mt-1">
+                        <input
+                          class="form-check-input comp-ewallet-checkbox"
+                          type="checkbox"
+                          value="Shopeepay later"
+                          id="compEwalletShopee_member"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="compEwalletShopee_member"
+                          >Shopeepay later</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline mt-1">
+                        <input
+                          class="form-check-input comp-ewallet-checkbox"
+                          type="checkbox"
+                          value="Atome"
+                          id="compEwalletAtome_member"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="compEwalletAtome_member"
+                          >Atome</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline mt-1">
+                        <input
+                          class="form-check-input comp-ewallet-checkbox"
+                          type="checkbox"
+                          value="Boost"
+                          id="compEwalletBoost_member"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="compEwalletBoost_member"
+                          >Boost</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline mt-1">
+                        <input
+                          class="form-check-input comp-ewallet-checkbox"
+                          type="checkbox"
+                          value="Fave"
+                          id="compEwalletFave_member"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="compEwalletFave_member"
+                          >Fave</label
+                        >
+                      </div>
+                      <div class="form-text mt-1">
+                        You can select more than 1 option.
+                      </div>
+                    </div>
                   </div>
                   <div class="text-end mt-4">
                     <button type="submit" class="btn btn-primary btn-lg px-4">
@@ -802,13 +875,17 @@
         $("#completeProfileForm").submit(async function (e) {
           e.preventDefault();
           const formData = {
-            firstName: $("#compFirstName").val(),
-            lastName: $("#compLastName").val(),
+            fullName: $("#compFullName").val(),
             gender: $("#compGender").val(),
             icNumber: $("#compIcNumber").val(),
             bankName: $("#compBankName").val(),
             bankAccountName: $("#compBankAccountName").val(),
             bankAccountNumber: $("#compBankAccountNumber").val(),
+            ewallets: $(".comp-ewallet-checkbox:checked")
+              .map(function () {
+                return $(this).val();
+              })
+              .get(),
           };
 
           try {
