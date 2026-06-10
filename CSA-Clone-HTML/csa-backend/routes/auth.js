@@ -363,7 +363,7 @@ router.post("/member/forgot-password", async (req, res) => {
     }
   } catch (err) {
     console.error("Forgot Password Error:", err.message);
-    res.status(500).json({ msg: "Server Error" });
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -401,7 +401,7 @@ router.post("/member/reset-password", async (req, res) => {
     });
   } catch (err) {
     console.error("Reset Password Error:", err.message);
-    res.status(500).json({ msg: "Server Error" });
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -455,7 +455,7 @@ router.post("/agent/forgot-password", async (req, res) => {
     }
   } catch (err) {
     console.error("Agent Forgot Password Error:", err.message);
-    res.status(500).json({ msg: "Server Error" });
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
@@ -493,7 +493,7 @@ router.post("/agent/reset-password", async (req, res) => {
     });
   } catch (err) {
     console.error("Agent Reset Password Error:", err.message);
-    res.status(500).json({ msg: "Server Error" });
+    res.status(500).json({ msg: err.message || "Server Error" });
   }
 });
 
