@@ -411,9 +411,9 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
 
             // User Details Tab
             $(`#detFullName`).val(member.fullName);
-            $(`#user-details input:eq(2)`).val(member.phoneNumber);
-            $(`#user-details input:eq(3)`).val(member.email || "N/A");
-            $(`#user-details input:eq(4)`).val(member.icNumber || "N/A");
+            $(`#user-details input:eq(1)`).val(member.phoneNumber);
+            $(`#user-details input:eq(2)`).val(member.email || "N/A");
+            $(`#user-details input:eq(3)`).val(member.icNumber || "N/A");
 
             let statusBadge = "";
             switch (member.status) {
@@ -439,7 +439,7 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
                 statusBadge =
                   '<span class="badge bg-secondary-subtle text-secondary d-block p-2">Unknown</span>';
             }
-            $(`#user-details .col-lg-6:eq(5)`)
+            $(`#user-details .col-lg-6:eq(3)`)
               .find("span, .badge")
               .replaceWith(statusBadge);
 
