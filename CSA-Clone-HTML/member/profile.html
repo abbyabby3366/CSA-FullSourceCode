@@ -755,6 +755,68 @@
                         You can select more than 1 option.
                       </div>
                     </div>
+                    <div class="col-md-12">
+                      <hr class="my-4" />
+                      <h6 class="mb-3">Career Details</h6>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Working Place / Company Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compCompanyName"
+                        placeholder="Enter Company Name"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Company Type</label>
+                      <select class="form-select" id="compCompanyType" required>
+                        <option value="" selected disabled>Select Company Type</option>
+                        <option value="1">Government</option>
+                        <option value="2">Private</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Occupation</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compOccupation"
+                        placeholder="Enter Occupation"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Monthly Salary (RM)</label>
+                      <input
+                        type="number"
+                        class="form-control numeric-input"
+                        id="compSalary"
+                        placeholder="Enter Monthly Salary"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Retirement Age</label>
+                      <input
+                        type="number"
+                        class="form-control numeric-input"
+                        id="compRetirementAge"
+                        placeholder="Enter Retirement Age"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label">Work Address</label>
+                      <textarea
+                        class="form-control"
+                        id="compWorkAddress"
+                        rows="2"
+                        placeholder="Enter Work Address"
+                        required
+                      ></textarea>
+                    </div>
                   </div>
                   <div class="text-end mt-4">
                     <button type="submit" class="btn btn-primary btn-lg px-4">
@@ -906,6 +968,12 @@
             $("#compBankAccountName").val(
               member.bankAccountName || member.fullName,
             );
+            $("#compCompanyName").val(member.companyName || "");
+            $("#compCompanyType").val(member.companyType || "1");
+            $("#compOccupation").val(member.occupation || "");
+            $("#compSalary").val(member.salary || "");
+            $("#compRetirementAge").val(member.retirementAge || "");
+            $("#compWorkAddress").val(member.workAddress || "");
 
             const profileModal = new bootstrap.Modal(
               document.getElementById("completeProfileModal"),
@@ -1098,6 +1166,12 @@
                 return $(this).val();
               })
               .get(),
+            companyName: $("#compCompanyName").val(),
+            companyType: parseInt($("#compCompanyType").val()) || 1,
+            occupation: $("#compOccupation").val(),
+            salary: parseFloat($("#compSalary").val()) || null,
+            retirementAge: parseInt($("#compRetirementAge").val()) || null,
+            workAddress: $("#compWorkAddress").val(),
           };
 
           try {

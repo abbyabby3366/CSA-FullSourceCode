@@ -186,6 +186,38 @@ function showProfileCompletionModal(member) {
                           </div>
                           <div class="form-text mt-1">You can select more than 1 option.</div>
                         </div>
+                        <div class="col-md-12">
+                          <hr class="my-4">
+                          <h6 class="mb-3">Career & Employment Details</h6>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Working Place / Company Name</label>
+                          <input type="text" class="form-control" id="compCompanyName" value="${member.companyName || ""}" placeholder="Enter Company Name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Company Type</label>
+                          <select class="form-select" id="compCompanyType" required>
+                            <option value="" ${!member.companyType ? "selected" : ""} disabled>Select Company Type</option>
+                            <option value="1" ${member.companyType === 1 ? "selected" : ""}>Government</option>
+                            <option value="2" ${member.companyType === 2 ? "selected" : ""}>Private</option>
+                          </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Occupation</label>
+                          <input type="text" class="form-control" id="compOccupation" value="${member.occupation || ""}" placeholder="Enter Occupation" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Monthly Salary (RM)</label>
+                          <input type="number" class="form-control numeric-input" id="compSalary" value="${member.salary || ""}" placeholder="Enter Monthly Salary" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-label">Retirement Age</label>
+                          <input type="number" class="form-control numeric-input" id="compRetirementAge" value="${member.retirementAge || ""}" placeholder="Enter Retirement Age" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-label">Work Address</label>
+                          <textarea class="form-control" id="compWorkAddress" rows="2" placeholder="Enter Work Address" required>${member.workAddress || ""}</textarea>
+                        </div>
                       </div>
                       <div class="text-end mt-4">
                         <button type="submit" class="btn btn-primary btn-lg px-4" id="saveProfileBtn">
@@ -223,6 +255,12 @@ function showProfileCompletionModal(member) {
       bankAccountName: $("#compBankAccountName").val(),
       bankAccountNumber: $("#compBankAccountNumber").val(),
       ewallets: $(".comp-ewallet-checkbox:checked").map(function() { return $(this).val(); }).get(),
+      companyName: $("#compCompanyName").val(),
+      companyType: parseInt($("#compCompanyType").val()) || 1,
+      occupation: $("#compOccupation").val(),
+      salary: parseFloat($("#compSalary").val()) || null,
+      retirementAge: parseInt($("#compRetirementAge").val()) || null,
+      workAddress: $("#compWorkAddress").val(),
     };
 
     try {
