@@ -97,6 +97,14 @@
                           </div>
                           <div class="col-md-3 col-sm-12">
                             <button
+                              id="btnExportCSV"
+                              class="btn btn-soft-success waves-effect waves-light w-100"
+                            >
+                              <i class="ri-download-2-line align-middle me-1"></i> Export CSV
+                            </button>
+                          </div>
+                          <div class="col-md-3 col-sm-12">
+                            <button
                               class="btn btn-soft-primary waves-effect waves-light w-100"
                             >
                               Add New Member
@@ -193,6 +201,36 @@
 
     <script>
       $(document).ready(async function () {
+        // Export CSV Handler
+        $("#btnExportCSV").on("click", async function () {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(window.API_BASE_URL + "/api/admin/members/export", {
+              method: "GET",
+              headers: {
+                "x-auth-token": token,
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to export data");
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "members_and_applications_export.csv";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+          } catch (err) {
+            console.error("Export Error:", err);
+            alert("Error exporting member details: " + err.message);
+          }
+        });
+
         const members = await apiCall("/admin/members");
         if (members) {
           const tbody = $("#gvData tbody");

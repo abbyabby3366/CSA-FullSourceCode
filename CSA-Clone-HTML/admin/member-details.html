@@ -120,6 +120,14 @@
                       <button
                         class="nav-link mb-2 text-start"
                         data-bs-toggle="pill"
+                        href="#career-details"
+                        role="tab"
+                      >
+                        <i class="ri-briefcase-line me-2"></i>Career Details
+                      </button>
+                      <button
+                        class="nav-link mb-2 text-start"
+                        data-bs-toggle="pill"
                         href="#wallet-info"
                         role="tab"
                       >
@@ -205,7 +213,7 @@
                           </div>
                           <div class="col-12">
                             <label class="form-label">Home Address</label>
-                            <textarea class="form-control" rows="3" readonly>
+                            <textarea class="form-control" id="detHomeAddress" rows="3" readonly>
 No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
                             >
                           </div>
@@ -250,6 +258,75 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
                               value=""
                               readonly
                             />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Career Details Tab -->
+                  <div class="tab-pane fade" id="career-details" role="tabpanel">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          Career & Employment Information
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-lg-6">
+                            <label class="form-label">Working Place / Company Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detCompanyName"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Company Type</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detCompanyType"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Occupation</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detOccupation"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Monthly Salary</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detSalary"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Retirement Age</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detRetirementAge"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label">Work Address</label>
+                            <textarea class="form-control" id="detWorkAddress" rows="3" readonly></textarea>
                           </div>
                         </div>
                       </div>
@@ -453,7 +530,17 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
             ]
               .filter(Boolean)
               .join(", ");
-            $(`#user-details textarea`).val(fullAddress || "N/A");
+            $(`#detHomeAddress`).val(fullAddress || "N/A");
+
+            // Career Details Tab
+            $(`#detCompanyName`).val(member.companyName || "N/A");
+            const companyTypeStr = member.companyType === 2 ? "Private" : "Government";
+            $(`#detCompanyType`).val(companyTypeStr);
+            $(`#detOccupation`).val(member.occupation || "N/A");
+            const salaryStr = member.salary ? `RM ${member.salary.toLocaleString()}` : "N/A";
+            $(`#detSalary`).val(salaryStr);
+            $(`#detRetirementAge`).val(member.retirementAge ? `${member.retirementAge} Years Old` : "N/A");
+            $(`#detWorkAddress`).val(member.workAddress || "N/A");
 
             // Bank Details Tab
             $(`#bank-details input:eq(0)`).val(member.bankName || "N/A");

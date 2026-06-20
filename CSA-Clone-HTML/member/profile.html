@@ -217,6 +217,56 @@
                       </table>
                     </div>
                   </div>
+
+                  <div class="card-header align-items-center d-flex border-top">
+                    <h5 class="card-title mb-0 flex-grow-1">
+                      <i class="ri-briefcase-line"></i> Career Details
+                    </h5>
+                    <div class="flex-shrink-0">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-soft-info"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editCareerDetailsModal"
+                      >
+                        <i class="ri-edit-box-line align-bottom"></i> Edit
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-borderless mb-0">
+                        <tbody>
+                          <tr>
+                            <th class="ps-0" scope="row" style="width: 200px">
+                              Working Place / Company Name
+                            </th>
+                            <td class="text-muted" id="companyName">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Company Type</th>
+                            <td class="text-muted" id="companyType">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Occupation</th>
+                            <td class="text-muted" id="occupation">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Monthly Salary</th>
+                            <td class="text-muted" id="salary">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Retirement Age</th>
+                            <td class="text-muted" id="retirementAge">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">Work Address</th>
+                            <td class="text-muted" id="workAddress">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -423,6 +473,92 @@
                       pattern="[0-9]*"
                       required
                     />
+                  </div>
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-primary">
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Career Details Modal -->
+        <div
+          class="modal fade"
+          id="editCareerDetailsModal"
+          tabindex="-1"
+          aria-labelledby="editCareerDetailsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editCareerDetailsModalLabel">
+                  Edit Career Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="editCareerDetailsForm">
+                  <div class="mb-3">
+                    <label class="form-label">Working Place / Company Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editCompanyName"
+                      placeholder="Company Name"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Company Type</label>
+                    <select class="form-select" id="editCompanyType">
+                      <option value="1">Government</option>
+                      <option value="2">Private</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Occupation</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editOccupation"
+                      placeholder="Occupation"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Monthly Salary (RM)</label>
+                    <input
+                      type="number"
+                      class="form-control numeric-input"
+                      id="editSalary"
+                      placeholder="Monthly Salary"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Retirement Age</label>
+                    <input
+                      type="number"
+                      class="form-control numeric-input"
+                      id="editRetirementAge"
+                      placeholder="Retirement Age"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Work Address</label>
+                    <textarea
+                      class="form-control"
+                      id="editWorkAddress"
+                      rows="2"
+                      placeholder="Enter work address"
+                    ></textarea>
                   </div>
                   <div class="text-end">
                     <button type="submit" class="btn btn-primary">
@@ -714,6 +850,17 @@
           $("#gender").text(formatValue(member.gender));
           $("#phoneNumber").text(formatValue(member.phoneNumber));
 
+          // Career Details
+          $("#companyName").text(formatValue(member.companyName));
+          const companyTypeStr = member.companyType === 2 ? "Private" : "Government";
+          $("#companyType").text(formatValue(companyTypeStr));
+          $("#occupation").text(formatValue(member.occupation));
+          const salaryStr = member.salary ? `RM ${member.salary.toLocaleString()}` : "-";
+          $("#salary").text(formatValue(salaryStr));
+          const ageStr = member.retirementAge ? `${member.retirementAge} Years Old` : "-";
+          $("#retirementAge").text(formatValue(ageStr));
+          $("#workAddress").text(formatValue(member.workAddress));
+
           // Bank Details
           $("#bankName").text(formatValue(member.bankName));
           $("#bankAccountName").text(formatValue(member.bankAccountName));
@@ -738,6 +885,13 @@
           $("#editGender").val(member.gender || "Male");
           $("#editIcNumber").val(member.icNumber || "");
           $("#editEmail").val(member.email || "");
+
+          $("#editCompanyName").val(member.companyName || "");
+          $("#editCompanyType").val(member.companyType || "1");
+          $("#editOccupation").val(member.occupation || "");
+          $("#editSalary").val(member.salary || "");
+          $("#editRetirementAge").val(member.retirementAge || "");
+          $("#editWorkAddress").val(member.workAddress || "");
 
           $("#editBankName").val(member.bankName || "Maybank");
           $("#editBankAccountName").val(member.bankAccountName || "");
@@ -796,6 +950,64 @@
                 icon: "success",
                 title: "Success",
                 text: "User details updated successfully!",
+                timer: 2000,
+                showConfirmButton: false,
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              const data = await response.json();
+              Swal.fire(
+                "Error",
+                data.msg || "Failed to update details",
+                "error",
+              );
+            }
+          } catch (err) {
+            console.error("Error:", err);
+            Swal.fire(
+              "Error",
+              "An error occurred while updating details.",
+              "error",
+            );
+          }
+        });
+
+        // Handle Career Details Update
+        $("#editCareerDetailsForm").submit(async function (e) {
+          e.preventDefault();
+          const companyName = $("#editCompanyName").val();
+          const companyType = parseInt($("#editCompanyType").val()) || 1;
+          const occupation = $("#editOccupation").val();
+          const salary = parseFloat($("#editSalary").val()) || null;
+          const retirementAge = parseInt($("#editRetirementAge").val()) || null;
+          const workAddress = $("#editWorkAddress").val();
+
+          try {
+            const response = await fetch(
+              `${window.API_BASE_URL}/api/members/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  companyName,
+                  companyType,
+                  occupation,
+                  salary,
+                  retirementAge,
+                  workAddress,
+                }),
+              },
+            );
+
+            if (response.ok) {
+              Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Career details updated successfully!",
                 timer: 2000,
                 showConfirmButton: false,
               }).then(() => {

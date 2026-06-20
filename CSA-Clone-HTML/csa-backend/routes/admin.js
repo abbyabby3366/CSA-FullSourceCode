@@ -416,4 +416,139 @@ router.get("/tac-logs", [auth, adminOnly], async (req, res) => {
   }
 });
 
+// @route    GET api/admin/members/export
+// @desc     Export members and latest applications to CSV
+router.get("/members/export", [auth, adminOnly], async (req, res) => {
+  try {
+    const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
+
+    // Get all members (skipping agents)
+    const members = await Member.find({ memberType: 1 })
+      .populate("referrer", "fullName memberCode")
+      .sort({ createDate: -1 });
+
+    // Get latest application for each member
+    const apps = await Application.aggregate([
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestApp: { $first: "$$ROOT" },
+        },
+      },
+    ]);
+
+    const appMap = {};
+    apps.forEach((a) => {
+      appMap[a._id.toString()] = a.latestApp;
+    });
+
+    const headers = [
+      "Member Code",
+      "Name",
+      "Phone no",
+      "Ic",
+      "Gender",
+      "State",
+      "City",
+      "Postcode",
+      "Street Address 1",
+      "Street Address 2",
+      "Bank Name",
+      "Bank Account Name",
+      "Bank Account Number",
+      "Wallet Cash",
+      "Member Status",
+      "Join Date",
+      "Member Payslip URL",
+      "Latest Application Status",
+      "Latest Application Date",
+      "Employer Name",
+      "Job Title",
+      "Salary Range",
+      "Gross Salary",
+      "Net Income",
+      "Application IC Front URL",
+      "Application IC Back URL",
+      "Application Payslip URL",
+    ];
+
+    const getAppStatusLabel = (status) => {
+      switch (status) {
+        case 0: return "Pre-checking";
+        case 1: return "Processing";
+        case 2: return "Referrer Approved";
+        case 3: return "Admin Approved";
+        case 4: return "Verification";
+        case 5: return "Signing";
+        case 6: return "Settled";
+        case 7: return "Rejected";
+        default: return `Status ${status}`;
+      }
+    };
+
+    const rows = [headers];
+    for (const member of members) {
+      const app = appMap[member._id.toString()];
+
+      const row = [
+        member.memberCode || "",
+        member.fullName || "",
+        member.phoneNumber || "",
+        member.icNumber || "",
+        member.gender || "",
+        member.state || "",
+        member.city || "",
+        member.postcode || "",
+        member.streetAddress1 || "",
+        member.streetAddress2 || "",
+        member.bankName || "",
+        member.bankAccountName || "",
+        member.bankAccountNumber || "",
+        member.walletCash !== undefined ? member.walletCash : 0,
+        member.status || "",
+        member.createDate ? new Date(member.createDate).toISOString() : "",
+        member.payslipImage || "",
+        app ? getAppStatusLabel(app.applicationStatus) : "No Application",
+        app && app.createDate ? new Date(app.createDate).toISOString() : "",
+        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.employerName : "",
+        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.jobTitle : "",
+        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.salaryRange : "",
+        app && app.details && app.details.financials ? app.details.financials.salaryGross : "",
+        app && app.details && app.details.financials ? app.details.financials.netIncome : "",
+        app && app.details && app.details.icFrontFile ? `${baseUrl}/${app.details.icFrontFile}` : "",
+        app && app.details && app.details.icBackFile ? `${baseUrl}/${app.details.icBackFile}` : "",
+        app && app.details && app.details.payslipFile ? `${baseUrl}/${app.details.payslipFile}` : "",
+      ];
+      rows.push(row);
+    }
+
+    const csvContent = rows
+      .map((row) =>
+        row
+          .map((val) => {
+            if (val === undefined || val === null) return "";
+            let str = String(val);
+            str = str.replace(/"/g, '""');
+            if (/[",\r\n]/.test(str)) {
+              str = `"${str}"`;
+            }
+            return str;
+          })
+          .join(","),
+      )
+      .join("\n");
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=members_and_applications_export.csv",
+    );
+    res.send(csvContent);
+  } catch (err) {
+    console.error("CSV Export Error:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

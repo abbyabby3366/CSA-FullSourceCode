@@ -25,6 +25,7 @@ const MemberSchema = new mongoose.Schema({
   occupation: { type: String },
   salary: { type: Number },
   retirementAge: { type: Number },
+  workAddress: { type: String },
 
   // Address
   streetAddress1: { type: String },
