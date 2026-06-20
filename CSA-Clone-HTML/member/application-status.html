@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -323,18 +323,18 @@
 
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>IC Front:</strong><br>
-                                        ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a>` : "Not uploaded"}
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>IC Back:</strong><br>
-                                        ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a>` : "Not uploaded"}
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <strong>Payslip:</strong><br>
-                                        ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a>` : "Not uploaded"}
-                                    </div>
+                                     <div class="col-md-4 mb-2">
+                                         <strong>IC Front:</strong><br>
+                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                     </div>
+                                     <div class="col-md-4 mb-2">
+                                         <strong>IC Back:</strong><br>
+                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                     </div>
+                                     <div class="col-md-4 mb-2">
+                                         <strong>Payslip:</strong><br>
+                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                     </div>
                                 </div>
                             `;
 
