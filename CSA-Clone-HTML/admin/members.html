@@ -260,12 +260,6 @@
                             <td class="text-center">
                                 <div class="hstack gap-2 justify-content-center">
                                     <button class="btn btn-sm btn-soft-info" onclick="viewMember('${member._id}')">View</button>
-                                    ${
-                                      member.status === 'pending' || member.status == 1 || !member.status
-                                        ? `<button class="btn btn-sm btn-soft-success" onclick="approveMember('${member._id}')">Approve</button>
-                                           <button class="btn btn-sm btn-soft-danger" onclick="rejectMember('${member._id}')">Reject</button>`
-                                        : ""
-                                    }
                                 </div>
                             </td>
                         </tr>
@@ -281,37 +275,7 @@
         window.location.href = `member-details.html?id=${id}`;
       }
 
-      async function approveMember(id) {
-        if (confirm("Are you sure you want to approve this member?")) {
-          try {
-            const res = await apiCall(`/admin/member/${id}/status`, "POST", {
-              status: 'approved',
-            });
-            if (res) {
-              alert("Member approved successfully");
-              location.reload();
-            }
-          } catch (err) {
-            alert("Error approving member");
-          }
-        }
-      }
 
-      async function rejectMember(id) {
-        if (confirm("Are you sure you want to reject this member?")) {
-          try {
-            const res = await apiCall(`/admin/member/${id}/status`, "POST", {
-              status: 'rejected',
-            });
-            if (res) {
-              alert("Member rejected successfully");
-              location.reload();
-            }
-          } catch (err) {
-            alert("Error rejecting member");
-          }
-        }
-      }
     </script>
   </body>
 </html>

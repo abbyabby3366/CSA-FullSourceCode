@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const multer = require("multer");
 const upload = require("../middleware/upload");
 const Application = require("../models/Application");
+const Member = require("../models/Member");
 
 // @route    GET api/applications/my
 // @desc     Get all applications for current member
@@ -84,6 +85,9 @@ router.post("/submit", auth, (req, res) => {
       });
 
       const app = await newApp.save();
+
+      // Reset member status back to pending since they have submitted a new application
+      await Member.findByIdAndUpdate(req.user.id, { status: "pending", lastUpdate: Date.now() });
 
       // Construct full URLs for response (using custom domain)
       const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;

@@ -190,6 +190,13 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
       }
     }
 
+    // Automatically sync member status
+    if (status == 6) {
+      await Member.findByIdAndUpdate(app.member, { status: "approved", lastUpdate: Date.now() });
+    } else if (status == 10) {
+      await Member.findByIdAndUpdate(app.member, { status: "rejected", lastUpdate: Date.now() });
+    }
+
     await app.save();
     res.json(app);
   } catch (err) {
