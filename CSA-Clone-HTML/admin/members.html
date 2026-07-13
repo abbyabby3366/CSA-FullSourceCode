@@ -231,6 +231,20 @@
           }
         });
 
+        const appStatusMap = {
+          0: { text: "Pending (Unassigned)", class: "bg-light text-dark" },
+          1: { text: "Pending (Pre-checking)", class: "bg-info" },
+          2: { text: "Pending (Proposal Prep)", class: "bg-warning" },
+          3: { text: "Pending (Proposal Pres)", class: "bg-primary" },
+          4: { text: "Pending (Pre-Signing)", class: "bg-secondary" },
+          5: { text: "Pending Acceptance", class: "bg-info" },
+          6: { text: "Approved", class: "bg-success" },
+          7: { text: "Monitoring", class: "bg-dark" },
+          8: { text: "Queue For Reloan", class: "bg-light text-dark" },
+          9: { text: "Reloan Submission", class: "bg-primary" },
+          10: { text: "Rejected", class: "bg-danger" },
+        };
+
         const members = await apiCall("/admin/members");
         if (members) {
           const tbody = $("#gvData tbody");
@@ -238,6 +252,10 @@
           let count = 1;
           members.forEach((member) => {
             if (member.memberType === 2) return; // Skip Agents
+
+            const appStatus = member.latestAppStatus !== null && appStatusMap[member.latestAppStatus]
+              ? appStatusMap[member.latestAppStatus]
+              : { text: "No Application", class: "bg-secondary-subtle text-secondary" };
 
             tbody.append(`
                         <tr>
@@ -249,13 +267,7 @@
                             <td>${member.salary || "N/A"}</td>
                             <td>${member.referrer ? `${member.referrer.fullName} (${member.referrer.memberCode})` : "N/A"}</td>
                             <td>
-                                ${
-                                  (member.status === 'approved' || member.status == 2)
-                                    ? '<span class="badge bg-success">Approved</span>'
-                                    : (member.status === 'rejected' || member.status == 3)
-                                      ? '<span class="badge bg-danger">Rejected</span>'
-                                      : '<span class="badge bg-warning text-dark">Pending</span>'
-                                }
+                                <span class="badge ${appStatus.class}">${appStatus.text}</span>
                             </td>
                             <td class="text-center">
                                 <div class="hstack gap-2 justify-content-center">

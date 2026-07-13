@@ -32,10 +32,31 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
     }).select("member");
     const approvedSet = new Set(approvedApps.map((a) => a.member.toString()));
 
-    const result = members.map((m) => ({
-      ...m.toObject(),
-      isApproved: approvedSet.has(m._id.toString()),
-    }));
+    // Get latest application status for each member
+    const latestApps = await Application.aggregate([
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestStatus: { $first: "$applicationStatus" },
+        },
+      },
+    ]);
+    const appStatusMap = {};
+    latestApps.forEach((a) => {
+      if (a._id) {
+        appStatusMap[a._id.toString()] = a.latestStatus;
+      }
+    });
+
+    const result = members.map((m) => {
+      const mObj = m.toObject();
+      return {
+        ...mObj,
+        isApproved: approvedSet.has(m._id.toString()),
+        latestAppStatus: appStatusMap[m._id.toString()] !== undefined ? appStatusMap[m._id.toString()] : null,
+      };
+    });
 
     res.json(result);
   } catch (err) {
@@ -188,13 +209,6 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
 
         app.rewardPaid = true;
       }
-    }
-
-    // Automatically sync member status
-    if (status == 6) {
-      await Member.findByIdAndUpdate(app.member, { status: "approved", lastUpdate: Date.now() });
-    } else if (status == 10) {
-      await Member.findByIdAndUpdate(app.member, { status: "rejected", lastUpdate: Date.now() });
     }
 
     await app.save();
