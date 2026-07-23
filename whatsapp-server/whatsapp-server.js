@@ -465,39 +465,28 @@ app.post("/delete-auth", async (req, res) => {
         if (sock.ws) {
           sock.ws.close();
         }
-
-        // If we have the redis instance from the socket, use it
-        if (sock.authRedis) {
-          await deleteHSetKeys({
-            redis: sock.authRedis,
-            key: process.env.BAILEYS_AUTH_ID,
-          });
-          console.log(
-            `✅ HSet data for session '${process.env.BAILEYS_AUTH_ID}' deleted using socket redis instance.`,
-          );
-        }
       } catch (err) {
         console.warn("⚠️ Error during socket cleanup:", err.message);
       }
       sock = null;
-    } else {
-      // If socket not active, create a temporary redis client to delete the keys
-      const redisOptions = {
-        host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT),
-        password: process.env.REDIS_PASSWORD,
-      };
-
-      const tempRedis = new Redis(redisOptions);
-      await deleteHSetKeys({
-        redis: tempRedis,
-        key: process.env.BAILEYS_AUTH_ID,
-      });
-      tempRedis.disconnect();
-      console.log(
-        `✅ HSet data for session '${process.env.BAILEYS_AUTH_ID}' deleted using temporary redis client.`,
-      );
     }
+
+    // Always create a temporary redis client to delete the keys
+    const redisOptions = {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT),
+      password: process.env.REDIS_PASSWORD,
+    };
+
+    const tempRedis = new Redis(redisOptions);
+    await deleteHSetKeys({
+      redis: tempRedis,
+      key: process.env.BAILEYS_AUTH_ID,
+    });
+    tempRedis.disconnect();
+    console.log(
+      `✅ HSet data for session '${process.env.BAILEYS_AUTH_ID}' deleted using temporary redis client.`,
+    );
 
     // Reset all status
     whatsappStatus = "auth_deleted";

@@ -33,10 +33,7 @@ const testEndpoint = (url) => {
 
 async function runTests() {
   console.log("Starting verification of /ping endpoints...");
-  // Note: These will likely fail if the servers aren't actually running,
-  // but they serve as a check for the intended ports.
   await testEndpoint("http://localhost:5000/ping");
-  await testEndpoint("http://localhost:3182/ping");
 }
 
 runTests();

@@ -5,6 +5,7 @@ const Member = require("../models/Member");
 const Admin = require("../models/Admin");
 const Tac = require("../models/Tac");
 const bcrypt = require("bcryptjs");
+const { sendWhatsAppOTP } = require("../services/whatsappService");
 
 // @route    POST api/auth/member/register
 // @desc     Register a new member
@@ -288,23 +289,13 @@ router.post("/send-tac", async (req, res) => {
     });
     await newTacLog.save();
 
-    // Send via WhatsApp server
-    const waServerUrl =
-      process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[iBelanja Survey] Your verification code is: ${code}. Valid for 5 minutes.`;
+    // Send via VerifyWay WhatsApp API
+    const result = await sendWhatsAppOTP(phoneNumber, code);
 
-    const waResponse = await fetch(`${waServerUrl}/send-message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phoneNumber, message }),
-    });
-
-    const waData = await waResponse.json();
-
-    if (waData.success) {
+    if (result.success) {
       res.json({ msg: "Verification code sent successfully" });
     } else {
-      console.error("WhatsApp Server Error:", waData.error);
+      console.error("WhatsApp Error:", result.error);
       res.status(500).json({ msg: "Failed to send verification code" });
     }
   } catch (err) {
@@ -342,23 +333,13 @@ router.post("/member/forgot-password", async (req, res) => {
       { upsert: true, new: true },
     );
 
-    // Send via WhatsApp server
-    const waServerUrl =
-      process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[iBelanja Survey] Your password reset code is: ${code}. Valid for 5 minutes.`;
+    // Send via VerifyWay WhatsApp API
+    const result = await sendWhatsAppOTP(phoneNumber, code);
 
-    const waResponse = await fetch(`${waServerUrl}/send-message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phoneNumber, message }),
-    });
-
-    const waData = await waResponse.json();
-
-    if (waData.success) {
+    if (result.success) {
       res.json({ msg: "Reset code sent successfully via WhatsApp" });
     } else {
-      console.error("WhatsApp Server Error:", waData.error);
+      console.error("WhatsApp Error:", result.error);
       res.status(500).json({ msg: "Failed to send reset code" });
     }
   } catch (err) {
@@ -434,23 +415,13 @@ router.post("/agent/forgot-password", async (req, res) => {
       { upsert: true, new: true },
     );
 
-    // Send via WhatsApp server
-    const waServerUrl =
-      process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
-    const message = `[iBelanja Survey] Your agent password reset code is: ${code}. Valid for 5 minutes.`;
+    // Send via VerifyWay WhatsApp API
+    const result = await sendWhatsAppOTP(phoneNumber, code);
 
-    const waResponse = await fetch(`${waServerUrl}/send-message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phoneNumber, message }),
-    });
-
-    const waData = await waResponse.json();
-
-    if (waData.success) {
+    if (result.success) {
       res.json({ msg: "Reset code sent successfully via WhatsApp" });
     } else {
-      console.error("WhatsApp Server Error:", waData.error);
+      console.error("WhatsApp Error:", result.error);
       res.status(500).json({ msg: "Failed to send reset code" });
     }
   } catch (err) {

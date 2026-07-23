@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 require("dotenv").config();
 
 const app = express();
@@ -20,8 +22,6 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log("MongoDB Connection Error: ", err));
-
-const path = require("path");
 
 // Route to serve the Member login page at the root
 app.get("/", (req, res) => {

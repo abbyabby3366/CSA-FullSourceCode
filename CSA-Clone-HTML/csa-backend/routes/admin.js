@@ -6,6 +6,7 @@ const Member = require("../models/Member");
 const Application = require("../models/Application");
 
 const Transaction = require("../models/Transaction");
+const { sendWhatsAppMessage } = require("../services/whatsappService");
 
 // Middleware to check if user is admin
 const adminOnly = (req, res, next) => {
@@ -333,22 +334,13 @@ router.post(
         try {
           const member = await Member.findById(transaction.member);
           if (member && member.phoneNumber) {
-            const waServerUrl =
-              process.env.WHATSAPP_SERVER_URL || "http://localhost:3182";
             const amountStr = Math.abs(transaction.amount).toLocaleString(
               undefined,
               { minimumFractionDigits: 2 },
             );
             const message = `[iBelanja Survey] Your withdrawal request of RM ${amountStr} has been approved and processed. Reference: ${transaction._id}`;
 
-            await fetch(`${waServerUrl}/send-message`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                phoneNumber: member.phoneNumber,
-                message,
-              }),
-            });
+            await sendWhatsAppMessage(member.phoneNumber, message);
           }
         } catch (waErr) {
           console.error("WhatsApp Notification Error:", waErr.message);
