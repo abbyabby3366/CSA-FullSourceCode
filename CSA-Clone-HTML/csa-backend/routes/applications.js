@@ -99,8 +99,8 @@ router.post("/submit", auth, (req, res) => {
         application: responseData,
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
+      console.error("Submission Error:", err.message);
+      res.status(500).json({ msg: "Server Error", error: err.message });
     }
   });
 });

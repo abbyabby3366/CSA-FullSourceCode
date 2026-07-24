@@ -725,19 +725,21 @@
                     const response = await fetch(`${window.API_BASE_URL}/api/applications/submit`, {
                         method: 'POST',
                         headers: {
-                            'x-auth-token': localStorage.getItem('token')
+                            'x-auth-token': localStorage.getItem('token') || ''
                         },
                         body: formData
                     });
 
-                    let result;
+                    let result = {};
+                    let rawText = '';
                     try {
-                        result = await response.json();
+                        rawText = await response.text();
+                        result = JSON.parse(rawText);
                     } catch (e) {
-                        result = { msg: 'Server error occurred.' };
+                        result = { msg: rawText || `Server error (HTTP ${response.status})` };
                     }
 
-                    console.log('Submission Result:', result);
+                    console.log('Submission Response Status:', response.status, 'Result:', result);
 
                     if (response.ok) {
                         $('#successModal').modal('show');
@@ -751,12 +753,14 @@
                         $('#icBack').val('');
                         $('#payslip').val('');
                     } else {
-                        $('#errorModalMsg').text(result.msg || 'Unknown error');
+                        const detailMsg = result.msg || result.message || result.error || (result.errors ? result.errors.map(x => x.msg || x.message).join(', ') : 'Unknown error');
+                        $('#errorModalMsg').html(`<strong>Submission Failed (HTTP ${response.status})</strong><br><span class="text-danger mt-1 d-block">${detailMsg}</span>`);
                         $('#errorModal').modal('show');
                     }
                 } catch (err) {
-                    console.error('Error:', err);
-                    $('#errorModalMsg').text('An error occurred during submission.');
+                    console.error('Submission Fetch Error:', err);
+                    const errorDetail = err.message ? err.message : 'Network request failed. Please check your internet connection or backend server status.';
+                    $('#errorModalMsg').html(`<strong>Network / Connection Error</strong><br><span class="text-danger mt-1 d-block">${errorDetail}</span>`);
                     $('#errorModal').modal('show');
                 }
             });

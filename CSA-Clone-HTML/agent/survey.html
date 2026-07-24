@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -650,12 +650,17 @@
             if (response.ok) {
               goTab(6, 7);
             } else {
-              const err = await response.json();
-              alert("Error: " + err.msg);
+              let err = {};
+              try {
+                err = await response.json();
+              } catch (e) {
+                err = { msg: await response.text().catch(() => 'Server error') };
+              }
+              alert(`Submission Error (HTTP ${response.status}): ` + (err.msg || err.message || err.error || 'Failed to process survey'));
             }
           } catch (err) {
             console.error("Submission error:", err);
-            alert("An error occurred during submission.");
+            alert("Submission Network Error: " + (err.message || 'Failed to reach server. Please check network connection.'));
           }
         });
 
