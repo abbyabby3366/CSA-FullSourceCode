@@ -185,21 +185,21 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
         });
         await userReward.save();
 
-        // 2. Reward the Upline (RM100)
+        // 2. Reward the Upline (RM50)
         // Check Application.referrerMember first, then Member.referrer
         const uplineId = app.referrerMember || member.referrer;
         if (uplineId) {
           const referrer = await Member.findById(uplineId);
           if (referrer) {
-            referrer.walletCash += 100;
+            referrer.walletCash += 50;
             referrer.referralCommission =
-              (referrer.referralCommission || 0) + 100;
+              (referrer.referralCommission || 0) + 50;
             await referrer.save();
 
             const referralReward = new Transaction({
               member: referrer._id,
               type: "Referral",
-              amount: 100,
+              amount: 50,
               description: `Referral Reward - ${member.fullName}'s Application Settlement`,
               status: "Completed",
               processDate: Date.now(),
