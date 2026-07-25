@@ -117,7 +117,23 @@ router.get("/referrals", auth, async (req, res) => {
         "fullName memberCode state status createDate referralType referralCommission",
       )
       .sort({ createDate: -1 });
-    res.json(referrals);
+
+    const referralIds = referrals.map((r) => r._id);
+    const approvedApps = await Application.find({
+      member: { $in: referralIds },
+      applicationStatus: 6,
+    }).select("member");
+    const approvedSet = new Set(approvedApps.map((a) => a.member.toString()));
+
+    const result = referrals.map((ref) => {
+      const refObj = ref.toObject();
+      if (approvedSet.has(ref._id.toString())) {
+        refObj.status = "approved";
+      }
+      return refObj;
+    });
+
+    res.json(result);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

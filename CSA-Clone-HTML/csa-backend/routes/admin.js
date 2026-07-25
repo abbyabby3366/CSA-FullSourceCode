@@ -167,9 +167,18 @@ router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
     if (reason)
       app.rejection = { reason, date: Date.now(), admin: req.user.id };
 
+    const member = await Member.findById(app.member);
+    if (member) {
+      if (status == 6) {
+        member.status = "approved";
+      } else if (status == 7 || status == 10) {
+        member.status = "rejected";
+      }
+      await member.save();
+    }
+
     // Trigger RM100 Reward on status 6 (Settlement)
     if (status == 6 && !app.rewardPaid) {
-      const member = await Member.findById(app.member);
       if (member) {
         // 1. Reward the User (RM100)
         member.walletCash += 100;
