@@ -485,14 +485,44 @@
 
             const d = new Date(app.createDate);
             const formattedDate = d.toLocaleString();
+                let payslipHistoryHtml = "";
+                if (details.payslipHistory && details.payslipHistory.length > 0) {
+                  const historyItems = details.payslipHistory.slice().reverse().map((item, idx) => {
+                    const itemDate = item.uploadedAt ? new Date(item.uploadedAt).toLocaleString('en-GB') : "N/A";
+                    const isLatest = idx === 0;
+                    return `
+                      <li class="list-group-item d-flex justify-content-between align-items-center py-2 fs-12">
+                        <div>
+                          <span class="badge ${isLatest ? 'bg-success' : 'bg-secondary'} me-1">${isLatest ? 'Current' : 'History'}</span>
+                          <small class="text-muted">${itemDate}</small>
+                          ${item.note ? `<br><small class="fst-italic text-dark">${item.note}</small>` : ''}
+                        </div>
+                        <a href="https://x.neuronwww.com/${item.file}" target="_blank" class="btn btn-xs btn-outline-primary ms-2"><i class="ri-file-search-line"></i> View</a>
+                      </li>
+                    `;
+                  }).join('');
 
-            let html = `
-                        <div class="row">
-                            <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
-                            <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
-                            <div class="col-md-12"><hr></div>
-                            <h6 class="mb-3 text-primary">Personal Details</h6>
-                            <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
+                  payslipHistoryHtml = `
+                    <div class="mt-2">
+                      <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#adminPayslipHistoryCollapse">
+                        <i class="ri-history-line"></i> Upload History Log (${details.payslipHistory.length})
+                      </button>
+                      <div class="collapse mt-2" id="adminPayslipHistoryCollapse">
+                        <ul class="list-group">
+                          ${historyItems}
+                        </ul>
+                      </div>
+                    </div>
+                  `;
+                }
+
+                let html = `
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Personal Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
@@ -503,22 +533,23 @@
                                     <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
                                     <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
 
-                            <div class="col-md-12"><hr></div>
-                            <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                            <div class="col-md-4 mb-2">
-                                <strong>IC Front:</strong><br>
-                                ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong>IC Back:</strong><br>
-                                ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <strong>Payslip:</strong><br>
-                                ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
-                            </div>
-                        </div>
-                    `;
+                                    <div class="col-md-12"><hr></div>
+                                    <h6 class="mb-3 text-primary">Submitted Documents</h6>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Front:</strong><br>
+                                        ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>IC Back:</strong><br>
+                                        ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Payslip:</strong><br>
+                                        ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                        ${payslipHistoryHtml}
+                                    </div>
+                                </div>
+                            `;
 
             $("#modalContent").html(html);
             $("#viewDetailsModal").modal("show");

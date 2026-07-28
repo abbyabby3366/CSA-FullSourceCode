@@ -37,6 +37,31 @@ const ApplicationSchema = new mongoose.Schema({
     icBackFile: { type: String },
     payslipFile: { type: String }, // Optional attachment but usually expected
 
+    icFrontHistory: [
+      {
+        file: { type: String, required: true },
+        uploadedAt: { type: Date, default: Date.now },
+        uploadedBy: { type: String, default: "member" },
+        note: { type: String },
+      },
+    ],
+    icBackHistory: [
+      {
+        file: { type: String, required: true },
+        uploadedAt: { type: Date, default: Date.now },
+        uploadedBy: { type: String, default: "member" },
+        note: { type: String },
+      },
+    ],
+    payslipHistory: [
+      {
+        file: { type: String, required: true },
+        uploadedAt: { type: Date, default: Date.now },
+        uploadedBy: { type: String, default: "member" },
+        note: { type: String },
+      },
+    ],
+
     ramciReport: { file: String, lastUpdate: Date },
     ccrisDocument: { file: String, lastUpdate: Date },
     eligibility: { status: Number, lastUpdate: Date },

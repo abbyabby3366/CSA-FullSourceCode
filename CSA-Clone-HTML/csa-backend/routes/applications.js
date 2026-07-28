@@ -79,6 +79,15 @@ router.post("/submit", auth, (req, res) => {
           icFrontFile: files.icFront[0].key,
           icBackFile: files.icBack[0].key,
           payslipFile: files.payslip[0].key,
+          icFrontHistory: [
+            { file: files.icFront[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
+          ],
+          icBackHistory: [
+            { file: files.icBack[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
+          ],
+          payslipHistory: [
+            { file: files.payslip[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
+          ],
         },
         applicationStatus: 1, // Processing
       });
@@ -101,6 +110,90 @@ router.post("/submit", auth, (req, res) => {
     } catch (err) {
       console.error("Submission Error:", err.message);
       res.status(500).json({ msg: "Server Error", error: err.message });
+    }
+  });
+});
+
+// @route    POST api/applications/reupload-document
+// @desc     Re-upload application document (payslip, icFront, icBack)
+// @access   Private
+router.post("/reupload-document", auth, (req, res) => {
+  const uploadSingle = upload.single("document");
+
+  uploadSingle(req, res, async (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ msg: `Upload error: ${err.message}` });
+      }
+      return res.status(400).json({ msg: err.message || err });
+    }
+
+    try {
+      if (!req.file) {
+        return res.status(400).json({ msg: "Please select a file to upload." });
+      }
+
+      const { docType, applicationId, note } = req.body;
+      const validDocTypes = ["payslip", "icFront", "icBack"];
+
+      if (!validDocTypes.includes(docType)) {
+        return res.status(400).json({ msg: "Invalid document type." });
+      }
+
+      let query = { member: req.user.id };
+      if (applicationId) {
+        query._id = applicationId;
+      }
+
+      const app = await Application.findOne(query).sort({ createDate: -1 });
+      if (!app) {
+        return res.status(404).json({ msg: "Application not found." });
+      }
+
+      const fileKey = req.file.key;
+      const historyField = `${docType}History`;
+      const fileField = `${docType}File`;
+
+      if (!app.details) app.details = {};
+
+      // Ensure history array exists (for legacy records)
+      if (!Array.isArray(app.details[historyField])) {
+        app.details[historyField] = [];
+        if (app.details[fileField]) {
+          app.details[historyField].push({
+            file: app.details[fileField],
+            uploadedAt: app.createDate || app.lastUpdate || new Date(),
+            uploadedBy: "member",
+            note: "Initial file",
+          });
+        }
+      }
+
+      // Push new upload to history
+      app.details[historyField].push({
+        file: fileKey,
+        uploadedAt: new Date(),
+        uploadedBy: "member",
+        note: note || "Re-uploaded document",
+      });
+
+      // Update current active file pointer
+      app.details[fileField] = fileKey;
+      app.lastUpdate = new Date();
+
+      await app.save();
+
+      const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
+      const responseData = app.toObject();
+
+      res.json({
+        msg: `${docType} updated successfully!`,
+        application: responseData,
+        newFileUrl: `${baseUrl}/${fileKey}`,
+      });
+    } catch (error) {
+      console.error("Re-upload Error:", error.message);
+      res.status(500).json({ msg: "Server Error", error: error.message });
     }
   });
 });
