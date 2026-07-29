@@ -1,15 +1,111 @@
 /**
- * Global Configuration
+ * Global Configuration & Error Handling System
  * Automatically detects the API Base URL based on where the site is hosted.
  */
 
-// Use the current origin (e.g., https://yourdomain.com) as the base.
-// If we are on localhost, we explicitly point to port 5000 for the backend.
-window.API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:5000'
+const isLocalEnv = /^(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/.test(window.location.hostname);
+window.API_BASE_URL = (isLocalEnv && window.location.port !== '5000')
+    ? `${window.location.protocol}//${window.location.hostname}:5000`
     : window.location.origin;
 
 console.log('API Base URL automatically set to:', window.API_BASE_URL);
+
+// ==========================================
+// Global UI Error Display Helper & Fallback Modal
+// ==========================================
+
+window.showGlobalErrorModal = function(title, message) {
+    const errorTitle = title || 'Error';
+    const errorMsg = message || 'An unexpected error occurred.';
+
+    // Option 1: Use page-specific #errorModal if present in DOM
+    const existingModal = document.getElementById('errorModal');
+    if (existingModal) {
+        const msgNode = document.getElementById('errorModalMsg');
+        const titleNode = document.getElementById('errorModalTitle');
+        if (titleNode) titleNode.textContent = errorTitle;
+        if (msgNode) {
+            msgNode.innerHTML = `<strong>${errorTitle}</strong><br><span class="text-danger mt-1 d-block">${errorMsg}</span>`;
+        }
+        if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+            window.jQuery('#errorModal').modal('show');
+            return;
+        } else {
+            existingModal.style.display = 'block';
+            existingModal.classList.add('show');
+            return;
+        }
+    }
+
+    // Option 2: Dynamically create & show fallback global error modal
+    let modalEl = document.getElementById('globalDynamicErrorModal');
+    if (!modalEl) {
+        modalEl = document.createElement('div');
+        modalEl.id = 'globalDynamicErrorModal';
+        modalEl.className = 'modal fade';
+        modalEl.setAttribute('tabindex', '-1');
+        modalEl.setAttribute('aria-hidden', 'true');
+        modalEl.style.zIndex = '10000';
+        modalEl.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center p-4" style="border-radius: 16px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h4 id="globalDynamicErrorTitle" class="fw-bold mb-2 text-dark">Error</h4>
+                        <p id="globalDynamicErrorMsg" class="text-muted mx-3 mb-4"></p>
+                        <button type="button" class="btn btn-danger px-5" style="border-radius: 25px;" id="globalDynamicErrorCloseBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modalEl);
+
+        const closeBtn = document.getElementById('globalDynamicErrorCloseBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+                    window.jQuery('#globalDynamicErrorModal').modal('hide');
+                } else {
+                    modalEl.style.display = 'none';
+                    modalEl.classList.remove('show');
+                }
+            });
+        }
+    }
+
+    const titleNode = document.getElementById('globalDynamicErrorTitle');
+    const msgNode = document.getElementById('globalDynamicErrorMsg');
+    if (titleNode) titleNode.textContent = errorTitle;
+    if (msgNode) msgNode.innerHTML = typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg);
+
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.modal) {
+        window.jQuery('#globalDynamicErrorModal').modal('show');
+    } else {
+        modalEl.style.display = 'block';
+        modalEl.classList.add('show');
+    }
+};
+
+// Global uncaught JS error listener
+window.addEventListener('error', function(event) {
+    console.error('Uncaught JS Error:', event.error || event.message);
+    if (event.message && event.message.includes('Script error')) return;
+    window.showGlobalErrorModal('Application Error', event.message || 'An unexpected error occurred.');
+});
+
+// Global unhandled promise rejection listener
+window.addEventListener('unhandledrejection', function(event) {
+    console.error('Unhandled Promise Rejection:', event.reason);
+    const msg = event.reason ? (event.reason.message || String(event.reason)) : 'Operation failed.';
+    if (msg && msg.includes('Script error')) return;
+    window.showGlobalErrorModal('Error', msg);
+});
 
 window.downloadFile = async function(url, filename) {
     try {
@@ -59,10 +155,19 @@ function uppercaseNames(obj) {
     return obj;
 }
 
-// Intercept window.fetch to automatically uppercase name fields in JSON responses
+// Intercept window.fetch to automatically handle network errors & uppercase name fields in JSON responses
 const originalFetch = window.fetch;
 window.fetch = async function(...args) {
-    const response = await originalFetch(...args);
+    let response;
+    try {
+        response = await originalFetch(...args);
+    } catch (err) {
+        console.error('Fetch Global Network Error:', err);
+        const errMsg = err.message ? err.message : 'Failed to connect to server. Please check your network connection.';
+        window.showGlobalErrorModal('Network / Connection Error', errMsg);
+        throw err;
+    }
+
     // Overwrite the json() method on the response object
     const originalJson = response.json;
     response.json = async function() {
@@ -72,9 +177,8 @@ window.fetch = async function(...args) {
     return response;
 };
 
-// Intercept jQuery AJAX and input elements to force uppercase names
+// Intercept jQuery AJAX and input elements to force uppercase names and catch errors
 function applyNameInterceptors() {
-    // Intercept AJAX responses via dataFilter
     if (window.jQuery) {
         jQuery.ajaxSetup({
             dataFilter: function(data, type) {
@@ -86,6 +190,14 @@ function applyNameInterceptors() {
                     } catch (e) {}
                 }
                 return data;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('jQuery AJAX Global Error:', textStatus, errorThrown, jqXHR);
+                let detailMsg = errorThrown || textStatus || 'Request failed';
+                if (jqXHR.responseJSON && (jqXHR.responseJSON.msg || jqXHR.responseJSON.message)) {
+                    detailMsg = jqXHR.responseJSON.msg || jqXHR.responseJSON.message;
+                }
+                window.showGlobalErrorModal(`Request Error (HTTP ${jqXHR.status || 0})`, detailMsg);
             }
         });
         

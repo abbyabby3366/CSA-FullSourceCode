@@ -41,6 +41,15 @@ app.use("/api/carousel", require("./routes/carousel"));
 app.use("/api/settings", require("./routes/settings"));
 app.use("/api/bookings", require("./routes/bookings"));
 
+// Global Express Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error("Unhandled Backend Error:", err.stack || err);
+  const statusCode = err.status || err.statusCode || 500;
+  res.status(statusCode).json({
+    msg: err.message || "An unexpected server error occurred."
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

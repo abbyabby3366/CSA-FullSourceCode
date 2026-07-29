@@ -32,17 +32,18 @@ const upload = multer({
 
 // Check File Type
 function checkFileType(file, cb) {
-    // Allowed extensions
-    const filetypes = /jpeg|jpg|png|pdf|doc|docx/;
+    // Allowed extensions including iPhone HEIC / HEIF
+    const filetypes = /jpeg|jpg|png|pdf|doc|docx|heic|heif/;
     // Check extension
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    // Check mime
-    const mimetype = filetypes.test(file.mimetype);
+    // Check mime (including iOS image/heic, image/heif, application/octet-stream)
+    const mimeTypes = /jpeg|jpg|png|pdf|doc|docx|heic|heif|octet-stream/;
+    const mimetype = mimeTypes.test(file.mimetype);
 
-    if (mimetype && extname) {
+    if (mimetype || extname) {
         return cb(null, true);
     } else {
-        cb('Error: Images, PDFs, and Docs only!');
+        cb(new Error('Error: Images (JPG, PNG, HEIC), PDFs, and Docs only!'));
     }
 }
 
