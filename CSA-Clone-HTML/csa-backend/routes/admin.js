@@ -561,7 +561,9 @@ router.get("/members/export", [auth, adminOnly], async (req, res) => {
         member.payslipImage || "",
         app ? getAppStatusLabel(app.applicationStatus) : "No Application",
         app && app.createDate ? new Date(app.createDate).toISOString() : "",
-        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.employerName : "",
+        app && app.details && app.details.employmentDetails && app.details.employmentDetails.employerName
+          ? app.details.employmentDetails.employerName.toUpperCase()
+          : "",
         app && app.details && app.details.employmentDetails ? app.details.employmentDetails.jobTitle : "",
         app && app.details && app.details.employmentDetails ? app.details.employmentDetails.salaryRange : "",
         app && app.details && app.details.financials ? app.details.financials.salaryGross : "",
