@@ -81,6 +81,7 @@
                           <input
                             type="text"
                             class="form-control"
+                            id="searchAgent"
                             placeholder="Search agents..."
                           />
                           <i class="ri-search-line search-icon"></i>
@@ -179,6 +180,7 @@
     <script src="../assets/libs/node-waves/waves.min.js"></script>
     <script src="../assets/libs/feather-icons/feather.min.js"></script>
     <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
     <script src="../Scripts/config.js"></script>
@@ -206,13 +208,13 @@
             tbody.append(`
                         <tr>
                             <td>${index + 1}</td>
-                            <td>${agent.memberCode}</td>
+                            <td>${agent.memberCode || ''}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                        <h5 class="fs-14 mb-1">${agent.fullName}</h5>
+                                        <h5 class="fs-14 mb-1">${agent.fullName || ''}</h5>
                                 </div>
                             </td>
-                            <td>${agent.phoneNumber}</td>
+                            <td>${agent.phoneNumber || ''}</td>
                             <td>${agent.referralAmount || 0}</td>
                             <td>
                                 <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
@@ -224,6 +226,27 @@
                         </tr>
                     `);
           });
+
+          if ($.fn.DataTable.isDataTable("#agentTable")) {
+            $("#agentTable").DataTable().destroy();
+          }
+
+          const agentTable = $("#agentTable").DataTable({
+            dom: 'rt<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            pageLength: 10,
+            ordering: true,
+            language: {
+              emptyTable: "No agent applications found"
+            }
+          });
+
+          $("#searchAgent").off("keyup input").on("keyup input", function () {
+            agentTable.search($(this).val()).draw();
+          });
+
+          if ($("#searchAgent").val()) {
+            agentTable.search($("#searchAgent").val()).draw();
+          }
 
           // App status map matching admin/members.html
           const appStatusMap = {

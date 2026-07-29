@@ -345,9 +345,16 @@
             $("#gvWithdraw").DataTable().destroy();
           }
 
-          $("#gvWithdraw").DataTable({
+          const withdrawTable = $("#gvWithdraw").DataTable({
             order: [[0, "desc"]],
             responsive: false,
+          });
+
+          $("#txtSearch").off("keyup input").on("keyup input", function () {
+            withdrawTable.search($(this).val()).draw();
+          });
+          $("#btnSearch").off("click").on("click", function () {
+            withdrawTable.search($("#txtSearch").val()).draw();
           });
         } catch (err) {
           console.error("Error loading withdrawals:", err);

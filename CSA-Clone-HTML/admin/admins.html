@@ -81,6 +81,7 @@
                           <input
                             type="text"
                             class="form-control"
+                            id="searchAdmin"
                             placeholder="Search admins..."
                           />
                           <i class="ri-search-line search-icon"></i>
@@ -147,6 +148,7 @@
     <script src="../assets/libs/node-waves/waves.min.js"></script>
     <script src="../assets/libs/feather-icons/feather.min.js"></script>
     <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="../assets/libs/datatables/datatables.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
     <script src="../Scripts/config.js"></script>
@@ -173,6 +175,20 @@
                             </td>
                         </tr>
                     `);
+          });
+
+          if ($.fn.DataTable.isDataTable("#adminTable")) {
+            $("#adminTable").DataTable().destroy();
+          }
+
+          const adminTable = $("#adminTable").DataTable({
+            dom: 'rt<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            pageLength: 10,
+            ordering: true
+          });
+
+          $("#searchAdmin").off("keyup input").on("keyup input", function () {
+            adminTable.search($(this).val()).draw();
           });
         }
       });

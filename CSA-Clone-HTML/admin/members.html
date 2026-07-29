@@ -277,8 +277,15 @@
                         </tr>
                     `);
           });
-          $("#gvData").DataTable({
+          const memberTable = $("#gvData").DataTable({
             scrollX: true
+          });
+
+          $("#txtSearch").off("keyup input").on("keyup input", function () {
+            memberTable.search($(this).val()).draw();
+          });
+          $("#btnSearch").off("click").on("click", function () {
+            memberTable.search($("#txtSearch").val()).draw();
           });
         }
       });

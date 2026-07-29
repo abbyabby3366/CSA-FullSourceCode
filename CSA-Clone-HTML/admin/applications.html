@@ -469,9 +469,16 @@
                         </tr>
                     `);
           });
-          $("#gvApplicant").DataTable({
+          const appTable = $("#gvApplicant").DataTable({
             order: [[6, "desc"]],
             responsive: false,
+          });
+
+          $("#txtSearch").off("keyup input").on("keyup input", function () {
+            appTable.search($(this).val()).draw();
+          });
+          $("#btnSearch").off("click").on("click", function () {
+            appTable.search($("#txtSearch").val()).draw();
           });
         }
 
