@@ -489,6 +489,20 @@
             };
             const salaryLabel = salaryRangeMap[employment.salaryRange] || "N/A";
 
+            let referrerInfo = "N/A";
+            if (app.member) {
+              const refObj = app.referrerMember || app.member.referrer;
+              if (refObj) {
+                if (refObj.fullName && refObj.memberCode) {
+                  referrerInfo = `${refObj.fullName} (${refObj.memberCode})`;
+                } else if (refObj.fullName) {
+                  referrerInfo = refObj.fullName;
+                } else if (refObj.memberCode) {
+                  referrerInfo = refObj.memberCode;
+                }
+              }
+            }
+
             const d = new Date(app.createDate);
             const formattedDate = d.toLocaleString();
                 let payslipHistoryHtml = "";
