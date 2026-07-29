@@ -201,7 +201,8 @@
                                 <input
                                   type="text"
                                   class="form-control"
-                                  value="123456789"
+                                  id="personalPhoneNumber"
+                                  value=""
                                   disabled
                                 />
                               </div>
@@ -211,7 +212,8 @@
                               <input
                                 type="email"
                                 class="form-control"
-                                value="member@example.com"
+                                id="personalEmail"
+                                value=""
                                 placeholder="example@email.com"
                               />
                             </div>
@@ -230,14 +232,6 @@
                                 id="icNumberInput"
                                 placeholder="900101-10-1234"
                               />
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                              <label class="form-label">Upload IC</label>
-                              <input type="file" class="form-control" />
-                            </div>
-                            <div class="col-lg-6 mb-3">
-                              <label class="form-label">Upload Payslip</label>
-                              <input type="file" class="form-control" />
                             </div>
                             <div class="col-lg-12">
                               <div class="hstack gap-2 justify-content-end">
@@ -582,7 +576,7 @@
         function capturePersonalState() {
           initialPersonal = {
             fullName: $("#personalFullName").val(),
-            email: $('#v-pills-personal input[type="email"]').val(),
+            email: $("#personalEmail").val(),
             gender: $("#genderSelect").val(),
             icNumber: $("#icNumberInput").val(),
           };
@@ -613,7 +607,7 @@
         function checkPersonalChanges() {
           const current = {
             fullName: $("#personalFullName").val(),
-            email: $('#v-pills-personal input[type="email"]').val(),
+            email: $("#personalEmail").val(),
             gender: $("#genderSelect").val(),
             icNumber: $("#icNumberInput").val(),
           };
@@ -657,22 +651,60 @@
 
         const member = await initMemberPortal();
         if (member) {
-          // Populate Profile
-          $("#personalFullName").val(member.fullName);
-          $('#v-pills-personal input[type="text"]')
-            .eq(2)
-            .val(member.phoneNumber);
-          $('#v-pills-personal input[type="email"]').val(member.email || "");
-          $("#genderSelect").val(member.gender || "Male");
-          $("#icNumberInput").val(member.icNumber || "");
+          let lastApp = null;
+          try {
+            const appRes = await fetch(
+              `${window.API_BASE_URL}/api/applications/my`,
+              {
+                headers: { "x-auth-token": localStorage.getItem("token") },
+              },
+            );
+            if (appRes.ok) {
+              const apps = await appRes.json();
+              if (apps && apps.length > 0) {
+                lastApp = apps[0];
+              }
+            }
+          } catch (e) {
+            console.error("Error fetching last application:", e);
+          }
+
+          const details = lastApp?.details || {};
+          const empDetails = details.employmentDetails || {};
+
+          // Populate Personal (prioritize last application sent, fallback to member profile)
+          const fullName = details.fullName || member.fullName || "";
+          const phoneNumber = details.phoneNumber || member.phoneNumber || "";
+          const email = details.email || member.email || "";
+          const icNumber = details.icNumber || member.icNumber || "";
+          const gender = member.gender || "Male";
+
+          $("#personalFullName").val(fullName);
+          $("#personalPhoneNumber").val(
+            phoneNumber.replace(/^(\+60|60)/, ""),
+          );
+          $("#personalEmail").val(email);
+          $("#genderSelect").val(gender);
+          $("#icNumberInput").val(icNumber);
 
           capturePersonalState();
 
-          // Populate Career
-          $("#careerCompanyName").val(member.companyName || "");
+          // Populate Career (prioritize last application sent, fallback to member profile)
+          const companyName =
+            empDetails.employerName || member.companyName || "";
+          const occupation = empDetails.jobTitle || member.occupation || "";
+          let salary = member.salary || "";
+          if (!salary && empDetails.salaryRange) {
+            if (empDetails.salaryRange === "1") salary = 2500;
+            else if (empDetails.salaryRange === "2") salary = 4000;
+            else if (empDetails.salaryRange === "3") salary = 6000;
+            else salary = empDetails.salaryRange;
+          }
+
+          $("#careerCompanyName").val(companyName);
           $("#careerCompanyType").val(member.companyType || "1");
-          $("#careerOccupation").val(member.occupation || "");
-          $("#careerSalary").val(member.salary || "");
+          $("#careerOccupation").val(occupation);
+          $("#careerSalary").val(salary);
           $("#careerRetirementAge").val(member.retirementAge || "");
           $("#careerWorkAddress").val(member.workAddress || "");
 
@@ -696,7 +728,7 @@
               ? `${window.API_BASE_URL}/` + member.profileImage
               : "../assets/images/users/user-dummy-img.jpg",
           );
-          $(".fullNameDisplay").text(member.fullName);
+          $(".fullNameDisplay").text(fullName || member.fullName);
         }
 
         $(".select2-bank").select2({
@@ -724,7 +756,7 @@
         // Cancel Personal Details
         $("#btnCancelPersonal").click(function () {
           $("#personalFullName").val(initialPersonal.fullName);
-          $('#v-pills-personal input[type="email"]').val(initialPersonal.email);
+          $("#personalEmail").val(initialPersonal.email);
           $("#genderSelect").val(initialPersonal.gender);
           $("#icNumberInput").val(initialPersonal.icNumber);
           $(this).hide();

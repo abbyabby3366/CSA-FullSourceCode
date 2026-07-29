@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const multer = require("multer");
 const upload = require("../middleware/upload");
 const Application = require("../models/Application");
+const Member = require("../models/Member");
 
 // @route    GET api/applications/my
 // @desc     Get all applications for current member
@@ -93,6 +94,26 @@ router.post("/submit", auth, (req, res) => {
       });
 
       const app = await newApp.save();
+
+      // Update Member profile with submitted application details
+      const updateFields = {};
+      if (details.fullName) updateFields.fullName = details.fullName;
+      if (details.icNumber) updateFields.icNumber = details.icNumber;
+      if (details.phoneNumber) updateFields.phoneNumber = details.phoneNumber;
+      if (details.email) updateFields.email = details.email;
+      if (details.employmentDetails) {
+        if (details.employmentDetails.employerName) updateFields.companyName = details.employmentDetails.employerName;
+        if (details.employmentDetails.jobTitle) updateFields.occupation = details.employmentDetails.jobTitle;
+        if (details.employmentDetails.salaryRange) {
+          if (details.employmentDetails.salaryRange === "1") updateFields.salary = 2500;
+          else if (details.employmentDetails.salaryRange === "2") updateFields.salary = 4000;
+          else if (details.employmentDetails.salaryRange === "3") updateFields.salary = 6000;
+          else if (!isNaN(parseFloat(details.employmentDetails.salaryRange))) updateFields.salary = parseFloat(details.employmentDetails.salaryRange);
+        }
+      }
+      if (Object.keys(updateFields).length > 0) {
+        await Member.findByIdAndUpdate(req.user.id, { $set: updateFields });
+      }
 
       // Construct full URLs for response (using custom domain)
       const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;

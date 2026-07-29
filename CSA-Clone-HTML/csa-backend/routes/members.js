@@ -13,7 +13,39 @@ router.get("/me", auth, async (req, res) => {
     const member = await Member.findById(req.user.id)
       .select("-password")
       .populate("referrer", "fullName memberCode");
-    res.json(member);
+    if (!member) return res.status(404).json({ msg: "Member not found" });
+
+    const memberObj = member.toObject();
+
+    // Check if member has submitted an application and merge details from the latest application
+    const lastApp = await Application.findOne({ member: req.user.id }).sort({
+      createDate: -1,
+    });
+
+    if (lastApp && lastApp.details) {
+      const details = lastApp.details;
+      if (details.fullName) memberObj.fullName = details.fullName;
+      if (details.icNumber) memberObj.icNumber = details.icNumber;
+      if (details.phoneNumber) memberObj.phoneNumber = details.phoneNumber;
+      if (details.email) memberObj.email = details.email;
+
+      if (details.employmentDetails) {
+        if (details.employmentDetails.employerName) {
+          memberObj.companyName = details.employmentDetails.employerName;
+        }
+        if (details.employmentDetails.jobTitle) {
+          memberObj.occupation = details.employmentDetails.jobTitle;
+        }
+        if (details.employmentDetails.salaryRange) {
+          if (details.employmentDetails.salaryRange === "1") memberObj.salary = 2500;
+          else if (details.employmentDetails.salaryRange === "2") memberObj.salary = 4000;
+          else if (details.employmentDetails.salaryRange === "3") memberObj.salary = 6000;
+          else if (!isNaN(parseFloat(details.employmentDetails.salaryRange))) memberObj.salary = parseFloat(details.employmentDetails.salaryRange);
+        }
+      }
+    }
+
+    res.json(memberObj);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
