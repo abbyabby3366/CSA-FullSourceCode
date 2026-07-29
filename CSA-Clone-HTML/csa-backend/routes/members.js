@@ -25,7 +25,7 @@ router.get("/me", auth, async (req, res) => {
     if (lastApp && lastApp.details) {
       const details = lastApp.details;
       if (details.fullName) memberObj.fullName = details.fullName;
-      if (details.icNumber) memberObj.icNumber = details.icNumber;
+      if (details.icNumber) memberObj.icNumber = details.icNumber.toString().replace(/-/g, "").trim();
       if (details.phoneNumber) memberObj.phoneNumber = details.phoneNumber;
       if (details.email) memberObj.email = details.email;
 
@@ -157,11 +157,29 @@ router.get("/referrals", auth, async (req, res) => {
     }).select("member");
     const approvedSet = new Set(approvedApps.map((a) => a.member.toString()));
 
+    const latestApps = await Application.aggregate([
+      { $match: { member: { $in: referralIds } } },
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestStatus: { $first: "$applicationStatus" },
+        },
+      },
+    ]);
+    const appStatusMap = {};
+    latestApps.forEach((a) => {
+      if (a._id) {
+        appStatusMap[a._id.toString()] = a.latestStatus;
+      }
+    });
+
     const result = referrals.map((ref) => {
       const refObj = ref.toObject();
       if (approvedSet.has(ref._id.toString())) {
         refObj.status = "approved";
       }
+      refObj.latestAppStatus = appStatusMap[ref._id.toString()] !== undefined ? appStatusMap[ref._id.toString()] : null;
       return refObj;
     });
 
@@ -187,7 +205,7 @@ router.post(
 
       // Update member details
       if (fullName) member.fullName = fullName;
-      if (icNumber) member.icNumber = icNumber;
+      if (icNumber) member.icNumber = icNumber.toString().replace(/-/g, "").trim();
       if (phoneNumber) member.phoneNumber = phoneNumber;
 
       // Set agent application fields

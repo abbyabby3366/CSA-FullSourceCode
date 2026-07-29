@@ -116,7 +116,7 @@
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Identification Number <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="icNumber" placeholder="900101-10-1234" required />
+                                                        <input type="text" class="form-control" id="icNumber" placeholder="900101101234" maxlength="12" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Phone Number <span class="text-danger">*</span></label>
@@ -424,7 +424,7 @@
                     $('#fullName').val(member.fullName);
                     $('#phoneNumber').val(member.phoneNumber);
                     $('#email').val(member.email || '');
-                    $('#icNumber').val(member.icNumber || '');
+                    $('#icNumber').val((member.icNumber || '').replace(/-/g, ''));
                 }
             }).catch(err => {
                 console.error('Member init failed:', err);
@@ -603,7 +603,7 @@
                                     <h6 class="mb-3 text-primary">Personal Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
                                     <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || 'N/A'}</div>
-                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || 'N/A'}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || 'N/A').toString().replace(/-/g, '')}</div>
                                     <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || 'N/A'}</div>
                                     
                                     <div class="col-md-12"><hr></div>
@@ -854,7 +854,7 @@
                 $('#confirmModal').modal('hide');
                 const applicationDetails = {
                     fullName: $('#fullName').val(),
-                    icNumber: $('#icNumber').val(),
+                    icNumber: $('#icNumber').val().replace(/-/g, '').trim(),
                     phoneNumber: $('#phoneNumber').val(),
                     email: $('#email').val(),
                     employmentDetails: {

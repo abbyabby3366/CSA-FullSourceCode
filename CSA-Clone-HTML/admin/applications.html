@@ -148,7 +148,7 @@
                           <tr>
                             <th>ID</th>
                             <th>CUSTOMER NAME (ID)</th>
-                            <th>REFERRER ID</th>
+                            <th>REFERRER NAME (ID)</th>
                             <th>FILE NUMBER</th>
                             <th>SALARY RM</th>
                             <th>STATUS</th>
@@ -421,13 +421,19 @@
               class: "bg-secondary",
             };
             let memberInfo = "N/A";
-            let referrerCode = "N/A";
+            let referrerInfo = "N/A";
             if (app.member) {
               memberInfo = `${app.member.fullName} (${app.member.memberCode || "-"})`;
-              referrerCode =
-                app.referrerMember?.memberCode ||
-                app.member.referrer?.memberCode ||
-                "N/A";
+              const refObj = app.referrerMember || app.member.referrer;
+              if (refObj) {
+                if (refObj.fullName && refObj.memberCode) {
+                  referrerInfo = `${refObj.fullName} (${refObj.memberCode})`;
+                } else if (refObj.fullName) {
+                  referrerInfo = refObj.fullName;
+                } else if (refObj.memberCode) {
+                  referrerInfo = refObj.memberCode;
+                }
+              }
             }
             const salaryRangeMap = {
               1: "Below 3k",
@@ -441,7 +447,7 @@
                         <tr>
                             <td>${app._id.substring(18)}</td>
                             <td>${memberInfo}</td>
-                            <td>${referrerCode}</td>
+                            <td>${referrerInfo}</td>
                             <td>${app.fileNumber || "Pending"}</td>
                             <td>${salaryLabel}</td>
                             <td><span class="badge ${status.class}">${status.text}</span></td>
@@ -524,8 +530,9 @@
                                     <h6 class="mb-3 text-primary">Personal Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${details.icNumber || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || "N/A").toString().replace(/-/g, "")}</div>
                                     <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Referrer:</strong> ${referrerInfo}</div>
                                     
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Employment Details</h6>

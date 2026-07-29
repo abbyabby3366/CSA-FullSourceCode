@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html
   lang="en"
   data-layout="vertical"
@@ -164,7 +164,9 @@
                           type="text"
                           class="form-control"
                           id="icNumber"
-                          placeholder="900101-10-1234"
+                          placeholder="900101101234"
+                          maxlength="12"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         />
                       </div>
                       <div class="col-lg-6 mb-3">
@@ -266,7 +268,7 @@
             headers: { "x-auth-token": token },
             success: function (member) {
               $("#fullName").val(member.fullName);
-              $("#icNumber").val(member.icNumber || "");
+              $("#icNumber").val((member.icNumber || "").replace(/-/g, ""));
               $("#phoneNumber").val(member.phoneNumber);
               $("#email").val(member.email || "");
             },
@@ -279,7 +281,7 @@
 
           const formData = new FormData();
           formData.append("fullName", $("#fullName").val());
-          formData.append("icNumber", $("#icNumber").val());
+          formData.append("icNumber", $("#icNumber").val().replace(/-/g, "").trim());
           formData.append("phoneNumber", $("#phoneNumber").val());
           formData.append("email", $("#email").val());
 

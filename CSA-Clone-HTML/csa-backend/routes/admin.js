@@ -130,10 +130,10 @@ router.get("/applications", [auth, adminOnly], async (req, res) => {
         select: "fullName phoneNumber memberCode memberType referrer",
         populate: {
           path: "referrer",
-          select: "memberCode",
+          select: "fullName memberCode",
         },
       },
-      { path: "referrerMember", select: "memberCode" },
+      { path: "referrerMember", select: "fullName memberCode" },
     ]);
 
     res.json(populatedApps);
@@ -415,10 +415,38 @@ router.get("/agents/:id/referrals", [auth, adminOnly], async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.params.id })
       .select(
-        "fullName memberCode phoneNumber state createDate memberType status",
+        "fullName memberCode phoneNumber state createDate memberType status icNumber salary",
       )
       .sort({ createDate: -1 });
-    res.json(referrals);
+
+    const referralIds = referrals.map((r) => r._id);
+    const latestApps = await Application.aggregate([
+      { $match: { member: { $in: referralIds } } },
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestStatus: { $first: "$applicationStatus" },
+        },
+      },
+    ]);
+
+    const appStatusMap = {};
+    latestApps.forEach((a) => {
+      if (a._id) {
+        appStatusMap[a._id.toString()] = a.latestStatus;
+      }
+    });
+
+    const result = referrals.map((ref) => {
+      const refObj = ref.toObject();
+      return {
+        ...refObj,
+        latestAppStatus: appStatusMap[ref._id.toString()] !== undefined ? appStatusMap[ref._id.toString()] : null,
+      };
+    });
+
+    res.json(result);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

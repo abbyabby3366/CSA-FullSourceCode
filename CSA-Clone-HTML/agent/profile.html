@@ -158,7 +158,7 @@
                           <tr>
                             <th class="ps-0" scope="row">NRIC</th>
                             <td class="text-muted" id="icNumber">
-                              900101-10-1234
+                              900101101234
                             </td>
                           </tr>
                           <tr>
@@ -403,7 +403,9 @@
                       type="text"
                       class="form-control"
                       id="editIcNumber"
-                      placeholder="900101-10-1234"
+                      placeholder="900101101234"
+                      maxlength="12"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                       required
                     />
                   </div>
@@ -651,7 +653,9 @@
                         type="text"
                         class="form-control"
                         id="compIcNumber"
-                        placeholder="900101-10-1234"
+                        placeholder="900101101234"
+                        maxlength="12"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         required
                       />
                     </div>
@@ -952,7 +956,7 @@
               : "-",
           );
           $("#fullName").text(formatValue(member.fullName));
-          $("#icNumber").text(formatValue(member.icNumber));
+          $("#icNumber").text(formatValue((member.icNumber || "").replace(/-/g, "")));
           $("#email").text(formatValue(member.email));
           $("#gender").text(formatValue(member.gender));
           $("#phoneNumber").text("+60 " + formatValue(member.phoneNumber));
@@ -1005,7 +1009,7 @@
           // Populate Modals
           $("#editFullName").val(member.fullName);
           $("#editGender").val(member.gender || "Male");
-          $("#editIcNumber").val(member.icNumber || "");
+          $("#editIcNumber").val((member.icNumber || "").replace(/-/g, ""));
           $("#editEmail").val(member.email || "");
 
           $("#editCompanyName").val(member.companyName || "");
@@ -1052,7 +1056,7 @@
           e.preventDefault();
           const fullName = $("#editFullName").val();
           const gender = $("#editGender").val();
-          const icNumber = $("#editIcNumber").val();
+          const icNumber = $("#editIcNumber").val().replace(/-/g, "").trim();
           const email = $("#editEmail").val();
 
           try {
@@ -1217,7 +1221,7 @@
           const formData = {
             fullName: $("#compFullName").val(),
             gender: $("#compGender").val(),
-            icNumber: $("#compIcNumber").val(),
+            icNumber: $("#compIcNumber").val().replace(/-/g, "").trim(),
             bankName: $("#compBankName").val(),
             bankAccountName: $("#compBankAccountName").val(),
             bankAccountNumber: $("#compBankAccountNumber").val(),

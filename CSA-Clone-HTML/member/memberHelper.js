@@ -120,7 +120,7 @@ function showProfileCompletionModal(member) {
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">NRIC (IC Number)</label>
-                          <input type="text" class="form-control" id="compIcNumber" placeholder="900101-10-1234" value="${member.icNumber || ""}" required>
+                          <input type="text" class="form-control" id="compIcNumber" placeholder="900101101234" maxlength="12" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${(member.icNumber || "").replace(/-/g, "")}" required>
                         </div>
                         <div class="col-md-12">
                           <hr class="my-4">
@@ -250,7 +250,7 @@ function showProfileCompletionModal(member) {
     const updateData = {
       fullName: $("#compFullName").val(),
       gender: $("#compGender").val(),
-      icNumber: $("#compIcNumber").val(),
+      icNumber: $("#compIcNumber").val().replace(/-/g, "").trim(),
       bankName: $("#compBankName").val(),
       bankAccountName: $("#compBankAccountName").val(),
       bankAccountNumber: $("#compBankAccountNumber").val(),

@@ -289,7 +289,7 @@
                           <tbody id="tableBodyMemberApproval">
                             <tr class="text-center">
                               <td>Jane Smith</td>
-                              <td>900101-01-1234</td>
+                              <td>900101011234</td>
                               <td>0123456789</td>
                               <td>
                                 <span class="text-success">Approve</span> |
@@ -371,7 +371,7 @@
                 tbody.append(`
                             <tr class="text-center">
                                 <td>${m.fullName}</td>
-                                <td>${m.icNumber || "N/A"}</td>
+                                <td>${(m.icNumber || "N/A").toString().replace(/-/g, "")}</td>
                                 <td>${m.phoneNumber}</td>
                                 <td>
                                     <span class="text-success">Approve</span> | <span class="text-danger">Reject</span>

@@ -128,7 +128,8 @@
                             <th scope="col">REFERRAL NAME</th>
                             <th scope="col">REFERRAL ACCOUNT ID</th>
                             <th scope="col">REGISTRATION DATETIME</th>
-                            <th scope="col">STATUS</th>
+                            <th scope="col">APP / DOCUMENT STATUS</th>
+                            <th scope="col">ACCOUNT STATUS</th>
                             <th scope="col">REFERRAL AMOUNT</th>
                           </tr>
                         </thead>
@@ -233,6 +234,20 @@
               const tbody = $("#referralsTable tbody");
               tbody.empty();
 
+              const appStatusMap = {
+                0: { text: "Pending (Unassigned)", class: "bg-light text-dark" },
+                1: { text: "Pending (Pre-checking)", class: "bg-info" },
+                2: { text: "Pending (Proposal Prep)", class: "bg-warning" },
+                3: { text: "Pending (Proposal Pres)", class: "bg-primary" },
+                4: { text: "Pending (Pre-Signing)", class: "bg-secondary" },
+                5: { text: "Pending Acceptance", class: "bg-info" },
+                6: { text: "Approved", class: "bg-success" },
+                7: { text: "Monitoring", class: "bg-dark" },
+                8: { text: "Queue For Reloan", class: "bg-light text-dark" },
+                9: { text: "Reloan Submission", class: "bg-primary" },
+                10: { text: "Rejected", class: "bg-danger" },
+              };
+
               referrals.forEach((ref, index) => {
                 // Format status badge
                 let badgeClass = "";
@@ -250,7 +265,14 @@
                   badgeClass = "bg-secondary";
                   statusText = "Unknown";
                 }
-                const statusHtml = `<span class="badge ${badgeClass}">${statusText}</span>`;
+                const accountStatusHtml = `<span class="badge ${badgeClass}">${statusText}</span>`;
+
+                const appStatus =
+                  ref.latestAppStatus !== null && ref.latestAppStatus !== undefined && appStatusMap[ref.latestAppStatus]
+                    ? appStatusMap[ref.latestAppStatus]
+                    : { text: "No Application", class: "bg-secondary-subtle text-secondary" };
+
+                const appStatusHtml = `<span class="badge ${appStatus.class}">${appStatus.text}</span>`;
 
                 // Format date
                 const dateStr = ref.createDate
@@ -276,7 +298,8 @@
                                       </td>
                                       <td><span class="badge badge-soft-primary">${ref.memberCode || "-"}</span></td>
                                       <td data-sort="${ref.createDate || ""}">${dateStr}</td>
-                                      <td>${statusHtml}</td>
+                                      <td>${appStatusHtml}</td>
+                                      <td>${accountStatusHtml}</td>
                                       <td><span class="text-success fw-bold">RM ${(ref.referralCommission || 0).toFixed(2)}</span></td>
                                   </tr>
                               `;
@@ -300,12 +323,12 @@
               });
             } else {
               $("#referralsTable tbody").append(
-                '<tr><td colspan="6" class="text-center text-danger">Failed to fetch referrals. Please try again later.</td></tr>',
+                '<tr><td colspan="7" class="text-center text-danger">Failed to fetch referrals. Please try again later.</td></tr>',
               );
             }
           } catch (err) {
             $("#referralsTable tbody").append(
-              '<tr><td colspan="6" class="text-center text-danger">Error loading referrals. Please reload the page.</td></tr>',
+              '<tr><td colspan="7" class="text-center text-danger">Error loading referrals. Please reload the page.</td></tr>',
             );
             console.error("Error loading referrals:", err);
           }

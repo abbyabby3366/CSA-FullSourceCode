@@ -230,7 +230,9 @@
                                 type="text"
                                 class="form-control"
                                 id="icNumberInput"
-                                placeholder="900101-10-1234"
+                                placeholder="900101101234"
+                                maxlength="12"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                               />
                             </div>
                             <div class="col-lg-12">
@@ -685,7 +687,7 @@
           );
           $("#personalEmail").val(email);
           $("#genderSelect").val(gender);
-          $("#icNumberInput").val(icNumber);
+          $("#icNumberInput").val(icNumber.replace(/-/g, ""));
 
           capturePersonalState();
 
@@ -800,7 +802,7 @@
           const fullName = $("#personalFullName").val();
           const email = $('#v-pills-personal input[type="email"]').val();
           const gender = $("#genderSelect").val();
-          const icNumber = $("#icNumberInput").val();
+          const icNumber = $("#icNumberInput").val().replace(/-/g, "").trim();
 
           try {
             const response = await fetch(

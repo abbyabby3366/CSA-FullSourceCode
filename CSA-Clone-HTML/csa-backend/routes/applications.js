@@ -68,6 +68,9 @@ router.post("/submit", auth, (req, res) => {
             typeof req.body.details === "string"
               ? JSON.parse(req.body.details)
               : req.body.details;
+          if (details.icNumber) {
+            details.icNumber = details.icNumber.toString().replace(/-/g, "").trim();
+          }
         } catch (err) {
           return res.status(400).json({ msg: "Invalid JSON in details field" });
         }

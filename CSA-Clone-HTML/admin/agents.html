@@ -148,7 +148,7 @@
       aria-labelledby="referralsModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="referralsModalLabel">Referrals</h5>
@@ -225,6 +225,21 @@
                     `);
           });
 
+          // App status map matching admin/members.html
+          const appStatusMap = {
+            0: { text: "Pending (Unassigned)", class: "bg-light text-dark" },
+            1: { text: "Pending (Pre-checking)", class: "bg-info" },
+            2: { text: "Pending (Proposal Prep)", class: "bg-warning" },
+            3: { text: "Pending (Proposal Pres)", class: "bg-primary" },
+            4: { text: "Pending (Pre-Signing)", class: "bg-secondary" },
+            5: { text: "Pending Acceptance", class: "bg-info" },
+            6: { text: "Approved", class: "bg-success" },
+            7: { text: "Monitoring", class: "bg-dark" },
+            8: { text: "Queue For Reloan", class: "bg-light text-dark" },
+            9: { text: "Reloan Submission", class: "bg-primary" },
+            10: { text: "Rejected", class: "bg-danger" },
+          };
+
           // Attach View Referrals handler
           $("#agentTable").on(
             "click",
@@ -234,7 +249,7 @@
               const agentName = $(this).data("agent-name");
               $("#referralsModalLabel").text(`Referrals - ${agentName}`);
               $("#referralsModalBody").html(
-                '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>',
+                '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div></div>',
               );
               $("#referralsModal").modal("show");
 
@@ -245,61 +260,130 @@
                 );
                 if (!referrals || referrals.length === 0) {
                   $("#referralsModalBody").html(
-                    '<p class="text-muted text-center">No referrals found for this agent.</p>',
+                    '<p class="text-muted text-center py-4">No referrals found for this agent.</p>',
                   );
                   return;
                 }
-                let rows = referrals
-                  .map((r, i) => {
-                    let statusBadge = "";
-                    switch (r.status) {
-                      case 'pending':
-                      case 1:
-                      case "1":
-                        statusBadge =
-                          '<span class="badge bg-warning">Pending</span>';
-                        break;
-                      case 'approved':
-                      case 2:
-                      case "2":
-                        statusBadge =
-                          '<span class="badge bg-success">Active</span>';
-                        break;
-                      case 'rejected':
-                      case 3:
-                      case "3":
-                        statusBadge =
-                          '<span class="badge bg-danger">Inactive</span>';
-                        break;
-                      default:
-                        statusBadge =
-                          '<span class="badge bg-secondary">Unknown</span>';
-                        break;
+
+                const notUploadedCount = referrals.filter(
+                  (r) => r.latestAppStatus === null || r.latestAppStatus === undefined,
+                ).length;
+
+                let modalHtml = `
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                  <div class="hstack gap-2">
+                    <span class="badge bg-danger-subtle text-danger fs-12 px-2 py-1">
+                      <i class="ri-error-warning-line me-1"></i>${notUploadedCount} Not Uploaded Document
+                    </span>
+                    <span class="badge bg-primary-subtle text-primary fs-12 px-2 py-1">
+                      Total: ${referrals.length}
+                    </span>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <select id="modalRefFilter" class="form-select form-select-sm" style="min-width: 170px;">
+                      <option value="all">All Referrals (${referrals.length})</option>
+                      <option value="no_app">Not Uploaded / No Application (${notUploadedCount})</option>
+                      <option value="has_app">Application Submitted (${referrals.length - notUploadedCount})</option>
+                    </select>
+                    <input type="text" id="modalRefSearch" class="form-control form-control-sm" placeholder="Search member..." style="width: 160px;">
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover table-bordered align-middle mb-0" id="referralsModalTable">
+                    <thead class="table-light">
+                      <tr>
+                        <th>No</th>
+                        <th>File Number</th>
+                        <th>Full Name</th>
+                        <th>Contact</th>
+                        <th>Type</th>
+                        <th>App / Document Status</th>
+                        <th>Account</th>
+                        <th>Joined</th>
+                      </tr>
+                    </thead>
+                    <tbody>`;
+
+                referrals.forEach((r, i) => {
+                  let accountBadge = "";
+                  switch (r.status) {
+                    case "pending":
+                    case 1:
+                    case "1":
+                      accountBadge = '<span class="badge bg-warning-subtle text-warning">Pending</span>';
+                      break;
+                    case "approved":
+                    case 2:
+                    case "2":
+                      accountBadge = '<span class="badge bg-success-subtle text-success">Active</span>';
+                      break;
+                    case "rejected":
+                    case 3:
+                    case "3":
+                      accountBadge = '<span class="badge bg-danger-subtle text-danger">Inactive</span>';
+                      break;
+                    default:
+                      accountBadge = '<span class="badge bg-secondary-subtle text-secondary">Unknown</span>';
+                      break;
+                  }
+
+                  const appStatus =
+                    r.latestAppStatus !== null && r.latestAppStatus !== undefined && appStatusMap[r.latestAppStatus]
+                      ? appStatusMap[r.latestAppStatus]
+                      : { text: "No Application", class: "bg-secondary-subtle text-secondary" };
+
+                  const hasAppStr = r.latestAppStatus !== null && r.latestAppStatus !== undefined ? "has_app" : "no_app";
+
+                  modalHtml += `
+                    <tr data-has-app="${hasAppStr}" data-search="${(r.fullName + " " + (r.memberCode || "") + " " + (r.phoneNumber || "")).toLowerCase()}">
+                      <td>${i + 1}</td>
+                      <td>${r.memberCode || "N/A"}</td>
+                      <td class="fw-medium">${r.fullName}</td>
+                      <td>${r.phoneNumber || "N/A"}</td>
+                      <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
+                      <td><span class="badge ${appStatus.class}">${appStatus.text}</span></td>
+                      <td>${accountBadge}</td>
+                      <td>${new Date(r.createDate).toLocaleDateString()}</td>
+                    </tr>`;
+                });
+
+                modalHtml += `
+                    </tbody>
+                  </table>
+                </div>`;
+
+                $("#referralsModalBody").html(modalHtml);
+
+                // Attach modal filter & search logic
+                function filterModalRows() {
+                  const filterVal = $("#modalRefFilter").val();
+                  const searchVal = $("#modalRefSearch").val().toLowerCase().trim();
+
+                  $("#referralsModalTable tbody tr").each(function () {
+                    const rowHasApp = $(this).attr("data-has-app");
+                    const rowSearch = $(this).attr("data-search");
+
+                    const matchesFilter =
+                      filterVal === "all" ||
+                      (filterVal === "no_app" && rowHasApp === "no_app") ||
+                      (filterVal === "has_app" && rowHasApp === "has_app");
+
+                    const matchesSearch = !searchVal || rowSearch.includes(searchVal);
+
+                    if (matchesFilter && matchesSearch) {
+                      $(this).show();
+                    } else {
+                      $(this).hide();
                     }
-                    return `
-                <tr>
-                  <td>${i + 1}</td>
-                  <td>${r.memberCode || "N/A"}</td>
-                  <td>${r.fullName}</td>
-                  <td>${r.phoneNumber || "N/A"}</td>
-                  <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
-                  <td>${statusBadge}</td>
-                  <td>${new Date(r.createDate).toLocaleDateString()}</td>
-                </tr>`;
-                  })
-                  .join("");
-                $("#referralsModalBody").html(`
-                <table class="table table-sm table-bordered align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th>No</th><th>Agent ID</th><th>Full Name</th><th>Contact</th><th>Type</th><th>Status</th><th>Joined</th>
-                    </tr>
-                  </thead>
-                  <tbody>${rows}</tbody>
-                </table>`);
+                  });
+                }
+
+                $("#modalRefFilter, #modalRefSearch").on("change keyup", filterModalRows);
+
               } catch (e) {
+                console.error("Referrals modal error:", e);
                 $("#referralsModalBody").html(
-                  '<p class="text-danger text-center">Failed to load referrals.</p>',
+                  '<p class="text-danger text-center py-4">Failed to load referrals.</p>',
                 );
               }
             },

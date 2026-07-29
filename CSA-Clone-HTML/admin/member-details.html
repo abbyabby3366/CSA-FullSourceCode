@@ -490,7 +490,7 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
             $(`#detFullName`).val(member.fullName);
             $(`#user-details input:eq(1)`).val(member.phoneNumber);
             $(`#user-details input:eq(2)`).val(member.email || "N/A");
-            $(`#user-details input:eq(3)`).val(member.icNumber || "N/A");
+            $(`#user-details input:eq(3)`).val((member.icNumber || "N/A").toString().replace(/-/g, ""));
 
             let statusBadge = "";
             switch (member.status) {
