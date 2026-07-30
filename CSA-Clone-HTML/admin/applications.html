@@ -472,6 +472,7 @@
           const appTable = $("#gvApplicant").DataTable({
             order: [[6, "desc"]],
             responsive: false,
+            pageLength: 100,
           });
 
           $("#txtSearch").off("keyup input").on("keyup input", function () {
