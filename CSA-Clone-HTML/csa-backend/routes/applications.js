@@ -164,9 +164,14 @@ router.post("/reupload-document", auth, (req, res) => {
         return res.status(400).json({ msg: "Invalid document type." });
       }
 
-      let query = { member: req.user.id };
+      let query = {};
       if (applicationId) {
         query._id = applicationId;
+        if (req.user.role === "member") {
+          query.member = req.user.id;
+        }
+      } else {
+        query.member = req.user.id;
       }
 
       const app = await Application.findOne(query).sort({ createDate: -1 });
@@ -187,7 +192,7 @@ router.post("/reupload-document", auth, (req, res) => {
           app.details[historyField].push({
             file: app.details[fileField],
             uploadedAt: app.createDate || app.lastUpdate || new Date(),
-            uploadedBy: "member",
+            uploadedBy: req.user.role || "member",
             note: "Initial file",
           });
         }
@@ -197,7 +202,7 @@ router.post("/reupload-document", auth, (req, res) => {
       app.details[historyField].push({
         file: fileKey,
         uploadedAt: new Date(),
-        uploadedBy: "member",
+        uploadedBy: req.user.role || "member",
         note: note || "Re-uploaded document",
       });
 
@@ -205,6 +210,7 @@ router.post("/reupload-document", auth, (req, res) => {
       app.details[fileField] = fileKey;
       app.lastUpdate = new Date();
 
+      app.markModified("details");
       await app.save();
 
       const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;

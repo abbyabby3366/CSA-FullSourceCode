@@ -513,9 +513,9 @@
 
             const d = new Date(app.createDate);
             const formattedDate = d.toLocaleString();
-                let payslipHistoryHtml = "";
-                if (details.payslipHistory && details.payslipHistory.length > 0) {
-                  const historyItems = details.payslipHistory.slice().reverse().map((item, idx) => {
+                function renderAdminDocHistoryHtml(historyList, collapseId) {
+                  if (!historyList || historyList.length === 0) return "";
+                  const historyItems = historyList.slice().reverse().map((item, idx) => {
                     const itemDate = item.uploadedAt ? new Date(item.uploadedAt).toLocaleString('en-GB') : "N/A";
                     const isLatest = idx === 0;
                     return `
@@ -523,6 +523,7 @@
                         <div>
                           <span class="badge ${isLatest ? 'bg-success' : 'bg-secondary'} me-1">${isLatest ? 'Current' : 'History'}</span>
                           <small class="text-muted">${itemDate}</small>
+                          ${item.uploadedBy ? `<br><small class="text-primary fw-medium">By: ${item.uploadedBy}</small>` : ''}
                           ${item.note ? `<br><small class="fst-italic text-dark">${item.note}</small>` : ''}
                         </div>
                         <a href="https://x.neuronwww.com/${item.file}" target="_blank" class="btn btn-xs btn-outline-primary ms-2"><i class="ri-file-search-line"></i> View</a>
@@ -530,12 +531,12 @@
                     `;
                   }).join('');
 
-                  payslipHistoryHtml = `
+                  return `
                     <div class="mt-2">
-                      <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#adminPayslipHistoryCollapse">
-                        <i class="ri-history-line"></i> Upload History Log (${details.payslipHistory.length})
+                      <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                        <i class="ri-history-line"></i> Upload History Log (${historyList.length})
                       </button>
-                      <div class="collapse mt-2" id="adminPayslipHistoryCollapse">
+                      <div class="collapse mt-2" id="${collapseId}">
                         <ul class="list-group">
                           ${historyItems}
                         </ul>
@@ -543,6 +544,10 @@
                     </div>
                   `;
                 }
+
+                const icFrontHistoryHtml = renderAdminDocHistoryHtml(details.icFrontHistory, "adminIcFrontHistoryCollapse");
+                const icBackHistoryHtml = renderAdminDocHistoryHtml(details.icBackHistory, "adminIcBackHistoryCollapse");
+                const payslipHistoryHtml = renderAdminDocHistoryHtml(details.payslipHistory, "adminPayslipHistoryCollapse");
 
                 let html = `
                                 <div class="row">
@@ -567,10 +572,12 @@
                                     <div class="col-md-4 mb-2">
                                         <strong>IC Front:</strong><br>
                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                        ${icFrontHistoryHtml}
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <strong>IC Back:</strong><br>
                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                        ${icBackHistoryHtml}
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <strong>Payslip:</strong><br>

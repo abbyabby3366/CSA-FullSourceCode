@@ -263,8 +263,8 @@
               <input type="hidden" id="reuploadAppId" />
               <input type="hidden" id="reuploadDocType" value="payslip" />
               <div class="mb-3">
-                <label class="form-label font-weight-bold" id="reuploadDocLabel">Select New File (PDF, JPG, PNG)</label>
-                <input type="file" class="form-control" id="reuploadFileInput" required />
+                <label class="form-label font-weight-bold" id="reuploadDocLabel">Select New File (PDF, JPG, PNG, HEIC, DOC)</label>
+                <input type="file" class="form-control" id="reuploadFileInput" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
               </div>
               <div class="mb-3">
                 <label class="form-label">Note / Remark (Optional)</label>
@@ -564,9 +564,9 @@
                             const minutes = String(d.getMinutes()).padStart(2, '0');
                             const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
 
-                            let payslipHistoryHtml = "";
-                            if (details.payslipHistory && details.payslipHistory.length > 0) {
-                              const historyItems = details.payslipHistory.slice().reverse().map((item, idx) => {
+                            function renderDocHistoryHtml(historyList, collapseId) {
+                              if (!historyList || historyList.length === 0) return "";
+                              const historyItems = historyList.slice().reverse().map((item, idx) => {
                                 const itemDate = item.uploadedAt ? new Date(item.uploadedAt).toLocaleString('en-GB') : "N/A";
                                 const isLatest = idx === 0;
                                 return `
@@ -581,12 +581,12 @@
                                 `;
                               }).join('');
 
-                              payslipHistoryHtml = `
+                              return `
                                 <div class="mt-2">
-                                  <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#payslipHistoryCollapse">
-                                    <i class="ri-history-line"></i> View Upload History (${details.payslipHistory.length})
+                                  <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                    <i class="ri-history-line"></i> View Upload History (${historyList.length})
                                   </button>
-                                  <div class="collapse mt-2" id="payslipHistoryCollapse">
+                                  <div class="collapse mt-2" id="${collapseId}">
                                     <ul class="list-group">
                                       ${historyItems}
                                     </ul>
@@ -594,6 +594,10 @@
                                 </div>
                               `;
                             }
+
+                            const icFrontHistoryHtml = renderDocHistoryHtml(details.icFrontHistory, "agentApplyIcFrontHistoryCollapse");
+                            const icBackHistoryHtml = renderDocHistoryHtml(details.icBackHistory, "agentApplyIcBackHistoryCollapse");
+                            const payslipHistoryHtml = renderDocHistoryHtml(details.payslipHistory, "agentApplyPayslipHistoryCollapse");
 
                             let html = `
                                 <div class="row">
@@ -614,15 +618,25 @@
 
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                                     <div class="col-md-6 mb-2">
-                                         <strong>IC (Front):</strong><br>
-                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
+                                     <div class="col-md-4 mb-2">
+                                         <strong>IC Front:</strong><br>
+                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
+                                         <br>
+                                         <button class="btn btn-sm btn-soft-warning mt-2 open-reupload-btn" data-id="${app._id}" data-type="icFront">
+                                           <i class="ri-upload-cloud-line"></i> Update IC Front
+                                         </button>
+                                         ${icFrontHistoryHtml}
                                      </div>
-                                     <div class="col-md-6 mb-2">
-                                         <strong>IC (Back):</strong><br>
-                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
+                                     <div class="col-md-4 mb-2">
+                                         <strong>IC Back:</strong><br>
+                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
+                                         <br>
+                                         <button class="btn btn-sm btn-soft-warning mt-2 open-reupload-btn" data-id="${app._id}" data-type="icBack">
+                                           <i class="ri-upload-cloud-line"></i> Update IC Back
+                                         </button>
+                                         ${icBackHistoryHtml}
                                      </div>
-                                     <div class="col-md-6 mb-2">
+                                     <div class="col-md-4 mb-2">
                                          <strong>Payslip:</strong><br>
                                          ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
                                          <br>
@@ -643,7 +657,13 @@
                     $('#applicationHistory').html('<tr><td colspan="4" class="text-center text-danger">Error loading history.</td></tr>');
                 }
 
-                $(document).on("click", ".open-reupload-btn", function () {
+                const docTypeLabels = {
+                  payslip: "Payslip",
+                  icFront: "IC Front",
+                  icBack: "IC Back"
+                };
+
+                $(document).off("click", ".open-reupload-btn").on("click", ".open-reupload-btn", function () {
                   const appId = $(this).data("id");
                   const docType = $(this).data("type");
                   $("#reuploadAppId").val(appId);
@@ -651,7 +671,7 @@
                   $("#reuploadFileInput").val("");
                   $("#reuploadNoteInput").val("");
                   $("#reuploadAlert").addClass("d-none");
-                  $("#reuploadModalLabel").text("Update " + (docType === "payslip" ? "Payslip" : docType));
+                  $("#reuploadModalLabel").text("Update " + (docTypeLabels[docType] || docType));
                   $("#reuploadModal").modal("show");
                 });
 
