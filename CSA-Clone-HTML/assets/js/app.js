@@ -1,5 +1,5 @@
 ! function () {
-    var d = document.querySelector(".navbar-menu").innerHTML,
+    var d = document.querySelector(".navbar-menu") ? document.querySelector(".navbar-menu").innerHTML : "",
         M = 7,
         t = "en",
         a = localStorage.getItem("language");
@@ -61,23 +61,26 @@
     }
 
     function i() {
+        var nav = document.getElementById("navbar-nav");
+        var twoCol = document.getElementById("two-column-menu");
+        if (!nav || !twoCol) return;
         var n, e = document.documentElement.getAttribute("data-layout"),
             t = sessionStorage.getItem("defaultAttribute"),
             t = JSON.parse(t);
-        !t || "twocolumn" != e && "twocolumn" != t["data-layout"] || (document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), (n = document.createElement("ul")).innerHTML = '<a href="#" class="logo"><img src="assets/images/logo-sm.png" alt="" height="22"></a>', Array.from(document.getElementById("navbar-nav").querySelectorAll(".menu-link")).forEach(function (e) {
+        !t || "twocolumn" != e && "twocolumn" != t["data-layout"] || (document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), (n = document.createElement("ul")).innerHTML = '<a href="#" class="logo"><img src="assets/images/logo-sm.png" alt="" height="22"></a>', Array.from(nav.querySelectorAll(".menu-link")).forEach(function (e) {
             n.className = "twocolumn-iconview";
             var t = document.createElement("li"),
                 a = e;
             a.querySelectorAll("span").forEach(function (e) {
                 e.classList.add("d-none")
             }), e.parentElement.classList.contains("twocolumn-item-show") && e.classList.add("active"), t.appendChild(a), n.appendChild(t), a.classList.contains("nav-link") && a.classList.replace("nav-link", "nav-icon"), a.classList.remove("collapsed", "menu-link")
-        }), (e = (e = "/" == location.pathname ? "index.html" : location.pathname.substring(1)).substring(e.lastIndexOf("/") + 1)) && (t = document.getElementById("navbar-nav").querySelector('[href="' + e + '"]')) && (e = t.closest(".collapse.menu-dropdown")) && (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.children[0].setAttribute("aria-expanded", "true"), e.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.closest(".collapse").classList.add("show"), e.parentElement.closest(".collapse").previousElementSibling && e.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").classList.add("show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling) && e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), document.getElementById("two-column-menu").innerHTML = n.outerHTML, Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (a) {
+        }), (e = (e = "/" == location.pathname ? "index.html" : location.pathname.substring(1)).substring(e.lastIndexOf("/") + 1)) && (t = nav.querySelector('[href="' + e + '"]')) && (e = t.closest(".collapse.menu-dropdown")) && (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.children[0].setAttribute("aria-expanded", "true"), e.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.closest(".collapse").classList.add("show"), e.parentElement.closest(".collapse").previousElementSibling && e.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").classList.add("show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling) && e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), twoCol.innerHTML = n.outerHTML, document.querySelector("#two-column-menu ul") && Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (a) {
             var n = (n = "/" == location.pathname ? "index.html" : location.pathname.substring(1)).substring(n.lastIndexOf("/") + 1);
             a.addEventListener("click", function (e) {
                 var t;
-                (n != "/" + a.getAttribute("href") || a.getAttribute("data-bs-toggle")) && document.body.classList.contains("twocolumn-panel") && document.body.classList.remove("twocolumn-panel"), document.getElementById("navbar-nav").classList.remove("twocolumn-nav-hide"), document.querySelector(".hamburger-icon").classList.remove("open"), (e.target && e.target.matches("a.nav-icon") || e.target && e.target.matches("i")) && (null !== document.querySelector("#two-column-menu ul .nav-icon.active") && document.querySelector("#two-column-menu ul .nav-icon.active").classList.remove("active"), (e.target.matches("i") ? e.target.closest("a") : e.target).classList.add("active"), 0 < (t = document.getElementsByClassName("twocolumn-item-show")).length && t[0].classList.remove("twocolumn-item-show"), t = (e.target.matches("i") ? e.target.closest("a") : e.target).getAttribute("href").slice(1), document.getElementById(t)) && document.getElementById(t).parentElement.classList.add("twocolumn-item-show")
-            }), n != "/" + a.getAttribute("href") || a.getAttribute("data-bs-toggle") || (a.classList.add("active"), document.getElementById("navbar-nav").classList.add("twocolumn-nav-hide"), document.querySelector(".hamburger-icon") && document.querySelector(".hamburger-icon").classList.add("open"))
-        }), "horizontal" !== document.documentElement.getAttribute("data-layout") && ((t = new SimpleBar(document.getElementById("navbar-nav"))) && t.getContentElement(), e = new SimpleBar(document.getElementsByClassName("twocolumn-iconview")[0])) && e.getContentElement())
+                (n != "/" + a.getAttribute("href") || a.getAttribute("data-bs-toggle")) && document.body.classList.contains("twocolumn-panel") && document.body.classList.remove("twocolumn-panel"), nav.classList.remove("twocolumn-nav-hide"), document.querySelector(".hamburger-icon") && document.querySelector(".hamburger-icon").classList.remove("open"), (e.target && e.target.matches("a.nav-icon") || e.target && e.target.matches("i")) && (null !== document.querySelector("#two-column-menu ul .nav-icon.active") && document.querySelector("#two-column-menu ul .nav-icon.active").classList.remove("active"), (e.target.matches("i") ? e.target.closest("a") : e.target).classList.add("active"), 0 < (t = document.getElementsByClassName("twocolumn-item-show")).length && t[0].classList.remove("twocolumn-item-show"), t = (e.target.matches("i") ? e.target.closest("a") : e.target).getAttribute("href").slice(1), document.getElementById(t)) && document.getElementById(t).parentElement.classList.add("twocolumn-item-show")
+            }), n != "/" + a.getAttribute("href") || a.getAttribute("data-bs-toggle") || (a.classList.add("active"), nav.classList.add("twocolumn-nav-hide"), document.querySelector(".hamburger-icon") && document.querySelector(".hamburger-icon").classList.add("open"))
+        }), "horizontal" !== document.documentElement.getAttribute("data-layout") && ((t = new SimpleBar(nav)) && t.getContentElement(), e = new SimpleBar(document.getElementsByClassName("twocolumn-iconview")[0])) && e.getContentElement())
     }
 
     function l(e) {
@@ -93,7 +96,7 @@
     }
 
     function r() {
-        "vertical" != document.documentElement.getAttribute("data-layout") && "semibox" != document.documentElement.getAttribute("data-layout") || (document.getElementById("two-column-menu").innerHTML = "", document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("scrollbar").setAttribute("data-simplebar", ""), document.getElementById("navbar-nav").setAttribute("data-simplebar", ""), document.getElementById("scrollbar").classList.add("h-100")), "twocolumn" == document.documentElement.getAttribute("data-layout") && (document.getElementById("scrollbar").removeAttribute("data-simplebar"), document.getElementById("scrollbar").classList.remove("h-100")), "horizontal" == document.documentElement.getAttribute("data-layout") && b()
+        "vertical" != document.documentElement.getAttribute("data-layout") && "semibox" != document.documentElement.getAttribute("data-layout") || (document.getElementById("two-column-menu") && (document.getElementById("two-column-menu").innerHTML = ""), document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("scrollbar") && document.getElementById("scrollbar").setAttribute("data-simplebar", ""), document.getElementById("navbar-nav") && document.getElementById("navbar-nav").setAttribute("data-simplebar", ""), document.getElementById("scrollbar") && document.getElementById("scrollbar").classList.add("h-100")), "twocolumn" == document.documentElement.getAttribute("data-layout") && (document.getElementById("scrollbar") && document.getElementById("scrollbar").removeAttribute("data-simplebar"), document.getElementById("scrollbar") && document.getElementById("scrollbar").classList.remove("h-100")), "horizontal" == document.documentElement.getAttribute("data-layout") && b()
     }
 
     function m() {
@@ -156,7 +159,7 @@
         var e = sessionStorage.getItem("defaultAttribute"),
             e = JSON.parse(e),
             t = document.documentElement.clientWidth;
-        "twocolumn" == e["data-layout"] && t < 767 && Array.from(document.getElementById("two-column-menu").querySelectorAll("li")).forEach(function (e) {
+        "twocolumn" == e["data-layout"] && t < 767 && document.getElementById("two-column-menu") && Array.from(document.getElementById("two-column-menu").querySelectorAll("li")).forEach(function (e) {
             e.addEventListener("click", function (e) {
                 document.body.classList.remove("twocolumn-panel")
             })
@@ -165,25 +168,18 @@
 
     function u() {
         feather.replace();
+        var nav = document.getElementById("navbar-nav");
+        if (!nav) return;
+        var twoCol = document.getElementById("two-column-menu");
         var e, t, a = "/" == location.pathname ? "index.html" : location.pathname.substring(1);
-        (a = a.substring(a.lastIndexOf("/") + 1)) && ("twocolumn-panel" == document.body.className && document.getElementById("two-column-menu").querySelector('[href="' + a + '"]').classList.add("active"), (a = document.getElementById("navbar-nav").querySelector('[href="' + a + '"]')) ? (a.classList.add("active"), t = ((e = a.closest(".collapse.menu-dropdown")) && e.parentElement.closest(".collapse.menu-dropdown") ? (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown") && (t = e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").getAttribute("id"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.remove("twocolumn-item-show"), document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]')) && document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]').classList.add("active"), e.parentElement.closest(".collapse.menu-dropdown")) : (a.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e)).getAttribute("id"), document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]') && document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]').classList.add("active")) : document.body.classList.add("twocolumn-panel"))
+        (a = a.substring(a.lastIndexOf("/") + 1)) && ("twocolumn-panel" == document.body.className && twoCol && twoCol.querySelector('[href="' + a + '"]') && twoCol.querySelector('[href="' + a + '"]').classList.add("active"), (a = nav.querySelector('[href="' + a + '"]')) ? (a.classList.add("active"), t = ((e = a.closest(".collapse.menu-dropdown")) && e.parentElement.closest(".collapse.menu-dropdown") ? (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown") && (t = e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").getAttribute("id"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e.parentElement.closest(".collapse.menu-dropdown").parentElement.classList.remove("twocolumn-item-show"), twoCol && twoCol.querySelector('[href="#' + t + '"]')) && twoCol.querySelector('[href="#' + t + '"]').classList.add("active"), e.parentElement.closest(".collapse.menu-dropdown")) : (a.closest(".collapse.menu-dropdown").parentElement.classList.add("twocolumn-item-show"), e)).getAttribute("id"), twoCol && twoCol.querySelector('[href="#' + t + '"]') && twoCol.querySelector('[href="#' + t + '"]').classList.add("active")) : document.body.classList.add("twocolumn-panel"))
     }
 
     function g() {
+        var nav = document.getElementById("navbar-nav");
+        if (!nav) return;
         var e = "/" == location.pathname ? "index.html" : location.pathname.substring(1);
-        (e = e.substring(e.lastIndexOf("/") + 1)) && (e = document.getElementById("navbar-nav").querySelector('[href="' + e + '"]')) && (e.classList.add("active"), e = e.closest(".collapse.menu-dropdown")) && (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.children[0].setAttribute("aria-expanded", "true"), e.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.closest(".collapse").classList.add("show"), e.parentElement.closest(".collapse").previousElementSibling && e.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").classList.add("show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), "horizontal" == document.documentElement.getAttribute("data-layout")) && e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.closest(".collapse") && e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active")
-    }
-
-    function l(e) {
-        if (e) {
-            var t = e.offsetTop,
-                a = e.offsetLeft,
-                n = e.offsetWidth,
-                o = e.offsetHeight;
-            if (e.offsetParent)
-                for (; e.offsetParent;) t += (e = e.offsetParent).offsetTop, a += e.offsetLeft;
-            return t >= window.pageYOffset && a >= window.pageXOffset && t + o <= window.pageYOffset + window.innerHeight && a + n <= window.pageXOffset + window.innerWidth
-        }
+        (e = e.substring(e.lastIndexOf("/") + 1)) && (e = nav.querySelector('[href="' + e + '"]')) && (e.classList.add("active"), e = e.closest(".collapse.menu-dropdown")) && (e.classList.add("show"), e.parentElement.children[0].classList.add("active"), e.parentElement.children[0].setAttribute("aria-expanded", "true"), e.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.closest(".collapse").classList.add("show"), e.parentElement.closest(".collapse").previousElementSibling && e.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse.menu-dropdown")) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").classList.add("show"), e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling) && (e.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active"), "horizontal" == document.documentElement.getAttribute("data-layout")) && e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.closest(".collapse") && e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.closest(".collapse").previousElementSibling.classList.add("active")
     }
 
     function D() {
@@ -203,9 +199,11 @@
     }
 
     function b() {
-        document.getElementById("two-column-menu").innerHTML = "", document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("scrollbar").removeAttribute("data-simplebar"), document.getElementById("navbar-nav").removeAttribute("data-simplebar"), document.getElementById("scrollbar").classList.remove("h-100");
+        var nav = document.getElementById("navbar-nav");
+        if (!nav) return;
+        document.getElementById("two-column-menu") && (document.getElementById("two-column-menu").innerHTML = ""), document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("scrollbar") && document.getElementById("scrollbar").removeAttribute("data-simplebar"), nav.removeAttribute("data-simplebar"), document.getElementById("scrollbar") && document.getElementById("scrollbar").classList.remove("h-100");
         var a = M,
-            n = document.querySelectorAll("ul.navbar-nav > li.nav-item"),
+            n = nav.querySelectorAll("ul.navbar-nav > li.nav-item"),
             o = "",
             s = "";
         Array.from(n).forEach(function (e, t) {
@@ -214,11 +212,11 @@
     }
 
     function y(e) {
-        "vertical" == e ? (document.getElementById("two-column-menu").innerHTML = "", document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "block", document.getElementById("sidebar-view").style.display = "block", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "block", document.getElementById("sidebar-visibility").style.display = "none"), r(), g(), E(), p()) : "horizontal" == e ? (b(), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "none", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "none", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "none"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "block", document.getElementById("sidebar-visibility").style.display = "none"), g()) : "twocolumn" == e ? (document.getElementById("scrollbar").removeAttribute("data-simplebar"), document.getElementById("scrollbar").classList.remove("h-100"), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "none", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "none", document.getElementById("layout-width").style.display = "none", document.getElementById("sidebar-visibility").style.display = "none")) : "semibox" == e && (document.getElementById("two-column-menu").innerHTML = "", document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "block", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "none", document.getElementById("sidebar-visibility").style.display = "block"), r(), g(), E(), p())
+        "vertical" == e ? (document.getElementById("two-column-menu") && (document.getElementById("two-column-menu").innerHTML = ""), document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "block", document.getElementById("sidebar-view").style.display = "block", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "block", document.getElementById("sidebar-visibility").style.display = "none"), r(), g(), E(), p()) : "horizontal" == e ? (b(), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "none", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "none", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "none"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "block", document.getElementById("sidebar-visibility").style.display = "none"), g()) : "twocolumn" == e ? (document.getElementById("scrollbar") && document.getElementById("scrollbar").removeAttribute("data-simplebar"), document.getElementById("scrollbar") && document.getElementById("scrollbar").classList.remove("h-100"), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "none", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "none", document.getElementById("layout-width").style.display = "none", document.getElementById("sidebar-visibility").style.display = "none")) : "semibox" == e && (document.getElementById("two-column-menu") && (document.getElementById("two-column-menu").innerHTML = ""), document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), document.getElementById("theme-settings-offcanvas") && (document.getElementById("sidebar-size").style.display = "block", document.getElementById("sidebar-view").style.display = "none", document.getElementById("sidebar-color").style.display = "block", document.getElementById("sidebar-img") && (document.getElementById("sidebar-img").style.display = "block"), document.getElementById("layout-position").style.display = "block", document.getElementById("layout-width").style.display = "none", document.getElementById("sidebar-visibility").style.display = "block"), r(), g(), E(), p())
     }
 
     function E() {
-        document.getElementById("vertical-hover").addEventListener("click", function () {
+        document.getElementById("vertical-hover") && document.getElementById("vertical-hover").addEventListener("click", function () {
             "sm-hover" === document.documentElement.getAttribute("data-sidebar-size") ? document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active") : (document.documentElement.getAttribute("data-sidebar-size"), document.documentElement.setAttribute("data-sidebar-size", "sm-hover"))
         })
     }
@@ -445,25 +443,36 @@
     }
 
     function W() {
-        var e;
         "horizontal" !== document.documentElement.getAttribute("data-layout") && (document.getElementById("navbar-nav") && (e = new SimpleBar(document.getElementById("navbar-nav"))) && e.getContentElement(), document.getElementsByClassName("twocolumn-iconview")[0] && (e = new SimpleBar(document.getElementsByClassName("twocolumn-iconview")[0])) && e.getContentElement(), clearTimeout(q))
     }
     sessionStorage.getItem("defaultAttribute") ? ((f = {})["data-layout"] = sessionStorage.getItem("data-layout"), f["data-sidebar-size"] = sessionStorage.getItem("data-sidebar-size"), f["data-bs-theme"] = sessionStorage.getItem("data-bs-theme"), f["data-layout-width"] = sessionStorage.getItem("data-layout-width"), f["data-sidebar"] = sessionStorage.getItem("data-sidebar"), f["data-sidebar-image"] = sessionStorage.getItem("data-sidebar-image"), f["data-layout-position"] = sessionStorage.getItem("data-layout-position"), f["data-layout-style"] = sessionStorage.getItem("data-layout-style"), f["data-topbar"] = sessionStorage.getItem("data-topbar"), f["data-preloader"] = sessionStorage.getItem("data-preloader"), f["data-body-image"] = sessionStorage.getItem("data-body-image"), e(f)) : (L = document.documentElement.attributes, f = {}, Array.from(L).forEach(function (e) {
         var t;
         e && e.nodeName && "undefined" != e.nodeName && (t = e.nodeName, f[t] = e.nodeValue, sessionStorage.setItem(t, e.nodeValue))
-    }), sessionStorage.setItem("defaultAttribute", JSON.stringify(f)), e(f), (L = document.querySelector('.btn[data-bs-target="#theme-settings-offcanvas"]')) && L.click()), i(), h = document.getElementById("search-close-options"), v = document.getElementById("search-dropdown"), (I = document.getElementById("search-options")) && (I.addEventListener("focus", function () {
-        0 < I.value.length ? (v.classList.add("show"), h.classList.remove("d-none")) : (v.classList.remove("show"), h.classList.add("d-none"))
-    }), I.addEventListener("keyup", function (e) {
-        var o, t;
-        0 < I.value.length ? (v.classList.add("show"), h.classList.remove("d-none"), o = I.value.toLowerCase(), t = document.getElementsByClassName("notify-item"), Array.from(t).forEach(function (e) {
-            var t, a, n = "";
-            e.querySelector("h6") ? (t = e.getElementsByTagName("span")[0].innerText.toLowerCase(), n = (a = e.querySelector("h6").innerText.toLowerCase()).includes(o) ? a : t) : e.getElementsByTagName("span") && (n = e.getElementsByTagName("span")[0].innerText.toLowerCase()), n && (e.style.display = n.includes(o) ? "block" : "none")
-        })) : (v.classList.remove("show"), h.classList.add("d-none"))
-    }), h.addEventListener("click", function () {
-        I.value = "", v.classList.remove("show"), h.classList.add("d-none")
-    }), document.body.addEventListener("click", function (e) {
-        "search-options" !== e.target.getAttribute("id") && (v.classList.remove("show"), h.classList.add("d-none"))
-    })), S = document.getElementById("search-close-options"), w = document.getElementById("search-dropdown-reponsive"), A = document.getElementById("search-options-reponsive"), S && w && A && (A.addEventListener("focus", function () {
+    }), sessionStorage.setItem("defaultAttribute", JSON.stringify(f)), e(f), (L = document.querySelector('.btn[data-bs-target="#theme-settings-offcanvas"]')) && L.click()), i(), h = document.getElementById("search-close-options");
+    v = document.getElementById("search-dropdown");
+    I = document.getElementById("search-options");
+    if (I && v && h) {
+        I.addEventListener("focus", function () {
+            0 < I.value.length ? (v.classList.add("show"), h.classList.remove("d-none")) : (v.classList.remove("show"), h.classList.add("d-none"))
+        });
+        I.addEventListener("keyup", function (e) {
+            var o, t;
+            0 < I.value.length ? (v.classList.add("show"), h.classList.remove("d-none"), o = I.value.toLowerCase(), t = document.getElementsByClassName("notify-item"), Array.from(t).forEach(function (e) {
+                var t, a, n = "";
+                e.querySelector("h6") ? (t = e.getElementsByTagName("span")[0].innerText.toLowerCase(), n = (a = e.querySelector("h6").innerText.toLowerCase()).includes(o) ? a : t) : e.getElementsByTagName("span") && (n = e.getElementsByTagName("span")[0].innerText.toLowerCase()), n && (e.style.display = n.includes(o) ? "block" : "none")
+            })) : (v.classList.remove("show"), h.classList.add("d-none"))
+        });
+        h.addEventListener("click", function () {
+            I.value = "", v.classList.remove("show"), h.classList.add("d-none")
+        });
+        document.body.addEventListener("click", function (e) {
+            "search-options" !== e.target.getAttribute("id") && v && h && (v.classList.remove("show"), h.classList.add("d-none"))
+        });
+    }
+    S = document.getElementById("search-close-options");
+    w = document.getElementById("search-dropdown-reponsive");
+    A = document.getElementById("search-options-reponsive");
+    S && w && A && (A.addEventListener("focus", function () {
         0 < A.value.length ? (w.classList.add("show"), S.classList.remove("d-none")) : (w.classList.remove("show"), S.classList.add("d-none"))
     }), A.addEventListener("keyup", function () {
         0 < A.value.length ? (w.classList.add("show"), S.classList.remove("d-none")) : (w.classList.remove("show"), S.classList.add("d-none"))
@@ -474,8 +483,8 @@
     })), (L = document.querySelector('[data-toggle="fullscreen"]')) && L.addEventListener("click", function (e) {
         e.preventDefault(), document.body.classList.toggle("fullscreen-enable"), document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement ? document.cancelFullScreen ? document.cancelFullScreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitCancelFullScreen && document.webkitCancelFullScreen() : document.documentElement.requestFullscreen ? document.documentElement.requestFullscreen() : document.documentElement.mozRequestFullScreen ? document.documentElement.mozRequestFullScreen() : document.documentElement.webkitRequestFullscreen && document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
     }), document.addEventListener("fullscreenchange", N), document.addEventListener("webkitfullscreenchange", N), document.addEventListener("mozfullscreenchange", N), B = document.getElementsByTagName("HTML")[0], (z = document.querySelectorAll(".light-dark-mode")) && z.length && z[0].addEventListener("click", function (e) {
-        B.hasAttribute("data-bs-theme") && "dark" == B.getAttribute("data-bs-theme") ? C("data-bs-theme", "light", "layout-mode-light", B) : C("data-bs-theme", "dark", "layout-mode-dark", B), window.dispatchEvent(x)
-    }), G(), D(), r(), document.getElementsByClassName("dropdown-item-cart") && (k = document.querySelectorAll(".dropdown-item-cart").length, Array.from(document.querySelectorAll("#page-topbar .dropdown-menu-cart .remove-item-btn")).forEach(function (e) {
+        B && B.hasAttribute("data-bs-theme") && "dark" == B.getAttribute("data-bs-theme") ? C("data-bs-theme", "light", "layout-mode-light", B) : C("data-bs-theme", "dark", "layout-mode-dark", B), window.dispatchEvent(x)
+    }), G(), D(), r(), document.getElementsByClassName("dropdown-item-cart") && document.getElementsByClassName("dropdown-item-cart").length > 0 && (k = document.querySelectorAll(".dropdown-item-cart").length, Array.from(document.querySelectorAll("#page-topbar .dropdown-menu-cart .remove-item-btn")).forEach(function (e) {
         e.addEventListener("click", function (e) {
             k--, this.closest(".dropdown-item-cart").remove(), Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
                 e.innerHTML = k
@@ -483,23 +492,27 @@
         })
     }), Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
         e.innerHTML = k
-    }), document.getElementById("empty-cart") && (document.getElementById("empty-cart").style.display = "none"), document.getElementById("checkout-elem") && (document.getElementById("checkout-elem").style.display = "block"), F()), document.getElementsByClassName("notification-check") && (H(), Array.from(document.querySelectorAll(".notification-check input")).forEach(function (t) {
+    }), document.getElementById("empty-cart") && (document.getElementById("empty-cart").style.display = "none"), document.getElementById("checkout-elem") && (document.getElementById("checkout-elem").style.display = "block"), F()), document.getElementsByClassName("notification-check") && document.getElementsByClassName("notification-check").length > 0 && (H(), Array.from(document.querySelectorAll(".notification-check input")).forEach(function (t) {
         t.addEventListener("change", function (e) {
-            e.target.closest(".notification-item").classList.toggle("active");
+            if (e.target.closest(".notification-item")) e.target.closest(".notification-item").classList.toggle("active");
             var t = document.querySelectorAll(".notification-check input:checked").length;
-            e.target.closest(".notification-item").classList.contains("active"), document.getElementById("notification-actions").style.display = 0 < t ? "block" : "none", document.getElementById("select-content").innerHTML = t
-        }), document.getElementById("notificationDropdown").addEventListener("hide.bs.dropdown", function (e) {
-            t.checked = !1, document.querySelectorAll(".notification-item").forEach(function (e) {
-                e.classList.remove("active")
-            }), document.getElementById("notification-actions").style.display = ""
-        })
-    })/*, document.getElementById("removeNotificationModal").addEventListener("show.bs.modal", function (e) {
-        document.getElementById("delete-notification").addEventListener("click", function () {
-            Array.from(document.querySelectorAll(".notification-item")).forEach(function (e) {
-                e.classList.contains("active") && e.remove()
-            }), H(), document.getElementById("NotificationModalbtn-close").click()
-        })
-    })*/), [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (e) {
+            var notifActions = document.getElementById("notification-actions");
+            var selectContent = document.getElementById("select-content");
+            if (notifActions) notifActions.style.display = 0 < t ? "block" : "none";
+            if (selectContent) selectContent.innerHTML = t;
+        });
+        var notifDropdown = document.getElementById("notificationDropdown");
+        if (notifDropdown) {
+            notifDropdown.addEventListener("hide.bs.dropdown", function (e) {
+                t.checked = !1;
+                document.querySelectorAll(".notification-item").forEach(function (e) {
+                    e.classList.remove("active")
+                });
+                var notifActions = document.getElementById("notification-actions");
+                if (notifActions) notifActions.style.display = "";
+            });
+        }
+    })), [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (e) {
         return new bootstrap.Tooltip(e)
     }), [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')).map(function (e) {
         return new bootstrap.Popover(e)

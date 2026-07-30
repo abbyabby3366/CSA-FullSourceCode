@@ -160,7 +160,8 @@ function renderMemberNavBar() {
         if (windowWidth <= 767) {
           document.body.classList.toggle("vertical-sidebar-enable");
         } else {
-          document.querySelector(".hamburger-icon").classList.toggle("open");
+          const hIcon = document.querySelector(".hamburger-icon");
+          if (hIcon) hIcon.classList.toggle("open");
           const layout = document.documentElement.getAttribute("data-layout");
           if (layout === "vertical") {
             if (windowWidth > 1025) {
