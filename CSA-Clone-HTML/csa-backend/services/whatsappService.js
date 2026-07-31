@@ -2,7 +2,7 @@ const fetch = globalThis.fetch || require("node-fetch");
 
 /**
  * Send WhatsApp OTP via VerifyWay 3rd Party API
- * @param {string} recipient - Phone number with country code (e.g. 60122273341)
+ * @param {string} recipient - Phone number with country code (e.g. 60128817823)
  * @param {string|number} code - The OTP code to send
  * @returns {Promise<{success: boolean, data?: any, error?: string}>}
  */

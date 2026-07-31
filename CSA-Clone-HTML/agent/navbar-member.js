@@ -138,7 +138,7 @@ function renderMemberNavBar() {
                         <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-support">Support</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="https://wa.me/60122273341" target="_blank" rel="noopener noreferrer" id="whatsapp-link-nav">
+                            <a class="nav-link menu-link" href="https://wa.me/60128817823" target="_blank" rel="noopener noreferrer" id="whatsapp-link-nav">
                                 <i class="ri-customer-service-2-line"></i><span data-key="t-contact-cs">Contact Customer Service</span>
                             </a>
                         </li>

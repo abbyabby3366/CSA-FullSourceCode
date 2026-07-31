@@ -44,6 +44,14 @@ const seedData = async () => {
         await admin.save();
         console.log('Admin seeded: admin@gmail.com / admin123');
 
+        // Seed Default Settings
+        const defaultSetting = new Settings({
+            key: 'whatsapp_link',
+            value: 'https://wa.me/60128817823'
+        });
+        await defaultSetting.save();
+        console.log('Settings seeded: whatsapp_link = https://wa.me/60128817823');
+
         // Create a Sample Member
         const member = new Member({
             memberCode: 'CSA001',
