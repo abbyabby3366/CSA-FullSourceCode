@@ -1,5 +1,18 @@
 function renderNavBar() {
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const userRole = localStorage.getItem("userRole") || "admin";
+  const userName = localStorage.getItem("userName") || (userRole === "subadmin" ? "Sub Admin" : "Admin User");
+
+  // Route guard for Subadmin
+  if (userRole === "subadmin" && currentPage !== "index.html") {
+    const allowedPages = ["applications.html", "members.html", "agents.html", "member-details.html"];
+    if (!allowedPages.includes(currentPage)) {
+      window.location.href = "applications.html";
+      return;
+    }
+  }
+
+  const roleTitle = userRole === "subadmin" ? "Sub Admin" : "Super Admin";
 
   const headerHTML = `
         <div class="layout-width">
@@ -7,7 +20,7 @@ function renderNavBar() {
                 <div class="d-flex">
                     <!-- logo -->
                     <div class="navbar-brand-box horizontal-logo">
-                        <a href="dashboard.html" class="logo logo-dark">
+                        <a href="${userRole === "subadmin" ? "applications.html" : "dashboard.html"}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                             </span>
@@ -16,7 +29,7 @@ function renderNavBar() {
                             </span>
                         </a>
 
-                        <a href="dashboard.html" class="logo logo-light">
+                        <a href="${userRole === "subadmin" ? "applications.html" : "dashboard.html"}" class="logo logo-light">
                             <span class="logo-sm">
                                 <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                             </span>
@@ -48,14 +61,14 @@ function renderNavBar() {
                             <span class="d-flex align-items-center">
                                 <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-1.jpg" alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
-                                    <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin User</span>
-                                    <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Super Admin</span>
+                                    <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">${userName}</span>
+                                    <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">${roleTitle}</span>
                                 </span>
                             </span>
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-end">
-                            <h6 class="dropdown-header">Welcome Admin!</h6>
+                            <h6 class="dropdown-header">Welcome ${roleTitle}!</h6>
                             <a class="dropdown-item" href="profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item logout-admin" href="#"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
@@ -66,11 +79,137 @@ function renderNavBar() {
         </div>
     `;
 
+  let navItemsHTML = "";
+
+  if (userRole === "subadmin") {
+    // Subadmin view: ONLY Application Management, Member List, Agent List
+    navItemsHTML = `
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "applications.html" ? "active" : ""}" href="applications.html">
+              <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-application-manager"> Application Management </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${["members.html", "agents.html"].includes(currentPage) ? "active" : ""}" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="member-manager">
+              <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Member Management </span>
+          </a>
+          <div class="collapse menu-dropdown ${["members.html", "agents.html"].includes(currentPage) ? "show" : ""}" id="member-manager">
+              <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                      <a href="members.html" class="nav-link ${currentPage === "members.html" ? "active" : ""}"> Member List </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="agents.html" class="nav-link ${currentPage === "agents.html" ? "active" : ""}"> Agent List </a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+    `;
+  } else {
+    // Admin view: Full navigation including Subadmin List
+    navItemsHTML = `
+      <li class="menu-title"><span data-key="t-main">Main</span></li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "dashboard.html" ? "active" : ""}" href="dashboard.html">
+              <i class="ri-home-8-line"></i> <span data-key="t-dashboard"> Dashboards </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "applications.html" ? "active" : ""}" href="applications.html">
+              <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-application-manager"> Application Management </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${["members.html", "agents.html"].includes(currentPage) ? "active" : ""}" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="member-manager">
+              <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Member Management </span>
+          </a>
+          <div class="collapse menu-dropdown ${["members.html", "agents.html"].includes(currentPage) ? "show" : ""}" id="member-manager">
+              <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                      <a href="members.html" class="nav-link ${currentPage === "members.html" ? "active" : ""}"> Member List </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="agents.html" class="nav-link ${currentPage === "agents.html" ? "active" : ""}"> Agent List </a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "active" : ""}" href="#finance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="finance">
+              <i class="ri-money-dollar-circle-line"></i> <span data-key="t-finance"> Finance </span>
+          </a>
+          <div class="collapse menu-dropdown ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "show" : ""}" id="finance">
+              <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                      <a href="withdrawals.html" class="nav-link ${currentPage === "withdrawals.html" ? "active" : ""}"> Withdrawal Requests </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="finance-history.html" class="nav-link ${currentPage === "finance-history.html" ? "active" : ""}"> Transaction History </a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${["admins.html", "subadmins.html"].includes(currentPage) ? "active" : ""}" href="#admin-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="admin-manager">
+              <i class="ri-user-star-line"></i> <span data-key="t-admin-manager"> Admin Management </span>
+          </a>
+          <div class="collapse menu-dropdown ${["admins.html", "subadmins.html"].includes(currentPage) ? "show" : ""}" id="admin-manager">
+              <ul class="nav nav-sm flex-column">
+                  <li class="nav-item">
+                      <a href="admins.html" class="nav-link ${currentPage === "admins.html" ? "active" : ""}"> Admin List </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="subadmins.html" class="nav-link ${currentPage === "subadmins.html" ? "active" : ""}"> Subadmin List </a>
+                  </li>
+              </ul>
+          </div>
+      </li>
+
+      <li class="menu-title"><span data-key="t-marketing">Marketing</span></li>
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "email-campaigns.html" ? "active" : ""}" href="email-campaigns.html">
+              <i class="ri-mail-line"></i> <span data-key="t-campaigns"> Email Campaigns </span>
+          </a>
+      </li>
+
+      <li class="menu-title"><span data-key="t-configurations">Configurations</span></li>
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "roles.html" ? "active" : ""}" href="roles.html">
+              <i class="ri-user-settings-line"></i> <span data-key="t-roles"> Role & privileges </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "carousel-mgmt.html" ? "active" : ""}" href="carousel-mgmt.html">
+              <i class="ri-palette-line"></i> <span data-key="t-carousel"> Dashboard Images </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "tac-history.html" ? "active" : ""}" href="tac-history.html">
+              <i class="ri-key-2-line"></i> <span data-key="t-tac-history"> TAC History </span>
+          </a>
+      </li>
+
+      <li class="nav-item">
+          <a class="nav-link menu-link ${currentPage === "settings.html" ? "active" : ""}" href="settings.html">
+              <i class="ri-settings-2-line"></i> <span data-key="t-profile-manager"> Settings </span>
+          </a>
+      </li>
+    `;
+  }
+
   const sidebarHTML = `
         <!-- logo -->
         <div class="navbar-brand-box">
             <!-- dark -->
-            <a href="dashboard.html" class="logo logo-dark">
+            <a href="${userRole === "subadmin" ? "applications.html" : "dashboard.html"}" class="logo logo-dark">
                 <span class="logo-sm">
                     <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                 </span>
@@ -80,7 +219,7 @@ function renderNavBar() {
             </a>
 
             <!-- light -->
-            <a href="dashboard.html" class="logo logo-light">
+            <a href="${userRole === "subadmin" ? "applications.html" : "dashboard.html"}" class="logo logo-light">
                 <span class="logo-sm">
                     <img src="../assets/images/logos/logo-main.png" alt="" height="40">
                 </span>
@@ -99,90 +238,7 @@ function renderNavBar() {
                 <div id="two-column-menu"></div>
 
                 <ul class="navbar-nav" id="navbar-nav">
-                    <li class="menu-title"><span data-key="t-main">Main</span></li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "dashboard.html" ? "active" : ""}" href="dashboard.html">
-                            <i class="ri-home-8-line"></i> <span data-key="t-dashboard"> Dashboards </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "applications.html" ? "active" : ""}" href="applications.html">
-                            <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-application-manager"> Application Management </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${["members.html", "agents.html"].includes(currentPage) ? "active" : ""}" href="#member-manager" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="member-manager">
-                            <i class="ri-file-user-line"></i> <span data-key="t-member-manager"> Member Management </span>
-                        </a>
-                        <div class="collapse menu-dropdown ${["members.html", "agents.html"].includes(currentPage) ? "show" : ""}" id="member-manager">
-                            <ul class="nav nav-sm flex-column">
-
-                                <li class="nav-item">
-                                    <a href="members.html" class="nav-link ${currentPage === "members.html" ? "active" : ""}"> Member List </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="agents.html" class="nav-link ${currentPage === "agents.html" ? "active" : ""}"> Agent List </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "active" : ""}" href="#finance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="finance">
-                            <i class="ri-money-dollar-circle-line"></i> <span data-key="t-finance"> Finance </span>
-                        </a>
-                        <div class="collapse menu-dropdown ${["withdrawals.html", "finance-history.html"].includes(currentPage) ? "show" : ""}" id="finance">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="withdrawals.html" class="nav-link ${currentPage === "withdrawals.html" ? "active" : ""}"> Withdrawal Requests </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="finance-history.html" class="nav-link ${currentPage === "finance-history.html" ? "active" : ""}"> Transaction History </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "admins.html" ? "active" : ""}" href="admins.html">
-                            <i class="ri-file-user-line"></i> <span data-key="t-application-manager"> Admin Management </span>
-                        </a>
-                    </li>
-
-                    <li class="menu-title"><span data-key="t-marketing">Marketing</span></li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "email-campaigns.html" ? "active" : ""}" href="email-campaigns.html">
-                            <i class="ri-mail-line"></i> <span data-key="t-campaigns"> Email Campaigns </span>
-                        </a>
-                    </li>
-
-                    <li class="menu-title"><span data-key="t-configurations">Configurations</span></li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "roles.html" ? "active" : ""}" href="roles.html">
-                            <i class="ri-user-settings-line"></i> <span data-key="t-roles"> Role & privileges </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "carousel-mgmt.html" ? "active" : ""}" href="carousel-mgmt.html">
-                            <i class="ri-palette-line"></i> <span data-key="t-carousel"> Dashboard Images </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "tac-history.html" ? "active" : ""}" href="tac-history.html">
-                            <i class="ri-key-2-line"></i> <span data-key="t-tac-history"> TAC History </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link menu-link ${currentPage === "settings.html" ? "active" : ""}" href="settings.html">
-                            <i class="ri-settings-2-line"></i> <span data-key="t-profile-manager"> Settings </span>
-                        </a>
-                    </li>
+                    ${navItemsHTML}
                 </ul>
             </div>
         </div>
@@ -247,6 +303,7 @@ function renderNavBar() {
     e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
     window.location.href = "index.html";
   });
 }

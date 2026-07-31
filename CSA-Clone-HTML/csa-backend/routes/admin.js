@@ -16,13 +16,49 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
+// Middleware to check if user is admin or subadmin
+const adminOrSubadmin = (req, res, next) => {
+  if (req.user.role !== "admin" && req.user.role !== "subadmin") {
+    return res.status(403).json({ msg: "Access denied" });
+  }
+  next();
+};
+
 // @route    GET api/admin/members
-// @desc     Get all members
-router.get("/members", [auth, adminOnly], async (req, res) => {
+// @desc     Get members (supports subadmin scoping and unassigned filter)
+router.get("/members", [auth, adminOrSubadmin], async (req, res) => {
   try {
-    const members = await Member.find()
+    let query = {};
+
+    if (req.user.role === "subadmin") {
+      const assignedAgents = await Member.find({ memberType: 2, subadmin: req.user.id }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      query.referrer = { $in: assignedAgentIds };
+    } else if (req.query.filter === "no_agent") {
+      const allAgents = await Member.find({ memberType: 2 }).select("_id");
+      const allAgentIds = allAgents.map((a) => a._id);
+      query.$or = [{ referrer: { $nin: allAgentIds } }, { referrer: null }, { referrer: { $exists: false } }];
+    } else if (req.query.filter === "assigned_subadmin") {
+      const assignedAgents = await Member.find({
+        memberType: 2,
+        subadmin: { $exists: true, $ne: null },
+      }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      if (assignedAgentIds.length > 0) {
+        query.referrer = { $in: assignedAgentIds };
+      } else {
+        query._id = null; // Return empty result when no agents have subadmins
+      }
+    }
+
+    const members = await Member.find(query)
       .select("-password")
-      .populate("referrer", "fullName memberCode")
+      .populate({
+        path: "referrer",
+        select: "fullName memberCode subadmin memberType",
+        populate: { path: "subadmin", select: "name email" },
+      })
+      .populate("subadmin", "name email")
       .sort({ createDate: -1 });
 
     // Attach isApproved: true if member has at least one approved application (status 6)
@@ -35,6 +71,7 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
 
     // Get latest application status for each member
     const latestApps = await Application.aggregate([
+      { $match: { member: { $in: memberIds } } },
       { $sort: { createDate: -1 } },
       {
         $group: {
@@ -68,7 +105,7 @@ router.get("/members", [auth, adminOnly], async (req, res) => {
 
 // @route    GET api/admin/member/:id
 // @desc     Get member by ID
-router.get("/member/:id", [auth, adminOnly], async (req, res) => {
+router.get("/member/:id", [auth, adminOrSubadmin], async (req, res) => {
   try {
     const member = await Member.findById(req.params.id)
       .select("-password")
@@ -108,10 +145,38 @@ router.post("/member/:id/status", [auth, adminOnly], async (req, res) => {
 });
 
 // @route    GET api/admin/applications
-// @desc     Get all applications
-router.get("/applications", [auth, adminOnly], async (req, res) => {
+// @desc     Get applications (supports subadmin scoping and subadmin filter)
+router.get("/applications", [auth, adminOrSubadmin], async (req, res) => {
   try {
+    let memberMatch = {};
+
+    if (req.user.role === "subadmin") {
+      const assignedAgents = await Member.find({ memberType: 2, subadmin: req.user.id }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      const networkMembers = await Member.find({
+        $or: [{ _id: { $in: assignedAgentIds } }, { referrer: { $in: assignedAgentIds } }],
+      }).select("_id");
+      const networkMemberIds = networkMembers.map((m) => m._id);
+      memberMatch = { member: { $in: networkMemberIds } };
+    } else if (req.query.subadmin) {
+      // Admin filtering by a specific subadmin
+      const mongoose = require("mongoose");
+      const subadminObjId = new mongoose.Types.ObjectId(req.query.subadmin);
+      const assignedAgents = await Member.find({ memberType: 2, subadmin: subadminObjId }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      if (assignedAgentIds.length > 0) {
+        const networkMembers = await Member.find({
+          $or: [{ _id: { $in: assignedAgentIds } }, { referrer: { $in: assignedAgentIds } }],
+        }).select("_id");
+        const networkMemberIds = networkMembers.map((m) => m._id);
+        memberMatch = { member: { $in: networkMemberIds } };
+      } else {
+        memberMatch = { member: null }; // No results
+      }
+    }
+
     const apps = await Application.aggregate([
+      ...(Object.keys(memberMatch).length ? [{ $match: memberMatch }] : []),
       { $sort: { createDate: -1 } },
       {
         $group: {
@@ -127,11 +192,15 @@ router.get("/applications", [auth, adminOnly], async (req, res) => {
     const populatedApps = await Application.populate(apps, [
       {
         path: "member",
-        select: "fullName phoneNumber memberCode memberType referrer",
-        populate: {
-          path: "referrer",
-          select: "fullName memberCode",
-        },
+        select: "fullName phoneNumber memberCode memberType referrer subadmin",
+        populate: [
+          {
+            path: "referrer",
+            select: "fullName memberCode subadmin",
+            populate: { path: "subadmin", select: "name email" },
+          },
+          { path: "subadmin", select: "name email" },
+        ],
       },
       { path: "referrerMember", select: "fullName memberCode" },
     ]);
@@ -366,11 +435,17 @@ router.post(
 );
 
 // @route    GET api/admin/agents
-// @desc     Get all agents
-router.get("/agents", [auth, adminOnly], async (req, res) => {
+// @desc     Get agents (supports subadmin scoping)
+router.get("/agents", [auth, adminOrSubadmin], async (req, res) => {
   try {
+    let matchCondition = { memberType: 2 };
+    if (req.user.role === "subadmin") {
+      const mongoose = require("mongoose");
+      matchCondition.subadmin = new mongoose.Types.ObjectId(req.user.id);
+    }
+
     const agents = await Member.aggregate([
-      { $match: { memberType: 2 } },
+      { $match: matchCondition },
       {
         $lookup: {
           from: "members",
@@ -388,9 +463,18 @@ router.get("/agents", [auth, adminOnly], async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "admins",
+          localField: "subadmin",
+          foreignField: "_id",
+          as: "subadminInfo",
+        },
+      },
+      {
         $addFields: {
           referralAmount: { $size: "$referrals" },
           referrer: { $arrayElemAt: ["$referrerInfo", 0] },
+          subadmin: { $arrayElemAt: ["$subadminInfo", 0] },
         },
       },
       {
@@ -398,6 +482,8 @@ router.get("/agents", [auth, adminOnly], async (req, res) => {
           password: 0,
           referrals: 0,
           referrerInfo: 0,
+          subadminInfo: 0,
+          "subadmin.password": 0,
         },
       },
       { $sort: { agentApplicationDate: -1 } },
@@ -411,7 +497,7 @@ router.get("/agents", [auth, adminOnly], async (req, res) => {
 
 // @route    GET api/admin/agents/:id/referrals
 // @desc     Get all members referred by a specific agent
-router.get("/agents/:id/referrals", [auth, adminOnly], async (req, res) => {
+router.get("/agents/:id/referrals", [auth, adminOrSubadmin], async (req, res) => {
   try {
     const referrals = await Member.find({ referrer: req.params.id })
       .select(
@@ -599,6 +685,113 @@ router.get("/members/export", [auth, adminOnly], async (req, res) => {
     res.send(csvContent);
   } catch (err) {
     console.error("CSV Export Error:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    GET api/admin/subadmins
+// @desc     Get all subadmin users
+router.get("/subadmins", [auth, adminOnly], async (req, res) => {
+  try {
+    const subadmins = await Admin.find({ role: "subadmin" }).select("-password");
+    res.json(subadmins);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/admin/subadmins
+// @desc     Create a subadmin user
+router.post("/subadmins", [auth, adminOnly], async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res.status(400).json({ msg: "Please provide all required fields" });
+  }
+
+  try {
+    let existing = await Admin.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ msg: "An admin account already exists with this email" });
+    }
+
+    const newSubadmin = new Admin({
+      name,
+      email,
+      password,
+      role: "subadmin",
+      isSuperAdmin: false,
+      status: 1,
+    });
+
+    await newSubadmin.save();
+    const result = newSubadmin.toObject();
+    delete result.password;
+    res.json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    PUT api/admin/subadmin/:id
+// @desc     Update a subadmin user
+router.put("/subadmin/:id", [auth, adminOnly], async (req, res) => {
+  const { name, email, password, status } = req.body;
+  try {
+    let subadmin = await Admin.findById(req.params.id);
+    if (!subadmin) return res.status(404).json({ msg: "Subadmin not found" });
+
+    if (name) subadmin.name = name;
+    if (email) subadmin.email = email;
+    if (password) subadmin.password = password;
+    if (status !== undefined) subadmin.status = status;
+
+    await subadmin.save();
+    const result = subadmin.toObject();
+    delete result.password;
+    res.json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    DELETE api/admin/subadmin/:id
+// @desc     Delete a subadmin user
+router.delete("/subadmin/:id", [auth, adminOnly], async (req, res) => {
+  try {
+    await Admin.findByIdAndDelete(req.params.id);
+    // Unassign agents from this subadmin
+    await Member.updateMany({ subadmin: req.params.id }, { $unset: { subadmin: "" } });
+    res.json({ msg: "Subadmin deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    POST api/admin/agent/:id/assign-subadmin
+// @desc     Assign an agent to a subadmin
+router.post("/agent/:id/assign-subadmin", [auth, adminOnly], async (req, res) => {
+  const { subadminId } = req.body;
+  try {
+    let agent = await Member.findById(req.params.id);
+    if (!agent) return res.status(404).json({ msg: "Agent not found" });
+    if (agent.memberType !== 2) return res.status(400).json({ msg: "User is not an agent" });
+
+    if (!subadminId || subadminId === "" || subadminId === "unassign") {
+      agent.subadmin = undefined;
+    } else {
+      const subadmin = await Admin.findById(subadminId);
+      if (!subadmin) return res.status(404).json({ msg: "Subadmin not found" });
+      agent.subadmin = subadminId;
+    }
+
+    await agent.save();
+    res.json({ msg: "Agent subadmin updated successfully", agent });
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server Error");
   }
 });

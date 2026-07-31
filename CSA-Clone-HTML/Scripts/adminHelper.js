@@ -2,7 +2,7 @@ async function initAdminPortal() {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('userRole');
 
-    if (!token || role !== 'admin') {
+    if (!token || (role !== 'admin' && role !== 'subadmin')) {
         window.location.href = 'index.html';
         return;
     }
@@ -19,6 +19,7 @@ async function initAdminPortal() {
             e.preventDefault();
             localStorage.removeItem('token');
             localStorage.removeItem('userRole');
+            localStorage.removeItem('userName');
             window.location.href = 'index.html';
         });
 

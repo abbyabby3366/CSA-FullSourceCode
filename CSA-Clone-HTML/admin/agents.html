@@ -101,13 +101,14 @@
                             <th>Agent ID</th>
                             <th>Full Name</th>
                             <th>Contact No</th>
+                            <th>Assigned Subadmin</th>
                             <th>Number of Referrals</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td colspan="6" class="text-center">
+                            <td colspan="7" class="text-center">
                               <div
                                 class="spinner-border text-primary"
                                 role="status"
@@ -138,6 +139,34 @@
             </div>
           </div>
         </footer>
+      </div>
+    </div>
+
+    <!-- Assign Subadmin Modal -->
+    <div class="modal fade" id="assignSubadminModal" tabindex="-1" aria-labelledby="assignSubadminModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="assignSubadminModalLabel">Assign Agent to Subadmin</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="assignSubadminForm">
+            <input type="hidden" id="assignAgentId" />
+            <div class="modal-body">
+              <p class="text-muted mb-3" id="assignAgentNameText"></p>
+              <div class="mb-3">
+                <label for="subadminSelect" class="form-label">Select Subadmin</label>
+                <select class="form-select" id="subadminSelect" required>
+                  <option value="">Loading subadmins...</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Assignment</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -191,37 +220,59 @@
         loadAgents();
       });
 
+      let subadminList = [];
+
       async function loadAgents() {
         try {
+          const userRole = localStorage.getItem("userRole") || "admin";
           const agents = await apiCall("/admin/agents", "GET");
           const tbody = $("#agentTable tbody");
           tbody.empty();
 
-          if (agents.length === 0) {
+          if (!agents || agents.length === 0) {
             tbody.append(
-              '<tr><td colspan="6" class="text-center">No agent applications found</td></tr>',
+              '<tr><td colspan="7" class="text-center">No agent applications found</td></tr>',
             );
             return;
           }
 
           agents.forEach((agent, index) => {
+            const subadminBadge = agent.subadmin && agent.subadmin.name
+              ? `<span class="badge bg-info-subtle text-info fs-12 px-2 py-1">${agent.subadmin.name}</span>`
+              : `<span class="badge bg-light text-muted fs-12 px-2 py-1">Unassigned</span>`;
+
+            let assignBtn = "";
+            if (userRole !== "subadmin") {
+              const currentSubId = agent.subadmin ? agent.subadmin._id || agent.subadmin : "";
+              assignBtn = `
+                <button type="button" class="btn btn-soft-secondary btn-sm assign-subadmin-btn"
+                  onclick="openAssignModal('${agent._id}', '${agent.fullName || ""}', '${currentSubId}')">
+                  <i class="ri-user-shared-line align-bottom me-1"></i> Assign Subadmin
+                </button>
+              `;
+            }
+
             tbody.append(`
                         <tr>
                             <td>${index + 1}</td>
                             <td>${agent.memberCode || ''}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                        <h5 class="fs-14 mb-1">${agent.fullName || ''}</h5>
+                                    <h5 class="fs-14 mb-1">${agent.fullName || ''}</h5>
                                 </div>
                             </td>
                             <td>${agent.phoneNumber || ''}</td>
+                            <td>${subadminBadge}</td>
                             <td>${agent.referralAmount || 0}</td>
                             <td>
-                                <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
-                                    data-agent-id="${agent._id}" 
-                                    data-agent-name="${agent.fullName}">
-                                    <i class="ri-team-line align-bottom me-1"></i> View Referral
-                                </button>
+                                <div class="d-flex gap-2">
+                                  <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
+                                      data-agent-id="${agent._id}" 
+                                      data-agent-name="${agent.fullName}">
+                                      <i class="ri-team-line align-bottom me-1"></i> View Referral
+                                  </button>
+                                  ${assignBtn}
+                                </div>
                             </td>
                         </tr>
                     `);
@@ -414,10 +465,50 @@
         } catch (err) {
           console.error("Error loading agents:", err);
           $("#agentTable tbody").html(
-            '<tr><td colspan="6" class="text-center text-danger">Error loading agent data</td></tr>',
+            '<tr><td colspan="7" class="text-center text-danger">Error loading agent data</td></tr>',
           );
         }
       }
+
+      async function openAssignModal(agentId, agentName, currentSubadminId) {
+        $("#assignAgentId").val(agentId);
+        $("#assignAgentNameText").text(`Assign Subadmin for Agent: ${agentName}`);
+        $("#subadminSelect").html('<option value="">Loading subadmins...</option>');
+        $("#assignSubadminModal").modal("show");
+
+        try {
+          subadminList = await apiCall("/admin/subadmins", "GET");
+          let options = '<option value="unassign">-- Unassigned --</option>';
+          if (subadminList && subadminList.length > 0) {
+            subadminList.forEach((sub) => {
+              const selected = sub._id === currentSubadminId ? "selected" : "";
+              options += `<option value="${sub._id}" ${selected}>${sub.name} (${sub.email})</option>`;
+            });
+          }
+          $("#subadminSelect").html(options);
+        } catch (err) {
+          console.error("Error fetching subadmins:", err);
+          $("#subadminSelect").html('<option value="">Failed to load subadmins</option>');
+        }
+      }
+
+      $("#assignSubadminForm").on("submit", async function (e) {
+        e.preventDefault();
+        const agentId = $("#assignAgentId").val();
+        const subadminId = $("#subadminSelect").val();
+
+        try {
+          const res = await apiCall(`/admin/agent/${agentId}/assign-subadmin`, "POST", { subadminId });
+          if (res) {
+            alert("Agent assigned to subadmin successfully!");
+            $("#assignSubadminModal").modal("hide");
+            loadAgents();
+          }
+        } catch (err) {
+          console.error("Error assigning subadmin:", err);
+          alert("Error assigning agent to subadmin.");
+        }
+      });
     </script>
   </body>
 </html>

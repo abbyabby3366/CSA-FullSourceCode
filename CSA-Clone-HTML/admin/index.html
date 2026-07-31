@@ -196,8 +196,16 @@
 
           if (response.ok) {
             localStorage.setItem("token", data.token);
-            localStorage.setItem("userRole", "admin");
-            window.location.href = "dashboard.html";
+            const role = data.role || (data.user && data.user.role) || "admin";
+            localStorage.setItem("userRole", role);
+            if (data.user && data.user.name) {
+              localStorage.setItem("userName", data.user.name);
+            }
+            if (role === "subadmin") {
+              window.location.href = "applications.html";
+            } else {
+              window.location.href = "dashboard.html";
+            }
           } else {
             alert(data.msg || "Login failed");
           }

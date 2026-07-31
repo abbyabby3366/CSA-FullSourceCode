@@ -241,8 +241,10 @@ router.post("/admin/login", async (req, res) => {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
 
+    const adminRole = admin.role === "subadmin" ? "subadmin" : "admin";
+
     const payload = {
-      user: { id: admin.id, role: "admin" },
+      user: { id: admin.id, role: adminRole, name: admin.name, isSuperAdmin: admin.isSuperAdmin },
     };
 
     jwt.sign(
@@ -251,7 +253,11 @@ router.post("/admin/login", async (req, res) => {
       { expiresIn: "24h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({
+          token,
+          role: adminRole,
+          user: { id: admin.id, name: admin.name, email: admin.email, role: adminRole, isSuperAdmin: admin.isSuperAdmin },
+        });
       },
     );
   } catch (err) {

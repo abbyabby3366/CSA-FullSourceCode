@@ -50,6 +50,7 @@ const MemberSchema = new mongoose.Schema({
   // Role & Status
   memberType: { type: Number, default: 1 }, // 1-Member, 2-Agent, 3-Hero
   status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
+  subadmin: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" }, // Assigned subadmin (for Agents)
 
   profileImage: { type: String }, // File path or ID
   icImage: { type: String },

@@ -103,6 +103,11 @@
                             </div>
                           </div>
 
+                          <div class="col-md-2 col-sm-12" id="filterSubadminWrap">
+                            <select class="form-control" id="ddlSubadminFilter">
+                              <option value="" selected>All Subadmins</option>
+                            </select>
+                          </div>
                           <div class="col-md-2 col-sm-12">
                             <select
                               class="form-control"
@@ -147,6 +152,7 @@
                         <thead class="table-light text-muted">
                           <tr>
                             <th>ID</th>
+                            <th>SUBADMIN</th>
                             <th>CUSTOMER NAME (ID)</th>
                             <th>REFERRER NAME (ID)</th>
                             <th>FILE NUMBER</th>
@@ -158,7 +164,7 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td colspan="9" class="text-center">
+                            <td colspan="10" class="text-center">
                               <div
                                 class="spinner-border text-primary"
                                 role="status"
@@ -397,55 +403,102 @@
       let adminData = [];
 
       $(document).ready(async function () {
-        // Load Admins for assignment
-        const rawAdmins = await apiCall("/admin/admins");
-        if (rawAdmins) {
-          adminData = rawAdmins;
-          const selects = $(".admin-select");
-          selects.empty().append('<option value="">Unassigned</option>');
-          adminData.forEach((admin) => {
-            selects.append(
-              `<option value="${admin._id}">${admin.name} (${admin.role})</option>`,
-            );
-          });
+        // Load Admins for assignment (admin only - subadmins don't have access)
+        const userRole = localStorage.getItem("userRole");
+        if (userRole !== "subadmin") {
+          const rawAdmins = await apiCall("/admin/admins");
+          if (rawAdmins) {
+            adminData = rawAdmins;
+            const selects = $(".admin-select");
+            selects.empty().append('<option value="">Unassigned</option>');
+            adminData.forEach((admin) => {
+              selects.append(
+                `<option value="${admin._id}">${admin.name} (${admin.role})</option>`,
+              );
+            });
+          }
         }
 
-        const apps = await apiCall("/admin/applications");
-        if (apps) {
-          applicationData = apps;
+        // Load subadmin list for filter dropdown (admin only)
+        if (userRole !== "subadmin") {
+          try {
+            const subadmins = await apiCall("/admin/subadmins");
+            if (subadmins && subadmins.length > 0) {
+              subadmins.forEach((s) => {
+                $("#ddlSubadminFilter").append(
+                  `<option value="${s._id}">${s.name}</option>`
+                );
+              });
+            }
+          } catch (e) {
+            console.error("Error loading subadmin filter:", e);
+          }
+        } else {
+          // Hide subadmin filter for subadmins (they only see their own)
+          $("#filterSubadminWrap").hide();
+        }
+
+        async function loadApplications(subadminFilter) {
+          let url = "/admin/applications";
+          if (subadminFilter) {
+            url += `?subadmin=${subadminFilter}`;
+          }
+
+          // Destroy DataTable first, then clear tbody
+          if ($.fn.DataTable.isDataTable("#gvApplicant")) {
+            $("#gvApplicant").DataTable().destroy();
+          }
           const tbody = $("#gvApplicant tbody");
           tbody.empty();
-          apps.forEach((app) => {
-            const status = statusMap[app.applicationStatus] || {
-              text: "Unknown",
-              class: "bg-secondary",
-            };
-            let memberInfo = "N/A";
-            let referrerInfo = "N/A";
-            if (app.member) {
-              memberInfo = `${app.member.fullName} (${app.member.memberCode || "-"})`;
-              const refObj = app.referrerMember || app.member.referrer;
-              if (refObj) {
-                if (refObj.fullName && refObj.memberCode) {
-                  referrerInfo = `${refObj.fullName} (${refObj.memberCode})`;
-                } else if (refObj.fullName) {
-                  referrerInfo = refObj.fullName;
-                } else if (refObj.memberCode) {
-                  referrerInfo = refObj.memberCode;
+          tbody.append('<tr><td colspan="10" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
+
+          const apps = await apiCall(url);
+          tbody.empty();
+
+          if (apps) {
+            applicationData = apps;
+            apps.forEach((app) => {
+              const status = statusMap[app.applicationStatus] || {
+                text: "Unknown",
+                class: "bg-secondary",
+              };
+              let memberInfo = "N/A";
+              let referrerInfo = "N/A";
+              if (app.member) {
+                memberInfo = `${app.member.fullName} (${app.member.memberCode || "-"})`;
+                const refObj = app.referrerMember || app.member.referrer;
+                if (refObj) {
+                  if (refObj.fullName && refObj.memberCode) {
+                    referrerInfo = `${refObj.fullName} (${refObj.memberCode})`;
+                  } else if (refObj.fullName) {
+                    referrerInfo = refObj.fullName;
+                  } else if (refObj.memberCode) {
+                    referrerInfo = refObj.memberCode;
+                  }
                 }
               }
-            }
-            const salaryRangeMap = {
-              1: "Below 3k",
-              2: "3001 - 5k",
-              3: "5k and Above",
-            };
-            const salaryValue = app.details?.employmentDetails?.salaryRange;
-            const salaryLabel = salaryRangeMap[salaryValue] || "N/A";
 
-            tbody.append(`
+              // Determine subadmin name from referrer's subadmin
+              let subadminName = "";
+              if (app.member && app.member.referrer && app.member.referrer.subadmin && app.member.referrer.subadmin.name) {
+                subadminName = app.member.referrer.subadmin.name;
+              }
+              const subadminBadge = subadminName
+                ? `<span class="badge bg-info-subtle text-info fs-12 px-2 py-1">${subadminName}</span>`
+                : `<span class="badge bg-light text-muted fs-12 px-2 py-1">Unassigned</span>`;
+
+              const salaryRangeMap = {
+                1: "Below 3k",
+                2: "3001 - 5k",
+                3: "5k and Above",
+              };
+              const salaryValue = app.details?.employmentDetails?.salaryRange;
+              const salaryLabel = salaryRangeMap[salaryValue] || "N/A";
+
+              tbody.append(`
                         <tr>
                             <td>${app._id.substring(18)}</td>
+                            <td>${subadminBadge}</td>
                             <td>${memberInfo}</td>
                             <td>${referrerInfo}</td>
                             <td>${app.fileNumber || "Pending"}</td>
@@ -468,20 +521,32 @@
                             </td>
                         </tr>
                     `);
-          });
-          const appTable = $("#gvApplicant").DataTable({
-            order: [[6, "desc"]],
-            responsive: false,
-            pageLength: 100,
-          });
+            });
+            const appTable = $("#gvApplicant").DataTable({
+              order: [[7, "desc"]],
+              responsive: false,
+              pageLength: 100,
+            });
 
-          $("#txtSearch").off("keyup input").on("keyup input", function () {
-            appTable.search($(this).val()).draw();
-          });
-          $("#btnSearch").off("click").on("click", function () {
-            appTable.search($("#txtSearch").val()).draw();
-          });
+            $("#txtSearch").off("keyup input").on("keyup input", function () {
+              appTable.search($(this).val()).draw();
+            });
+            $("#btnSearch").off("click").on("click", function () {
+              appTable.search($("#txtSearch").val()).draw();
+            });
+          } else {
+            tbody.append('<tr><td colspan="10" class="text-center">No applications found</td></tr>');
+          }
         }
+
+        // Initial load
+        loadApplications();
+
+        // Subadmin filter change
+        $("#ddlSubadminFilter").on("change", function () {
+          const val = $(this).val();
+          loadApplications(val);
+        });
 
         // View Handler
         $(document).on("click", ".view-btn", function () {
