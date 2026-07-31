@@ -614,6 +614,29 @@
                 const icBackHistoryHtml = renderAdminDocHistoryHtml(details.icBackHistory, "adminIcBackHistoryCollapse");
                 const payslipHistoryHtml = renderAdminDocHistoryHtml(details.payslipHistory, "adminPayslipHistoryCollapse");
 
+                let approvedByInfo = "";
+                if (app.approval && app.approval.admin) {
+                  const adminObj = app.approval.admin;
+                  if (adminObj.name && adminObj.email) {
+                    approvedByInfo = `${adminObj.name} (${adminObj.email})`;
+                  } else if (adminObj.name) {
+                    approvedByInfo = adminObj.name;
+                  } else if (adminObj.email) {
+                    approvedByInfo = adminObj.email;
+                  }
+                } else if (app.applicationStatus === 6) {
+                  approvedByInfo = "N/A";
+                }
+
+                const approvedBySectionHtml = approvedByInfo
+                  ? `
+                    <div class="col-md-12"><hr></div>
+                    <div class="col-md-12 mb-2">
+                      <strong>Approved by:</strong> ${approvedByInfo}
+                    </div>
+                  `
+                  : "";
+
                 let html = `
                                 <div class="row">
                                     <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
@@ -649,6 +672,7 @@
                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
                                         ${payslipHistoryHtml}
                                     </div>
+                                    ${approvedBySectionHtml}
                                 </div>
                             `;
 

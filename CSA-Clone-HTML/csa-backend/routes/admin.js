@@ -203,6 +203,8 @@ router.get("/applications", [auth, adminOrSubadmin], async (req, res) => {
         ],
       },
       { path: "referrerMember", select: "fullName memberCode" },
+      { path: "approval.admin", select: "name email role" },
+      { path: "rejection.admin", select: "name email role" },
     ]);
 
     res.json(populatedApps);
@@ -226,13 +228,16 @@ router.get("/admins", [auth, adminOnly], async (req, res) => {
 
 // @route    POST api/admin/application/:id/status
 // @desc     Update application status
-router.post("/application/:id/status", [auth, adminOnly], async (req, res) => {
+router.post("/application/:id/status", [auth, adminOrSubadmin], async (req, res) => {
   const { status, reason } = req.body;
   try {
     let app = await Application.findById(req.params.id);
     if (!app) return res.status(404).json({ msg: "Application not found" });
 
     app.applicationStatus = status;
+    if (status == 6) {
+      app.approval = { admin: req.user.id, date: Date.now() };
+    }
     if (reason)
       app.rejection = { reason, date: Date.now(), admin: req.user.id };
 

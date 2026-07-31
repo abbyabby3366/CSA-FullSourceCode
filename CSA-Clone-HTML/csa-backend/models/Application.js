@@ -88,6 +88,11 @@ const ApplicationSchema = new mongoose.Schema({
     admin: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
   },
 
+  approval: {
+    admin: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
+    date: { type: Date },
+  },
+
   createDate: { type: Date, default: Date.now },
   lastUpdate: { type: Date, default: Date.now },
   rewardPaid: { type: Boolean, default: false },
