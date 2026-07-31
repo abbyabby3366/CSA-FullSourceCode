@@ -384,13 +384,19 @@
           }
         };
 
-        // Capture Referral Code
+        // Capture Referral Code & Subadmin ID
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get("ref");
         if (refCode) {
           $("#referrerCode").val(refCode);
           $("#referrerDiv").show();
         }
+
+        const subadminParam = urlParams.get("subadmin");
+        if (subadminParam) {
+          localStorage.setItem("agentSubadminId", subadminParam);
+        }
+        const activeSubadminId = subadminParam || localStorage.getItem("agentSubadminId");
 
         // TAC sending logic
         let countdown = 0;
@@ -556,11 +562,13 @@
                   password,
                   tacCode,
                   referrerCode: refCode, // Include referral code if present
+                  subadminId: activeSubadminId || undefined,
                 }),
               },
             );
 
             if (response.ok) {
+              localStorage.removeItem("agentSubadminId");
               const data = await response.json();
               Swal.fire({
                 icon: "success",

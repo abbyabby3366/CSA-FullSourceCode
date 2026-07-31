@@ -80,7 +80,7 @@ router.post("/member/register", async (req, res) => {
 // @desc     Register a new agent
 // @access   Public
 router.post("/agent/register", async (req, res) => {
-  const { fullName, phoneNumber, password, referrerCode, tacCode } = req.body;
+  const { fullName, phoneNumber, password, referrerCode, tacCode, subadminId } = req.body;
 
   try {
     // Verify TAC
@@ -109,6 +109,7 @@ router.post("/agent/register", async (req, res) => {
       phoneNumber,
       password,
       referrer: referrerId,
+      subadmin: subadminId || undefined,
       memberType: 2, // Explicitly Agent
     });
 
