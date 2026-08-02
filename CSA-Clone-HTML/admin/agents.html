@@ -222,6 +222,16 @@
 
       let subadminList = [];
 
+      function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
       async function loadAgents() {
         try {
           const userRole = localStorage.getItem("userRole") || "admin";
@@ -244,9 +254,12 @@
             let assignBtn = "";
             if (userRole !== "subadmin") {
               const currentSubId = agent.subadmin ? agent.subadmin._id || agent.subadmin : "";
+              const safeAgentName = escapeHtml(agent.fullName || "");
               assignBtn = `
                 <button type="button" class="btn btn-soft-secondary btn-sm assign-subadmin-btn"
-                  onclick="openAssignModal('${agent._id}', '${agent.fullName || ""}', '${currentSubId}')">
+                  data-agent-id="${agent._id}"
+                  data-agent-name="${safeAgentName}"
+                  data-current-sub-id="${currentSubId}">
                   <i class="ri-user-shared-line align-bottom me-1"></i> Assign Subadmin
                 </button>
               `;
@@ -268,7 +281,7 @@
                                 <div class="d-flex gap-2">
                                   <button type="button" class="btn btn-soft-primary btn-sm view-referrals-btn" 
                                       data-agent-id="${agent._id}" 
-                                      data-agent-name="${agent.fullName}">
+                                      data-agent-name="${escapeHtml(agent.fullName || '')}">
                                       <i class="ri-team-line align-bottom me-1"></i> View Referral
                                   </button>
                                   ${assignBtn}
@@ -284,7 +297,7 @@
 
           const agentTable = $("#agentTable").DataTable({
             dom: 'rt<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-            pageLength: 10,
+            pageLength: 100,
             ordering: true,
             language: {
               emptyTable: "No agent applications found"
@@ -298,6 +311,18 @@
           if ($("#searchAgent").val()) {
             agentTable.search($("#searchAgent").val()).draw();
           }
+
+          // Attach Assign Subadmin handler
+          $("#agentTable").off("click", ".assign-subadmin-btn").on(
+            "click",
+            ".assign-subadmin-btn",
+            function () {
+              const agentId = $(this).attr("data-agent-id");
+              const agentName = $(this).attr("data-agent-name");
+              const currentSubId = $(this).attr("data-current-sub-id");
+              openAssignModal(agentId, agentName, currentSubId);
+            }
+          );
 
           // App status map matching admin/members.html
           const appStatusMap = {
