@@ -464,8 +464,12 @@
               };
               let memberInfo = "N/A";
               let referrerInfo = "N/A";
+              const rawIc = (app.details?.icNumber || app.member?.icNumber || "").toString().replace(/-/g, "").trim();
+              const formattedIc = rawIc && rawIc.length === 12 ? `${rawIc.substring(0, 6)}-${rawIc.substring(6, 8)}-${rawIc.substring(8)}` : rawIc;
+              const icInfo = rawIc ? `<br><small class="text-muted">IC: ${formattedIc}</small><span class="d-none">${rawIc}</span>` : "";
+
               if (app.member) {
-                memberInfo = `${app.member.fullName} (${app.member.memberCode || "-"})`;
+                memberInfo = `<div>${app.member.fullName} (${app.member.memberCode || "-"})${icInfo}</div>`;
                 const refObj = app.referrerMember || app.member.referrer;
                 if (refObj) {
                   if (refObj.fullName && refObj.memberCode) {
@@ -476,6 +480,8 @@
                     referrerInfo = refObj.memberCode;
                   }
                 }
+              } else if (app.details?.fullName) {
+                memberInfo = `<div>${app.details.fullName}${icInfo}</div>`;
               }
 
               // Determine subadmin name from referrer's subadmin

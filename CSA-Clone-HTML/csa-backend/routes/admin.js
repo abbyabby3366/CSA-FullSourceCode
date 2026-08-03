@@ -87,12 +87,40 @@ router.get("/members", [auth, adminOrSubadmin], async (req, res) => {
       }
     });
 
+    // Collect IC numbers from applications submitted by these members
+    const memberApps = await Application.find({
+      member: { $in: memberIds },
+      "details.icNumber": { $exists: true, $ne: "" },
+    }).select("member details.icNumber");
+
+    const appIcMap = {};
+    memberApps.forEach((a) => {
+      if (a.member && a.details && a.details.icNumber) {
+        const cleanIc = a.details.icNumber.toString().replace(/-/g, "").trim();
+        const memKey = a.member.toString();
+        if (!appIcMap[memKey]) {
+          appIcMap[memKey] = new Set();
+        }
+        appIcMap[memKey].add(cleanIc);
+      }
+    });
+
     const result = members.map((m) => {
       const mObj = m.toObject();
+      const memIdStr = m._id.toString();
+      const icSet = appIcMap[memIdStr] || new Set();
+      if (m.icNumber) {
+        icSet.add(m.icNumber.toString().replace(/-/g, "").trim());
+      }
+      const allIcs = Array.from(icSet);
+      const effectiveIc = m.icNumber || (allIcs.length > 0 ? allIcs[0] : "");
+
       return {
         ...mObj,
-        isApproved: approvedSet.has(m._id.toString()),
-        latestAppStatus: appStatusMap[m._id.toString()] !== undefined ? appStatusMap[m._id.toString()] : null,
+        icNumber: effectiveIc,
+        allIcNumbers: allIcs,
+        isApproved: approvedSet.has(memIdStr),
+        latestAppStatus: appStatusMap[memIdStr] !== undefined ? appStatusMap[memIdStr] : null,
       };
     });
 
@@ -192,7 +220,7 @@ router.get("/applications", [auth, adminOrSubadmin], async (req, res) => {
     const populatedApps = await Application.populate(apps, [
       {
         path: "member",
-        select: "fullName phoneNumber memberCode memberType referrer subadmin",
+        select: "fullName phoneNumber memberCode memberType referrer subadmin icNumber",
         populate: [
           {
             path: "referrer",

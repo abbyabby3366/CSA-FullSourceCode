@@ -281,12 +281,19 @@
                 ? `<span class="badge bg-info-subtle text-info fs-12 px-2 py-1">${subadminName}</span>`
                 : `<span class="badge bg-light text-muted fs-12 px-2 py-1">Unassigned</span>`;
 
+              const rawIc = (member.icNumber || "").toString().replace(/-/g, "").trim();
+              const formattedIc = rawIc && rawIc.length === 12 ? `${rawIc.substring(0, 6)}-${rawIc.substring(6, 8)}-${rawIc.substring(8)}` : rawIc;
+              const allIcsStr = member.allIcNumbers ? member.allIcNumbers.join(" ") : rawIc;
+              const icCell = rawIc
+                ? `<span>${formattedIc}</span><span class="d-none">${rawIc} ${allIcsStr}</span>`
+                : "N/A";
+
               tbody.append(`
                           <tr>
                               <td>${count++}</td>
                               <td>${member.memberCode || "N/A"}</td>
                               <td>${member.fullName}</td>
-                              <td>${(member.icNumber || "N/A").toString().replace(/-/g, "")}</td>
+                              <td>${icCell}</td>
                               <td>${member.phoneNumber}</td>
                               <td>${member.salary || "N/A"}</td>
                               <td>${member.referrer ? `${member.referrer.fullName} (${member.referrer.memberCode})` : "N/A"}</td>
