@@ -102,7 +102,7 @@ router.post("/submit", auth, (req, res) => {
       const updateFields = {};
       if (details.fullName) updateFields.fullName = details.fullName;
       if (details.icNumber) updateFields.icNumber = details.icNumber;
-      if (details.phoneNumber) updateFields.phoneNumber = details.phoneNumber;
+      if (details.phoneNumber) updateFields.contactPhone = details.phoneNumber;
       if (details.email) updateFields.email = details.email;
       if (details.employmentDetails) {
         if (details.employmentDetails.employerName) updateFields.companyName = details.employmentDetails.employerName;

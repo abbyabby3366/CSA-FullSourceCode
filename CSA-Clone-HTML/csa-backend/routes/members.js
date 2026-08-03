@@ -26,7 +26,7 @@ router.get("/me", auth, async (req, res) => {
       const details = lastApp.details;
       if (details.fullName) memberObj.fullName = details.fullName;
       if (details.icNumber) memberObj.icNumber = details.icNumber.toString().replace(/-/g, "").trim();
-      if (details.phoneNumber) memberObj.phoneNumber = details.phoneNumber;
+      if (details.phoneNumber) memberObj.contactPhone = details.phoneNumber;
       if (details.email) memberObj.email = details.email;
 
       if (details.employmentDetails) {
@@ -206,7 +206,7 @@ router.post(
       // Update member details
       if (fullName) member.fullName = fullName;
       if (icNumber) member.icNumber = icNumber.toString().replace(/-/g, "").trim();
-      if (phoneNumber) member.phoneNumber = phoneNumber;
+      if (phoneNumber) member.contactPhone = phoneNumber;
 
       // Set agent application fields
       member.memberType = 2; // Agent

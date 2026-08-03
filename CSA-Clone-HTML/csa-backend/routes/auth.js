@@ -7,6 +7,14 @@ const Tac = require("../models/Tac");
 const bcrypt = require("bcryptjs");
 const { sendWhatsAppOTP } = require("../services/whatsappService");
 
+const formatPhone = (phone) => {
+  if (!phone) return phone;
+  let cleaned = phone.toString().trim();
+  if (cleaned.startsWith("0")) return "6" + cleaned;
+  if (!cleaned.startsWith("60")) return "60" + cleaned;
+  return cleaned;
+};
+
 // @route    POST api/auth/member/register
 // @desc     Register a new member
 // @access   Public
@@ -150,9 +158,13 @@ router.post("/agent/register", async (req, res) => {
 // @desc     Authenticate member & get token
 router.post("/member/login", async (req, res) => {
   const { phoneNumber, password } = req.body;
+  const formattedPhone = formatPhone(phoneNumber);
 
   try {
-    let member = await Member.findOne({ phoneNumber, memberType: 1 });
+    let member = await Member.findOne({
+      $or: [{ phoneNumber: formattedPhone }, { phoneNumber }],
+      memberType: 1,
+    });
     if (!member) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
@@ -190,9 +202,13 @@ router.post("/member/login", async (req, res) => {
 // @desc     Authenticate agent & get token
 router.post("/agent/login", async (req, res) => {
   const { phoneNumber, password } = req.body;
+  const formattedPhone = formatPhone(phoneNumber);
 
   try {
-    let agent = await Member.findOne({ phoneNumber, memberType: 2 });
+    let agent = await Member.findOne({
+      $or: [{ phoneNumber: formattedPhone }, { phoneNumber }],
+      memberType: 2,
+    });
     if (!agent) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }

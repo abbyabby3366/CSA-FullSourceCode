@@ -8,6 +8,7 @@ const MemberSchema = new mongoose.Schema({
   lastName: { type: String },
 
   phoneNumber: { type: String, required: true },
+  contactPhone: { type: String },
   password: { type: String, required: true },
   icNumber: { type: String },
   birthdate: { type: Date },
