@@ -1,0 +1,8 @@
+{
+  "name": "csa-full-source-code",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon CSA-Clone-HTML/csa-backend/server.js"
+  }
+}
