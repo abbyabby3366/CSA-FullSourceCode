@@ -131,7 +131,16 @@
                               <option value="10">Collection</option>
                             </select>
                           </div>
-                          <div class="col-md-3 col-sm-12">
+                          <div class="col-md-2 col-sm-12">
+                            <button
+                              type="button"
+                              class="btn btn-soft-success waves-effect waves-light w-100"
+                              id="btnExportCSV"
+                            >
+                              <i class="ri-download-2-line align-middle me-1"></i> Export CSV
+                            </button>
+                          </div>
+                          <div class="col-md-2 col-sm-12">
                             <button
                               class="btn btn-soft-primary waves-effect waves-light w-100"
                             >
@@ -151,11 +160,10 @@
                       >
                         <thead class="table-light text-muted">
                           <tr>
-                            <th>ID</th>
+                            <th>FILE NUMBER</th>
                             <th>SUBADMIN</th>
                             <th>CUSTOMER NAME (ID)</th>
                             <th>REFERRER NAME (ID)</th>
-                            <th>FILE NUMBER</th>
                             <th>SALARY RM</th>
                             <th>STATUS</th>
                             <th>CREATED DATE & TIME</th>
@@ -164,7 +172,7 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td colspan="10" class="text-center">
+                            <td colspan="8" class="text-center">
                               <div
                                 class="spinner-border text-primary"
                                 role="status"
@@ -451,7 +459,7 @@
           }
           const tbody = $("#gvApplicant tbody");
           tbody.empty();
-          tbody.append('<tr><td colspan="10" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
+          tbody.append('<tr><td colspan="8" class="text-center"><div class="spinner-border text-primary" role="status"></div></td></tr>');
 
           const apps = await apiCall(url);
           tbody.empty();
@@ -501,17 +509,17 @@
               };
               const salaryValue = app.details?.employmentDetails?.salaryRange;
               const salaryLabel = salaryRangeMap[salaryValue] || "N/A";
+              const fileNo = app.member?.memberCode || app.fileNumber || "N/A";
 
               tbody.append(`
                         <tr>
-                            <td>${app._id.substring(18)}</td>
-                            <td>${subadminBadge}</td>
+                            <td data-order="${parseInt(fileNo) || 0}">${fileNo}</td>
+                            <td data-order="${subadminName || 'z'}">${subadminBadge}</td>
                             <td>${memberInfo}</td>
                             <td>${referrerInfo}</td>
-                            <td>${app.fileNumber || "Pending"}</td>
-                            <td>${salaryLabel}</td>
-                            <td><span class="badge ${status.class}">${status.text}</span></td>
-                            <td>${new Date(app.createDate).toLocaleString()}</td>
+                            <td data-order="${salaryValue || 0}">${salaryLabel}</td>
+                            <td data-order="${app.applicationStatus}"><span class="badge ${status.class}">${status.text}</span></td>
+                            <td data-order="${new Date(app.createDate).getTime()}">${new Date(app.createDate).toLocaleString()}</td>
                             <td class="text-center">
                                 <div class="hstack gap-3 fs-13 justify-content-center">
                                     <a href="javascript:void(0);" class="text-primary view-btn" data-id="${app._id}" style='text-decoration: underline;'>View</a>
@@ -530,9 +538,12 @@
                     `);
             });
             const appTable = $("#gvApplicant").DataTable({
-              order: [[7, "desc"]],
+              order: [[6, "desc"]],
               responsive: false,
               pageLength: 100,
+              columnDefs: [
+                { orderable: false, targets: -1 }
+              ]
             });
 
             $("#txtSearch").off("keyup input").on("keyup input", function () {
@@ -541,8 +552,25 @@
             $("#btnSearch").off("click").on("click", function () {
               appTable.search($("#txtSearch").val()).draw();
             });
+
+            $("#ddlApplicationStatusId").off("change").on("change", function () {
+              const val = $(this).val();
+              if (val === "-1") {
+                appTable.column(5).search("").draw();
+              } else if (val === "0") {
+                appTable.column(5).search("Pending \\(Unassigned\\)", true, false).draw();
+              } else {
+                const statusObj = statusMap[val];
+                if (statusObj) {
+                  const escapedText = statusObj.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                  appTable.column(5).search(escapedText, true, false).draw();
+                } else {
+                  appTable.column(5).search("").draw();
+                }
+              }
+            });
           } else {
-            tbody.append('<tr><td colspan="10" class="text-center">No applications found</td></tr>');
+            tbody.append('<tr><td colspan="8" class="text-center">No applications found</td></tr>');
           }
         }
 
@@ -640,8 +668,9 @@
 
                 let html = `
                                 <div class="row">
-                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
-                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
+                                    <div class="col-md-4 mb-3"><strong>File Number:</strong><br>${app.member?.memberCode || app.fileNumber || "N/A"}</div>
+                                    <div class="col-md-4 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
+                                    <div class="col-md-4 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Personal Details</h6>
                                     <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
@@ -838,8 +867,196 @@
           }
         });
 
+        // Open Export Modal
+        $("#btnExportCSV").on("click", function () {
+          $("#exportColumnsModal").modal("show");
+        });
+
+        $("#btnExportSelectAll").on("click", function () {
+          $(".export-col-chk").prop("checked", true);
+        });
+
+        $("#btnExportDeselectAll").on("click", function () {
+          $(".export-col-chk").prop("checked", false);
+        });
+
+        // Confirm & Download CSV Export
+        $("#btnConfirmExport").on("click", async function () {
+          const selectedCols = [];
+          $(".export-col-chk:checked").each(function () {
+            selectedCols.push($(this).val());
+          });
+
+          if (selectedCols.length === 0) {
+            alert("Please select at least one column to export.");
+            return;
+          }
+
+          try {
+            const token = localStorage.getItem("token");
+            const selectedSubadmin = $("#ddlSubadminFilter").val();
+            let exportUrl = window.API_BASE_URL + "/api/admin/members/export?columns=" + encodeURIComponent(selectedCols.join(","));
+            if (selectedSubadmin) {
+              exportUrl += "&subadmin=" + encodeURIComponent(selectedSubadmin);
+            }
+
+            const response = await fetch(exportUrl, {
+              method: "GET",
+              headers: {
+                "x-auth-token": token,
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to export data");
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "members_export.csv";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+            $("#exportColumnsModal").modal("hide");
+          } catch (err) {
+            console.error("Export Error:", err);
+            alert("Error exporting details: " + err.message);
+          }
+        });
+
         $("select").select2({ theme: "bootstrap-5" });
       });
     </script>
+
+    <!-- Export Columns Modal -->
+    <div class="modal fade" id="exportColumnsModal" tabindex="-1" aria-labelledby="exportColumnsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h5 class="modal-title" id="exportColumnsModalLabel">
+              <i class="ri-download-2-line align-middle me-1"></i> Select Columns to Export
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <p class="text-muted mb-0">Choose which data fields to include in your CSV export:</p>
+              <div>
+                <button type="button" class="btn btn-sm btn-outline-primary me-1" id="btnExportSelectAll">Select All</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="btnExportDeselectAll">Deselect All</button>
+              </div>
+            </div>
+            <div class="row gy-2 text-start">
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="subadmin" id="chk_app_subadmin" checked />
+                  <label class="form-check-label" for="chk_app_subadmin">Subadmin</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="referral_name" id="chk_app_referral_name" checked />
+                  <label class="form-check-label" for="chk_app_referral_name">Referral Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="full_name" id="chk_app_full_name" checked />
+                  <label class="form-check-label" for="chk_app_full_name">Full Name (Participant)</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="ic" id="chk_app_ic" checked />
+                  <label class="form-check-label" for="chk_app_ic">IC</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="contact_no" id="chk_app_contact_no" checked />
+                  <label class="form-check-label" for="chk_app_contact_no">Contact No</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="employment_status" id="chk_app_employment_status" checked />
+                  <label class="form-check-label" for="chk_app_employment_status">Employment Status</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="company_name" id="chk_app_company_name" checked />
+                  <label class="form-check-label" for="chk_app_company_name">Company Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="job_title" id="chk_app_job_title" checked />
+                  <label class="form-check-label" for="chk_app_job_title">Occupation / Job Title</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="state_of_employment" id="chk_app_state_of_employment" checked />
+                  <label class="form-check-label" for="chk_app_state_of_employment">State of Employment</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="ic_front_url" id="chk_app_ic_front_url" checked />
+                  <label class="form-check-label" for="chk_app_ic_front_url">Application IC Front URL</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="ic_back_url" id="chk_app_ic_back_url" checked />
+                  <label class="form-check-label" for="chk_app_ic_back_url">Application IC Back URL</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="payslip_url" id="chk_app_payslip_url" checked />
+                  <label class="form-check-label" for="chk_app_payslip_url">Application Payslip URL</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="join_date" id="chk_app_join_date" checked />
+                  <label class="form-check-label" for="chk_app_join_date">Join Date</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_name" id="chk_app_bank_name" checked />
+                  <label class="form-check-label" for="chk_app_bank_name">Bank Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_name" id="chk_app_bank_account_name" checked />
+                  <label class="form-check-label" for="chk_app_bank_account_name">Bank Account Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-check">
+                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_number" id="chk_app_bank_account_number" checked />
+                  <label class="form-check-label" for="chk_app_bank_account_number">Bank Account Number</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btnConfirmExport">
+              <i class="ri-download-2-line align-middle me-1"></i> Download CSV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

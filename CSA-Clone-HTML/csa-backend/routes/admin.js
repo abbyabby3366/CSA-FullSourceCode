@@ -589,13 +589,35 @@ router.get("/tac-logs", [auth, adminOnly], async (req, res) => {
 
 // @route    GET api/admin/members/export
 // @desc     Export members and latest applications to CSV
-router.get("/members/export", [auth, adminOnly], async (req, res) => {
+router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
   try {
     const baseUrl = `https://${process.env.S3_BUCKET_NAME}`;
 
-    // Get all members (skipping agents)
-    const members = await Member.find({ memberType: 1 })
-      .populate("referrer", "fullName memberCode")
+    let query = { memberType: 1 };
+
+    if (req.user.role === "subadmin") {
+      const assignedAgents = await Member.find({ memberType: 2, subadmin: req.user.id }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      query.referrer = { $in: assignedAgentIds };
+    } else if (req.query.subadmin) {
+      const mongoose = require("mongoose");
+      const subadminObjId = new mongoose.Types.ObjectId(req.query.subadmin);
+      const assignedAgents = await Member.find({ memberType: 2, subadmin: subadminObjId }).select("_id");
+      const assignedAgentIds = assignedAgents.map((a) => a._id);
+      if (assignedAgentIds.length > 0) {
+        query.referrer = { $in: assignedAgentIds };
+      } else {
+        query._id = null; // No results
+      }
+    }
+
+    const members = await Member.find(query)
+      .populate({
+        path: "referrer",
+        select: "fullName memberCode subadmin",
+        populate: { path: "subadmin", select: "name email" },
+      })
+      .populate("subadmin", "name email")
       .sort({ createDate: -1 });
 
     // Get latest application for each member
@@ -614,85 +636,97 @@ router.get("/members/export", [auth, adminOnly], async (req, res) => {
       appMap[a._id.toString()] = a.latestApp;
     });
 
-    const headers = [
-      "Member Code",
-      "Name",
-      "Phone no",
-      "Ic",
-      "Gender",
-      "State",
-      "City",
-      "Postcode",
-      "Street Address 1",
-      "Street Address 2",
-      "Bank Name",
-      "Bank Account Name",
-      "Bank Account Number",
-      "Wallet Cash",
-      "Member Status",
-      "Join Date",
-      "Member Payslip URL",
-      "Latest Application Status",
-      "Latest Application Date",
-      "Employer Name",
-      "Job Title",
-      "Salary Range",
-      "Gross Salary",
-      "Net Income",
-      "Application IC Front URL",
-      "Application IC Back URL",
-      "Application Payslip URL",
+    const ALL_COLUMNS = [
+      { id: "subadmin", label: "Subadmin" },
+      { id: "referral_name", label: "Referral Name" },
+      { id: "full_name", label: "Full Name (Participant)" },
+      { id: "ic", label: "IC" },
+      { id: "contact_no", label: "Contact No" },
+      { id: "employment_status", label: "Employment Status" },
+      { id: "company_name", label: "Company Name" },
+      { id: "job_title", label: "Occupation / Job Title" },
+      { id: "state_of_employment", label: "State of Employment" },
+      { id: "ic_front_url", label: "Application IC Front URL" },
+      { id: "ic_back_url", label: "Application IC Back URL" },
+      { id: "payslip_url", label: "Application Payslip URL" },
+      { id: "join_date", label: "Join Date" },
+      { id: "bank_name", label: "Bank Name" },
+      { id: "bank_account_name", label: "Bank Account Name" },
+      { id: "bank_account_number", label: "Bank Account Number" },
     ];
 
-    const getAppStatusLabel = (status) => {
-      switch (status) {
-        case 0: return "Pre-checking";
-        case 1: return "Processing";
-        case 2: return "Referrer Approved";
-        case 3: return "Admin Approved";
-        case 4: return "Verification";
-        case 5: return "Signing";
-        case 6: return "Settled";
-        case 7: return "Rejected";
-        default: return `Status ${status}`;
-      }
-    };
+    let selectedColumnIds = null;
+    if (req.query.columns) {
+      selectedColumnIds = req.query.columns.split(",").map((c) => c.trim()).filter(Boolean);
+    }
 
+    const activeColumns = selectedColumnIds && selectedColumnIds.length > 0
+      ? ALL_COLUMNS.filter((col) => selectedColumnIds.includes(col.id))
+      : ALL_COLUMNS;
+
+    const headers = activeColumns.map((col) => col.label);
     const rows = [headers];
+
     for (const member of members) {
       const app = appMap[member._id.toString()];
 
-      const row = [
-        member.memberCode || "",
-        member.fullName || "",
-        member.phoneNumber || "",
-        member.icNumber || "",
-        member.gender || "",
-        member.state || "",
-        member.city || "",
-        member.postcode || "",
-        member.streetAddress1 || "",
-        member.streetAddress2 || "",
-        member.bankName || "",
-        member.bankAccountName || "",
-        member.bankAccountNumber || "",
-        member.walletCash !== undefined ? member.walletCash : 0,
-        member.status || "",
-        member.createDate ? new Date(member.createDate).toISOString() : "",
-        member.payslipImage || "",
-        app ? getAppStatusLabel(app.applicationStatus) : "No Application",
-        app && app.createDate ? new Date(app.createDate).toISOString() : "",
-        app && app.details && app.details.employmentDetails && app.details.employmentDetails.employerName
-          ? app.details.employmentDetails.employerName.toUpperCase()
-          : "",
-        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.jobTitle : "",
-        app && app.details && app.details.employmentDetails ? app.details.employmentDetails.salaryRange : "",
-        app && app.details && app.details.financials ? app.details.financials.salaryGross : "",
-        app && app.details && app.details.financials ? app.details.financials.netIncome : "",
-        app && app.details && app.details.icFrontFile ? `${baseUrl}/${app.details.icFrontFile}` : "",
-        app && app.details && app.details.icBackFile ? `${baseUrl}/${app.details.icBackFile}` : "",
-        app && app.details && app.details.payslipFile ? `${baseUrl}/${app.details.payslipFile}` : "",
-      ];
+      let subadminName = "";
+      if (member.subadmin && member.subadmin.name) {
+        subadminName = member.subadmin.name;
+      } else if (member.referrer && member.referrer.subadmin && member.referrer.subadmin.name) {
+        subadminName = member.referrer.subadmin.name;
+      }
+
+      let referralName = member.referrer && member.referrer.fullName ? member.referrer.fullName : "";
+      let fullName = member.fullName || (app && app.details && app.details.fullName ? app.details.fullName : "");
+      let ic = member.icNumber || (app && app.details && app.details.icNumber ? app.details.icNumber : "");
+      let contactNo = member.phoneNumber || (app && app.details && app.details.phoneNumber ? app.details.phoneNumber : "");
+
+      let employmentStatus = app && app.details && app.details.employmentDetails && app.details.employmentDetails.employmentStatus
+        ? app.details.employmentDetails.employmentStatus
+        : (member.employmentStatus || "");
+
+      let companyName = app && app.details && app.details.employmentDetails && app.details.employmentDetails.employerName
+        ? app.details.employmentDetails.employerName.toUpperCase()
+        : (member.companyName || "");
+
+      let occupation = app && app.details && app.details.employmentDetails && app.details.employmentDetails.jobTitle
+        ? app.details.employmentDetails.jobTitle
+        : (member.occupation || "");
+
+      let stateOfEmployment = app && app.details && app.details.employmentDetails && app.details.employmentDetails.employmentState
+        ? app.details.employmentDetails.employmentState
+        : (member.employmentState || "");
+
+      let icFrontUrl = app && app.details && app.details.icFrontFile ? `${baseUrl}/${app.details.icFrontFile}` : "";
+      let icBackUrl = app && app.details && app.details.icBackFile ? `${baseUrl}/${app.details.icBackFile}` : "";
+      let payslipUrl = app && app.details && app.details.payslipFile ? `${baseUrl}/${app.details.payslipFile}` : "";
+
+      let joinDate = member.createDate ? new Date(member.createDate).toISOString() : "";
+      let bankName = member.bankName || "";
+      let bankAccountName = member.bankAccountName || "";
+      let bankAccountNumber = member.bankAccountNumber || "";
+
+      const rowValues = {
+        subadmin: subadminName,
+        referral_name: referralName,
+        full_name: fullName,
+        ic: ic,
+        contact_no: contactNo,
+        employment_status: employmentStatus,
+        company_name: companyName,
+        job_title: occupation,
+        state_of_employment: stateOfEmployment,
+        ic_front_url: icFrontUrl,
+        ic_back_url: icBackUrl,
+        payslip_url: payslipUrl,
+        join_date: joinDate,
+        bank_name: bankName,
+        bank_account_name: bankAccountName,
+        bank_account_number: bankAccountNumber,
+      };
+
+      const row = activeColumns.map((col) => rowValues[col.id]);
       rows.push(row);
     }
 
@@ -715,7 +749,7 @@ router.get("/members/export", [auth, adminOnly], async (req, res) => {
     res.setHeader("Content-Type", "text/csv");
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=members_and_applications_export.csv",
+      "attachment; filename=members_export.csv",
     );
     res.send(csvContent);
   } catch (err) {
