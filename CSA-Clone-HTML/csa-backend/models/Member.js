@@ -23,6 +23,8 @@ const MemberSchema = new mongoose.Schema({
   // Career Detail
   companyName: { type: String },
   companyType: { type: Number, default: 1 }, // 1-Government, 2-Private
+  employmentStatus: { type: String },
+  employmentState: { type: String },
   occupation: { type: String },
   salary: { type: Number },
   retirementAge: { type: Number },

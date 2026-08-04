@@ -383,6 +383,7 @@
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
     <script src="../Scripts/adminHelper.js"></script>
+    <script src="../Scripts/application-components.js"></script>
 
     <script>
       const statusMap = {
@@ -561,12 +562,7 @@
           if (app) {
             const details = app.details || {};
             const employment = details.employmentDetails || {};
-            const salaryRangeMap = {
-              1: "Below 3k",
-              2: "3001 - 5k",
-              3: "5k and Above",
-            };
-            const salaryLabel = salaryRangeMap[employment.salaryRange] || "N/A";
+            const salaryLabel = AppComponents.getSalaryLabel(employment.salaryRange);
 
             let referrerInfo = "N/A";
             if (app.member) {
@@ -582,8 +578,7 @@
               }
             }
 
-            const d = new Date(app.createDate);
-            const formattedDate = d.toLocaleString();
+            const formattedDate = AppComponents.formatDate(app.createDate);
                 function renderAdminDocHistoryHtml(historyList, collapseId) {
                   if (!historyList || historyList.length === 0) return "";
                   const historyItems = historyList.slice().reverse().map((item, idx) => {
@@ -657,8 +652,11 @@
                                     
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Employment Details</h6>
+                                    <div class="col-md-6 mb-2"><strong>Employment Status:</strong> ${employment.employmentStatus || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || "N/A"}</div>
                                     <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>State of Employment:</strong> ${employment.employmentState || "N/A"}</div>
+                                    <div class="col-md-6 mb-2"><strong>Retirement Age:</strong> ${employment.retirementAge ? employment.retirementAge + " Years Old" : "N/A"}</div>
                                     <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
 
                                     <div class="col-md-12"><hr></div>
@@ -701,13 +699,18 @@
 
           const select = $("#ddlNewStatus");
           select.empty();
-          if (app.applicationStatus === 6) {
-            select.append('<option value="10">Rejected</option>');
-          } else if (app.applicationStatus === 10) {
-            select.append('<option value="6">Approved</option>');
-          } else {
-            select.append('<option value="6">Approved</option>');
-            select.append('<option value="10">Rejected</option>');
+          Object.keys(statusMap).forEach((key) => {
+            const statusCode = parseInt(key);
+            if (statusCode !== app.applicationStatus) {
+              select.append(`<option value="${statusCode}">${statusMap[statusCode].text}</option>`);
+            }
+          });
+
+          if ($.fn.select2) {
+            select.select2({
+              minimumResultsForSearch: Infinity,
+              dropdownParent: $("#changeStatusModal")
+            });
           }
 
           $("#changeStatusModal").modal("show");

@@ -128,42 +128,9 @@
                                                     </div>
                                                 </div>
 
-                                                <h5 class="fs-15 col-12 mt-4 text-primary">Company/Employment Details</h5>
-                                                <div class="row">
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Employer Name <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="employerName" required />
-                                                    </div>
-                                                    <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Job Title <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="jobTitle" required />
-                                                    </div>
-                                                    <div class="col-lg-12 mb-3">
-                                                        <label class="form-label">Salary Range <span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="salaryRange" required>
-                                                            <option value="0">Select an option</option>
-                                                            <option value="1">Below 3k</option>
-                                                            <option value="2">3001 - 5k</option>
-                                                            <option value="3">5k and Above</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <div id="employmentFormContainer"></div>
 
-                                                <h5 class="fs-15 col-12 mt-4 text-primary">Upload Documents</h5>
-                                                <div class="row">
-                                                    <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">IC (Front) <span class="text-danger">*</span></label>
-                                                        <input type="file" class="form-control" id="icFront" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
-                                                    </div>
-                                                    <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">IC (Back) <span class="text-danger">*</span></label>
-                                                        <input type="file" class="form-control" id="icBack" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
-                                                    </div>
-                                                    <div class="col-lg-4 mb-3">
-                                                        <label class="form-label">Latest Payslip <span class="text-danger">*</span></label>
-                                                        <input type="file" class="form-control" id="payslip" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
-                                                    </div>
-                                                </div>
+                                                <div id="uploadDocsFormContainer"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -216,6 +183,7 @@
     <script src="../assets/js/app.js"></script>
     <script src="navbar-member.js"></script>
     <script src="memberHelper.js"></script>
+    <script src="../Scripts/application-components.js"></script>
 
     <!-- View Details Modal -->
     <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
@@ -411,6 +379,10 @@
 
     <script>
         $(document).ready(function() {
+            // Inject shared form components
+            $('#employmentFormContainer').html(AppComponents.renderEmploymentFormHTML());
+            $('#uploadDocsFormContainer').html(AppComponents.renderUploadDocsFormHTML());
+
             // Start fetching history immediately
             if (localStorage.getItem('token')) {
                 fetchHistory();
@@ -425,6 +397,11 @@
                     $('#phoneNumber').val(member.phoneNumber);
                     $('#email').val(member.email || '');
                     $('#icNumber').val((member.icNumber || '').replace(/-/g, ''));
+                    if (member.employmentStatus) $('#employmentStatus').val(member.employmentStatus);
+                    if (member.companyName) $('#employerName').val(member.companyName);
+                    if (member.occupation) $('#jobTitle').val(member.occupation);
+                    if (member.employmentState) $('#employmentState').val(member.employmentState);
+                    if (member.retirementAge) $('#retirementAge').val(member.retirementAge);
                 }
             }).catch(err => {
                 console.error('Member init failed:', err);
@@ -548,106 +525,10 @@
                         
                         if (app) {
                             const details = app.details || {};
-                            const employment = details.employmentDetails || {};
-                            const salaryRangeMap = {
-                                "1": "Below 3k",
-                                "2": "3001 - 5k",
-                                "3": "5k and Above"
-                            };
-                            const salaryLabel = salaryRangeMap[employment.salaryRange] || 'N/A';
-
-                            const d = new Date(app.createDate);
-                            const day = String(d.getDate()).padStart(2, '0');
-                            const month = String(d.getMonth() + 1).padStart(2, '0');
-                            const year = d.getFullYear();
-                            const hours = String(d.getHours()).padStart(2, '0');
-                            const minutes = String(d.getMinutes()).padStart(2, '0');
-                            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
-
-                            function renderDocHistoryHtml(historyList, collapseId) {
-                              if (!historyList || historyList.length === 0) return "";
-                              const historyItems = historyList.slice().reverse().map((item, idx) => {
-                                const itemDate = item.uploadedAt ? new Date(item.uploadedAt).toLocaleString('en-GB') : "N/A";
-                                const isLatest = idx === 0;
-                                return `
-                                  <li class="list-group-item d-flex justify-content-between align-items-center py-2 fs-12">
-                                    <div>
-                                      <span class="badge ${isLatest ? 'bg-success' : 'bg-secondary'} me-1">${isLatest ? 'Current' : 'History'}</span>
-                                      <small class="text-muted">${itemDate}</small>
-                                      ${item.note ? `<br><small class="fst-italic text-dark">${item.note}</small>` : ''}
-                                    </div>
-                                    <a href="https://x.neuronwww.com/${item.file}" target="_blank" class="btn btn-xs btn-outline-primary ms-2"><i class="ri-file-search-line"></i> View</a>
-                                  </li>
-                                `;
-                              }).join('');
-
-                              return `
-                                <div class="mt-2">
-                                  <button class="btn btn-sm btn-link text-decoration-none p-0 fs-12" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
-                                    <i class="ri-history-line"></i> View Upload History (${historyList.length})
-                                  </button>
-                                  <div class="collapse mt-2" id="${collapseId}">
-                                    <ul class="list-group">
-                                      ${historyItems}
-                                    </ul>
-                                  </div>
-                                </div>
-                              `;
-                            }
-
-                            const icFrontHistoryHtml = renderDocHistoryHtml(details.icFrontHistory, "agentApplyIcFrontHistoryCollapse");
-                            const icBackHistoryHtml = renderDocHistoryHtml(details.icBackHistory, "agentApplyIcBackHistoryCollapse");
-                            const payslipHistoryHtml = renderDocHistoryHtml(details.payslipHistory, "agentApplyPayslipHistoryCollapse");
-
-                            let html = `
-                                <div class="row">
-                                    <div class="col-md-6 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
-                                    <div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
-                                    <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Personal Details</h6>
-                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || 'N/A'}</div>
-                                    <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || 'N/A'}</div>
-                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || 'N/A').toString().replace(/-/g, '')}</div>
-                                    <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || 'N/A'}</div>
-                                    
-                                    <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Employment Details</h6>
-                                    <div class="col-md-6 mb-2"><strong>Employer:</strong> ${employment.employerName || 'N/A'}</div>
-                                    <div class="col-md-6 mb-2"><strong>Job Title:</strong> ${employment.jobTitle || 'N/A'}</div>
-                                    <div class="col-md-6 mb-3"><strong>Salary Range:</strong> ${salaryLabel}</div>
-
-                                    <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                                     <div class="col-md-4 mb-2">
-                                         <strong>IC Front:</strong><br>
-                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
-                                         <br>
-                                         <button class="btn btn-sm btn-soft-warning mt-2 open-reupload-btn" data-id="${app._id}" data-type="icFront">
-                                           <i class="ri-upload-cloud-line"></i> Update IC Front
-                                         </button>
-                                         ${icFrontHistoryHtml}
-                                     </div>
-                                     <div class="col-md-4 mb-2">
-                                         <strong>IC Back:</strong><br>
-                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
-                                         <br>
-                                         <button class="btn btn-sm btn-soft-warning mt-2 open-reupload-btn" data-id="${app._id}" data-type="icBack">
-                                           <i class="ri-upload-cloud-line"></i> Update IC Back
-                                         </button>
-                                         ${icBackHistoryHtml}
-                                     </div>
-                                     <div class="col-md-4 mb-2">
-                                         <strong>Payslip:</strong><br>
-                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : 'Not uploaded'}
-                                         <br>
-                                         <button class="btn btn-sm btn-soft-warning mt-2 open-reupload-btn" data-id="${app._id}" data-type="payslip">
-                                           <i class="ri-upload-cloud-line"></i> Update Payslip
-                                         </button>
-                                         ${payslipHistoryHtml}
-                                     </div>
-                                </div>
-                            `;
-                            
+                            const html = AppComponents.renderViewDetailsHTML(app, details, {
+                                showReuploadButtons: true,
+                                historyPrefix: 'agentApply'
+                            });
                             $('#modalContent').html(html);
                             $('#viewDetailsModal').modal('show');
                         }
@@ -862,8 +743,9 @@
 
             $('#btnSubmit').click(function() {
                 // Perform basic validation before showing confirmation modal
-                if (!$('#fullName').val() || !$('#icNumber').val() || !$('#phoneNumber').val() || !$('#email').val() || !$('#employerName').val() || !$('#jobTitle').val() || $('#salaryRange').val() === '0' || !$('#icFront')[0].files[0] || !$('#icBack')[0].files[0] || !$('#payslip')[0].files[0]) {
-                    $('#errorModalMsg').text('Please fill in all required fields and upload all required documents.');
+                const validation = AppComponents.validateApplicationForm();
+                if (!validation.valid) {
+                    $('#errorModalMsg').text(validation.message);
                     $('#errorModal').modal('show');
                     return;
                 }
@@ -872,17 +754,7 @@
 
             $('#btnConfirmSubmit').click(async function() {
                 $('#confirmModal').modal('hide');
-                const applicationDetails = {
-                    fullName: $('#fullName').val(),
-                    icNumber: $('#icNumber').val().replace(/-/g, '').trim(),
-                    phoneNumber: $('#phoneNumber').val(),
-                    email: $('#email').val(),
-                    employmentDetails: {
-                        employerName: $('#employerName').val(),
-                        jobTitle: $('#jobTitle').val(),
-                        salaryRange: $('#salaryRange').val()
-                    }
-                };
+                const applicationDetails = AppComponents.collectApplicationDetails();
 
                 const formData = new FormData();
                 formData.append('details', JSON.stringify(applicationDetails));
@@ -923,9 +795,12 @@
                         // Refresh history
                         fetchHistory();
                         // Reset form fields
+                        $('#employmentStatus').val('');
                         $('#employerName').val('');
                         $('#jobTitle').val('');
+                        $('#employmentState').val('');
                         $('#salaryRange').val('0');
+                        $('#retirementAge').val('');
                         $('#icFront').val('');
                         $('#icBack').val('');
                         $('#payslip').val('');

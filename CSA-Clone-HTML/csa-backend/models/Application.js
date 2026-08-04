@@ -29,9 +29,12 @@ const ApplicationSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true },
     email: { type: String, required: true },
     employmentDetails: {
+      employmentStatus: { type: String },
       employerName: { type: String, required: true },
       jobTitle: { type: String, required: true },
+      employmentState: { type: String },
       salaryRange: { type: String, required: true }, // Below 3k, 3001-5k, 5k and Above
+      retirementAge: { type: Number },
     },
     icFrontFile: { type: String },
     icBackFile: { type: String },

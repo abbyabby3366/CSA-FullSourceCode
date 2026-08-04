@@ -275,6 +275,8 @@ router.post("/application/:id/status", [auth, adminOrSubadmin], async (req, res)
         member.status = "approved";
       } else if (status == 7 || status == 10) {
         member.status = "rejected";
+      } else {
+        member.status = "pending";
       }
       await member.save();
     }

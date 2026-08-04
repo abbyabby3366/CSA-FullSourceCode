@@ -105,8 +105,11 @@ router.post("/submit", auth, (req, res) => {
       if (details.phoneNumber) updateFields.contactPhone = details.phoneNumber;
       if (details.email) updateFields.email = details.email;
       if (details.employmentDetails) {
+        if (details.employmentDetails.employmentStatus) updateFields.employmentStatus = details.employmentDetails.employmentStatus;
         if (details.employmentDetails.employerName) updateFields.companyName = details.employmentDetails.employerName;
         if (details.employmentDetails.jobTitle) updateFields.occupation = details.employmentDetails.jobTitle;
+        if (details.employmentDetails.employmentState) updateFields.employmentState = details.employmentDetails.employmentState;
+        if (details.employmentDetails.retirementAge) updateFields.retirementAge = parseInt(details.employmentDetails.retirementAge);
         if (details.employmentDetails.salaryRange) {
           if (details.employmentDetails.salaryRange === "1") updateFields.salary = 2500;
           else if (details.employmentDetails.salaryRange === "2") updateFields.salary = 4000;

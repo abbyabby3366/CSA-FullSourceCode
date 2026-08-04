@@ -239,6 +239,49 @@ function renderMemberNavBar() {
   };
   updateRoleMenu();
 
+  // Handle WhatsApp Link Confirmation Dialog
+  const whatsappBtn = document.getElementById("whatsapp-link-nav");
+  if (whatsappBtn) {
+    whatsappBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute("href") || "https://wa.me/60128817823";
+
+      const openDialog = () => {
+        Swal.fire({
+          title: "Redirecting to WhatsApp",
+          text: "You will be redirected to WhatsApp to contact Customer Service.",
+          imageUrl: "../assets/images/logos/whatsapp.svg",
+          imageWidth: 64,
+          imageHeight: 64,
+          imageAlt: "WhatsApp Logo",
+          showCancelButton: true,
+          confirmButtonText: "Proceed",
+          cancelButtonText: "Cancel",
+          reverseButtons: true,
+          confirmButtonColor: "#0ab39c",
+          cancelButtonColor: "#f46a6a",
+          customClass: {
+            cancelButton: "btn btn-ghost-danger w-xs me-2",
+            confirmButton: "btn btn-primary w-xs"
+          },
+          buttonsStyling: false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.open(targetUrl, "_blank", "noopener,noreferrer");
+          }
+        });
+      };
+
+      if (typeof Swal !== "undefined") {
+        openDialog();
+      } else {
+        const script = document.createElement("script");
+        script.src = "../assets/libs/sweetalert2/sweetalert2.all.min.js";
+        script.onload = openDialog;
+        document.head.appendChild(script);
+      }
+    });
+  }
 }
 
 // Run immediately - script is placed at the bottom of the body
