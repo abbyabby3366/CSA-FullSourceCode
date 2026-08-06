@@ -295,6 +295,29 @@ function renderMemberNavBar() {
       }
     });
   }
+
+  // Inject Footer
+  renderFooter();
+}
+
+function renderFooter() {
+  const footerEl = document.querySelector("footer.footer");
+  if (footerEl) {
+    footerEl.innerHTML = `
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            © ${new Date().getFullYear()} iBelanja - All rights reserved.
+          </div>
+          <div class="col-sm-6">
+            <div class="text-sm-end d-none d-sm-block">
+              Design & Develop by Neurontech Trading
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 
 // Run immediately - script is placed at the bottom of the body

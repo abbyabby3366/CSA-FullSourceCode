@@ -298,6 +298,9 @@ function renderNavBar() {
     sideMenu.innerHTML = sidebarHTML;
   }
 
+  // Inject Footer
+  renderFooter();
+
   // Handle Logout
   $(".logout-admin").on("click", function (e) {
     e.preventDefault();
@@ -306,6 +309,26 @@ function renderNavBar() {
     localStorage.removeItem("userName");
     window.location.href = "index.html";
   });
+}
+
+function renderFooter() {
+  const footerEl = document.querySelector("footer.footer");
+  if (footerEl) {
+    footerEl.innerHTML = `
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            © ${new Date().getFullYear()} iBelanja - All rights reserved.
+          </div>
+          <div class="col-sm-6">
+            <div class="text-sm-end d-none d-sm-block">
+              Design & Develop by Neurontech Trading
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 
 // Ensure it runs after DOM is ready
