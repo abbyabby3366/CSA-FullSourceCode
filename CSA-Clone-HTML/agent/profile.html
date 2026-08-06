@@ -268,6 +268,14 @@
                             <td class="text-muted" id="retirementAge">-</td>
                           </tr>
                           <tr>
+                            <th class="ps-0" scope="row">Employment Status</th>
+                            <td class="text-muted" id="employmentStatusVal">-</td>
+                          </tr>
+                          <tr>
+                            <th class="ps-0" scope="row">State of Employment</th>
+                            <td class="text-muted" id="employmentStateVal">-</td>
+                          </tr>
+                          <tr>
                             <th class="ps-0" scope="row">Work Address</th>
                             <td class="text-muted" id="workAddress">-</td>
                           </tr>
@@ -581,6 +589,26 @@
                       class="form-control numeric-input"
                       id="editRetirementAge"
                       placeholder="Retirement Age"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Employment Status</label>
+                    <select class="form-select" id="editEmploymentStatus">
+                      <option value="">Select Status</option>
+                      <option value="GOVERNMENT">GOVERNMENT</option>
+                      <option value="GLC">GLC</option>
+                      <option value="SWASTA/ PRIVATE">SWASTA/ PRIVATE</option>
+                      <option value="OWN BUSINESS">OWN BUSINESS</option>
+                      <option value="OTHERS">OTHERS</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">State of Employment</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editEmploymentState"
+                      placeholder="State of Employment (e.g. Selangor)"
                     />
                   </div>
                   <div class="mb-3">
@@ -962,6 +990,8 @@
               : "-"
           );
           $("#retirementAge").text(formatValue(member.retirementAge));
+          $("#employmentStatusVal").text(formatValue(member.employmentStatus));
+          $("#employmentStateVal").text(formatValue(member.employmentState));
           $("#workAddress").text(formatValue(member.workAddress));
 
           // Cards Info
@@ -1000,6 +1030,8 @@
           $("#editOccupation").val(member.occupation || "");
           $("#editSalary").val(member.salary || "");
           $("#editRetirementAge").val(member.retirementAge || "");
+          $("#editEmploymentStatus").val(member.employmentStatus || "");
+          $("#editEmploymentState").val(member.employmentState || "");
           $("#editWorkAddress").val(member.workAddress || "");
 
           $("#editBankName").val(member.bankName || "Maybank");
@@ -1148,6 +1180,8 @@
           const occupation = $("#editOccupation").val();
           const salary = parseFloat($("#editSalary").val()) || null;
           const retirementAge = parseInt($("#editRetirementAge").val()) || null;
+          const employmentStatus = $("#editEmploymentStatus").val();
+          const employmentState = $("#editEmploymentState").val();
           const workAddress = $("#editWorkAddress").val();
 
           try {
@@ -1165,6 +1199,8 @@
                   occupation,
                   salary,
                   retirementAge,
+                  employmentStatus,
+                  employmentState,
                   workAddress,
                 }),
               },
