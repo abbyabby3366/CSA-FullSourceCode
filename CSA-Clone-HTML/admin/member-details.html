@@ -324,6 +324,26 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
                               readonly
                             />
                           </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">Employment Status</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detEmploymentStatus"
+                              value=""
+                              readonly
+                            />
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="form-label">State of Employment</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="detEmploymentState"
+                              value=""
+                              readonly
+                            />
+                          </div>
                           <div class="col-12">
                             <label class="form-label">Work Address</label>
                             <textarea class="form-control" id="detWorkAddress" rows="3" readonly></textarea>
@@ -529,6 +549,8 @@ No. 45, Jalan Ampang, Kuala Lumpur, 50450, Malaysia</textarea
             const salaryStr = member.salary ? `RM ${member.salary.toLocaleString()}` : "N/A";
             $(`#detSalary`).val(salaryStr);
             $(`#detRetirementAge`).val(member.retirementAge ? `${member.retirementAge} Years Old` : "N/A");
+            $(`#detEmploymentStatus`).val(member.employmentStatus || "N/A");
+            $(`#detEmploymentState`).val(member.employmentState || "N/A");
             $(`#detWorkAddress`).val(member.workAddress || "N/A");
 
             // Bank Details Tab

@@ -36,6 +36,15 @@ router.get("/me", auth, async (req, res) => {
         if (details.employmentDetails.jobTitle) {
           memberObj.occupation = details.employmentDetails.jobTitle;
         }
+        if (details.employmentDetails.employmentStatus) {
+          memberObj.employmentStatus = details.employmentDetails.employmentStatus;
+        }
+        if (details.employmentDetails.employmentState) {
+          memberObj.employmentState = details.employmentDetails.employmentState;
+        }
+        if (details.employmentDetails.retirementAge) {
+          memberObj.retirementAge = parseInt(details.employmentDetails.retirementAge);
+        }
         if (details.employmentDetails.salaryRange) {
           if (details.employmentDetails.salaryRange === "1") memberObj.salary = 2500;
           else if (details.employmentDetails.salaryRange === "2") memberObj.salary = 4000;

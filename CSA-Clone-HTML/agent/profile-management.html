@@ -419,16 +419,36 @@
                                 placeholder="Monthly Salary"
                               />
                             </div>
-                            <div class="col-lg-6 mb-3">
-                              <label class="form-label">Retirement Age</label>
-                              <input
-                                type="number"
-                                class="form-control numeric-input"
-                                id="careerRetirementAge"
-                                placeholder="Retirement Age"
-                              />
-                            </div>
-                            <div class="col-lg-12 mb-3">
+                             <div class="col-lg-6 mb-3">
+                               <label class="form-label">Retirement Age</label>
+                               <input
+                                 type="number"
+                                 class="form-control numeric-input"
+                                 id="careerRetirementAge"
+                                 placeholder="Retirement Age"
+                               />
+                             </div>
+                             <div class="col-lg-6 mb-3">
+                               <label class="form-label">Employment Status</label>
+                               <select class="form-select" id="careerEmploymentStatus">
+                                 <option value="">Select Status</option>
+                                 <option value="GOVERNMENT">GOVERNMENT</option>
+                                 <option value="GLC">GLC</option>
+                                 <option value="SWASTA/ PRIVATE">SWASTA/ PRIVATE</option>
+                                 <option value="OWN BUSINESS">OWN BUSINESS</option>
+                                 <option value="OTHERS">OTHERS</option>
+                               </select>
+                             </div>
+                             <div class="col-lg-6 mb-3">
+                               <label class="form-label">State of Employment</label>
+                               <input
+                                 type="text"
+                                 class="form-control"
+                                 id="careerEmploymentState"
+                                 placeholder="State of Employment (e.g. Selangor)"
+                               />
+                             </div>
+                             <div class="col-lg-12 mb-3">
                               <label class="form-label">Work Address</label>
                               <textarea
                                 class="form-control"
@@ -584,6 +604,8 @@
             occupation: $("#careerOccupation").val(),
             salary: $("#careerSalary").val(),
             retirementAge: $("#careerRetirementAge").val(),
+            employmentStatus: $("#careerEmploymentStatus").val(),
+            employmentState: $("#careerEmploymentState").val(),
             workAddress: $("#careerWorkAddress").val(),
           };
           $("#btnCancelCareer").hide();
@@ -608,6 +630,8 @@
             occupation: $("#careerOccupation").val(),
             salary: $("#careerSalary").val(),
             retirementAge: $("#careerRetirementAge").val(),
+            employmentStatus: $("#careerEmploymentStatus").val(),
+            employmentState: $("#careerEmploymentState").val(),
             workAddress: $("#careerWorkAddress").val(),
           };
           const hasChanged =
@@ -691,6 +715,8 @@
           $("#careerOccupation").val(occupation);
           $("#careerSalary").val(salary);
           $("#careerRetirementAge").val(member.retirementAge || "");
+          $("#careerEmploymentStatus").val(empDetails.employmentStatus || member.employmentStatus || "");
+          $("#careerEmploymentState").val(empDetails.employmentState || member.employmentState || "");
           $("#careerWorkAddress").val(member.workAddress || "");
 
           captureCareerState();
@@ -725,7 +751,7 @@
           "input change",
           checkPersonalChanges,
         );
-        $("#careerCompanyName, #careerCompanyType, #careerOccupation, #careerSalary, #careerRetirementAge, #careerWorkAddress").on(
+        $("#careerCompanyName, #careerCompanyType, #careerOccupation, #careerSalary, #careerRetirementAge, #careerEmploymentStatus, #careerEmploymentState, #careerWorkAddress").on(
           "input change",
           checkCareerChanges,
         );
@@ -754,6 +780,8 @@
           $("#careerOccupation").val(initialCareer.occupation);
           $("#careerSalary").val(initialCareer.salary);
           $("#careerRetirementAge").val(initialCareer.retirementAge);
+          $("#careerEmploymentStatus").val(initialCareer.employmentStatus);
+          $("#careerEmploymentState").val(initialCareer.employmentState);
           $("#careerWorkAddress").val(initialCareer.workAddress);
           $(this).hide();
         });
@@ -819,6 +847,8 @@
           const occupation = $("#careerOccupation").val();
           const salary = parseFloat($("#careerSalary").val()) || null;
           const retirementAge = parseInt($("#careerRetirementAge").val()) || null;
+          const employmentStatus = $("#careerEmploymentStatus").val();
+          const employmentState = $("#careerEmploymentState").val();
           const workAddress = $("#careerWorkAddress").val();
 
           try {
@@ -836,6 +866,8 @@
                   occupation,
                   salary,
                   retirementAge,
+                  employmentStatus,
+                  employmentState,
                   workAddress,
                 }),
               },
