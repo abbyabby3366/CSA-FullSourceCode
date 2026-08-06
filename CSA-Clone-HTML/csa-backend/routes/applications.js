@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const upload = require("../middleware/upload");
@@ -7,13 +8,31 @@ const Application = require("../models/Application");
 const Member = require("../models/Member");
 
 // @route    GET api/applications/my
-// @desc     Get all applications for current member
+// @desc     Get all applications for current member or agent's downlines
 // @access   Private
 router.get("/my", auth, async (req, res) => {
   try {
-    const apps = await Application.find({ member: req.user.id }).sort({
-      createDate: -1,
-    });
+    const userIdObj = new mongoose.Types.ObjectId(req.user.id);
+    const userMember = await Member.findById(userIdObj);
+    let filter = { member: userIdObj };
+
+    if (userMember && (userMember.memberType === 2 || userMember.memberType === 3)) {
+      const downlines = await Member.find({ referrer: userIdObj }).select("_id");
+      const downlineIds = downlines.map((d) => d._id);
+      filter = {
+        $or: [
+          { member: userIdObj },
+          { member: { $in: downlineIds } },
+          { referrerMember: userIdObj },
+        ],
+      };
+    }
+
+    const apps = await Application.find(filter)
+      .populate("member", "fullName memberCode phoneNumber email")
+      .sort({
+        createDate: -1,
+      });
     res.json(apps);
   } catch (err) {
     console.error(err.message);

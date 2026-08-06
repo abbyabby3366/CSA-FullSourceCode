@@ -11,7 +11,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Application History | Member Portal</title>
+    <title>Downline Applications | Agent Portal</title>
 
     <script src="../assets/js/layout.js"></script>
 
@@ -59,7 +59,7 @@
                   class="d-flex align-items-lg-center flex-lg-row flex-column"
                 >
                   <div class="flex-grow-1">
-                    <h4 class="fs-16 mb-1">Application History</h4>
+                    <h4 class="fs-16 mb-1">Downline Applications</h4>
                   </div>
                 </div>
               </div>
@@ -70,7 +70,7 @@
                 <div class="card">
                   <div class="card-header border-0 align-items-center d-flex">
                     <h5 class="card-title mb-0 flex-grow-1">
-                      Application List
+                      Downline Application List
                     </h5>
                     <div class="flex-shrink-0">
                       <div class="input-group">
@@ -95,9 +95,9 @@
                         <thead class="table-light text-muted">
                           <tr>
                             <th>APPLICATION ID</th>
+                            <th>APPLICANT NAME</th>
                             <th>DATE & TIME</th>
                             <th>STATUS</th>
-                            <th class="text-center">ACTION</th>
                           </tr>
                         </thead>
                         <tbody id="applicationHistory">
@@ -143,44 +143,7 @@
     <script src="navbar-member.js"></script>
     <script src="memberHelper.js"></script>
 
-    <!-- View Details Modal -->
-    <div
-      class="modal fade"
-      id="viewDetailsModal"
-      tabindex="-1"
-      aria-labelledby="viewDetailsModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="viewDetailsModalLabel">
-              Application Details
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="modalContent">
-              <!-- Content will be populated by JS -->
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Re-upload Document Modal -->
     <div
@@ -261,7 +224,7 @@
 
             if (apps.length === 0) {
               tbody.append(
-                '<tr><td colspan="5" class="text-center">No history available</td></tr>',
+                '<tr><td colspan="4" class="text-center">No history available</td></tr>',
               );
               return;
             }
@@ -292,14 +255,17 @@
                 statusMap[app.applicationStatus] ||
                 '<span class="badge bg-secondary">Unknown</span>';
 
+              const applicantName =
+                (app.member && app.member.fullName) ||
+                (app.details && app.details.fullName) ||
+                "N/A";
+
               tbody.append(`
                             <tr>
                                 <td>${app._id}</td>
+                                <td><span class="fw-medium">${applicantName}</span></td>
                                 <td>${date}</td>
                                 <td>${status}</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-soft-primary view-details" data-id="${app._id}">View Details</button>
-                                </td>
                             </tr>
                         `);
             });
@@ -308,23 +274,6 @@
             $("#applicationTable").DataTable({
               dom: '<"row mx-0"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mx-0"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
               destroy: true, // Allow re-initialization
-            });
-
-            // Add click handler for View Details
-            $(".view-details").on("click", function () {
-              const appId = $(this).data("id");
-              const app = applicationData.find((a) => a._id === appId);
-
-              if (app) {
-                const details = app.details || {};
-                const html = AppComponents.renderViewDetailsHTML(app, details, {
-                    showReuploadButtons: true,
-                    historyPrefix: 'agent'
-                });
-
-                $("#modalContent").html(html);
-                $("#viewDetailsModal").modal("show");
-              }
             });
           } catch (err) {
             console.error("Error fetching history:", err);

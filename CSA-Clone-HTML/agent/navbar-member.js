@@ -111,6 +111,12 @@ function renderMemberNavBar() {
                             </div>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link menu-link ${currentPage === "application-status.html" ? "active" : ""}" href="application-status.html">
+                                <i class="ri-file-list-3-line"></i><span>Downline Applications </span>
+                            </a>
+                        </li>
+
                         <li class="menu-title"><i class="ri-more-fill"></i><span data-key="t-user">User</span></li>
 
                         <li class="nav-item">
