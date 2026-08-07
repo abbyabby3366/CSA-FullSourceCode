@@ -333,6 +333,88 @@ router.post("/application/:id/status", [auth, adminOrSubadmin], async (req, res)
   }
 });
 
+// @route    PUT api/admin/application/:id/edit-details
+// @desc     Edit application personal details (admin/subadmin) with audit trail
+router.put("/application/:id/edit-details", [auth, adminOrSubadmin], async (req, res) => {
+  try {
+    const app = await Application.findById(req.params.id);
+    if (!app) return res.status(404).json({ msg: "Application not found" });
+
+    const admin = await Admin.findById(req.user.id).select("name role");
+    if (!admin) return res.status(403).json({ msg: "Admin not found" });
+
+    const { fullName, phoneNumber, icNumber, email } = req.body;
+    if (!app.details) app.details = {};
+
+    // Field mapping: submitted field → schema path, label, and Member model field
+    const fieldMap = [
+      { key: "fullName", label: "Full Name", memberField: "fullName" },
+      { key: "phoneNumber", label: "Phone Number", memberField: "phoneNumber" },
+      { key: "icNumber", label: "IC Number", memberField: "icNumber" },
+      { key: "email", label: "Email Address", memberField: "email" },
+    ];
+
+    const incoming = { fullName, phoneNumber, icNumber, email };
+    const changes = [];
+
+    for (const f of fieldMap) {
+      const newVal = incoming[f.key];
+      if (newVal === undefined || newVal === null) continue;
+
+      const cleanNew = f.key === "icNumber" ? newVal.toString().replace(/-/g, "").trim() : newVal.trim();
+      const oldVal = (app.details[f.key] || "").toString();
+
+      if (cleanNew !== oldVal) {
+        changes.push({
+          field: f.key,
+          fieldLabel: f.label,
+          oldValue: oldVal,
+          newValue: cleanNew,
+          editedBy: req.user.id,
+          editedByName: admin.name,
+          editedByRole: admin.role,
+          editedAt: new Date(),
+        });
+        app.details[f.key] = cleanNew;
+      }
+    }
+
+    if (changes.length === 0) {
+      return res.status(400).json({ msg: "No changes detected." });
+    }
+
+    if (!app.editHistory) app.editHistory = [];
+    app.editHistory.push(...changes);
+    app.lastUpdate = new Date();
+    app.markModified("details");
+    app.markModified("editHistory");
+    await app.save();
+
+    // Sync changes to Member model
+    const memberUpdate = {};
+    for (const c of changes) {
+      const mapping = fieldMap.find((f) => f.key === c.field);
+      if (mapping && mapping.memberField) {
+        memberUpdate[mapping.memberField] = c.newValue;
+        // Member model has both phoneNumber and contactPhone
+        if (mapping.memberField === "phoneNumber") {
+          memberUpdate.contactPhone = c.newValue;
+        }
+      }
+    }
+    if (Object.keys(memberUpdate).length > 0 && app.member) {
+      await Member.findByIdAndUpdate(app.member, { $set: memberUpdate });
+    }
+
+    // Re-fetch with populated editHistory
+    const updated = await Application.findById(app._id).populate("editHistory.editedBy", "name role");
+    res.json({ msg: "Application details updated successfully.", application: updated, changes });
+  } catch (err) {
+    console.error("Edit details error:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    PATCH api/admin/application/:id/assign
 // @desc     Assign admins to application
 router.patch("/application/:id/assign", [auth, adminOnly], async (req, res) => {

@@ -112,8 +112,9 @@ function showProfileCompletionModal(member) {
                     <form id="completeProfileForm">
                       <div class="row">
                           <div class="col-lg-12 mb-3">
-                            <label class="form-label">Full Name (as per NRIC)</label>
-                            <input type="text" class="form-control" id="compFullName" value="${member.fullName || ""}" required>
+                            <label class="form-label">Full Name (as per IC / MyKad)</label>
+                            <input type="text" class="form-control" id="compFullName" placeholder="Enter full name as per IC (e.g. including BIN / BINTI / BTE / A/L)" value="${member.fullName || ""}" required>
+                            <div class="form-text text-muted">Please enter your FULL name as per IC (including BIN / BINTI / BTE / A/L).</div>
                           </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Gender</label>

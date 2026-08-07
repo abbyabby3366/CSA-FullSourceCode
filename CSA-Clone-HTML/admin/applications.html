@@ -375,6 +375,7 @@
     <script src="../Scripts/navbar.js"></script>
     <script src="../Scripts/adminHelper.js"></script>
     <script src="../Scripts/application-components.js"></script>
+    <script src="../Scripts/application-edit-details.js"></script>
 
     <script>
       const statusMap = {
@@ -655,12 +656,7 @@
                                     <div class="col-md-4 mb-3"><strong>Application ID:</strong><br>${app._id}</div>
                                     <div class="col-md-4 mb-3"><strong>Date Submitted:</strong><br>${formattedDate}</div>
                                     <div class="col-md-12"><hr></div>
-                                    <h6 class="mb-3 text-primary">Personal Details</h6>
-                                    <div class="col-md-6 mb-2"><strong>Full Name:</strong> ${details.fullName || "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || "N/A").toString().replace(/-/g, "")}</div>
-                                    <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
-                                    <div class="col-md-6 mb-2"><strong>Referrer:</strong> ${referrerInfo}</div>
+                                    ${AppEditDetails.renderPersonalDetailsHTML(app, details, referrerInfo)}
                                     
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Employment Details</h6>
@@ -694,7 +690,50 @@
 
             $("#modalContent").html(html);
             $("#viewDetailsModal").modal("show");
+
+            // Store app reference for edit handlers
+            $("#viewDetailsModal").data("currentApp", app);
+            $("#viewDetailsModal").data("referrerInfo", referrerInfo);
           }
+        });
+
+        // Edit Personal Details - Enter edit mode
+        $(document).on("click", ".edit-personal-btn", function () {
+          const app = $("#viewDetailsModal").data("currentApp");
+          if (app) AppEditDetails.enterEditMode(app);
+        });
+
+        // Edit Personal Details - Save
+        $(document).on("click", "#btnSaveEditDetails", async function () {
+          const btn = $(this);
+          btn.prop("disabled", true).html('<i class="ri-loader-4-line me-1 spin"></i>Saving...');
+
+          const result = await AppEditDetails.saveEditDetails();
+          if (result && result.application) {
+            // Update the local applicationData array
+            const updatedApp = result.application;
+            const idx = applicationData.findIndex((a) => a._id === updatedApp._id);
+            if (idx !== -1) {
+              applicationData[idx].details = updatedApp.details;
+              applicationData[idx].editHistory = updatedApp.editHistory;
+            }
+
+            // Re-trigger the view to refresh modal content
+            alert("Details updated successfully!");
+            $("#viewDetailsModal").modal("hide");
+            // Re-open with updated data
+            const appId = updatedApp._id;
+            setTimeout(() => { $(".view-btn[data-id='" + appId + "']").trigger("click"); }, 300);
+          } else {
+            btn.prop("disabled", false).html('<i class="ri-save-line me-1"></i>Save Changes');
+          }
+        });
+
+        // Edit Personal Details - Cancel
+        $(document).on("click", "#btnCancelEditDetails", function () {
+          const app = $("#viewDetailsModal").data("currentApp");
+          const referrerInfo = $("#viewDetailsModal").data("referrerInfo");
+          if (app) AppEditDetails.cancelEditMode(app, referrerInfo);
         });
 
         // Change Status Handler (For Approved / Rejected applications)

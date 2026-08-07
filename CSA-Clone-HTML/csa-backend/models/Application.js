@@ -85,6 +85,20 @@ const ApplicationSchema = new mongoose.Schema({
     },
   },
 
+  // Audit trail for admin/subadmin edits to application details
+  editHistory: [
+    {
+      field: { type: String, required: true },
+      fieldLabel: { type: String, required: true },
+      oldValue: { type: String },
+      newValue: { type: String },
+      editedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
+      editedByName: { type: String },
+      editedByRole: { type: String },
+      editedAt: { type: Date, default: Date.now },
+    },
+  ],
+
   rejection: {
     reason: { type: String },
     date: { type: Date },
