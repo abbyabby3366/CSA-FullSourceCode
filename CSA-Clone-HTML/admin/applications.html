@@ -527,8 +527,8 @@
             } else {
               $appStatusSelect.val("-1");
             }
-            if ($.fn.select2 && $appStatusSelect.hasClass("select2-hidden-accessible")) {
-              $appStatusSelect.trigger("change.select2");
+            if ($.fn.select2) {
+              $appStatusSelect.select2({ theme: "bootstrap-5" });
             }
 
             const appTable = $("#gvApplicant").DataTable({
