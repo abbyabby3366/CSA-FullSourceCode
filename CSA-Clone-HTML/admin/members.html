@@ -347,7 +347,8 @@
             }
 
             const memberTable = $("#gvData").DataTable({
-              scrollX: true
+              scrollX: true,
+              pageLength: 100
             });
 
             $("#txtSearch").off("keyup input").on("keyup input", function () {
