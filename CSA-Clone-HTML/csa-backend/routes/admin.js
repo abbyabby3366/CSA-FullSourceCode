@@ -736,6 +736,13 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
       { id: "full_name", label: "Full Name (Participant)" },
       { id: "ic", label: "IC" },
       { id: "contact_no", label: "Contact No" },
+      { id: "email", label: "Email" },
+      { id: "marital_status", label: "Status Perkahwinan" },
+      { id: "partner_occupation", label: "Pekerjaan Pasangan" },
+      { id: "favorite_restaurant", label: "Restoran/Cafe Kegemaran" },
+      { id: "interest_fb_franchise", label: "Minat Franchise F&B (RM5k-30k)" },
+      { id: "declaration_consent", label: "Pengesahan & Persetujuan" },
+      { id: "pdpa_consent", label: "Pengakuan PDPA & CTOS" },
       { id: "employment_status", label: "Employment Status" },
       { id: "company_name", label: "Company Name" },
       { id: "job_title", label: "Occupation / Job Title" },
@@ -775,6 +782,14 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
       let fullName = member.fullName || (app && app.details && app.details.fullName ? app.details.fullName : "");
       let ic = member.icNumber || (app && app.details && app.details.icNumber ? app.details.icNumber : "");
       let contactNo = member.phoneNumber || (app && app.details && app.details.phoneNumber ? app.details.phoneNumber : "");
+      let email = member.email || (app && app.details && app.details.email ? app.details.email : "");
+
+      let maritalStatus = app && app.details && app.details.maritalStatus ? app.details.maritalStatus : "";
+      let partnerOccupation = app && app.details && app.details.partnerOccupation ? app.details.partnerOccupation : "";
+      let favoriteRestaurant = app && app.details && app.details.favoriteRestaurant ? app.details.favoriteRestaurant : "";
+      let interestFbFranchise = app && app.details && app.details.interestFbFranchise ? app.details.interestFbFranchise : "";
+      let declarationConsent = app && app.details && app.details.declarationConsent !== undefined ? (app.details.declarationConsent ? "Yes" : "No") : "";
+      let pdpaConsent = app && app.details && app.details.pdpaConsent !== undefined ? (app.details.pdpaConsent ? "Yes" : "No") : "";
 
       let employmentStatus = app && app.details && app.details.employmentDetails && app.details.employmentDetails.employmentStatus
         ? app.details.employmentDetails.employmentStatus
@@ -807,6 +822,13 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
         full_name: fullName,
         ic: ic,
         contact_no: contactNo,
+        email: email,
+        marital_status: maritalStatus,
+        partner_occupation: partnerOccupation,
+        favorite_restaurant: favoriteRestaurant,
+        interest_fb_franchise: interestFbFranchise,
+        declaration_consent: declarationConsent,
+        pdpa_consent: pdpaConsent,
         employment_status: employmentStatus,
         company_name: companyName,
         job_title: occupation,

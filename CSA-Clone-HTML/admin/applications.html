@@ -990,101 +990,180 @@
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="btnExportDeselectAll">Deselect All</button>
               </div>
             </div>
-            <div class="row gy-2 text-start">
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="subadmin" id="chk_app_subadmin" checked />
-                  <label class="form-check-label" for="chk_app_subadmin">Subadmin</label>
+            <div class="mb-3">
+              <h6 class="fs-12 text-primary text-uppercase fw-semibold mb-2">
+                <i class="ri-user-3-line me-1 align-middle"></i> 1. Personal & Account Info
+              </h6>
+              <div class="row g-2 text-start ms-1">
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="subadmin" id="chk_app_subadmin" checked />
+                    <label class="form-check-label" for="chk_app_subadmin">Subadmin</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="referral_name" id="chk_app_referral_name" checked />
+                    <label class="form-check-label" for="chk_app_referral_name">Referral Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="full_name" id="chk_app_full_name" checked />
+                    <label class="form-check-label" for="chk_app_full_name">Full Name (Participant)</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="ic" id="chk_app_ic" checked />
+                    <label class="form-check-label" for="chk_app_ic">IC</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="contact_no" id="chk_app_contact_no" checked />
+                    <label class="form-check-label" for="chk_app_contact_no">Contact No</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="email" id="chk_app_email" checked />
+                    <label class="form-check-label" for="chk_app_email">Email</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="join_date" id="chk_app_join_date" checked />
+                    <label class="form-check-label" for="chk_app_join_date">Join Date</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="referral_name" id="chk_app_referral_name" checked />
-                  <label class="form-check-label" for="chk_app_referral_name">Referral Name</label>
+            </div>
+
+            <div class="mb-3">
+              <h6 class="fs-12 text-primary text-uppercase fw-semibold mb-2">
+                <i class="ri-questionnaire-line me-1 align-middle"></i> 2. Survey Questions & Consents
+              </h6>
+              <div class="row g-2 text-start ms-1">
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="marital_status" id="chk_app_marital_status" checked />
+                    <label class="form-check-label" for="chk_app_marital_status">Status Perkahwinan</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="partner_occupation" id="chk_app_partner_occupation" checked />
+                    <label class="form-check-label" for="chk_app_partner_occupation">Pekerjaan Pasangan</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="favorite_restaurant" id="chk_app_favorite_restaurant" checked />
+                    <label class="form-check-label" for="chk_app_favorite_restaurant">Restoran/Cafe Kegemaran</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="interest_fb_franchise" id="chk_app_interest_fb_franchise" checked />
+                    <label class="form-check-label" for="chk_app_interest_fb_franchise">Minat Franchise F&B</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="declaration_consent" id="chk_app_declaration_consent" checked />
+                    <label class="form-check-label" for="chk_app_declaration_consent">Pengesahan & Persetujuan</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="pdpa_consent" id="chk_app_pdpa_consent" checked />
+                    <label class="form-check-label" for="chk_app_pdpa_consent">Pengakuan PDPA & CTOS</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="full_name" id="chk_app_full_name" checked />
-                  <label class="form-check-label" for="chk_app_full_name">Full Name (Participant)</label>
+            </div>
+
+            <div class="mb-3">
+              <h6 class="fs-12 text-primary text-uppercase fw-semibold mb-2">
+                <i class="ri-briefcase-4-line me-1 align-middle"></i> 3. Employment Details
+              </h6>
+              <div class="row g-2 text-start ms-1">
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="employment_status" id="chk_app_employment_status" checked />
+                    <label class="form-check-label" for="chk_app_employment_status">Employment Status</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="company_name" id="chk_app_company_name" checked />
+                    <label class="form-check-label" for="chk_app_company_name">Company Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="job_title" id="chk_app_job_title" checked />
+                    <label class="form-check-label" for="chk_app_job_title">Occupation / Job Title</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="state_of_employment" id="chk_app_state_of_employment" checked />
+                    <label class="form-check-label" for="chk_app_state_of_employment">State of Employment</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="ic" id="chk_app_ic" checked />
-                  <label class="form-check-label" for="chk_app_ic">IC</label>
+            </div>
+
+            <div class="mb-3">
+              <h6 class="fs-12 text-primary text-uppercase fw-semibold mb-2">
+                <i class="ri-file-text-line me-1 align-middle"></i> 4. Submitted Documents
+              </h6>
+              <div class="row g-2 text-start ms-1">
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="ic_front_url" id="chk_app_ic_front_url" checked />
+                    <label class="form-check-label" for="chk_app_ic_front_url">Application IC Front URL</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="ic_back_url" id="chk_app_ic_back_url" checked />
+                    <label class="form-check-label" for="chk_app_ic_back_url">Application IC Back URL</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="payslip_url" id="chk_app_payslip_url" checked />
+                    <label class="form-check-label" for="chk_app_payslip_url">Application Payslip URL</label>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="contact_no" id="chk_app_contact_no" checked />
-                  <label class="form-check-label" for="chk_app_contact_no">Contact No</label>
+            </div>
+
+            <div class="mb-0">
+              <h6 class="fs-12 text-primary text-uppercase fw-semibold mb-2">
+                <i class="ri-bank-card-line me-1 align-middle"></i> 5. Bank Information
+              </h6>
+              <div class="row g-2 text-start ms-1">
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="bank_name" id="chk_app_bank_name" checked />
+                    <label class="form-check-label" for="chk_app_bank_name">Bank Name</label>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="employment_status" id="chk_app_employment_status" checked />
-                  <label class="form-check-label" for="chk_app_employment_status">Employment Status</label>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_name" id="chk_app_bank_account_name" checked />
+                    <label class="form-check-label" for="chk_app_bank_account_name">Bank Account Name</label>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="company_name" id="chk_app_company_name" checked />
-                  <label class="form-check-label" for="chk_app_company_name">Company Name</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="job_title" id="chk_app_job_title" checked />
-                  <label class="form-check-label" for="chk_app_job_title">Occupation / Job Title</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="state_of_employment" id="chk_app_state_of_employment" checked />
-                  <label class="form-check-label" for="chk_app_state_of_employment">State of Employment</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="ic_front_url" id="chk_app_ic_front_url" checked />
-                  <label class="form-check-label" for="chk_app_ic_front_url">Application IC Front URL</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="ic_back_url" id="chk_app_ic_back_url" checked />
-                  <label class="form-check-label" for="chk_app_ic_back_url">Application IC Back URL</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="payslip_url" id="chk_app_payslip_url" checked />
-                  <label class="form-check-label" for="chk_app_payslip_url">Application Payslip URL</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="join_date" id="chk_app_join_date" checked />
-                  <label class="form-check-label" for="chk_app_join_date">Join Date</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_name" id="chk_app_bank_name" checked />
-                  <label class="form-check-label" for="chk_app_bank_name">Bank Name</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_name" id="chk_app_bank_account_name" checked />
-                  <label class="form-check-label" for="chk_app_bank_account_name">Bank Account Name</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <div class="form-check">
-                  <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_number" id="chk_app_bank_account_number" checked />
-                  <label class="form-check-label" for="chk_app_bank_account_number">Bank Account Number</label>
+                <div class="col-md-6 col-lg-4">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="bank_account_number" id="chk_app_bank_account_number" checked />
+                    <label class="form-check-label" for="chk_app_bank_account_number">Bank Account Number</label>
+                  </div>
                 </div>
               </div>
             </div>

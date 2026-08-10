@@ -41,6 +41,11 @@ app.use("/api/carousel", require("./routes/carousel"));
 app.use("/api/settings", require("./routes/settings"));
 app.use("/api/bookings", require("./routes/bookings"));
 
+// Catch-all route for /admin/*: redirect all unmatched /admin/* page requests back to index.html
+app.get(/^\/admin\//, (req, res) => {
+  res.redirect("/index.html");
+});
+
 // Global Express Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error("Unhandled Backend Error:", err.stack || err);
