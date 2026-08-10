@@ -124,7 +124,19 @@ router.get("/members", [auth, adminOrSubadmin], async (req, res) => {
       };
     });
 
-    res.json(result);
+    let filteredResult = result;
+    if (req.query.status !== undefined && req.query.status !== "" && req.query.status !== "all") {
+      if (req.query.status === "no_app" || req.query.status === "no_application") {
+        filteredResult = result.filter((m) => m.latestAppStatus === null);
+      } else {
+        const targetStatus = parseInt(req.query.status, 10);
+        if (!isNaN(targetStatus)) {
+          filteredResult = result.filter((m) => m.latestAppStatus === targetStatus);
+        }
+      }
+    }
+
+    res.json(filteredResult);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

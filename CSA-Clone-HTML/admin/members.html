@@ -70,16 +70,33 @@
                 <div class="card">
                   <div class="card-header">
                     <div class="row px-2 gy-2">
-                      <div class="col-md-3 col-sm-12 d-flex align-items-center">
+                      <div class="col-md-2 col-sm-12 d-flex align-items-center">
                         <h5 class="m-0 p-0"></h5>
                       </div>
-                      <div class="col-md-9 col-sm-12">
+                      <div class="col-md-10 col-sm-12">
                         <div class="row justify-content-end gy-3">
                           <div class="col-md-3 col-sm-12">
                             <select class="form-select" id="filterMemberScope">
                               <option value="all">All Members</option>
                               <option value="assigned_subadmin">Assigned to Subadmin</option>
                               <option value="no_agent">No Agent / Direct (Unassigned)</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3 col-sm-12">
+                            <select class="form-select" id="filterMemberStatus">
+                              <option value="all" selected>All Status</option>
+                              <option value="no_app">No Application</option>
+                              <option value="0">Pending (Unassigned)</option>
+                              <option value="1">Pending (Pre-checking)</option>
+                              <option value="2">Pending (Proposal Prep)</option>
+                              <option value="3">Pending (Proposal Pres)</option>
+                              <option value="4">Pending (Pre-Signing)</option>
+                              <option value="5">Pending Acceptance</option>
+                              <option value="6">Approved</option>
+                              <option value="7">Monitoring</option>
+                              <option value="8">Queue For Reloan</option>
+                              <option value="9">Reloan Submission</option>
+                              <option value="10">Rejected</option>
                             </select>
                           </div>
                           <div class="col-md-3 col-sm-12">
@@ -330,6 +347,29 @@
             $("#btnSearch").off("click").on("click", function () {
               memberTable.search($("#txtSearch").val()).draw();
             });
+
+            function applyMemberStatusFilter() {
+              const val = $("#filterMemberStatus").val();
+              if (!val || val === "all") {
+                memberTable.column(8).search("").draw();
+              } else if (val === "no_app") {
+                memberTable.column(8).search("No Application", true, false).draw();
+              } else {
+                const statusObj = appStatusMap[val];
+                if (statusObj) {
+                  const escapedText = statusObj.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                  memberTable.column(8).search(escapedText, true, false).draw();
+                } else {
+                  memberTable.column(8).search("").draw();
+                }
+              }
+            }
+
+            $("#filterMemberStatus").off("change").on("change", function () {
+              applyMemberStatusFilter();
+            });
+
+            applyMemberStatusFilter();
           } else {
             tbody.append('<tr><td colspan="10" class="text-center">No members found</td></tr>');
           }

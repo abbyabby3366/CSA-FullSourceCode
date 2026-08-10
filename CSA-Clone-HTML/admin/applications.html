@@ -114,6 +114,7 @@
                               id="ddlApplicationStatusId"
                             >
                               <option value="-1" selected>All Status</option>
+                              <option value="no_app">No Application</option>
                               <option value="0">Unassigned</option>
                               <option value="1">Pre-checking</option>
                               <option value="2">Proposal Preparation</option>
@@ -537,10 +538,12 @@
               appTable.search($("#txtSearch").val()).draw();
             });
 
-            $("#ddlApplicationStatusId").off("change").on("change", function () {
-              const val = $(this).val();
-              if (val === "-1") {
+            function applyAppStatusFilter() {
+              const val = $("#ddlApplicationStatusId").val();
+              if (!val || val === "-1") {
                 appTable.column(5).search("").draw();
+              } else if (val === "no_app") {
+                appTable.column(5).search("No Application", true, false).draw();
               } else if (val === "0") {
                 appTable.column(5).search("Pending \\(Unassigned\\)", true, false).draw();
               } else {
@@ -552,7 +555,13 @@
                   appTable.column(5).search("").draw();
                 }
               }
+            }
+
+            $("#ddlApplicationStatusId").off("change").on("change", function () {
+              applyAppStatusFilter();
             });
+
+            applyAppStatusFilter();
           } else {
             tbody.append('<tr><td colspan="8" class="text-center">No applications found</td></tr>');
           }
