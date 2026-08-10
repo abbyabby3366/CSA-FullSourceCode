@@ -154,8 +154,9 @@ const AppComponents = (function () {
           <label class="form-label">JIKA ANDA BERPELUANG MEMBUKA PERNIAGAAN FRANCHISE F&B DENGAN BERMODALKAN RM5,000-30,000, ADAKAH ANDA BERMINAT? <span class="text-danger">*</span></label>
           <select class="form-select" id="interestFbFranchise" required>
             <option value="">Sila pilih</option>
-            <option value="Ya">Ya (Berminat)</option>
-            <option value="Tidak">Tidak (Tidak Berminat)</option>
+            <option value="YA">YA</option>
+            <option value="TIDAK">TIDAK</option>
+            <option value="Saya tidak suka berniaga">Saya tidak suka berniaga</option>
           </select>
         </div>
         <div class="col-lg-12 mb-3">
@@ -165,13 +166,13 @@ const AppComponents = (function () {
               <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="declarationConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="declarationConsent">
-                  <strong>Pengesahan & Persetujuan:</strong> Saya mengesahkan bahawa semua maklumat yang diberikan dalam permohonan ini adalah benar, tepat, dan lengkap.
+                  <strong>PENGESAHAN & PERSETUJUAN (TICK BOX):</strong> Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.
                 </label>
               </div>
               <div class="form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="pdpaConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="pdpaConsent">
-                  <strong>PDPA:</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
+                  <strong>PDPA (TICK BOX):</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
                 </label>
               </div>
             </div>
