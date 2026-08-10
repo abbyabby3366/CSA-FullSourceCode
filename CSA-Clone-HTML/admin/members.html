@@ -85,18 +85,6 @@
                           <div class="col-md-3 col-sm-12">
                             <select class="form-select" id="filterMemberStatus">
                               <option value="all" selected>All Status</option>
-                              <option value="no_app">No Application</option>
-                              <option value="0">Pending (Unassigned)</option>
-                              <option value="1">Pending (Pre-checking)</option>
-                              <option value="2">Pending (Proposal Prep)</option>
-                              <option value="3">Pending (Proposal Pres)</option>
-                              <option value="4">Pending (Pre-Signing)</option>
-                              <option value="5">Pending Acceptance</option>
-                              <option value="6">Approved</option>
-                              <option value="7">Monitoring</option>
-                              <option value="8">Queue For Reloan</option>
-                              <option value="9">Reloan Submission</option>
-                              <option value="10">Rejected</option>
                             </select>
                           </div>
                           <div class="col-md-3 col-sm-12">
@@ -292,8 +280,16 @@
 
           if (members && members.length > 0) {
             let count = 1;
+            const availableStatuses = new Map();
+
             members.forEach((member) => {
               if (member.memberType === 2) return; // Skip Agents
+
+              if (member.latestAppStatus !== null && member.latestAppStatus !== undefined && appStatusMap[member.latestAppStatus]) {
+                availableStatuses.set(member.latestAppStatus.toString(), appStatusMap[member.latestAppStatus].text);
+              } else {
+                availableStatuses.set("no_app", "No Application");
+              }
 
               const appStatus = member.latestAppStatus !== null && appStatusMap[member.latestAppStatus]
                 ? appStatusMap[member.latestAppStatus]
@@ -336,6 +332,19 @@
                           </tr>
                       `);
             });
+
+            // Dynamically populate status filter dropdown with currently available statuses
+            const selectedStatus = $("#filterMemberStatus").val() || "all";
+            const $statusSelect = $("#filterMemberStatus");
+            $statusSelect.empty().append('<option value="all">All Status</option>');
+            availableStatuses.forEach((text, key) => {
+              $statusSelect.append(`<option value="${key}">${text}</option>`);
+            });
+            if (availableStatuses.has(selectedStatus)) {
+              $statusSelect.val(selectedStatus);
+            } else {
+              $statusSelect.val("all");
+            }
 
             const memberTable = $("#gvData").DataTable({
               scrollX: true

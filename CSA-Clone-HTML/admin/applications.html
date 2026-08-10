@@ -114,22 +114,6 @@
                               id="ddlApplicationStatusId"
                             >
                               <option value="-1" selected>All Status</option>
-                              <option value="no_app">No Application</option>
-                              <option value="0">Unassigned</option>
-                              <option value="1">Pre-checking</option>
-                              <option value="2">Proposal Preparation</option>
-                              <option value="3">Proposal Presentation</option>
-                              <option value="4">Pre-Signing</option>
-                              <option value="5">
-                                Pending Zoom & Acceptance
-                              </option>
-                              <option value="6">Settlement</option>
-                              <option value="7">
-                                CCRIS Cleaning/Monitoring
-                              </option>
-                              <option value="8">Queue For Reloan</option>
-                              <option value="9">Reloan Submission</option>
-                              <option value="10">Collection</option>
                             </select>
                           </div>
                           <div class="col-md-2 col-sm-12">
@@ -451,7 +435,15 @@
 
           if (apps) {
             applicationData = apps;
+            const availableStatuses = new Map();
+
             apps.forEach((app) => {
+              if (app.applicationStatus !== null && app.applicationStatus !== undefined && statusMap[app.applicationStatus]) {
+                availableStatuses.set(app.applicationStatus.toString(), statusMap[app.applicationStatus].text);
+              } else {
+                availableStatuses.set("no_app", "No Application");
+              }
+
               const status = statusMap[app.applicationStatus] || {
                 text: "Unknown",
                 class: "bg-secondary",
@@ -522,6 +514,23 @@
                         </tr>
                     `);
             });
+
+            // Dynamically populate status dropdown with currently available statuses
+            const curVal = $("#ddlApplicationStatusId").val() || "-1";
+            const $appStatusSelect = $("#ddlApplicationStatusId");
+            $appStatusSelect.empty().append('<option value="-1">All Status</option>');
+            availableStatuses.forEach((text, key) => {
+              $appStatusSelect.append(`<option value="${key}">${text}</option>`);
+            });
+            if (availableStatuses.has(curVal)) {
+              $appStatusSelect.val(curVal);
+            } else {
+              $appStatusSelect.val("-1");
+            }
+            if ($.fn.select2 && $appStatusSelect.hasClass("select2-hidden-accessible")) {
+              $appStatusSelect.trigger("change.select2");
+            }
+
             const appTable = $("#gvApplicant").DataTable({
               order: [[6, "desc"]],
               responsive: false,
