@@ -1,178 +1,254 @@
 /**
  * Application Components - Shared module for application form fields,
  * view-details modal HTML, salary mapping, validation, and doc history.
- * 
- * Usage: Include via <script src="../Scripts/application-components.js"> 
- * AFTER jQuery and BEFORE inline page scripts.
+ * Includes BM / ENG language translation toggle support (default: BM).
  */
 const AppComponents = (function () {
 
-  // ── Salary Range Map ──
-  const salaryRangeMap = {
-    "1": "Below 3k",
-    "2": "3001 - 5k",
-    "3": "5k and Above"
+  const salaryRangeMap = { "1": "Below 3k", "2": "3001 - 5k", "3": "5k and Above" };
+  function getSalaryLabel(value) { return salaryRangeMap[value] || "N/A"; }
+
+  let currentLang = 'bm';
+  const i18n = {
+    bm: {
+      hdrApplyNow: '<i class="mdi mdi-file-document-edit-outline me-1"></i> Mohon Sekarang',
+      surveyTitle: "SURVEY FNB MARKET by iBELANJA",
+      surveyP1: "Terima kasih atas minat anda terhadap kaji selidik program <strong>iBELANJA</strong>.",
+      surveyP2: "Sila lengkapkan borang ini dengan maklumat yang tepat. Jawapan anda bakal membantu kami untuk menaik taraf servis kami.",
+      surveyP3: "Kerjasama anda untuk menjawab dengan jujur dan telus amatlah kami hargai. <em>Terima kasih.</em>",
+      lblFullName: "Nama Penuh (mengikut KP / MyKad)",
+      phFullName: "Masukkan nama penuh seperti dalam KP (cth: termasuk BIN / BINTI / BTE / A/L)",
+      subFullName: "Sila masukkan nama PENUH anda seperti dalam KP (termasuk BIN / BINTI / BTE / A/L).",
+      lblIcNumber: "Nombor Kad Pengenalan", lblPhoneNumber: "Nombor Telefon", lblEmail: "Alamat E-mel",
+      secEmploymentTitle: "Maklumat Kerjaya & Pekerjaan",
+      secEmploymentSub: "Sila isi maklumat pekerjaan anda dengan tepat dan lengkap.",
+      lblEmploymentStatus: "STATUS PEKERJAAN", optSelect: "Sila pilih",
+      optGov: "GOVERNMENT / KERAJAAN", optGlc: "GLC", optPrivate: "SWASTA / PRIVATE",
+      optOwnBiz: "OWN BUSINESS / PERNIAGAAN SENDIRI", optOthers: "OTHERS / LAIN-LAIN",
+      lblCompanyName: "NAMA SYARIKAT", phCompanyName: "Contoh: Hospital UKM",
+      lblJobTitle: "JAWATAN / PEKERJAAN", phJobTitle: "Contoh: Juru Xray",
+      lblEmploymentState: "NEGERI TEMPAT BEKERJA (cth: Selangor)", optSelectState: "Sila pilih negeri",
+      lblSalaryRange: "GAJI BULANAN", optSalary1: "Bawah 3k", optSalary2: "3001 - 5k", optSalary3: "5k dan Ke Atas",
+      lblRetirementAge: "UMUR PERSARAAN", phRetirementAge: "Contoh: 60",
+      msgConfidential: "Maklumat yang diberikan adalah sulit dan hanya digunakan untuk tujuan penilaian.",
+      secSurveyTitle: "Maklumat Tambahan & Pengesahan",
+      secSurveySub: "Sila jawab soalan di bawah dan tandakan persetujuan anda.",
+      lblMaritalStatus: "STATUS PERKAHWINAN", optMaritalSingle: "Bujang (Single)", optMaritalMarried: "Berkahwin (Married)", optMaritalDivorced: "Duda/Janda (Widow/Divorced)", optMaritalOthers: "Lain-lain (Others)",
+      lblPartnerOccupation: "PEKERJAAN PASANGAN", optPartnerCivil: "Penjawat Awam", optPartnerGlc: "GLC", optPartnerBerhad: "Berhad", optPartnerPrivate: "Swasta", optPartnerBiz: "Biz Owner", optPartnerOthers: "Lain-lain", optPartnerNone: "Tiada Pasangan",
+      lblFavRestaurant: "RESTORAN / CAFE KEGEMARAN ANDA? (Selain Fast Food)", phFavRestaurant: "Contoh: Restoran Nasi Kandar Pelita, Secret Recipe",
+      lblInterestFranchise: "JIKA ANDA BERPELUANG MEMBUKA PERNIAGAAN FRANCHISE F&B DENGAN BERMODALKAN RM5,000-30,000, ADAKAH ANDA BERMINAT?",
+      optFranchiseYes: "YA", optFranchiseNo: "TIDAK", optFranchiseNoBiz: "Saya tidak suka berniaga",
+      secConsentTitle: "Pengesahan & Kebenaran (Consent)",
+      lblDeclarationTitle: "PENGESAHAN & PERSETUJUAN:",
+      lblDeclarationText: "Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.",
+      lblPdpaTitle: "PDPA:",
+      lblPdpaText: "Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).",
+      secUploadDocsTitle: "Muat Naik Dokumen", lblIcFront: "Kad Pengenalan (Depan)", lblIcBack: "Kad Pengenalan (Belakang)", lblPayslip: "Penyata Gaji Terkini",
+      btnSubmit: "Hantar", btnCancel: "Batal",
+      errDeclaration: "Sila tandakan Pengesahan & Persetujuan sebelum menghantar.",
+      errPdpa: "Sila tandakan pengakuan PDPA & semakan CTOS sebelum menghantar.",
+      errRequiredFields: "Sila isi semua medan yang diperlukan dan muat naik semua dokumen yang diperlukan."
+    },
+    eng: {
+      hdrApplyNow: '<i class="mdi mdi-file-document-edit-outline me-1"></i> Apply Now',
+      surveyTitle: "SURVEY FNB MARKET by iBELANJA",
+      surveyP1: "Thank you for your interest in the <strong>iBELANJA</strong> program survey.",
+      surveyP2: "Please complete this form with accurate information. Your response will help us upgrade our services.",
+      surveyP3: "Your cooperation in answering honestly and transparently is greatly appreciated. <em>Thank you.</em>",
+      lblFullName: "Full Name (as per IC / MyKad)",
+      phFullName: "Enter full name as per IC (e.g. including BIN / BINTI / BTE / A/L)",
+      subFullName: "Please enter your FULL name as per IC (including BIN / BINTI / BTE / A/L).",
+      lblIcNumber: "Identification Number", lblPhoneNumber: "Phone Number", lblEmail: "Email Address",
+      secEmploymentTitle: "Career & Employment Information",
+      secEmploymentSub: "Please fill in your employment information accurately and completely.",
+      lblEmploymentStatus: "EMPLOYMENT STATUS", optSelect: "Please select",
+      optGov: "GOVERNMENT", optGlc: "GLC", optPrivate: "SWASTA / PRIVATE",
+      optOwnBiz: "OWN BUSINESS", optOthers: "OTHERS",
+      lblCompanyName: "COMPANY NAME", phCompanyName: "Example: Hospital UKM",
+      lblJobTitle: "OCCUPATION / JOB TITLE", phJobTitle: "Example: Radiographer",
+      lblEmploymentState: "STATE OF EMPLOYMENT (eg: Selangor)", optSelectState: "Please select state",
+      lblSalaryRange: "MONTHLY SALARY", optSalary1: "Below 3k", optSalary2: "3001 - 5k", optSalary3: "5k and Above",
+      lblRetirementAge: "RETIREMENT AGE", phRetirementAge: "Example: 60",
+      msgConfidential: "Information provided is confidential and used solely for evaluation purposes.",
+      secSurveyTitle: "Additional Information & Verification",
+      secSurveySub: "Please answer the questions below and tick your consent.",
+      lblMaritalStatus: "MARITAL STATUS", optMaritalSingle: "Single", optMaritalMarried: "Married", optMaritalDivorced: "Widow / Divorced", optMaritalOthers: "Others",
+      lblPartnerOccupation: "SPOUSE OCCUPATION", optPartnerCivil: "Civil Servant", optPartnerGlc: "GLC", optPartnerBerhad: "Berhad", optPartnerPrivate: "Private Sector", optPartnerBiz: "Business Owner", optPartnerOthers: "Others", optPartnerNone: "No Spouse",
+      lblFavRestaurant: "YOUR FAVORITE RESTAURANT / CAFE? (Except Fast Food)", phFavRestaurant: "Example: Nasi Kandar Pelita Restaurant, Secret Recipe",
+      lblInterestFranchise: "IF YOU HAD THE OPPORTUNITY TO OPEN AN F&B FRANCHISE BUSINESS WITH A CAPITAL OF RM5,000-30,000, WOULD YOU BE INTERESTED?",
+      optFranchiseYes: "YES", optFranchiseNo: "NO", optFranchiseNoBiz: "I do not like doing business",
+      secConsentTitle: "Confirmation & Consent",
+      lblDeclarationTitle: "CONFIRMATION & AGREEMENT:",
+      lblDeclarationText: "I confirm that all information provided is true, accurate and complete. I also give permission to iBELANJA to use this information for service upgrade purposes, including obtaining a free CTOS report and contacting me regarding further details of this survey.",
+      lblPdpaTitle: "PDPA:",
+      lblPdpaText: "I understand that CTOS checks will only be conducted with my consent and my personal data will be managed in accordance with the Personal Data Protection Act 2010 (PDPA).",
+      secUploadDocsTitle: "Upload Documents", lblIcFront: "IC (Front)", lblIcBack: "IC (Back)", lblPayslip: "Latest Payslip",
+      btnSubmit: "Submit", btnCancel: "Cancel",
+      errDeclaration: "Please check the Confirmation & Agreement box before submitting.",
+      errPdpa: "Please check the PDPA & CTOS consent box before submitting.",
+      errRequiredFields: "Please fill in all required fields and upload all required documents."
+    }
   };
 
-  function getSalaryLabel(value) {
-    return salaryRangeMap[value] || "N/A";
+  function setLanguage(lang) {
+    if (!i18n[lang]) return;
+    currentLang = lang;
+
+    if (lang === 'bm') {
+      $('#btnLangBM').addClass('active btn-primary').removeClass('btn-outline-primary');
+      $('#btnLangENG').removeClass('active btn-primary').addClass('btn-outline-primary');
+    } else {
+      $('#btnLangENG').addClass('active btn-primary').removeClass('btn-outline-primary');
+      $('#btnLangBM').removeClass('active btn-primary').addClass('btn-outline-primary');
+    }
+
+    $('[data-i18n]').each(function () {
+      const key = $(this).attr('data-i18n');
+      if (i18n[lang][key]) {
+        $(this).html(i18n[lang][key]);
+      }
+    });
+
+    $('[data-i18n-ph]').each(function () {
+      const key = $(this).attr('data-i18n-ph');
+      if (i18n[lang][key]) {
+        $(this).attr('placeholder', i18n[lang][key]);
+      }
+    });
   }
 
-  // ── Employment Form HTML ──
+  function getCurrentLanguage() { return currentLang; }
+
   function renderEmploymentFormHTML() {
     return `
       <div class="d-flex align-items-center mt-4 mb-3">
         <div class="avatar-xs me-2">
-          <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16">
-            <i class="ri-briefcase-4-line"></i>
-          </div>
+          <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16"><i class="ri-briefcase-4-line"></i></div>
         </div>
         <div>
-          <h5 class="fs-15 mb-0 text-primary fw-semibold">Career & Employment Information</h5>
-          <p class="text-muted fs-12 mb-0">Sila isi maklumat pekerjaan anda dengan tepat dan lengkap.</p>
+          <h5 class="fs-15 mb-0 text-primary fw-semibold" data-i18n="secEmploymentTitle">Maklumat Kerjaya & Pekerjaan</h5>
+          <p class="text-muted fs-12 mb-0" data-i18n="secEmploymentSub">Sila isi maklumat pekerjaan anda dengan tepat dan lengkap.</p>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-6 mb-3">
-          <label class="form-label">EMPLOYMENT STATUS <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblEmploymentStatus">STATUS PEKERJAAN</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="employmentStatus" required>
-            <option value="">Sila pilih</option>
-            <option value="GOVERNMENT">GOVERNMENT</option>
+            <option value="" data-i18n="optSelect">Sila pilih</option>
+            <option value="GOVERNMENT" data-i18n="optGov">GOVERNMENT / KERAJAAN</option>
             <option value="GLC">GLC</option>
-            <option value="SWASTA/ PRIVATE">SWASTA/ PRIVATE</option>
-            <option value="OWN BUSINESS">OWN BUSINESS</option>
-            <option value="OTHERS">OTHERS</option>
+            <option value="SWASTA/ PRIVATE" data-i18n="optPrivate">SWASTA / PRIVATE</option>
+            <option value="OWN BUSINESS" data-i18n="optOwnBiz">OWN BUSINESS / PERNIAGAAN SENDIRI</option>
+            <option value="OTHERS" data-i18n="optOthers">OTHERS / LAIN-LAIN</option>
           </select>
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">COMPANY NAME <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="employerName" placeholder="Contoh: Hospital UKM" required />
+          <label class="form-label"><span data-i18n="lblCompanyName">NAMA SYARIKAT</span> <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="employerName" placeholder="Contoh: Hospital UKM" data-i18n-ph="phCompanyName" required />
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">OCCUPATION / JOB TITLE <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="jobTitle" placeholder="Contoh: Juru Xray" required />
+          <label class="form-label"><span data-i18n="lblJobTitle">JAWATAN / PEKERJAAN</span> <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="jobTitle" placeholder="Contoh: Juru Xray" data-i18n-ph="phJobTitle" required />
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">STATE OF EMPLOYMENT (eg: Selangor) <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblEmploymentState">NEGERI TEMPAT BEKERJA (cth: Selangor)</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="employmentState" required>
-            <option value="">Sila pilih negeri</option>
-            <option value="Johor">Johor</option>
-            <option value="Kedah">Kedah</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Negeri Sembilan">Negeri Sembilan</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Perak">Perak</option>
-            <option value="Perlis">Perlis</option>
-            <option value="Pulau Pinang">Pulau Pinang</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
-            <option value="Selangor">Selangor</option>
-            <option value="Terengganu">Terengganu</option>
-            <option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur</option>
-            <option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option>
-            <option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
+            <option value="" data-i18n="optSelectState">Sila pilih negeri</option>
+            <option value="Johor">Johor</option><option value="Kedah">Kedah</option><option value="Kelantan">Kelantan</option><option value="Melaka">Melaka</option>
+            <option value="Negeri Sembilan">Negeri Sembilan</option><option value="Pahang">Pahang</option><option value="Perak">Perak</option><option value="Perlis">Perlis</option>
+            <option value="Pulau Pinang">Pulau Pinang</option><option value="Sabah">Sabah</option><option value="Sarawak">Sarawak</option><option value="Selangor">Selangor</option>
+            <option value="Terengganu">Terengganu</option><option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur</option>
+            <option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option><option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
           </select>
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">MONTHLY SALARY <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblSalaryRange">GAJI BULANAN</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="salaryRange" required>
-            <option value="">Sila pilih</option>
-            <option value="1">Below 3k</option>
-            <option value="2">3001 - 5k</option>
-            <option value="3">5k and Above</option>
+            <option value="" data-i18n="optSelect">Sila pilih</option>
+            <option value="1" data-i18n="optSalary1">Bawah 3k</option>
+            <option value="2" data-i18n="optSalary2">3001 - 5k</option>
+            <option value="3" data-i18n="optSalary3">5k dan Ke Atas</option>
           </select>
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">RETIREMENT AGE <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="retirementAge" placeholder="Contoh: 60" maxlength="2" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+          <label class="form-label"><span data-i18n="lblRetirementAge">UMUR PERSARAAN</span> <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="retirementAge" placeholder="Contoh: 60" data-i18n-ph="phRetirementAge" maxlength="2" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
         </div>
         <div class="col-lg-12 mb-3">
           <div class="alert alert-warning border-0 bg-warning-subtle d-flex align-items-center justify-content-between p-3 rounded-3 mb-0" role="alert">
             <div class="d-flex align-items-center">
-              <div class="flex-shrink-0 me-2">
-                <span class="badge bg-primary rounded-circle p-1 d-inline-flex align-items-center justify-content-center" style="width:24px; height:24px;">
-                  <i class="ri-check-line text-white fs-14"></i>
-                </span>
-              </div>
-              <div class="flex-grow-1 fs-13 text-dark fw-medium">
-                Maklumat yang diberikan adalah sulit dan hanya digunakan untuk tujuan penilaian.
-              </div>
+              <div class="flex-shrink-0 me-2"><span class="badge bg-primary rounded-circle p-1 d-inline-flex align-items-center justify-content-center" style="width:24px; height:24px;"><i class="ri-check-line text-white fs-14"></i></span></div>
+              <div class="flex-grow-1 fs-13 text-dark fw-medium" data-i18n="msgConfidential">Maklumat yang diberikan adalah sulit dan hanya digunakan untuk tujuan penilaian.</div>
             </div>
-            <div class="flex-shrink-0 ms-3">
-              <i class="ri-lock-2-line fs-20 text-primary"></i>
-            </div>
+            <div class="flex-shrink-0 ms-3"><i class="ri-lock-2-line fs-20 text-primary"></i></div>
           </div>
         </div>
       </div>
     `;
   }
 
-  // ── Survey & Consent Form HTML ──
   function renderSurveyQuestionsHTML() {
     return `
       <div class="d-flex align-items-center mt-4 mb-3">
         <div class="avatar-xs me-2">
-          <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16">
-            <i class="ri-questionnaire-line"></i>
-          </div>
+          <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16"><i class="ri-questionnaire-line"></i></div>
         </div>
         <div>
-          <h5 class="fs-15 mb-0 text-primary fw-semibold">Maklumat Tambahan & Pengesahan</h5>
-          <p class="text-muted fs-12 mb-0">Sila jawab soalan di bawah dan tandakan persetujuan anda.</p>
+          <h5 class="fs-15 mb-0 text-primary fw-semibold" data-i18n="secSurveyTitle">Maklumat Tambahan & Pengesahan</h5>
+          <p class="text-muted fs-12 mb-0" data-i18n="secSurveySub">Sila jawab soalan di bawah dan tandakan persetujuan anda.</p>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-6 mb-3">
-          <label class="form-label">STATUS PERKAHWINAN <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblMaritalStatus">STATUS PERKAHWINAN</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="maritalStatus" required>
-            <option value="">Sila pilih</option>
-            <option value="Bujang">Bujang (Single)</option>
-            <option value="Berkahwin">Berkahwin (Married)</option>
-            <option value="Duda/Janda">Duda/Janda (Widow/Divorced)</option>
-            <option value="Lain-lain">Lain-lain (Others)</option>
+            <option value="" data-i18n="optSelect">Sila pilih</option>
+            <option value="Bujang" data-i18n="optMaritalSingle">Bujang (Single)</option>
+            <option value="Berkahwin" data-i18n="optMaritalMarried">Berkahwin (Married)</option>
+            <option value="Duda/Janda" data-i18n="optMaritalDivorced">Duda/Janda (Widow/Divorced)</option>
+            <option value="Lain-lain" data-i18n="optMaritalOthers">Lain-lain (Others)</option>
           </select>
         </div>
         <div class="col-lg-6 mb-3">
-          <label class="form-label">PEKERJAAN PASANGAN <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblPartnerOccupation">PEKERJAAN PASANGAN</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="partnerOccupation" required>
-            <option value="">Sila pilih</option>
-            <option value="Penjawat Awam">Penjawat Awam</option>
-            <option value="GLC">GLC</option>
-            <option value="Berhad">Berhad</option>
-            <option value="Swasta">Swasta</option>
-            <option value="Biz Owner">Biz Owner</option>
-            <option value="Lain-lain">Lain-lain</option>
-            <option value="Tiada Pasangan">Tiada Pasangan</option>
+            <option value="" data-i18n="optSelect">Sila pilih</option>
+            <option value="Penjawat Awam" data-i18n="optPartnerCivil">Penjawat Awam</option>
+            <option value="GLC" data-i18n="optPartnerGlc">GLC</option>
+            <option value="Berhad" data-i18n="optPartnerBerhad">Berhad</option>
+            <option value="Swasta" data-i18n="optPartnerPrivate">Swasta</option>
+            <option value="Biz Owner" data-i18n="optPartnerBiz">Biz Owner</option>
+            <option value="Lain-lain" data-i18n="optPartnerOthers">Lain-lain</option>
+            <option value="Tiada Pasangan" data-i18n="optPartnerNone">Tiada Pasangan</option>
           </select>
         </div>
         <div class="col-lg-12 mb-3">
-          <label class="form-label">RESTORAN / CAFE KEGEMARAN ANDA? (Selain Fast Food) <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="favoriteRestaurant" placeholder="Contoh: Restoran Nasi Kandar Pelita, Secret Recipe" required />
+          <label class="form-label"><span data-i18n="lblFavRestaurant">RESTORAN / CAFE KEGEMARAN ANDA? (Selain Fast Food)</span> <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="favoriteRestaurant" placeholder="Contoh: Restoran Nasi Kandar Pelita, Secret Recipe" data-i18n-ph="phFavRestaurant" required />
         </div>
         <div class="col-lg-12 mb-3">
-          <label class="form-label">JIKA ANDA BERPELUANG MEMBUKA PERNIAGAAN FRANCHISE F&B DENGAN BERMODALKAN RM5,000-30,000, ADAKAH ANDA BERMINAT? <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblInterestFranchise">JIKA ANDA BERPELUANG MEMBUKA PERNIAGAAN FRANCHISE F&B DENGAN BERMODALKAN RM5,000-30,000, ADAKAH ANDA BERMINAT?</span> <span class="text-danger">*</span></label>
           <select class="form-select" id="interestFbFranchise" required>
-            <option value="">Sila pilih</option>
-            <option value="YA">YA</option>
-            <option value="TIDAK">TIDAK</option>
-            <option value="Saya tidak suka berniaga">Saya tidak suka berniaga</option>
+            <option value="" data-i18n="optSelect">Sila pilih</option>
+            <option value="YA" data-i18n="optFranchiseYes">YA</option>
+            <option value="TIDAK" data-i18n="optFranchiseNo">TIDAK</option>
+            <option value="Saya tidak suka berniaga" data-i18n="optFranchiseNoBiz">Saya tidak suka berniaga</option>
           </select>
         </div>
         <div class="col-lg-12 mb-3">
           <div class="card border shadow-none mb-0">
             <div class="card-body bg-light rounded-3 p-3">
-              <h6 class="fs-14 text-dark fw-semibold mb-3"><i class="ri-shield-check-line text-success me-1"></i> Pengesahan & Kebenaran (Consent)</h6>
+              <h6 class="fs-14 text-dark fw-semibold mb-3"><i class="ri-shield-check-line text-success me-1"></i> <span data-i18n="secConsentTitle">Pengesahan & Kebenaran (Consent)</span></h6>
               <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="declarationConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="declarationConsent">
-                  <strong>PENGESAHAN & PERSETUJUAN:</strong> Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.
+                  <strong data-i18n="lblDeclarationTitle">PENGESAHAN & PERSETUJUAN:</strong> <span data-i18n="lblDeclarationText">Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.</span>
                 </label>
               </div>
               <div class="form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="pdpaConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="pdpaConsent">
-                  <strong>PDPA:</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
+                  <strong data-i18n="lblPdpaTitle">PDPA:</strong> <span data-i18n="lblPdpaText">Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).</span>
                 </label>
               </div>
             </div>
@@ -182,28 +258,26 @@ const AppComponents = (function () {
     `;
   }
 
-  // ── Upload Documents Form HTML ──
   function renderUploadDocsFormHTML() {
     return `
-      <h5 class="fs-15 col-12 mt-4 text-primary">Upload Documents</h5>
+      <h5 class="fs-15 col-12 mt-4 text-primary fw-semibold" data-i18n="secUploadDocsTitle">Muat Naik Dokumen</h5>
       <div class="row">
         <div class="col-lg-4 mb-3">
-          <label class="form-label">IC (Front) <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblIcFront">Kad Pengenalan (Depan)</span> <span class="text-danger">*</span></label>
           <input type="file" class="form-control" id="icFront" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
         </div>
         <div class="col-lg-4 mb-3">
-          <label class="form-label">IC (Back) <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblIcBack">Kad Pengenalan (Belakang)</span> <span class="text-danger">*</span></label>
           <input type="file" class="form-control" id="icBack" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
         </div>
         <div class="col-lg-4 mb-3">
-          <label class="form-label">Latest Payslip <span class="text-danger">*</span></label>
+          <label class="form-label"><span data-i18n="lblPayslip">Penyata Gaji Terkini</span> <span class="text-danger">*</span></label>
           <input type="file" class="form-control" id="payslip" accept="image/*,.pdf,.doc,.docx,.heic,.heif" required />
         </div>
       </div>
     `;
   }
 
-  // ── Validate Application Form ──
   function validateApplicationForm() {
     var hasMaritalStatus = $('#maritalStatus').length ? $('#maritalStatus').val() : true;
     var hasPartnerOccupation = $('#partnerOccupation').length ? $('#partnerOccupation').val() : true;
@@ -235,26 +309,16 @@ const AppComponents = (function () {
       !$('#payslip')[0].files[0]
     ) {
       if ($('#declarationConsent').length && !$('#declarationConsent').is(':checked')) {
-        return {
-          valid: false,
-          message: 'Sila tandakan Pengesahan & Persetujuan sebelum menghantar.'
-        };
+        return { valid: false, message: i18n[currentLang] ? i18n[currentLang].errDeclaration : 'Sila tandakan Pengesahan & Persetujuan sebelum menghantar.' };
       }
       if ($('#pdpaConsent').length && !$('#pdpaConsent').is(':checked')) {
-        return {
-          valid: false,
-          message: 'Sila tandakan pengakuan PDPA & semakan CTOS sebelum menghantar.'
-        };
+        return { valid: false, message: i18n[currentLang] ? i18n[currentLang].errPdpa : 'Sila tandakan pengakuan PDPA & semakan CTOS sebelum menghantar.' };
       }
-      return {
-        valid: false,
-        message: 'Please fill in all required fields and upload all required documents.'
-      };
+      return { valid: false, message: i18n[currentLang] ? i18n[currentLang].errRequiredFields : 'Sila isi semua medan yang diperlukan dan muat naik semua dokumen yang diperlukan.' };
     }
     return { valid: true, message: '' };
   }
 
-  // ── Collect Application Details from Form ──
   function collectApplicationDetails() {
     var detailsObj = {
       fullName: $('#fullName').val(),
@@ -270,24 +334,19 @@ const AppComponents = (function () {
         retirementAge: $('#retirementAge').val()
       }
     };
-
     if ($('#maritalStatus').length) detailsObj.maritalStatus = $('#maritalStatus').val();
     if ($('#partnerOccupation').length) detailsObj.partnerOccupation = $('#partnerOccupation').val();
     if ($('#favoriteRestaurant').length) detailsObj.favoriteRestaurant = $('#favoriteRestaurant').val();
     if ($('#interestFbFranchise').length) detailsObj.interestFbFranchise = $('#interestFbFranchise').val();
     if ($('#declarationConsent').length) detailsObj.declarationConsent = $('#declarationConsent').is(':checked');
     if ($('#pdpaConsent').length) detailsObj.pdpaConsent = $('#pdpaConsent').is(':checked');
-
     return detailsObj;
   }
 
-  // ── Document Upload History HTML ──
   function renderDocHistoryHTML(historyList, collapseId) {
     if (!historyList || historyList.length === 0) return "";
     var historyItems = historyList.slice().reverse().map(function (item, idx) {
-      var itemDate = item.uploadedAt
-        ? new Date(item.uploadedAt).toLocaleString('en-GB')
-        : "N/A";
+      var itemDate = item.uploadedAt ? new Date(item.uploadedAt).toLocaleString('en-GB') : "N/A";
       var isLatest = idx === 0;
       return `
         <li class="list-group-item d-flex justify-content-between align-items-center py-2 fs-12">
@@ -307,15 +366,12 @@ const AppComponents = (function () {
           <i class="ri-history-line"></i> View Upload History (${historyList.length})
         </button>
         <div class="collapse mt-2" id="${collapseId}">
-          <ul class="list-group">
-            ${historyItems}
-          </ul>
+          <ul class="list-group">${historyItems}</ul>
         </div>
       </div>
     `;
   }
 
-  // ── Format Date Helper ──
   function formatDate(dateStr) {
     var d = new Date(dateStr);
     var day = String(d.getDate()).padStart(2, '0');
@@ -326,7 +382,6 @@ const AppComponents = (function () {
     return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
   }
 
-  // ── Render Document Cell (for view details) ──
   function _renderDocCell(label, fileUrl, reuploadAppId, reuploadType, historyHtml, options) {
     var showReupload = options && options.showReuploadButtons;
     var viewBtn = fileUrl
@@ -338,9 +393,6 @@ const AppComponents = (function () {
     return '<div class="col-md-4 mb-2"><strong>' + label + ':</strong><br>' + viewBtn + reuploadBtn + (historyHtml || '') + '</div>';
   }
 
-  // ── View Details Modal HTML ──
-  // options: { showReferrer, referrerInfo, showApprovedBy, approvedByHtml,
-  //            showReuploadButtons, historyPrefix }
   function renderViewDetailsHTML(app, details, options) {
     options = options || {};
     var employment = details.employmentDetails || {};
@@ -353,27 +405,19 @@ const AppComponents = (function () {
     var payslipHist = renderDocHistoryHTML(details.payslipHistory, prefix + 'PayslipHistoryCollapse');
 
     var html = '<div class="row">';
-
-    // ── Header ──
     html += '<div class="col-md-6 mb-3"><strong>Application ID:</strong><br>' + app._id + '</div>';
     html += '<div class="col-md-6 mb-3"><strong>Date Submitted:</strong><br>' + formattedDate + '</div>';
     html += '<div class="col-md-12"><hr></div>';
-
-    // ── Personal Details ──
     html += '<h6 class="mb-3 text-primary">Personal Details</h6>';
     html += '<div class="col-md-6 mb-2"><strong>Full Name:</strong> ' + (details.fullName || 'N/A') + '</div>';
     html += '<div class="col-md-6 mb-2"><strong>Phone Number:</strong> ' + (details.phoneNumber || 'N/A') + '</div>';
     html += '<div class="col-md-6 mb-2"><strong>IC Number:</strong> ' + (details.icNumber || 'N/A').toString().replace(/-/g, '') + '</div>';
     html += '<div class="col-md-6 mb-2"><strong>Email Address:</strong> ' + (details.email || 'N/A') + '</div>';
 
-    // ── Referrer (admin only) ──
     if (options.showReferrer) {
       html += '<div class="col-md-6 mb-2"><strong>Referrer:</strong> ' + (options.referrerInfo || 'N/A') + '</div>';
     }
-
     html += '<div class="col-md-12"><hr></div>';
-
-    // ── Employment Details ──
     html += '<h6 class="mb-3 text-primary">Employment Details</h6>';
     html += '<div class="col-md-6 mb-2"><strong>Employment Status:</strong> ' + (employment.employmentStatus || 'N/A') + '</div>';
     html += '<div class="col-md-6 mb-2"><strong>Employer:</strong> ' + (employment.employerName || 'N/A') + '</div>';
@@ -382,51 +426,35 @@ const AppComponents = (function () {
     html += '<div class="col-md-6 mb-2"><strong>Retirement Age:</strong> ' + (employment.retirementAge ? employment.retirementAge + ' Years Old' : 'N/A') + '</div>';
     html += '<div class="col-md-6 mb-3"><strong>Salary Range:</strong> ' + salaryLabel + '</div>';
 
-    // ── Survey & Consent Responses ──
     if (details.maritalStatus || details.partnerOccupation || details.favoriteRestaurant || details.interestFbFranchise || details.pdpaConsent !== undefined) {
       html += '<div class="col-md-12"><hr></div>';
       html += '<h6 class="mb-3 text-primary">Survey & Consent Responses</h6>';
-      if (details.maritalStatus) {
-        html += '<div class="col-md-6 mb-2"><strong>Status Perkahwinan:</strong> ' + details.maritalStatus + '</div>';
-      }
-      if (details.partnerOccupation) {
-        html += '<div class="col-md-6 mb-2"><strong>Pekerjaan Pasangan:</strong> ' + details.partnerOccupation + '</div>';
-      }
-      if (details.favoriteRestaurant) {
-        html += '<div class="col-md-6 mb-2"><strong>Restoran/Cafe Kegemaran:</strong> ' + details.favoriteRestaurant + '</div>';
-      }
-      if (details.interestFbFranchise) {
-        html += '<div class="col-md-6 mb-2"><strong>Minat Franchise F&B (RM5k-30k):</strong> ' + details.interestFbFranchise + '</div>';
-      }
-      if (details.declarationConsent !== undefined) {
-        html += '<div class="col-md-6 mb-2"><strong>Pengesahan & Persetujuan:</strong> ' + (details.declarationConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
-      }
-      if (details.pdpaConsent !== undefined) {
-        html += '<div class="col-md-6 mb-2"><strong>Pengakuan PDPA & CTOS:</strong> ' + (details.pdpaConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
-      }
+      if (details.maritalStatus) html += '<div class="col-md-6 mb-2"><strong>Status Perkahwinan:</strong> ' + details.maritalStatus + '</div>';
+      if (details.partnerOccupation) html += '<div class="col-md-6 mb-2"><strong>Pekerjaan Pasangan:</strong> ' + details.partnerOccupation + '</div>';
+      if (details.favoriteRestaurant) html += '<div class="col-md-6 mb-2"><strong>Restoran/Cafe Kegemaran:</strong> ' + details.favoriteRestaurant + '</div>';
+      if (details.interestFbFranchise) html += '<div class="col-md-6 mb-2"><strong>Minat Franchise F&B (RM5k-30k):</strong> ' + details.interestFbFranchise + '</div>';
+      if (details.declarationConsent !== undefined) html += '<div class="col-md-6 mb-2"><strong>Pengesahan & Persetujuan:</strong> ' + (details.declarationConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
+      if (details.pdpaConsent !== undefined) html += '<div class="col-md-6 mb-2"><strong>Pengakuan PDPA & CTOS:</strong> ' + (details.pdpaConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
     }
 
     html += '<div class="col-md-12"><hr></div>';
-
-    // ── Submitted Documents ──
     html += '<h6 class="mb-3 text-primary">Submitted Documents</h6>';
     html += _renderDocCell('IC Front', details.icFrontFile, app._id, 'icFront', icFrontHist, options);
     html += _renderDocCell('IC Back', details.icBackFile, app._id, 'icBack', icBackHist, options);
     html += _renderDocCell('Payslip', details.payslipFile, app._id, 'payslip', payslipHist, options);
 
-    // ── Approved By (admin only) ──
     if (options.showApprovedBy && options.approvedByHtml) {
       html += options.approvedByHtml;
     }
-
     html += '</div>';
     return html;
   }
 
-  // ── Public API ──
   return {
     salaryRangeMap: salaryRangeMap,
     getSalaryLabel: getSalaryLabel,
+    setLanguage: setLanguage,
+    getCurrentLanguage: getCurrentLanguage,
     renderEmploymentFormHTML: renderEmploymentFormHTML,
     renderSurveyQuestionsHTML: renderSurveyQuestionsHTML,
     renderUploadDocsFormHTML: renderUploadDocsFormHTML,

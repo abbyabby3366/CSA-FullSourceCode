@@ -95,36 +95,42 @@
 
                             <div id="applyFormContainer" style="display: none;">
                                 <div class="card">
-                                    <div class="card-header d-flex align-items-center">
-                                        <h5 class="card-title mb-0 flex-grow-1"><i class="mdi mdi-file-document-edit-outline"></i> Apply Now</h5>
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="card-title mb-0 flex-grow-1" data-i18n="hdrApplyNow"><i class="mdi mdi-file-document-edit-outline me-1"></i> Apply Now</h5>
+                                        <div class="flex-shrink-0">
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Language Toggle">
+                                                <button type="button" class="btn btn-primary active" id="btnLangBM" onclick="AppComponents.setLanguage('bm')">BM</button>
+                                                <button type="button" class="btn btn-outline-primary" id="btnLangENG" onclick="AppComponents.setLanguage('eng')">ENG</button>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 <div class="card-body">
                                     <div class="mb-4 pb-2 border-bottom">
-                                        <h3 class="fw-bold text-dark mb-3" style="font-size: 1.6rem; border-bottom: 2px solid #212529; padding-bottom: 8px;">SURVEY FNB MARKET by iBELANJA</h3>
-                                        <p class="text-dark mb-2">Terima kasih atas minat anda terhadap kaji selidik program <strong>iBELANJA</strong>.</p>
-                                        <p class="text-dark mb-2">Sila lengkapkan borang ini dengan maklumat yang tepat. Jawapan anda bakal membantu kami untuk menaik taraf servis kami.</p>
-                                        <p class="text-dark mb-0">Kerjasama anda untuk menjawab dengan jujur dan telus amatlah kami hargai. <em>Terima kasih.</em></p>
+                                        <h3 class="fw-bold text-dark mb-3" style="font-size: 1.6rem; border-bottom: 2px solid #212529; padding-bottom: 8px;" data-i18n="surveyTitle">SURVEY FNB MARKET by iBELANJA</h3>
+                                        <p class="text-dark mb-2" data-i18n="surveyP1">Terima kasih atas minat anda terhadap kaji selidik program <strong>iBELANJA</strong>.</p>
+                                        <p class="text-dark mb-2" data-i18n="surveyP2">Sila lengkapkan borang ini dengan maklumat yang tepat. Jawapan anda bakal membantu kami untuk menaik taraf servis kami.</p>
+                                        <p class="text-dark mb-0" data-i18n="surveyP3">Kerjasama anda untuk menjawab dengan jujur dan telus amatlah kami hargai. <em>Terima kasih.</em></p>
                                     </div>
                                     <div class="row g-3 mb-2">
                                         <div class="col-mx">
                                             <div class="form">
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Full Name (as per IC / MyKad) <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name as per IC (e.g. including BIN / BINTI / BTE / A/L)" required />
-                                                        <div class="form-text text-muted">Please enter your FULL name as per IC (including BIN / BINTI / BTE / A/L).</div>
+                                                        <label class="form-label"><span data-i18n="lblFullName">Nama Penuh (mengikut KP / MyKad)</span> <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="fullName" placeholder="Masukkan nama penuh seperti dalam KP (cth: termasuk BIN / BINTI / BTE / A/L)" data-i18n-ph="phFullName" required />
+                                                        <div class="form-text text-muted" data-i18n="subFullName">Sila masukkan nama PENUH anda seperti dalam KP (termasuk BIN / BINTI / BTE / A/L).</div>
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Identification Number <span class="text-danger">*</span></label>
+                                                        <label class="form-label"><span data-i18n="lblIcNumber">Nombor Kad Pengenalan</span> <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="icNumber" placeholder="900101101234" maxlength="12" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                        <label class="form-label"><span data-i18n="lblPhoneNumber">Nombor Telefon</span> <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="phoneNumber" placeholder="60123456789" required />
                                                     </div>
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                                        <label class="form-label"><span data-i18n="lblEmail">Alamat E-mel</span> <span class="text-danger">*</span></label>
                                                         <input type="email" class="form-control" id="email" required />
                                                     </div>
                                                 </div>
@@ -139,8 +145,8 @@
 
                                 <div class="card-footer">
                                     <div class="hstack gap-2 justify-content-end">
-                                        <button class="btn btn-primary" id="btnSubmit"><i class="ri-send-plane-2-line me-1 align-middle"></i> Submit</button>
-                                        <button type="button" class="btn btn-soft-secondary" id="btnCancel" data-bs-toggle="modal" data-bs-target="#confirmCancelModal">Cancel</button>
+                                        <button class="btn btn-primary" id="btnSubmit"><i class="ri-send-plane-2-line me-1 align-middle"></i> <span data-i18n="btnSubmit">Hantar</span></button>
+                                        <button type="button" class="btn btn-soft-secondary" id="btnCancel" data-bs-toggle="modal" data-bs-target="#confirmCancelModal"><span data-i18n="btnCancel">Batal</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -394,6 +400,7 @@
             $('#employmentFormContainer').html(AppComponents.renderEmploymentFormHTML());
             $('#surveyFormContainer').html(AppComponents.renderSurveyQuestionsHTML());
             $('#uploadDocsFormContainer').html(AppComponents.renderUploadDocsFormHTML());
+            AppComponents.setLanguage('bm');
 
             // Start fetching history immediately
             if (localStorage.getItem('token')) {
