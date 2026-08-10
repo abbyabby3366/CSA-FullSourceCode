@@ -124,6 +124,7 @@
                                                 </div>
 
                                                 <div id="employmentFormContainer"></div>
+                                                <div id="surveyFormContainer"></div>
                                                 <div id="uploadDocsFormContainer"></div>
                                             </div>
                                         </div>
@@ -133,7 +134,7 @@
                                 <div class="card-footer">
                                     <div class="hstack gap-2 justify-content-end">
                                         <button class="btn btn-primary" id="btnSubmit"><i class="ri-send-plane-2-line me-1 align-middle"></i> Submit</button>
-                                        <a href="dashboard.html" class="btn btn-soft-secondary">Cancel</a>
+                                        <button type="button" class="btn btn-soft-secondary" id="btnCancel" data-bs-toggle="modal" data-bs-target="#confirmCancelModal">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -334,6 +335,30 @@
         </div>
     </div>
 
+    <!-- Confirm Cancel Modal -->
+    <div class="modal fade zoomIn" id="confirmCancelModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:120px;height:120px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-15">
+                            <h4>Cancel Application?</h4>
+                            <p class="text-muted mx-4 mb-0">Are you sure you want to cancel this application? Any details filled in this form will not be saved.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">No, Keep Editing</button>
+                        <a href="dashboard.html" class="btn w-sm btn-danger">Yes, Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Error Modal -->
     <div class="modal fade zoomIn" id="errorModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
@@ -361,6 +386,7 @@
         $(document).ready(function() {
             // Inject shared form components
             $('#employmentFormContainer').html(AppComponents.renderEmploymentFormHTML());
+            $('#surveyFormContainer').html(AppComponents.renderSurveyQuestionsHTML());
             $('#uploadDocsFormContainer').html(AppComponents.renderUploadDocsFormHTML());
 
             // Start fetching history immediately

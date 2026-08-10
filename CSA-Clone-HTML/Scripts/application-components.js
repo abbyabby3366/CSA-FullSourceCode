@@ -108,6 +108,79 @@ const AppComponents = (function () {
     `;
   }
 
+  // ── Survey & Consent Form HTML ──
+  function renderSurveyQuestionsHTML() {
+    return `
+      <div class="d-flex align-items-center mt-4 mb-3">
+        <div class="avatar-xs me-2">
+          <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16">
+            <i class="ri-questionnaire-line"></i>
+          </div>
+        </div>
+        <div>
+          <h5 class="fs-15 mb-0 text-primary fw-semibold">Maklumat Tambahan & Pengesahan</h5>
+          <p class="text-muted fs-12 mb-0">Sila jawab soalan di bawah dan tandakan persetujuan anda.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 mb-3">
+          <label class="form-label">STATUS PERKAHWINAN <span class="text-danger">*</span></label>
+          <select class="form-select" id="maritalStatus" required>
+            <option value="">Sila pilih</option>
+            <option value="Bujang">Bujang (Single)</option>
+            <option value="Berkahwin">Berkahwin (Married)</option>
+            <option value="Duda/Janda">Duda/Janda (Widow/Divorced)</option>
+            <option value="Lain-lain">Lain-lain (Others)</option>
+          </select>
+        </div>
+        <div class="col-lg-6 mb-3">
+          <label class="form-label">PEKERJAAN PASANGAN <span class="text-danger">*</span></label>
+          <select class="form-select" id="partnerOccupation" required>
+            <option value="">Sila pilih</option>
+            <option value="Penjawat Awam">Penjawat Awam</option>
+            <option value="GLC">GLC</option>
+            <option value="Berhad">Berhad</option>
+            <option value="Swasta">Swasta</option>
+            <option value="Biz Owner">Biz Owner</option>
+            <option value="Lain-lain">Lain-lain</option>
+            <option value="Tiada Pasangan">Tiada Pasangan</option>
+          </select>
+        </div>
+        <div class="col-lg-12 mb-3">
+          <label class="form-label">RESTORAN / CAFE KEGEMARAN ANDA? (Selain Fast Food) <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="favoriteRestaurant" placeholder="Contoh: Restoran Nasi Kandar Pelita, Secret Recipe" required />
+        </div>
+        <div class="col-lg-12 mb-3">
+          <label class="form-label">JIKA ANDA BERPELUANG MEMBUKA PERNIAGAAN FRANCHISE F&B DENGAN BERMODALKAN RM5,000-30,000, ADAKAH ANDA BERMINAT? <span class="text-danger">*</span></label>
+          <select class="form-select" id="interestFbFranchise" required>
+            <option value="">Sila pilih</option>
+            <option value="Ya">Ya (Berminat)</option>
+            <option value="Tidak">Tidak (Tidak Berminat)</option>
+          </select>
+        </div>
+        <div class="col-lg-12 mb-3">
+          <div class="card border shadow-none mb-0">
+            <div class="card-body bg-light rounded-3 p-3">
+              <h6 class="fs-14 text-dark fw-semibold mb-3"><i class="ri-shield-check-line text-success me-1"></i> Pengesahan & Kebenaran (Consent)</h6>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="declarationConsent" required />
+                <label class="form-check-label fs-13 text-dark" for="declarationConsent">
+                  <strong>Pengesahan & Persetujuan:</strong> Saya mengesahkan bahawa semua maklumat yang diberikan dalam permohonan ini adalah benar, tepat, dan lengkap.
+                </label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="pdpaConsent" required />
+                <label class="form-check-label fs-13 text-dark" for="pdpaConsent">
+                  <strong>PDPA:</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   // ── Upload Documents Form HTML ──
   function renderUploadDocsFormHTML() {
     return `
@@ -131,6 +204,13 @@ const AppComponents = (function () {
 
   // ── Validate Application Form ──
   function validateApplicationForm() {
+    var hasMaritalStatus = $('#maritalStatus').length ? $('#maritalStatus').val() : true;
+    var hasPartnerOccupation = $('#partnerOccupation').length ? $('#partnerOccupation').val() : true;
+    var hasFavoriteRestaurant = $('#favoriteRestaurant').length ? $('#favoriteRestaurant').val() : true;
+    var hasInterestFbFranchise = $('#interestFbFranchise').length ? $('#interestFbFranchise').val() : true;
+    var hasDeclarationConsent = $('#declarationConsent').length ? $('#declarationConsent').is(':checked') : true;
+    var hasPdpaConsent = $('#pdpaConsent').length ? $('#pdpaConsent').is(':checked') : true;
+
     if (
       !$('#fullName').val() ||
       !$('#icNumber').val() ||
@@ -143,10 +223,28 @@ const AppComponents = (function () {
       !$('#salaryRange').val() ||
       $('#salaryRange').val() === '0' ||
       !$('#retirementAge').val() ||
+      !hasMaritalStatus ||
+      !hasPartnerOccupation ||
+      !hasFavoriteRestaurant ||
+      !hasInterestFbFranchise ||
+      !hasDeclarationConsent ||
+      !hasPdpaConsent ||
       !$('#icFront')[0].files[0] ||
       !$('#icBack')[0].files[0] ||
       !$('#payslip')[0].files[0]
     ) {
+      if ($('#declarationConsent').length && !$('#declarationConsent').is(':checked')) {
+        return {
+          valid: false,
+          message: 'Sila tandakan Pengesahan & Persetujuan sebelum menghantar.'
+        };
+      }
+      if ($('#pdpaConsent').length && !$('#pdpaConsent').is(':checked')) {
+        return {
+          valid: false,
+          message: 'Sila tandakan pengakuan PDPA & semakan CTOS sebelum menghantar.'
+        };
+      }
       return {
         valid: false,
         message: 'Please fill in all required fields and upload all required documents.'
@@ -157,7 +255,7 @@ const AppComponents = (function () {
 
   // ── Collect Application Details from Form ──
   function collectApplicationDetails() {
-    return {
+    var detailsObj = {
       fullName: $('#fullName').val(),
       icNumber: $('#icNumber').val().replace(/-/g, '').trim(),
       phoneNumber: $('#phoneNumber').val(),
@@ -171,6 +269,15 @@ const AppComponents = (function () {
         retirementAge: $('#retirementAge').val()
       }
     };
+
+    if ($('#maritalStatus').length) detailsObj.maritalStatus = $('#maritalStatus').val();
+    if ($('#partnerOccupation').length) detailsObj.partnerOccupation = $('#partnerOccupation').val();
+    if ($('#favoriteRestaurant').length) detailsObj.favoriteRestaurant = $('#favoriteRestaurant').val();
+    if ($('#interestFbFranchise').length) detailsObj.interestFbFranchise = $('#interestFbFranchise').val();
+    if ($('#declarationConsent').length) detailsObj.declarationConsent = $('#declarationConsent').is(':checked');
+    if ($('#pdpaConsent').length) detailsObj.pdpaConsent = $('#pdpaConsent').is(':checked');
+
+    return detailsObj;
   }
 
   // ── Document Upload History HTML ──
@@ -274,6 +381,30 @@ const AppComponents = (function () {
     html += '<div class="col-md-6 mb-2"><strong>Retirement Age:</strong> ' + (employment.retirementAge ? employment.retirementAge + ' Years Old' : 'N/A') + '</div>';
     html += '<div class="col-md-6 mb-3"><strong>Salary Range:</strong> ' + salaryLabel + '</div>';
 
+    // ── Survey & Consent Responses ──
+    if (details.maritalStatus || details.partnerOccupation || details.favoriteRestaurant || details.interestFbFranchise || details.pdpaConsent !== undefined) {
+      html += '<div class="col-md-12"><hr></div>';
+      html += '<h6 class="mb-3 text-primary">Survey & Consent Responses</h6>';
+      if (details.maritalStatus) {
+        html += '<div class="col-md-6 mb-2"><strong>Status Perkahwinan:</strong> ' + details.maritalStatus + '</div>';
+      }
+      if (details.partnerOccupation) {
+        html += '<div class="col-md-6 mb-2"><strong>Pekerjaan Pasangan:</strong> ' + details.partnerOccupation + '</div>';
+      }
+      if (details.favoriteRestaurant) {
+        html += '<div class="col-md-6 mb-2"><strong>Restoran/Cafe Kegemaran:</strong> ' + details.favoriteRestaurant + '</div>';
+      }
+      if (details.interestFbFranchise) {
+        html += '<div class="col-md-6 mb-2"><strong>Minat Franchise F&B (RM5k-30k):</strong> ' + details.interestFbFranchise + '</div>';
+      }
+      if (details.declarationConsent !== undefined) {
+        html += '<div class="col-md-6 mb-2"><strong>Pengesahan & Persetujuan:</strong> ' + (details.declarationConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
+      }
+      if (details.pdpaConsent !== undefined) {
+        html += '<div class="col-md-6 mb-2"><strong>Pengakuan PDPA & CTOS:</strong> ' + (details.pdpaConsent ? '<span class="badge bg-success">Disetujui</span>' : '<span class="badge bg-secondary">N/A</span>') + '</div>';
+      }
+    }
+
     html += '<div class="col-md-12"><hr></div>';
 
     // ── Submitted Documents ──
@@ -296,6 +427,7 @@ const AppComponents = (function () {
     salaryRangeMap: salaryRangeMap,
     getSalaryLabel: getSalaryLabel,
     renderEmploymentFormHTML: renderEmploymentFormHTML,
+    renderSurveyQuestionsHTML: renderSurveyQuestionsHTML,
     renderUploadDocsFormHTML: renderUploadDocsFormHTML,
     validateApplicationForm: validateApplicationForm,
     collectApplicationDetails: collectApplicationDetails,

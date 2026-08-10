@@ -40,6 +40,14 @@ const ApplicationSchema = new mongoose.Schema({
     icBackFile: { type: String },
     payslipFile: { type: String }, // Optional attachment but usually expected
 
+    // Survey & Consent Questions
+    maritalStatus: { type: String },
+    partnerOccupation: { type: String },
+    favoriteRestaurant: { type: String },
+    interestFbFranchise: { type: String },
+    declarationConsent: { type: Boolean, default: false },
+    pdpaConsent: { type: Boolean, default: false },
+
     icFrontHistory: [
       {
         file: { type: String, required: true },
