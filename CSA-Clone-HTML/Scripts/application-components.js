@@ -166,13 +166,13 @@ const AppComponents = (function () {
               <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="declarationConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="declarationConsent">
-                  <strong>PENGESAHAN & PERSETUJUAN (TICK BOX):</strong> Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.
+                  <strong>PENGESAHAN & PERSETUJUAN:</strong> Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.
                 </label>
               </div>
               <div class="form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="pdpaConsent" required />
                 <label class="form-check-label fs-13 text-dark" for="pdpaConsent">
-                  <strong>PDPA (TICK BOX):</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
+                  <strong>PDPA:</strong> Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).
                 </label>
               </div>
             </div>
