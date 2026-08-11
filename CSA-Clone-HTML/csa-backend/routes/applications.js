@@ -48,6 +48,7 @@ router.post("/submit", auth, (req, res) => {
     { name: "icFront", maxCount: 1 },
     { name: "icBack", maxCount: 1 },
     { name: "payslip", maxCount: 1 },
+    { name: "ctosConsent", maxCount: 1 },
   ]);
 
   uploadFields(req, res, async (err) => {
@@ -102,6 +103,7 @@ router.post("/submit", auth, (req, res) => {
           icFrontFile: files.icFront[0].key,
           icBackFile: files.icBack[0].key,
           payslipFile: files.payslip[0].key,
+          ctosConsentFile: files.ctosConsent ? files.ctosConsent[0].key : undefined,
           icFrontHistory: [
             { file: files.icFront[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
           ],
@@ -111,6 +113,9 @@ router.post("/submit", auth, (req, res) => {
           payslipHistory: [
             { file: files.payslip[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
           ],
+          ctosConsentHistory: files.ctosConsent ? [
+            { file: files.ctosConsent[0].key, uploadedAt: new Date(), uploadedBy: "member", note: "Initial submission" },
+          ] : [],
         },
         applicationStatus: 1, // Processing
       });
@@ -180,7 +185,7 @@ router.post("/reupload-document", auth, (req, res) => {
       }
 
       const { docType, applicationId, note } = req.body;
-      const validDocTypes = ["payslip", "icFront", "icBack"];
+      const validDocTypes = ["payslip", "icFront", "icBack", "ctosConsent"];
 
       if (!validDocTypes.includes(docType)) {
         return res.status(400).json({ msg: "Invalid document type." });

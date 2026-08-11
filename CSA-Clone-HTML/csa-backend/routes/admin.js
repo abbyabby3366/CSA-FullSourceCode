@@ -745,12 +745,14 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
       { id: "marital_status", label: "Status Perkahwinan" },
       { id: "partner_occupation", label: "Pekerjaan Pasangan" },
       { id: "favorite_restaurant", label: "Restoran/Cafe Kegemaran" },
+      { id: "monthly_food_spend", label: "Anggaran Perbelanjaan Makanan/Bulan" },
       { id: "interest_fb_franchise", label: "Minat Franchise F&B (RM5k-30k)" },
       { id: "declaration_consent", label: "Pengesahan & Persetujuan" },
       { id: "pdpa_consent", label: "Pengakuan PDPA & CTOS" },
       { id: "ic_front_url", label: "Application IC Front URL" },
       { id: "ic_back_url", label: "Application IC Back URL" },
       { id: "payslip_url", label: "Application Payslip URL" },
+      { id: "ctos_consent_url", label: "Application CTOS Consent URL" },
       { id: "bank_name", label: "Bank Name" },
       { id: "bank_account_name", label: "Bank Account Name" },
       { id: "bank_account_number", label: "Bank Account Number" },
@@ -787,6 +789,7 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
       let maritalStatus = app && app.details && app.details.maritalStatus ? app.details.maritalStatus : "";
       let partnerOccupation = app && app.details && app.details.partnerOccupation ? app.details.partnerOccupation : "";
       let favoriteRestaurant = app && app.details && app.details.favoriteRestaurant ? app.details.favoriteRestaurant : "";
+      let monthlyFoodSpend = app && app.details && app.details.monthlyFoodSpend ? app.details.monthlyFoodSpend : "";
       let interestFbFranchise = app && app.details && app.details.interestFbFranchise ? app.details.interestFbFranchise : "";
       let declarationConsent = app && app.details && app.details.declarationConsent !== undefined ? (app.details.declarationConsent ? "Yes" : "No") : "";
       let pdpaConsent = app && app.details && app.details.pdpaConsent !== undefined ? (app.details.pdpaConsent ? "Yes" : "No") : "";
@@ -810,6 +813,7 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
       let icFrontUrl = app && app.details && app.details.icFrontFile ? `${baseUrl}/${app.details.icFrontFile}` : "";
       let icBackUrl = app && app.details && app.details.icBackFile ? `${baseUrl}/${app.details.icBackFile}` : "";
       let payslipUrl = app && app.details && app.details.payslipFile ? `${baseUrl}/${app.details.payslipFile}` : "";
+      let ctosConsentUrl = app && app.details && app.details.ctosConsentFile ? `${baseUrl}/${app.details.ctosConsentFile}` : "";
 
       let joinDate = member.createDate ? new Date(member.createDate).toISOString() : "";
       let bankName = member.bankName || "";
@@ -826,6 +830,7 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
         marital_status: maritalStatus,
         partner_occupation: partnerOccupation,
         favorite_restaurant: favoriteRestaurant,
+        monthly_food_spend: monthlyFoodSpend,
         interest_fb_franchise: interestFbFranchise,
         declaration_consent: declarationConsent,
         pdpa_consent: pdpaConsent,
@@ -836,6 +841,7 @@ router.get("/members/export", [auth, adminOrSubadmin], async (req, res) => {
         ic_front_url: icFrontUrl,
         ic_back_url: icBackUrl,
         payslip_url: payslipUrl,
+        ctos_consent_url: ctosConsentUrl,
         join_date: joinDate,
         bank_name: bankName,
         bank_account_name: bankAccountName,

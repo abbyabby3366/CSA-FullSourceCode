@@ -109,8 +109,10 @@
                                     <div class="mb-4 pb-2 border-bottom">
                                         <h3 class="fw-bold text-dark mb-3" style="font-size: 1.6rem; border-bottom: 2px solid #212529; padding-bottom: 8px;" data-i18n="surveyTitle">SURVEY FNB MARKET by iBELANJA</h3>
                                         <p class="text-dark mb-2" data-i18n="surveyP1">Terima kasih atas minat anda terhadap kaji selidik program <strong>iBELANJA</strong>.</p>
-                                        <p class="text-dark mb-2" data-i18n="surveyP2">Sila lengkapkan borang ini dengan maklumat yang tepat. Jawapan anda bakal membantu kami untuk menaik taraf servis kami.</p>
-                                        <p class="text-dark mb-0" data-i18n="surveyP3">Kerjasama anda untuk menjawab dengan jujur dan telus amatlah kami hargai. <em>Terima kasih.</em></p>
+                                        <p class="text-dark mb-2" data-i18n="surveyP2">Kaji selidik ini adalah bertujuan bagi mengkaji rutin dan tabiat perbelanjaan golongan professional dan berpendidikan terhadap makanan dan gaya hidup.</p>
+                                        <p class="text-dark mb-2" data-i18n="surveyP3">Sila lengkapkan borang ini dengan maklumat yang tepat. Jawapan anda bakal membantu kami untuk menaik taraf servis kami.</p>
+                                        <p class="text-dark mb-2" data-i18n="surveyP4">Kerjasama anda untuk menjawab dengan jujur dan telus amatlah kami hargai.</p>
+                                        <p class="text-dark mb-0 fw-semibold text-primary" data-i18n="surveyP5">Anda akan memperolehi token penghargaan sehingga RM350 (TnC applied) dan laporan CTOS percuma.</p>
                                     </div>
                                     <div class="row g-3 mb-2">
                                         <div class="col-mx">
@@ -142,6 +144,7 @@
 
                                                 <div id="employmentFormContainer"></div>
                                                 <div id="surveyFormContainer"></div>
+                                                <div id="downloadDocsFormContainer"></div>
                                                 <div id="uploadDocsFormContainer"></div>
                                             </div>
                                         </div>
@@ -405,6 +408,7 @@
             // Inject shared form components
             $('#employmentFormContainer').html(AppComponents.renderEmploymentFormHTML());
             $('#surveyFormContainer').html(AppComponents.renderSurveyQuestionsHTML());
+            $('#downloadDocsFormContainer').html(AppComponents.renderDownloadDocsFormHTML());
             $('#uploadDocsFormContainer').html(AppComponents.renderUploadDocsFormHTML());
             AppComponents.setLanguage('bm');
 
@@ -788,11 +792,13 @@
                 const icFrontFile = $('#icFront')[0].files[0];
                 const icBackFile = $('#icBack')[0].files[0];
                 const payslipFile = $('#payslip')[0].files[0];
-                const offerLetterFile = $('#offerLetter')[0].files[0];
+                const ctosConsentFile = $('#ctosConsent')[0] ? $('#ctosConsent')[0].files[0] : null;
+                const offerLetterFile = $('#offerLetter') && $('#offerLetter')[0] ? $('#offerLetter')[0].files[0] : null;
 
                 if (icFrontFile) formData.append('icFront', icFrontFile);
                 if (icBackFile) formData.append('icBack', icBackFile);
                 if (payslipFile) formData.append('payslip', payslipFile);
+                if (ctosConsentFile) formData.append('ctosConsent', ctosConsentFile);
                 if (offerLetterFile) formData.append('offerLetter', offerLetterFile);
 
                 try {

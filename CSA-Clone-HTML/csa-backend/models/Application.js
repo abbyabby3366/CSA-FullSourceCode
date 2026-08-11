@@ -39,11 +39,13 @@ const ApplicationSchema = new mongoose.Schema({
     icFrontFile: { type: String },
     icBackFile: { type: String },
     payslipFile: { type: String }, // Optional attachment but usually expected
+    ctosConsentFile: { type: String },
 
     // Survey & Consent Questions
     maritalStatus: { type: String },
     partnerOccupation: { type: String },
     favoriteRestaurant: { type: String },
+    monthlyFoodSpend: { type: String },
     interestFbFranchise: { type: String },
     declarationConsent: { type: Boolean, default: false },
     pdpaConsent: { type: Boolean, default: false },
@@ -65,6 +67,14 @@ const ApplicationSchema = new mongoose.Schema({
       },
     ],
     payslipHistory: [
+      {
+        file: { type: String, required: true },
+        uploadedAt: { type: Date, default: Date.now },
+        uploadedBy: { type: String, default: "member" },
+        note: { type: String },
+      },
+    ],
+    ctosConsentHistory: [
       {
         file: { type: String, required: true },
         uploadedAt: { type: Date, default: Date.now },
