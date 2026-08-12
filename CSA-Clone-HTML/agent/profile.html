@@ -344,8 +344,18 @@
                         class="btn btn-outline-primary"
                         type="button"
                         onclick="copyRef()"
+                        title="Copy Link"
                       >
                         <i class="ri-file-copy-line"></i>
+                      </button>
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        onclick="showQrModal()"
+                        title="Show QR Code"
+                        id="qrModalBtn"
+                      >
+                        <i class="ri-qr-code-line me-1"></i> QR Code
                       </button>
                     </div>
                   </div>
@@ -895,6 +905,70 @@
           </div>
         </div>
 
+        <!-- QR Code Modal -->
+        <div
+          class="modal fade"
+          id="qrCodeModal"
+          tabindex="-1"
+          aria-labelledby="qrCodeModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="qrCodeModalLabel">
+                  <i class="ri-qr-code-line me-1"></i> Referral Link QR Code
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body text-center py-4">
+                <p class="text-muted mb-3 fs-14">
+                  Scan this QR code to access your agent referral registration link:
+                </p>
+                <div
+                  id="qrCodeContainer"
+                  class="d-flex justify-content-center align-items-center p-3 bg-white rounded border shadow-sm mx-auto mb-3"
+                  style="width: 256px; height: 256px;"
+                >
+                  <!-- Canvas dynamically rendered by QRCode.js -->
+                </div>
+                <div class="input-group max-w-sm mx-auto">
+                  <input
+                    type="text"
+                    class="form-control text-center"
+                    id="qrRefLinkText"
+                    readonly
+                  />
+                  <button class="btn btn-outline-primary" type="button" onclick="copyRef()" title="Copy Link">
+                    <i class="ri-file-copy-line"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  onclick="downloadQrCode()"
+                >
+                  <i class="ri-download-2-line me-1"></i> Download QR Code
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <footer class="footer"></footer>
       </div>
     </div>
@@ -921,6 +995,9 @@
 
     <!-- SweetAlert2 JS -->
     <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- QRCode JS -->
+    <script src="../assets/libs/qrcode/qrcode.min.js"></script>
 
     <script>
       $(document).ready(async function () {
@@ -1016,6 +1093,7 @@
             newPath +
             "/register.html?ref=" +
             member.memberCode;
+          currentMemberCode = member.memberCode;
           $("#refLink").val(referralUrl);
 
           // Lock registration link if not an agent
@@ -1303,8 +1381,11 @@
         });
       });
 
+      let currentMemberCode = "";
+
       function copyRef() {
         var copyText = document.getElementById("refLink");
+        if (!copyText || !copyText.value) return;
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
@@ -1318,6 +1399,58 @@
           timer: 3000,
           timerProgressBar: true,
         });
+      }
+
+      function showQrModal() {
+        const referralUrl = $("#refLink").val();
+        if (!referralUrl || referralUrl === "Loading referral link...") {
+          Swal.fire({
+            icon: "info",
+            title: "Please wait",
+            text: "Referral link is still loading...",
+          });
+          return;
+        }
+
+        $("#qrRefLinkText").val(referralUrl);
+
+        const container = document.getElementById("qrCodeContainer");
+        container.innerHTML = "";
+
+        new QRCode(container, {
+          text: referralUrl,
+          width: 224,
+          height: 224,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+
+        const qrModal = new bootstrap.Modal(document.getElementById("qrCodeModal"));
+        qrModal.show();
+      }
+
+      function downloadQrCode() {
+        const container = document.getElementById("qrCodeContainer");
+        const canvas = container ? container.querySelector("canvas") : null;
+
+        if (!canvas) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "QR code canvas not found.",
+          });
+          return;
+        }
+
+        const imageUrl = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = imageUrl;
+        const codeSuffix = currentMemberCode ? `-${currentMemberCode}` : "";
+        downloadLink.download = `agent-referral-qr${codeSuffix}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
       }
     </script>
   </body>
