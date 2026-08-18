@@ -305,10 +305,10 @@
             const row = `
                         <tr>
                             <td>#${trx._id.substring(trx._id.length - 6).toUpperCase()}</td>
-                            <td>${date}</td>
+                            <td data-order="${new Date(trx.createDate).getTime()}">${date}</td>
                             <td>${typeBadge}${statusBadge}</td>
                             <td>${trx.description || "-"}</td>
-                            <td class="text-end ${amountClass}">${amountPrefix}${absAmount}</td>
+                            <td data-order="${trx.amount}" class="text-end ${amountClass}">${amountPrefix}${absAmount}</td>
                         </tr>
                     `;
             tbody.append(row);
