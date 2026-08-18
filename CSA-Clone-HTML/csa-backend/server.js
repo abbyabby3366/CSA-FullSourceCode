@@ -40,6 +40,8 @@ app.use("/api/announcements", require("./routes/announcements"));
 app.use("/api/carousel", require("./routes/carousel"));
 app.use("/api/settings", require("./routes/settings"));
 app.use("/api/bookings", require("./routes/bookings"));
+app.use("/api/admin/transactions", require("./routes/transactions"));
+app.use("/api/transactions", require("./routes/transactions"));
 
 // Catch-all route for /admin/*: redirect all unmatched /admin/* page requests back to index.html
 app.get(/^\/admin\//, (req, res) => {

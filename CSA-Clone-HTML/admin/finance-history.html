@@ -1,6 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
-<head>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-topbar="light"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transaction History | iBelanja Admin</title>
@@ -8,137 +16,537 @@
     <script src="../assets/js/layout.js"></script>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css" />
 
     <!-- font css -->
-	<link rel="stylesheet" href="../assets/css/icons.min.css">
+    <link rel="stylesheet" href="../assets/css/icons.min.css" />
+
+    <!-- select2 css -->
+    <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css"
+    />
 
     <!-- app css -->
-	<link rel="stylesheet" href="../assets/css/app.min.css" />
+    <link rel="stylesheet" href="../assets/css/app.min.css" />
 
     <!-- custom css -->
-	<link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/custom.css" />
 
     <!-- datatables css -->
-    <link href="../assets/libs/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../assets/libs/datatables/datatables.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-    <link href="../assets/images/logos/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
-<body>
+    <link
+      href="../assets/images/logos/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <div class="layout-wrapper">
-        <!-- page header -->
-        <header id="page-topbar"></header>					
-        
-        <div class="app-menu navbar-menu"></div>
-        
-        <div class="vertical-overlay"></div>
+      <header id="page-topbar"></header>
+      <div class="app-menu navbar-menu"></div>
+      <div class="vertical-overlay"></div>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!-- page header -->
-                    <div class="row mb-3 pb-1">
-                        <div class="col-12">
-                            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                <div class="flex-grow-1">
-                                    <h4 class="fs-16 mb-1">Transaction History</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row px-2 gy-2">
-                                        <div class="col-md-3 col-sm-12 d-flex align-items-center">
-                                            <h5 class="m-0 p-0">Transaction History List</h5>
-                                        </div>
-                                        <div class="col-md-9 col-sm-12 ">
-                                            <div class="row justify-content-end gy-3">
-                                                <div class="col-md-3 col-sm-12">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="txtSearch" placeholder="Search" />
-                                                        <button type="button" class="btn btn-primary btn-label ms-auto" id="btnSearch">
-                                                            <i class="ri-search-line label-icon align-middle fs-16 me-2"></i> Search
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <table id="gvHistory" class="table dt-responsive nowrap align-middle" style="width: 100%">
-                                        <thead class="table-light text-muted">
-                                            <tr>
-                                                <th>TRANSACTION ID</th>
-                                                <th>MEMBER</th>
-                                                <th>TRANSACTION DATE</th>
-                                                <th>TRANSACTION TYPE</th>
-                                                <th>TRANSACTION AMOUNT</th>
-                                                <th class="text-center">STATUS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Static data for demonstration -->
-                                            <tr>
-                                                <td>10001</td>
-                                                <td>Tan Ah Teck</td>
-                                                <td>2023-10-25 15:45</td>
-                                                <td>WITHDRAWAL</td>
-                                                <td>500.00</td>
-                                                <td class="text-center"><span class="badge bg-success">PAID</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>10002</td>
-                                                <td>Ahmad Bin Ibrahim</td>
-                                                <td>2023-10-24 11:20</td>
-                                                <td>WITHDRAWAL</td>
-                                                <td>1,000.00</td>
-                                                <td class="text-center"><span class="badge bg-danger">CANCEL</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- Page Title -->
+            <div class="row mb-3 pb-1">
+              <div class="col-12">
+                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                  <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">Transaction History</h4>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <footer class="footer"></footer>
+            <!-- Transaction Table Card -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="row px-2 gy-2 align-items-center">
+                      <div class="col-md-4 col-sm-12">
+                        <h5 class="m-0 p-0">All Wallet Transactions</h5>
+                      </div>
+                      <div class="col-md-8 col-sm-12">
+                        <div class="d-flex flex-wrap justify-content-md-end align-items-center gap-2">
+                          <div style="min-width: 220px">
+                            <div class="input-group">
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="txtSearch"
+                                placeholder="Search transaction..."
+                              />
+                              <button type="button" class="btn btn-outline-primary" id="btnSearch">
+                                <i class="ri-search-line"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addTransactionModal"
+                          >
+                            <i class="ri-add-circle-line align-middle me-1"></i>
+                            Add Transaction
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table id="gvHistory" class="table nowrap align-middle" style="width: 100%">
+                        <thead class="table-light text-muted">
+                          <tr>
+                            <th>DATE & TIME</th>
+                            <th>MEMBER</th>
+                            <th>TYPE</th>
+                            <th>DESCRIPTION / REASON</th>
+                            <th>CURRENCY</th>
+                            <th>AMOUNT</th>
+                            <th class="text-center">STATUS</th>
+                            <th>PROCESSED BY</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colspan="8" class="text-center py-4">
+                              <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Add Transaction Modal -->
+        <div
+          class="modal fade"
+          id="addTransactionModal"
+          tabindex="-1"
+          aria-labelledby="addTransactionModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addTransactionModalLabel">
+                  <i class="ri-wallet-3-line text-primary me-1 align-middle"></i>
+                  Add Manual Transaction
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form id="addTransactionForm">
+                <div class="modal-body">
+                  <!-- Searchable Member Selection -->
+                  <div class="mb-3">
+                    <label class="form-label"
+                      >Search & Select Member <span class="text-danger">*</span></label
+                    >
+                    <select class="form-select" id="txMember" name="memberId" style="width: 100%" required>
+                      <option value="">-- Search by Name / Code / Phone --</option>
+                    </select>
+                  </div>
+
+                  <!-- Member Balance Preview -->
+                  <div id="memberBalanceBox" class="alert alert-soft-info py-2 px-3 mb-3 d-none">
+                    <div class="d-flex justify-content-between fs-13">
+                      <span>Current Cash: <strong id="lblCurrentCash">RM 0.00</strong></span>
+                      <span>Current Points: <strong id="lblCurrentPoints">0</strong></span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Action <span class="text-danger">*</span></label>
+                      <select class="form-select" id="txAction" name="action" required>
+                        <option value="credit">Credit (+ Add)</option>
+                        <option value="debit">Debit (- Deduct)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Currency <span class="text-danger">*</span></label>
+                      <select class="form-select" id="txCurrency" name="currencyType" required>
+                        <option value="Cash">Cash (RM)</option>
+                        <option value="Point">Point</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Type <span class="text-danger">*</span></label>
+                      <select class="form-select" id="txType" name="type" required>
+                        <option value="Adjustment">Adjustment</option>
+                        <option value="Bonus">Bonus</option>
+                        <option value="Reward">Reward</option>
+                        <option value="Withdrawal">Withdrawal</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Amount <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <span class="input-group-text" id="txAmountPrefix">RM</span>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="txAmount"
+                          name="amount"
+                          step="0.01"
+                          min="0.01"
+                          placeholder="0.00"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Projected Balance -->
+                  <div id="projectedBalanceBox" class="alert alert-light border py-2 px-3 mb-3 d-none">
+                    <div class="fs-13">
+                      Projected Balance: <strong id="lblProjectedBalance" class="text-primary">-</strong>
+                    </div>
+                  </div>
+
+                  <!-- Description / Reason -->
+                  <div class="mb-3">
+                    <label class="form-label">Reason / Description <span class="text-danger">*</span></label>
+                    <textarea
+                      class="form-control"
+                      id="txDescription"
+                      name="description"
+                      rows="2"
+                      placeholder="e.g., Manual adjustment for withdrawal, offline bonus, etc."
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" id="btnSubmitTx">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    Confirm & Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer"></footer>
+      </div>
     </div>
 
-    <!-- jquery js -->
+    <!-- Scripts -->
     <script src="../assets/libs/jquery/js/jquery-3.6.3.min.js"></script>
-
-    <!-- bootstrap js -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- utils js -->
     <script src="../assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../assets/libs/node-waves/waves.min.js"></script>
-
-    <!-- font js -->
     <script src="../assets/libs/feather-icons/feather.min.js"></script>
     <script src="../assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-
-    <!-- datatables js -->
     <script src="../assets/libs/datatables/datatables.min.js"></script>
-
-    <!-- App js -->
+    <script src="../assets/libs/select2/js/select2.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
+    <script src="../Scripts/config.js"></script>
+    <script src="../Scripts/adminHelper.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#gvHistory').DataTable({
-                "order": [[ 2, "desc" ]]
-            });
+      let memberListCache = [];
+      let historyDataTable = null;
+
+      $(document).ready(function () {
+        initSelect2();
+        loadMembers();
+        loadTransactions();
+
+        $("#txCurrency").on("change", function () {
+          const isPoint = $(this).val() === "Point";
+          $("#txAmountPrefix").text(isPoint ? "PTS" : "RM");
+          updateProjectedBalance();
         });
+
+        $("#txAction, #txAmount").on("change input", function () {
+          updateProjectedBalance();
+        });
+
+        $("#txMember").on("change", function () {
+          updateMemberBalanceBox();
+          updateProjectedBalance();
+        });
+
+        $("#addTransactionForm").on("submit", handleAddTransaction);
+
+        $("#addTransactionModal").on("hidden.bs.modal", function () {
+          $("#addTransactionForm")[0].reset();
+          if ($.fn.select2) {
+            $("#txMember").val("").trigger("change");
+          }
+          $("#memberBalanceBox").addClass("d-none");
+          $("#projectedBalanceBox").addClass("d-none");
+        });
+      });
+
+      function initSelect2() {
+        if ($.fn.select2) {
+          $("#txMember").select2({
+            theme: "bootstrap-5",
+            dropdownParent: $("#addTransactionModal"),
+            placeholder: "-- Search by Name / Code / Phone --",
+            allowClear: true,
+            width: "100%",
+          });
+        }
+      }
+
+      async function loadMembers() {
+        try {
+          const members = await apiCall("/admin/members");
+          if (Array.isArray(members)) {
+            memberListCache = members;
+            const select = $("#txMember");
+            select.empty();
+            select.append('<option value="">-- Search by Name / Code / Phone --</option>');
+            members.forEach((m) => {
+              const code = m.memberCode ? `[${m.memberCode}] ` : "";
+              const phone = m.phoneNumber ? ` (${m.phoneNumber})` : "";
+              const cash = Number(m.walletCash || 0).toFixed(2);
+              const points = m.walletPoint || 0;
+              const opt = `<option value="${m._id}" data-cash="${cash}" data-points="${points}">${code}${m.fullName}${phone} (Cash: RM ${cash})</option>`;
+              select.append(opt);
+            });
+            initSelect2();
+          }
+        } catch (err) {
+          console.error("Error loading members:", err);
+        }
+      }
+
+      function updateMemberBalanceBox() {
+        const selected = $("#txMember option:selected");
+        if (selected.val()) {
+          const cash = selected.attr("data-cash") || "0.00";
+          const points = selected.attr("data-points") || "0";
+          $("#lblCurrentCash").text(`RM ${cash}`);
+          $("#lblCurrentPoints").text(points);
+          $("#memberBalanceBox").removeClass("d-none");
+        } else {
+          $("#memberBalanceBox").addClass("d-none");
+        }
+      }
+
+      function updateProjectedBalance() {
+        const selected = $("#txMember option:selected");
+        const amount = parseFloat($("#txAmount").val());
+        const action = $("#txAction").val();
+        const currency = $("#txCurrency").val();
+
+        if (!selected.val() || isNaN(amount) || amount <= 0) {
+          $("#projectedBalanceBox").addClass("d-none");
+          return;
+        }
+
+        const isCash = currency === "Cash";
+        const currentBal = isCash
+          ? parseFloat(selected.attr("data-cash") || "0")
+          : parseFloat(selected.attr("data-points") || "0");
+
+        const delta = action === "debit" ? -amount : amount;
+        const newBal = currentBal + delta;
+
+        let formatted = isCash ? `RM ${newBal.toFixed(2)}` : `${newBal} Points`;
+        if (newBal < 0) {
+          $("#lblProjectedBalance").html(`<span class="text-danger">${formatted} (Warning: Insufficient balance)</span>`);
+        } else {
+          $("#lblProjectedBalance").html(`<span class="text-success">${formatted}</span>`);
+        }
+        $("#projectedBalanceBox").removeClass("d-none");
+      }
+
+      async function loadTransactions() {
+        try {
+          const transactions = await apiCall("/admin/transactions");
+          const tbody = $("#gvHistory tbody");
+          tbody.empty();
+
+          if (!Array.isArray(transactions) || transactions.length === 0) {
+            tbody.append('<tr><td colspan="8" class="text-center py-4 text-muted">No transactions found</td></tr>');
+            return;
+          }
+
+          transactions.forEach((tx) => {
+            const d = new Date(tx.createDate || tx.processDate || Date.now());
+            const dateStr =
+              d.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }) +
+              " " +
+              d.toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
+            let memberInfo = '<span class="text-muted">Unknown</span>';
+            if (tx.member) {
+              const code = tx.member.memberCode ? `[${tx.member.memberCode}] ` : "";
+              memberInfo = `<strong>${code}${tx.member.fullName || "-"}</strong>`;
+            }
+
+            const isPoint = tx.currencyType === "Point";
+            const amtVal = Number(tx.amount || 0);
+            const isNegative = amtVal < 0;
+            const absAmt = Math.abs(amtVal);
+
+            const amtDisplay = isPoint
+              ? `${absAmt} PTS`
+              : `RM ${absAmt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            const amtBadge = isNegative
+              ? `<span class="badge bg-soft-danger text-danger fs-12">- ${amtDisplay}</span>`
+              : `<span class="badge bg-soft-success text-success fs-12">+ ${amtDisplay}</span>`;
+
+            let statusBadge = "";
+            switch (tx.status) {
+              case "Completed":
+                statusBadge = '<span class="badge bg-success">COMPLETED</span>';
+                break;
+              case "Pending":
+                statusBadge = '<span class="badge bg-warning">PENDING</span>';
+                break;
+              case "Rejected":
+                statusBadge = '<span class="badge bg-danger">CANCELLED</span>';
+                break;
+              default:
+                statusBadge = `<span class="badge bg-secondary">${tx.status || "-"}</span>`;
+            }
+
+            const adminInfo = tx.admin ? (tx.admin.name || tx.admin.email || "Admin") : "System";
+            const desc = tx.description || "-";
+            const typeBadge = `<span class="badge bg-soft-primary text-primary">${tx.type || "Adjustment"}</span>`;
+
+            const timestamp = d.getTime();
+
+            const row = `
+              <tr>
+                <td data-order="${timestamp}">${dateStr}</td>
+                <td>${memberInfo}</td>
+                <td>${typeBadge}</td>
+                <td>${desc}</td>
+                <td><span class="badge bg-light text-dark">${tx.currencyType || "Cash"}</span></td>
+                <td data-order="${amtVal}">${amtBadge}</td>
+                <td class="text-center">${statusBadge}</td>
+                <td><span class="text-muted fs-12">${adminInfo}</span></td>
+              </tr>
+            `;
+            tbody.append(row);
+          });
+
+          if ($.fn.DataTable.isDataTable("#gvHistory")) {
+            $("#gvHistory").DataTable().destroy();
+          }
+
+          historyDataTable = $("#gvHistory").DataTable({
+            order: [[0, "desc"]],
+            responsive: false,
+          });
+
+          $("#txtSearch").off("keyup input").on("keyup input", function () {
+            historyDataTable.search($(this).val()).draw();
+          });
+          $("#btnSearch").off("click").on("click", function () {
+            historyDataTable.search($("#txtSearch").val()).draw();
+          });
+        } catch (err) {
+          console.error("Error loading transactions:", err);
+          $("#gvHistory tbody").html(
+            '<tr><td colspan="8" class="text-center text-danger py-4">Failed to load transactions</td></tr>'
+          );
+        }
+      }
+
+      async function handleAddTransaction(e) {
+        e.preventDefault();
+
+        const memberId = $("#txMember").val();
+        const action = $("#txAction").val();
+        const currencyType = $("#txCurrency").val();
+        const type = $("#txType").val();
+        const amount = parseFloat($("#txAmount").val());
+        const description = $("#txDescription").val().trim();
+
+        if (!memberId) {
+          alert("Please select a member");
+          return;
+        }
+
+        if (isNaN(amount) || amount <= 0) {
+          alert("Please enter a valid amount greater than 0");
+          return;
+        }
+
+        if (!description) {
+          alert("Please provide a reason / description");
+          return;
+        }
+
+        const btn = $("#btnSubmitTx");
+        const spinner = btn.find(".spinner-border");
+        btn.prop("disabled", true);
+        spinner.removeClass("d-none");
+
+        try {
+          const result = await apiCall("/admin/transactions", "POST", {
+            memberId,
+            action,
+            currencyType,
+            type,
+            amount,
+            description,
+          });
+
+          if (result && result.transaction) {
+            $("#addTransactionModal").modal("hide");
+            $("#addTransactionForm")[0].reset();
+            if ($.fn.select2) {
+              $("#txMember").val("").trigger("change");
+            }
+            $("#memberBalanceBox").addClass("d-none");
+            $("#projectedBalanceBox").addClass("d-none");
+
+            await loadMembers();
+            await loadTransactions();
+            alert("Transaction added successfully!");
+          } else {
+            alert(result && result.msg ? result.msg : "Failed to create transaction");
+          }
+        } catch (err) {
+          console.error("Error adding transaction:", err);
+          alert("An unexpected error occurred while saving transaction");
+        } finally {
+          btn.prop("disabled", false);
+          spinner.addClass("d-none");
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
