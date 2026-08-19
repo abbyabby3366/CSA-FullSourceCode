@@ -864,7 +864,7 @@ router.get("/agents/:id/referrals", [auth, adminOrSubadmin], async (req, res) =>
   try {
     const referrals = await Member.find({ referrer: req.params.id })
       .select(
-        "fullName memberCode phoneNumber state createDate memberType status icNumber salary",
+        "fullName memberCode phoneNumber state createDate memberType status icNumber salary occupation companyName employmentStatus streetAddress1 city postcode bankName bankAccountName bankAccountNumber",
       )
       .sort({ createDate: -1 });
 

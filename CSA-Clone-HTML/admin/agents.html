@@ -340,6 +340,7 @@
             async function () {
               const agentId = $(this).data("agent-id");
               const agentName = $(this).data("agent-name");
+              const currentAgent = (agents || []).find((a) => String(a._id) === String(agentId)) || { fullName: agentName, _id: agentId };
               $("#referralsModalLabel").text(`Referrals - ${agentName}`);
               $("#referralsModalBody").html(
                 '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div></div>',
@@ -365,11 +366,11 @@
                 let modalHtml = `
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
                   <div class="hstack gap-2">
-                    <span class="badge bg-danger-subtle text-danger fs-12 px-2 py-1">
-                      <i class="ri-error-warning-line me-1"></i>${notUploadedCount} Not Uploaded Document
-                    </span>
                     <span class="badge bg-primary-subtle text-primary fs-12 px-2 py-1">
                       Total: ${referrals.length}
+                    </span>
+                    <span class="badge bg-danger-subtle text-danger fs-12 px-2 py-1">
+                      <i class="ri-error-warning-line me-1"></i>${notUploadedCount} Not Uploaded Document
                     </span>
                   </div>
                   <div class="d-flex gap-2">
@@ -379,6 +380,9 @@
                       <option value="has_app">Application Submitted (${referrals.length - notUploadedCount})</option>
                     </select>
                     <input type="text" id="modalRefSearch" class="form-control form-control-sm" placeholder="Search member..." style="width: 160px;">
+                    <button type="button" class="btn btn-sm btn-outline-success d-flex align-items-center" id="btnExportReferrals">
+                      <i class="ri-download-2-line me-1"></i> Export CSV
+                    </button>
                   </div>
                 </div>
                 <div class="table-responsive">
@@ -390,36 +394,13 @@
                         <th>Full Name</th>
                         <th>Contact</th>
                         <th>Type</th>
-                        <th>App / Document Status</th>
-                        <th>Account</th>
+                        <th>Application Status</th>
                         <th>Joined</th>
                       </tr>
                     </thead>
                     <tbody>`;
 
                 referrals.forEach((r, i) => {
-                  let accountBadge = "";
-                  switch (r.status) {
-                    case "pending":
-                    case 1:
-                    case "1":
-                      accountBadge = '<span class="badge bg-warning-subtle text-warning">Pending</span>';
-                      break;
-                    case "approved":
-                    case 2:
-                    case "2":
-                      accountBadge = '<span class="badge bg-success-subtle text-success">Active</span>';
-                      break;
-                    case "rejected":
-                    case 3:
-                    case "3":
-                      accountBadge = '<span class="badge bg-danger-subtle text-danger">Inactive</span>';
-                      break;
-                    default:
-                      accountBadge = '<span class="badge bg-secondary-subtle text-secondary">Unknown</span>';
-                      break;
-                  }
-
                   const appStatus =
                     r.latestAppStatus !== null && r.latestAppStatus !== undefined && appStatusMap[r.latestAppStatus]
                       ? appStatusMap[r.latestAppStatus]
@@ -435,7 +416,6 @@
                       <td>${r.phoneNumber || "N/A"}</td>
                       <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
                       <td><span class="badge ${appStatus.class}">${appStatus.text}</span></td>
-                      <td>${accountBadge}</td>
                       <td>${new Date(r.createDate).toLocaleDateString()}</td>
                     </tr>`;
                 });
@@ -446,6 +426,11 @@
                 </div>`;
 
                 $("#referralsModalBody").html(modalHtml);
+
+                // Export referrals button handler
+                $("#btnExportReferrals").on("click", function () {
+                  ReferralExportHelper.open(currentAgent, referrals);
+                });
 
                 // Attach modal filter & search logic
                 function filterModalRows() {
