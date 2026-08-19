@@ -624,6 +624,178 @@ router.get("/agents", [auth, adminOrSubadmin], async (req, res) => {
   }
 });
 
+// @route    GET api/admin/agents/export
+// @desc     Export agents list to CSV with custom columns
+router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
+  try {
+    let matchCondition = { memberType: 2 };
+    if (req.user.role === "subadmin") {
+      const mongoose = require("mongoose");
+      matchCondition.subadmin = new mongoose.Types.ObjectId(req.user.id);
+    } else if (req.query.subadmin) {
+      const mongoose = require("mongoose");
+      matchCondition.subadmin = new mongoose.Types.ObjectId(req.query.subadmin);
+    }
+
+    const agents = await Member.aggregate([
+      { $match: matchCondition },
+      {
+        $lookup: {
+          from: "members",
+          localField: "_id",
+          foreignField: "referrer",
+          as: "referrals",
+        },
+      },
+      {
+        $lookup: {
+          from: "members",
+          localField: "referrer",
+          foreignField: "_id",
+          as: "referrerInfo",
+        },
+      },
+      {
+        $lookup: {
+          from: "admins",
+          localField: "subadmin",
+          foreignField: "_id",
+          as: "subadminInfo",
+        },
+      },
+      {
+        $addFields: {
+          referralAmount: { $size: "$referrals" },
+          referrer: { $arrayElemAt: ["$referrerInfo", 0] },
+          subadmin: { $arrayElemAt: ["$subadminInfo", 0] },
+        },
+      },
+      {
+        $project: {
+          password: 0,
+          referrals: 0,
+          referrerInfo: 0,
+          subadminInfo: 0,
+          "subadmin.password": 0,
+        },
+      },
+      { $sort: { agentApplicationDate: -1, createDate: -1 } },
+    ]);
+
+    const ALL_COLUMNS = [
+      { id: "member_code", label: "Agent ID" },
+      { id: "full_name", label: "Full Name" },
+      { id: "ic", label: "IC Number" },
+      { id: "contact_no", label: "Contact No" },
+      { id: "subadmin", label: "Assigned Subadmin" },
+      { id: "referral_name", label: "Referrer Name" },
+      { id: "num_referrals", label: "Number of Referrals" },
+      { id: "status", label: "Status" },
+      { id: "join_date", label: "Joined Date" },
+      { id: "employment_status", label: "Employment Status" },
+      { id: "company_name", label: "Company Name" },
+      { id: "job_title", label: "Occupation / Job Title" },
+      { id: "state_of_employment", label: "State of Employment" },
+      { id: "salary", label: "Salary" },
+      { id: "address", label: "Street Address" },
+      { id: "city", label: "City" },
+      { id: "state", label: "State" },
+      { id: "postcode", label: "Postcode" },
+      { id: "bank_name", label: "Bank Name" },
+      { id: "bank_account_name", label: "Bank Account Name" },
+      { id: "bank_account_number", label: "Bank Account Number" },
+      { id: "wallet_cash", label: "Wallet Cash (RM)" },
+      { id: "wallet_point", label: "Wallet Point" },
+    ];
+
+    let selectedColumnIds = null;
+    if (req.query.columns) {
+      selectedColumnIds = req.query.columns.split(",").map((c) => c.trim()).filter(Boolean);
+    }
+
+    const activeColumns = selectedColumnIds && selectedColumnIds.length > 0
+      ? ALL_COLUMNS.filter((col) => selectedColumnIds.includes(col.id))
+      : ALL_COLUMNS;
+
+    const headers = activeColumns.map((col) => col.label);
+    const rows = [headers];
+
+    for (const agent of agents) {
+      let subadminName = "";
+      if (agent.subadmin && agent.subadmin.name) {
+        subadminName = agent.subadmin.name;
+      }
+
+      let referralName = agent.referrer && agent.referrer.fullName ? agent.referrer.fullName : "";
+      let joinDate = agent.agentApplicationDate || agent.createDate
+        ? new Date(agent.agentApplicationDate || agent.createDate).toISOString()
+        : "";
+
+      let statusText = agent.status || "";
+      if (statusText === "approved" || statusText === "2") statusText = "Active";
+      else if (statusText === "pending" || statusText === "1") statusText = "Pending";
+      else if (statusText === "rejected" || statusText === "3") statusText = "Inactive";
+
+      let fullAddress = [agent.streetAddress1, agent.streetAddress2].filter(Boolean).join(", ");
+
+      const rowValues = {
+        member_code: agent.memberCode || "",
+        full_name: agent.fullName || "",
+        ic: agent.icNumber || "",
+        contact_no: agent.phoneNumber || "",
+        subadmin: subadminName,
+        referral_name: referralName,
+        num_referrals: agent.referralAmount !== undefined ? agent.referralAmount : 0,
+        status: statusText,
+        join_date: joinDate,
+        employment_status: agent.employmentStatus || "",
+        company_name: agent.companyName || "",
+        job_title: agent.occupation || "",
+        state_of_employment: agent.employmentState || "",
+        salary: agent.salary !== undefined && agent.salary !== null ? agent.salary : "",
+        address: fullAddress,
+        city: agent.city || "",
+        state: agent.state || "",
+        postcode: agent.postcode || "",
+        bank_name: agent.bankName || "",
+        bank_account_name: agent.bankAccountName || "",
+        bank_account_number: agent.bankAccountNumber || "",
+        wallet_cash: agent.walletCash !== undefined && agent.walletCash !== null ? agent.walletCash : 0,
+        wallet_point: agent.walletPoint !== undefined && agent.walletPoint !== null ? agent.walletPoint : 0,
+      };
+
+      const row = activeColumns.map((col) => rowValues[col.id]);
+      rows.push(row);
+    }
+
+    const csvContent = rows
+      .map((row) =>
+        row
+          .map((val) => {
+            if (val === undefined || val === null) return "";
+            let str = String(val);
+            str = str.replace(/"/g, '""');
+            if (/[",\r\n]/.test(str)) {
+              str = `"${str}"`;
+            }
+            return str;
+          })
+          .join(","),
+      )
+      .join("\n");
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=agents_export.csv",
+    );
+    res.send(csvContent);
+  } catch (err) {
+    console.error("Agents CSV Export Error:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    GET api/admin/agents/:id/referrals
 // @desc     Get all members referred by a specific agent
 router.get("/agents/:id/referrals", [auth, adminOrSubadmin], async (req, res) => {
