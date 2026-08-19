@@ -625,7 +625,7 @@ router.get("/agents", [auth, adminOrSubadmin], async (req, res) => {
 });
 
 // @route    GET api/admin/agents/export
-// @desc     Export agents list to CSV with custom columns
+// @desc     Export agents list to CSV with custom columns and referral details
 router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
   try {
     let matchCondition = { memberType: 2 };
@@ -673,7 +673,6 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
       {
         $project: {
           password: 0,
-          referrals: 0,
           referrerInfo: 0,
           subadminInfo: 0,
           "subadmin.password": 0,
@@ -682,16 +681,48 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
       { $sort: { agentApplicationDate: -1, createDate: -1 } },
     ]);
 
+    // Fetch latest application for each referral to resolve accurate working place / employer
+    const allReferralIds = [];
+    agents.forEach((agent) => {
+      if (agent.referrals && agent.referrals.length > 0) {
+        agent.referrals.forEach((r) => {
+          if (r._id) allReferralIds.push(r._id);
+        });
+      }
+    });
+
+    const apps = await Application.aggregate([
+      { $match: { member: { $in: allReferralIds } } },
+      { $sort: { createDate: -1 } },
+      {
+        $group: {
+          _id: "$member",
+          latestApp: { $first: "$$ROOT" },
+        },
+      },
+    ]);
+
+    const appMap = {};
+    apps.forEach((a) => {
+      if (a._id) appMap[a._id.toString()] = a.latestApp;
+    });
+
     const ALL_COLUMNS = [
+      { id: "full_name", label: "Full Name Agent" },
       { id: "member_code", label: "Agent ID" },
-      { id: "full_name", label: "Full Name" },
-      { id: "ic", label: "IC Number" },
-      { id: "contact_no", label: "Contact No" },
+      { id: "referral_member_name", label: "Referral List" },
+      { id: "referral_ic", label: "Referral IC Number" },
+      { id: "referral_contact_no", label: "Referral Contact Number" },
+      { id: "referral_company_name", label: "Referral Working Place" },
+      { id: "ic", label: "Agent IC Number" },
+      { id: "contact_no", label: "Agent Contact No" },
       { id: "subadmin", label: "Assigned Subadmin" },
-      { id: "referral_name", label: "Referrer Name" },
-      { id: "num_referrals", label: "Number of Referrals" },
-      { id: "status", label: "Status" },
+      { id: "referral_name", label: "Referrer Name (Upline)" },
+      { id: "num_referrals", label: "Total Referrals Count" },
+      { id: "status", label: "Account Status" },
       { id: "join_date", label: "Joined Date" },
+      { id: "referral_member_code", label: "Referral Member ID" },
+      { id: "referral_join_date", label: "Referral Joined Date" },
       { id: "employment_status", label: "Employment Status" },
       { id: "company_name", label: "Company Name" },
       { id: "job_title", label: "Occupation / Job Title" },
@@ -738,34 +769,65 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
 
       let fullAddress = [agent.streetAddress1, agent.streetAddress2].filter(Boolean).join(", ");
 
-      const rowValues = {
-        member_code: agent.memberCode || "",
-        full_name: agent.fullName || "",
-        ic: agent.icNumber || "",
-        contact_no: agent.phoneNumber || "",
-        subadmin: subadminName,
-        referral_name: referralName,
-        num_referrals: agent.referralAmount !== undefined ? agent.referralAmount : 0,
-        status: statusText,
-        join_date: joinDate,
-        employment_status: agent.employmentStatus || "",
-        company_name: agent.companyName || "",
-        job_title: agent.occupation || "",
-        state_of_employment: agent.employmentState || "",
-        salary: agent.salary !== undefined && agent.salary !== null ? agent.salary : "",
-        address: fullAddress,
-        city: agent.city || "",
-        state: agent.state || "",
-        postcode: agent.postcode || "",
-        bank_name: agent.bankName || "",
-        bank_account_name: agent.bankAccountName || "",
-        bank_account_number: agent.bankAccountNumber || "",
-        wallet_cash: agent.walletCash !== undefined && agent.walletCash !== null ? agent.walletCash : 0,
-        wallet_point: agent.walletPoint !== undefined && agent.walletPoint !== null ? agent.walletPoint : 0,
-      };
+      const agentReferrals = agent.referrals && agent.referrals.length > 0 ? agent.referrals : [null];
 
-      const row = activeColumns.map((col) => rowValues[col.id]);
-      rows.push(row);
+      for (const ref of agentReferrals) {
+        let refName = "";
+        let refIc = "";
+        let refContact = "";
+        let refWorkingPlace = "";
+        let refCode = "";
+        let refJoinDate = "";
+
+        if (ref) {
+          refName = ref.fullName || "";
+          refIc = ref.icNumber || "";
+          refContact = ref.phoneNumber || "";
+          refCode = ref.memberCode || "";
+          refJoinDate = ref.createDate ? new Date(ref.createDate).toISOString() : "";
+          const refApp = appMap[ref._id ? ref._id.toString() : ""];
+          if (refApp && refApp.details && refApp.details.employmentDetails && refApp.details.employmentDetails.employerName) {
+            refWorkingPlace = refApp.details.employmentDetails.employerName;
+          } else {
+            refWorkingPlace = ref.companyName || "";
+          }
+        }
+
+        const rowValues = {
+          full_name: agent.fullName || "",
+          member_code: agent.memberCode || "",
+          referral_member_name: refName,
+          referral_ic: refIc,
+          referral_contact_no: refContact,
+          referral_company_name: refWorkingPlace,
+          referral_member_code: refCode,
+          referral_join_date: refJoinDate,
+          ic: agent.icNumber || "",
+          contact_no: agent.phoneNumber || "",
+          subadmin: subadminName,
+          referral_name: referralName,
+          num_referrals: agent.referralAmount !== undefined ? agent.referralAmount : 0,
+          status: statusText,
+          join_date: joinDate,
+          employment_status: agent.employmentStatus || "",
+          company_name: agent.companyName || "",
+          job_title: agent.occupation || "",
+          state_of_employment: agent.employmentState || "",
+          salary: agent.salary !== undefined && agent.salary !== null ? agent.salary : "",
+          address: fullAddress,
+          city: agent.city || "",
+          state: agent.state || "",
+          postcode: agent.postcode || "",
+          bank_name: agent.bankName || "",
+          bank_account_name: agent.bankAccountName || "",
+          bank_account_number: agent.bankAccountNumber || "",
+          wallet_cash: agent.walletCash !== undefined && agent.walletCash !== null ? agent.walletCash : 0,
+          wallet_point: agent.walletPoint !== undefined && agent.walletPoint !== null ? agent.walletPoint : 0,
+        };
+
+        const row = activeColumns.map((col) => rowValues[col.id]);
+        rows.push(row);
+      }
     }
 
     const csvContent = rows
