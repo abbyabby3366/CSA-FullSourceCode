@@ -54,6 +54,9 @@ router.post("/submit", auth, (req, res) => {
   uploadFields(req, res, async (err) => {
     if (err) {
       if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).json({ msg: "File too large. Maximum allowed size is 10MB per file." });
+        }
         return res.status(400).json({ msg: `Upload error: ${err.message}` });
       } else if (err === "Error: Images, PDFs, and Docs only!") {
         return res.status(400).json({ msg: err });
@@ -174,6 +177,9 @@ router.post("/reupload-document", auth, (req, res) => {
   uploadSingle(req, res, async (err) => {
     if (err) {
       if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).json({ msg: "File too large. Maximum allowed size is 10MB per file." });
+        }
         return res.status(400).json({ msg: `Upload error: ${err.message}` });
       }
       return res.status(400).json({ msg: err.message || err });

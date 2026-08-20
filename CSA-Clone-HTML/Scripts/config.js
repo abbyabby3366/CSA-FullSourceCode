@@ -95,16 +95,11 @@ window.showGlobalErrorModal = function(title, message) {
 // Global uncaught JS error listener
 window.addEventListener('error', function(event) {
     console.error('Uncaught JS Error:', event.error || event.message);
-    if (event.message && event.message.includes('Script error')) return;
-    window.showGlobalErrorModal('Application Error', event.message || 'An unexpected error occurred.');
 });
 
 // Global unhandled promise rejection listener
 window.addEventListener('unhandledrejection', function(event) {
     console.error('Unhandled Promise Rejection:', event.reason);
-    const msg = event.reason ? (event.reason.message || String(event.reason)) : 'Operation failed.';
-    if (msg && msg.includes('Script error')) return;
-    window.showGlobalErrorModal('Error', msg);
 });
 
 window.downloadFile = async function(url, filename) {
@@ -163,7 +158,9 @@ window.fetch = async function(...args) {
         response = await originalFetch(...args);
     } catch (err) {
         console.error('Fetch Global Network Error:', err);
-        const errMsg = err.message ? err.message : 'Failed to connect to server. Please check your network connection.';
+        const errMsg = (err.message && err.message !== 'Failed to fetch')
+            ? err.message
+            : 'Unable to connect to server or request timed out. Please check your network connection and file sizes (max 10MB per file), then try again.';
         window.showGlobalErrorModal('Network / Connection Error', errMsg);
         throw err;
     }

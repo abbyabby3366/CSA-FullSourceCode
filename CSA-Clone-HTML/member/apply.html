@@ -589,6 +589,13 @@
                     return;
                   }
 
+                  const maxFileSize = 10 * 1024 * 1024;
+                  if (fileInput.files[0].size > maxFileSize) {
+                    const sizeMB = (fileInput.files[0].size / (1024 * 1024)).toFixed(1);
+                    $("#reuploadAlert").removeClass("d-none").text(`Selected file is too large (${sizeMB}MB). Maximum allowed size is 10MB.`);
+                    return;
+                  }
+
                   const formData = new FormData();
                   formData.append("document", fileInput.files[0]);
                   formData.append("docType", docType);
@@ -833,8 +840,10 @@
                     }
                 } catch (err) {
                     console.error('Submission Fetch Error:', err);
-                    const errorDetail = err.message ? err.message : 'Network request failed. Please check your internet connection or backend server status.';
-                    $('#errorModalMsg').html(`<strong>Network / Connection Error</strong><br><span class="text-danger mt-1 d-block">${errorDetail}</span>`);
+                    const errorDetail = (err.message && err.message !== 'Failed to fetch')
+                        ? err.message
+                        : 'Upload failed. The document file sizes may exceed the server limit (maximum 10MB per file) or the internet connection timed out. Please reduce file resolutions / take a screenshot of documents and try again.';
+                    $('#errorModalMsg').html(`<strong>Upload / Connection Error</strong><br><span class="text-danger mt-1 d-block">${errorDetail}</span>`);
                     $('#errorModal').modal('show');
                 }
             });

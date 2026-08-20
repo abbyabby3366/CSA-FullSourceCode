@@ -432,14 +432,26 @@
     function F() {
         var t = 0;
         Array.from(document.getElementsByClassName("cart-item-price")).forEach(function (e) {
-            t += parseFloat(e.innerHTML)
-        }), document.getElementById("cart-item-total") && (document.getElementById("cart-item-total").innerHTML = "$" + t.toFixed(2))
+            if (e && e.innerHTML) t += parseFloat(e.innerHTML) || 0;
+        });
+        var totalEl = document.getElementById("cart-item-total");
+        if (totalEl) totalEl.innerHTML = "$" + t.toFixed(2);
     }
 
     function H() {
         Array.from(document.querySelectorAll("#notificationItemsTabContent .tab-pane")).forEach(function (e) {
-            0 < e.querySelectorAll(".notification-item").length ? e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "block") : (e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "none"), e.querySelector(".empty-notification-elem") || (e.innerHTML += '<div class="empty-notification-elem">\t\t\t\t\t\t\t<div class="w-25 w-sm-50 pt-3 mx-auto">\t\t\t\t\t\t\t\t<img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\t<div class="text-center pb-5 mt-2">\t\t\t\t\t\t\t\t<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\t\t\t\t\t\t\t</div>\t\t\t\t\t\t</div>'))
-        })
+            if (!e) return;
+            var items = e.querySelectorAll(".notification-item");
+            var viewAll = e.querySelector(".view-all");
+            if (items && items.length > 0) {
+                if (viewAll) viewAll.style.display = "block";
+            } else {
+                if (viewAll) viewAll.style.display = "none";
+                if (!e.querySelector(".empty-notification-elem")) {
+                    e.innerHTML += '<div class="empty-notification-elem">\t\t\t\t\t\t\t<div class="w-25 w-sm-50 pt-3 mx-auto">\t\t\t\t\t\t\t\t<img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\t<div class="text-center pb-5 mt-2">\t\t\t\t\t\t\t\t<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\t\t\t\t\t\t\t</div>\t\t\t\t\t\t</div>';
+                }
+            }
+        });
     }
 
     function W() {
@@ -491,7 +503,7 @@
             }), F(), document.getElementById("empty-cart") && (document.getElementById("empty-cart").style.display = 0 == k ? "block" : "none"), document.getElementById("checkout-elem") && (document.getElementById("checkout-elem").style.display = 0 == k ? "none" : "block")
         })
     }), Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
-        e.innerHTML = k
+        if (e) e.innerHTML = k;
     }), document.getElementById("empty-cart") && (document.getElementById("empty-cart").style.display = "none"), document.getElementById("checkout-elem") && (document.getElementById("checkout-elem").style.display = "block"), F()), document.getElementsByClassName("notification-check") && document.getElementsByClassName("notification-check").length > 0 && (H(), Array.from(document.querySelectorAll(".notification-check input")).forEach(function (t) {
         t.addEventListener("change", function (e) {
             if (e.target.closest(".notification-item")) e.target.closest(".notification-item").classList.toggle("active");

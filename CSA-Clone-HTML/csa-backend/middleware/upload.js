@@ -24,7 +24,7 @@ const upload = multer({
             cb(null, 'uploads/' + file.fieldname + '-' + Date.now() + path.extname(file.originalname));
         }
     }),
-    limits: { fileSize: 50000000 }, // Increased to 50MB
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB per file
     fileFilter: function(req, file, cb) {
         checkFileType(file, cb);
     }

@@ -312,6 +312,13 @@
             return;
           }
 
+          const maxFileSize = 10 * 1024 * 1024;
+          if (fileInput.files[0].size > maxFileSize) {
+            const sizeMB = (fileInput.files[0].size / (1024 * 1024)).toFixed(1);
+            $("#reuploadAlert").removeClass("d-none").text(`Selected file is too large (${sizeMB}MB). Maximum allowed size is 10MB.`);
+            return;
+          }
+
           const formData = new FormData();
           formData.append("document", fileInput.files[0]);
           formData.append("docType", docType);

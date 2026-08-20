@@ -62,7 +62,7 @@ const AppComponents = (function () {
       subPayslip: "Bagi validasi tempat berkhidmat & jenis pekerjaan",
       lblCtosConsent: "CTOS Consent Form",
       subCtosConsent: "Kebenaran untuk mendapatkan report CTOS percuma",
-      msgUploadNote: "<strong>Nota:</strong> Sila pastikan dokumen jelas, lengkap dan dalam format <strong>JPG, PNG atau PDF</strong>. Saiz maksimum setiap fail adalah <strong>5MB</strong>.",
+      msgUploadNote: "<strong>Nota:</strong> Sila pastikan dokumen jelas, lengkap dan dalam format <strong>JPG, PNG atau PDF</strong>. Saiz maksimum setiap fail adalah <strong>10MB</strong>.",
       btnSubmit: "Hantar", btnCancel: "Batal",
       errDeclaration: "Sila tandakan Pengesahan & Persetujuan sebelum menghantar.",
       errPdpa: "Sila tandakan pengakuan PDPA & semakan CTOS sebelum menghantar.",
@@ -120,7 +120,7 @@ const AppComponents = (function () {
       subPayslip: "For workplace & job verification",
       lblCtosConsent: "CTOS Consent Form",
       subCtosConsent: "Consent to obtain a free CTOS report",
-      msgUploadNote: "<strong>Note:</strong> Please ensure documents are clear, complete and in <strong>JPG, PNG or PDF</strong> format. Maximum size per file is <strong>5MB</strong>.",
+      msgUploadNote: "<strong>Note:</strong> Please ensure documents are clear, complete and in <strong>JPG, PNG or PDF</strong> format. Maximum size per file is <strong>10MB</strong>.",
       btnSubmit: "Submit", btnCancel: "Cancel",
       errDeclaration: "Please check the Confirmation & Agreement box before submitting.",
       errPdpa: "Please check the PDPA & CTOS consent box before submitting.",
@@ -388,6 +388,12 @@ const AppComponents = (function () {
             <span class="text-dark" data-i18n="subCtosConsent">Kebenaran untuk mendapatkan report CTOS percuma</span>
           </div>
         </div>
+        <div class="col-lg-12 mb-2">
+          <div class="alert alert-info border-0 bg-info-subtle p-3 rounded-3 mb-0">
+            <i class="ri-information-line me-1 align-middle fs-15 text-info"></i>
+            <span class="fs-13 text-dark" data-i18n="msgUploadNote"><strong>Nota:</strong> Sila pastikan dokumen jelas, lengkap dan dalam format <strong>JPG, PNG atau PDF</strong>. Saiz maksimum setiap fail adalah <strong>10MB</strong>.</span>
+          </div>
+        </div>
       </div>
     `;
   }
@@ -433,6 +439,33 @@ const AppComponents = (function () {
       }
       return { valid: false, message: i18n[currentLang] ? i18n[currentLang].errRequiredFields : 'Sila isi semua medan yang diperlukan dan muat naik semua dokumen yang diperlukan.' };
     }
+
+    // Check file sizes (Max 10MB per file)
+    var MAX_FILE_SIZE = 10 * 1024 * 1024;
+    var fileInputs = [
+      { id: '#icFront', labelBM: 'Kad Pengenalan (Depan)', labelENG: 'IC Front' },
+      { id: '#icBack', labelBM: 'Kad Pengenalan (Belakang)', labelENG: 'IC Back' },
+      { id: '#payslip', labelBM: 'Penyata Gaji Terkini', labelENG: 'Latest Payslip' },
+      { id: '#ctosConsent', labelBM: 'CTOS Consent Form', labelENG: 'CTOS Consent Form' },
+      { id: '#offerLetter', labelBM: 'Surat Tawaran', labelENG: 'Offer Letter' }
+    ];
+
+    for (var i = 0; i < fileInputs.length; i++) {
+      var item = fileInputs[i];
+      var el = $(item.id)[0];
+      if (el && el.files && el.files[0]) {
+        var file = el.files[0];
+        if (file.size > MAX_FILE_SIZE) {
+          var sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+          var docLabel = currentLang === 'bm' ? item.labelBM : item.labelENG;
+          var msg = currentLang === 'bm'
+            ? `Fail "${docLabel}" melebihi had saiz (${sizeMB}MB). Had maksimum setiap fail adalah 10MB. Sila kurangkan resolusi gambar atau ambil tangkap layar (screenshot) dokumen.`
+            : `File "${docLabel}" exceeds the maximum size (${sizeMB}MB). Maximum allowed size is 10MB per file. Please reduce file resolution or take a screenshot.`;
+          return { valid: false, message: msg };
+        }
+      }
+    }
+
     return { valid: true, message: '' };
   }
 
