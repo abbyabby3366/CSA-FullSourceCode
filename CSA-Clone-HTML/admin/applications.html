@@ -644,6 +644,7 @@
                 const icFrontHistoryHtml = renderAdminDocHistoryHtml(details.icFrontHistory, "adminIcFrontHistoryCollapse");
                 const icBackHistoryHtml = renderAdminDocHistoryHtml(details.icBackHistory, "adminIcBackHistoryCollapse");
                 const payslipHistoryHtml = renderAdminDocHistoryHtml(details.payslipHistory, "adminPayslipHistoryCollapse");
+                const ctosConsentHistoryHtml = renderAdminDocHistoryHtml(details.ctosConsentHistory, "adminCtosConsentHistoryCollapse");
 
                 let approvedByInfo = "";
                 if (app.approval && app.approval.admin) {
@@ -687,20 +688,25 @@
 
                                     <div class="col-md-12"><hr></div>
                                     <h6 class="mb-3 text-primary">Submitted Documents</h6>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-3 col-sm-6 mb-2">
                                         <strong>IC Front:</strong><br>
                                         ${details.icFrontFile ? `<a href="https://x.neuronwww.com/${details.icFrontFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Front</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icFrontFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
                                         ${icFrontHistoryHtml}
                                     </div>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-3 col-sm-6 mb-2">
                                         <strong>IC Back:</strong><br>
                                         ${details.icBackFile ? `<a href="https://x.neuronwww.com/${details.icBackFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Back</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.icBackFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
                                         ${icBackHistoryHtml}
                                     </div>
-                                    <div class="col-md-4 mb-2">
+                                    <div class="col-md-3 col-sm-6 mb-2">
                                         <strong>Payslip:</strong><br>
                                         ${details.payslipFile ? `<a href="https://x.neuronwww.com/${details.payslipFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View Payslip</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.payslipFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
                                         ${payslipHistoryHtml}
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-2">
+                                        <strong>CTOS Consent:</strong><br>
+                                        ${details.ctosConsentFile ? `<a href="https://x.neuronwww.com/${details.ctosConsentFile}" target="_blank" class="btn btn-sm btn-soft-info mt-1"><i class="ri-file-search-line"></i> View CTOS</a> <a href="javascript:void(0);" onclick="window.downloadFile('https://x.neuronwww.com/${details.ctosConsentFile}')" class="btn btn-sm btn-soft-primary mt-1"><i class="ri-download-line"></i> Download</a>` : "Not uploaded"}
+                                        ${ctosConsentHistoryHtml}
                                     </div>
                                     ${approvedBySectionHtml}
                                 </div>
@@ -1121,22 +1127,28 @@
                 <i class="ri-file-text-line me-1 align-middle"></i> 4. Submitted Documents
               </h6>
               <div class="row g-2 text-start ms-1">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                   <div class="form-check">
                     <input class="form-check-input export-col-chk" type="checkbox" value="ic_front_url" id="chk_app_ic_front_url" checked />
                     <label class="form-check-label" for="chk_app_ic_front_url">Application IC Front URL</label>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                   <div class="form-check">
                     <input class="form-check-input export-col-chk" type="checkbox" value="ic_back_url" id="chk_app_ic_back_url" checked />
                     <label class="form-check-label" for="chk_app_ic_back_url">Application IC Back URL</label>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                   <div class="form-check">
                     <input class="form-check-input export-col-chk" type="checkbox" value="payslip_url" id="chk_app_payslip_url" checked />
                     <label class="form-check-label" for="chk_app_payslip_url">Application Payslip URL</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="form-check">
+                    <input class="form-check-input export-col-chk" type="checkbox" value="ctos_consent_url" id="chk_app_ctos_consent_url" checked />
+                    <label class="form-check-label" for="chk_app_ctos_consent_url">Application CTOS Consent URL</label>
                   </div>
                 </div>
               </div>
