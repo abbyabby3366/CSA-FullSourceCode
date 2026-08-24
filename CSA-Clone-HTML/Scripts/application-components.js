@@ -48,7 +48,7 @@ const AppComponents = (function () {
       lblDeclarationText: "Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar, tepat dan lengkap. Saya juga memberi kebenaran kepada pihak iBELANJA untuk menggunakan maklumat ini bagi tujuan naik taraf khidmat, termasuk mendapatkan laporan CTOS percuma serta menghubungi saya berkaitan maklumat lanjut kaji selidik ini.",
       lblPdpaTitle: "PDPA:",
       lblPdpaText: "Saya memahami bahawa semakan CTOS hanya akan dibuat dengan kebenaran saya dan maklumat peribadi saya akan dikendalikan mengikut Akta Perlindungan Data Peribadi 2010 (PDPA).",
-      secDownloadDocsTitle: "Muat Turun Dokumen",
+      secDownloadDocsTitle: "Muat turun dokumen dibawah",
       lblCtosConsentForm: "Borang Kebenaran dan Persetujuan CTOS",
       lblCtosFormInstruction: "• Sila muat turun, lengkapkan tarikh, tandatangan dan isi maklumat lengkap di sebelah kiri.",
       lblCtosPdfFileName: "Borang Kebenaran & Persetujuan CTOS.pdf",
@@ -106,7 +106,7 @@ const AppComponents = (function () {
       lblDeclarationText: "I confirm that all information provided is true, accurate and complete. I also give permission to iBELANJA to use this information for service upgrade purposes, including obtaining a free CTOS report and contacting me regarding further details of this survey.",
       lblPdpaTitle: "PDPA:",
       lblPdpaText: "I understand that CTOS checks will only be conducted with my consent and my personal data will be managed in accordance with the Personal Data Protection Act 2010 (PDPA).",
-      secDownloadDocsTitle: "Download Documents",
+      secDownloadDocsTitle: "Download document below",
       lblCtosConsentForm: "CTOS Consent and Authorization Form",
       lblCtosFormInstruction: "• Please download, complete the date, sign and fill in complete details on the left.",
       lblCtosPdfFileName: "Borang Kebenaran & Persetujuan CTOS.pdf",
@@ -314,19 +314,12 @@ const AppComponents = (function () {
     return `
       <div class="card border shadow-none rounded-3 mt-4 mb-4" style="background-color: #f7f9fc !important;">
         <div class="card-body p-3 p-sm-4">
-          <div class="d-flex align-items-start mb-3">
-            <div class="avatar-sm me-3 flex-shrink-0">
-              <div class="avatar-title bg-white text-primary rounded-3 border border-primary-subtle fs-20">
-                <i class="ri-download-2-line fs-22 text-primary"></i>
-              </div>
-            </div>
-            <div>
-              <h5 class="fs-16 text-primary fw-bold mb-1" data-i18n="secDownloadDocsTitle">1. Muat Turun Dokumen</h5>
-              <h6 class="fs-14 text-dark fw-bold mb-1" data-i18n="lblCtosConsentForm">Borang Kebenaran dan Persetujuan CTOS</h6>
-              <p class="text-muted fs-13 mb-0" data-i18n="lblCtosFormInstruction">
-                • Sila muat turun, lengkapkan tarikh, tandatangan dan isi maklumat lengkap di sebelah kiri.
-              </p>
-            </div>
+          <div class="mb-3">
+            <h5 class="fs-16 text-primary fw-bold mb-1" data-i18n="secDownloadDocsTitle">Muat turun dokumen dibawah</h5>
+            <h6 class="fs-14 text-dark fw-bold mb-1" data-i18n="lblCtosConsentForm">Borang Kebenaran dan Persetujuan CTOS</h6>
+            <p class="text-muted fs-13 mb-0" data-i18n="lblCtosFormInstruction">
+              • Sila muat turun, lengkapkan tarikh, tandatangan dan isi maklumat lengkap di sebelah kiri.
+            </p>
           </div>
           <div>
             <a href="../assets/docs/borang_kebenaran_ctos.pdf" download="Borang_Kebenaran_Persetujuan_CTOS.pdf" target="_blank" class="d-flex align-items-center justify-content-between p-2 px-3 bg-white border rounded-3 text-dark text-decoration-none shadow-sm text-reset">
