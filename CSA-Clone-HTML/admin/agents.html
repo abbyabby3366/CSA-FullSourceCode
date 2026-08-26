@@ -278,6 +278,11 @@
                                       data-agent-name="${escapeHtml(agent.fullName || '')}">
                                       <i class="ri-team-line align-bottom me-1"></i> View Referral
                                   </button>
+                                  <button type="button" class="btn btn-soft-info btn-sm copy-referral-btn"
+                                      data-member-code="${agent.memberCode || ''}"
+                                      title="Copy Referral Link">
+                                      <i class="ri-file-copy-line align-bottom me-1"></i> Copy Referral Link
+                                  </button>
                                   ${assignBtn}
                                 </div>
                             </td>
@@ -305,6 +310,29 @@
           if ($("#searchAgent").val()) {
             agentTable.search($("#searchAgent").val()).draw();
           }
+
+          // Attach Copy Referral Link handler
+          $("#agentTable").off("click", ".copy-referral-btn").on(
+            "click",
+            ".copy-referral-btn",
+            function () {
+              const memberCode = $(this).attr("data-member-code");
+              if (!memberCode) {
+                alert("No referral code available for this agent.");
+                return;
+              }
+              const link = `${window.location.origin}/member/register.html?ref=${memberCode}`;
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(() => {
+                  alert("Referral link copied to clipboard:\n" + link);
+                }).catch(() => {
+                  prompt("Copy this referral link:", link);
+                });
+              } else {
+                prompt("Copy this referral link:", link);
+              }
+            }
+          );
 
           // Attach Assign Subadmin handler
           $("#agentTable").off("click", ".assign-subadmin-btn").on(
