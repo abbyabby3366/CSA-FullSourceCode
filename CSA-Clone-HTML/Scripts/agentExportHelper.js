@@ -39,6 +39,7 @@ const AgentExportHelper = {
                 <div class="col-md-6 col-lg-4"><div class="form-check"><input class="form-check-input agent-export-col-chk" type="checkbox" value="num_referrals" id="chk_agent_num_ref" /><label class="form-check-label" for="chk_agent_num_ref">Total Referrals Count</label></div></div>
                 <div class="col-md-6 col-lg-4"><div class="form-check"><input class="form-check-input agent-export-col-chk" type="checkbox" value="status" id="chk_agent_status" /><label class="form-check-label" for="chk_agent_status">Account Status</label></div></div>
                 <div class="col-md-6 col-lg-4"><div class="form-check"><input class="form-check-input agent-export-col-chk" type="checkbox" value="join_date" id="chk_agent_join_date" /><label class="form-check-label" for="chk_agent_join_date">Joined Date</label></div></div>
+                <div class="col-md-6 col-lg-4"><div class="form-check"><input class="form-check-input agent-export-col-chk" type="checkbox" value="referral_link" id="chk_agent_ref_link" /><label class="form-check-label" for="chk_agent_ref_link">Agent Referral Link</label></div></div>
               </div>
             </div>
 
@@ -141,7 +142,7 @@ const AgentExportHelper = {
 
       try {
         const token = localStorage.getItem("token");
-        const exportUrl = `${window.API_BASE_URL}/api/admin/agents/export?columns=${encodeURIComponent(selectedCols.join(","))}`;
+        const exportUrl = `${window.API_BASE_URL}/api/admin/agents/export?columns=${encodeURIComponent(selectedCols.join(","))}&baseUrl=${encodeURIComponent(window.location.origin)}`;
 
         const response = await fetch(exportUrl, {
           method: "GET",
@@ -391,6 +392,7 @@ const ReferralExportHelper = {
       const subadminName = agent.subadmin && agent.subadmin.name ? agent.subadmin.name : "Unassigned";
       const totalRefs = self.currentReferrals.length;
       const exportDateStr = new Date().toLocaleString();
+      const agentReferralLink = agentCode ? `${window.location.origin}/member/register.html?ref=${agentCode}` : "";
 
       const escapeCell = (val) => `"${String(val !== undefined && val !== null ? val : "").replace(/"/g, '""')}"`;
 
@@ -400,6 +402,7 @@ const ReferralExportHelper = {
         `${escapeCell("Agent Name:")},${escapeCell(agentName)},${escapeCell("Agent File Number:")},${escapeCell(agentCode)}`,
         `${escapeCell("Agent IC Number:")},${escapeCell(agentIc)},${escapeCell("Agent Contact Number:")},${escapeCell(agentPhone)}`,
         `${escapeCell("Assigned Subadmin:")},${escapeCell(subadminName)},${escapeCell("Total Referrals:")},${escapeCell(totalRefs)}`,
+        `${escapeCell("Agent Referral Link:")},${escapeCell(agentReferralLink)}`,
         `${escapeCell("Export Date:")},${escapeCell(exportDateStr)}`,
         `""`,
         `"=== REFERRAL LIST ==="`,

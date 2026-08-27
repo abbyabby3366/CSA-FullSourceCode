@@ -710,6 +710,7 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
     const ALL_COLUMNS = [
       { id: "full_name", label: "Full Name Agent" },
       { id: "member_code", label: "Agent ID" },
+      { id: "referral_link", label: "Agent Referral Link" },
       { id: "referral_member_name", label: "Referral List" },
       { id: "referral_ic", label: "Referral IC Number" },
       { id: "referral_contact_no", label: "Referral Contact Number" },
@@ -751,6 +752,8 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
     const headers = activeColumns.map((col) => col.label);
     const rows = [headers];
 
+    let clientBaseUrl = req.query.baseUrl ? req.query.baseUrl.replace(/\/+$/, "") : "";
+
     for (const agent of agents) {
       let subadminName = "";
       if (agent.subadmin && agent.subadmin.name) {
@@ -768,6 +771,7 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
       else if (statusText === "rejected" || statusText === "3") statusText = "Inactive";
 
       let fullAddress = [agent.streetAddress1, agent.streetAddress2].filter(Boolean).join(", ");
+      let agentReferralLink = agent.memberCode && clientBaseUrl ? `${clientBaseUrl}/member/register.html?ref=${agent.memberCode}` : (agent.memberCode ? `/member/register.html?ref=${agent.memberCode}` : "");
 
       const agentReferrals = agent.referrals && agent.referrals.length > 0 ? agent.referrals : [null];
 
@@ -796,6 +800,7 @@ router.get("/agents/export", [auth, adminOrSubadmin], async (req, res) => {
         const rowValues = {
           full_name: agent.fullName || "",
           member_code: agent.memberCode || "",
+          referral_link: agentReferralLink,
           referral_member_name: refName,
           referral_ic: refIc,
           referral_contact_no: refContact,
