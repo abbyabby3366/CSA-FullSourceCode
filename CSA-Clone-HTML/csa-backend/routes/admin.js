@@ -881,22 +881,34 @@ router.get("/agents/:id/referrals", [auth, adminOrSubadmin], async (req, res) =>
         $group: {
           _id: "$member",
           latestStatus: { $first: "$applicationStatus" },
+          latestIcNumber: { $first: "$details.icNumber" },
         },
       },
     ]);
 
     const appStatusMap = {};
+    const appIcMap = {};
     latestApps.forEach((a) => {
       if (a._id) {
-        appStatusMap[a._id.toString()] = a.latestStatus;
+        const memId = a._id.toString();
+        appStatusMap[memId] = a.latestStatus;
+        if (a.latestIcNumber) {
+          appIcMap[memId] = a.latestIcNumber.toString().replace(/-/g, "").trim();
+        }
       }
     });
 
     const result = referrals.map((ref) => {
       const refObj = ref.toObject();
+      const memIdStr = ref._id.toString();
+      const appIc = appIcMap[memIdStr];
+      const memberIc = ref.icNumber ? ref.icNumber.toString().replace(/-/g, "").trim() : "";
+      const effectiveIc = appIc || memberIc || "";
+
       return {
         ...refObj,
-        latestAppStatus: appStatusMap[ref._id.toString()] !== undefined ? appStatusMap[ref._id.toString()] : null,
+        icNumber: effectiveIc,
+        latestAppStatus: appStatusMap[memIdStr] !== undefined ? appStatusMap[memIdStr] : null,
       };
     });
 

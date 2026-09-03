@@ -420,6 +420,7 @@
                         <th>No</th>
                         <th>File Number</th>
                         <th>Full Name</th>
+                        <th>Participant IC</th>
                         <th>Contact</th>
                         <th>Type</th>
                         <th>Application Status</th>
@@ -435,12 +436,14 @@
                       : { text: "No Application", class: "bg-secondary-subtle text-secondary" };
 
                   const hasAppStr = r.latestAppStatus !== null && r.latestAppStatus !== undefined ? "has_app" : "no_app";
+                  const formattedIc = r.icNumber ? r.icNumber.toString().replace(/-/g, "").trim() : "-";
 
                   modalHtml += `
-                    <tr data-has-app="${hasAppStr}" data-search="${(r.fullName + " " + (r.memberCode || "") + " " + (r.phoneNumber || "")).toLowerCase()}">
+                    <tr data-has-app="${hasAppStr}" data-search="${(r.fullName + " " + (r.icNumber || "") + " " + (r.memberCode || "") + " " + (r.phoneNumber || "")).toLowerCase()}">
                       <td>${i + 1}</td>
                       <td>${r.memberCode || "N/A"}</td>
                       <td class="fw-medium">${r.fullName}</td>
+                      <td>${formattedIc}</td>
                       <td>${r.phoneNumber || "N/A"}</td>
                       <td>${r.memberType === 2 ? "Agent" : "Member"}</td>
                       <td><span class="badge ${appStatus.class}">${appStatus.text}</span></td>
