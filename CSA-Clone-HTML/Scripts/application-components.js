@@ -330,7 +330,7 @@ const AppComponents = (function () {
                 </div>
                 <div>
                   <div class="fw-bold fs-13 text-dark" data-i18n="lblCtosPdfFileName">Borang Kebenaran & Persetujuan CTOS.pdf</div>
-                  <div class="text-muted fs-11">PDF • 550 KB</div>
+                  <div class="text-muted fs-11">PDF • 559 KB</div>
                 </div>
               </div>
               <i class="ri-download-2-line text-primary fs-20 me-1"></i>
