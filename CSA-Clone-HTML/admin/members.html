@@ -34,6 +34,10 @@
       type="text/css"
     />
 
+    <!-- select2 css -->
+    <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="../assets/libs/select2/css/select2-bootstrap-5-theme.min.css" />
+
     <link
       href="../assets/images/logos/favicon.ico"
       rel="shortcut icon"
@@ -182,6 +186,9 @@
     <!-- datatables js -->
     <script src="../assets/libs/datatables/datatables.min.js"></script>
 
+    <!-- select2 js -->
+    <script src="../assets/libs/select2/js/select2.min.js"></script>
+
     <!-- App js -->
     <script src="../assets/js/app.js"></script>
     <script src="../Scripts/navbar.js"></script>
@@ -327,6 +334,14 @@
                               <td class="text-center">
                                   <div class="hstack gap-2 justify-content-center">
                                       <button class="btn btn-sm btn-soft-info" onclick="viewMember('${member._id}')">View</button>
+                                      <button class="btn btn-sm btn-soft-warning change-ref-btn" 
+                                              data-id="${member._id}" 
+                                              data-name="${(member.fullName || '').replace(/"/g, '&quot;')}" 
+                                              data-code="${member.memberCode || '-'}" 
+                                              data-ref-id="${member.referrer ? (member.referrer._id || '') : ''}"
+                                              title="Change Referrer Agent">
+                                          <i class="ri-user-shared-line align-middle me-1"></i>Referrer
+                                      </button>
                                   </div>
                               </td>
                           </tr>
@@ -394,6 +409,85 @@
 
         // Initial Load
         loadMembers();
+
+        // Load agents for referrer assignment
+        let availableAgents = [];
+        try {
+          const agentsRes = await apiCall("/admin/agents");
+          if (agentsRes && Array.isArray(agentsRes)) {
+            availableAgents = agentsRes;
+            const $agentSel = $("#crSelectAgent");
+            $agentSel.empty().append('<option value="">None / Unassigned (N/A)</option>');
+            availableAgents.forEach((ag) => {
+              const code = ag.memberCode ? ` (${ag.memberCode})` : "";
+              $agentSel.append(`<option value="${ag._id}">${ag.fullName}${code}</option>`);
+            });
+          }
+        } catch (e) {
+          console.error("Error loading agents for referrer assignment:", e);
+        }
+
+        // Open Change Referrer Modal
+        $(document).on("click", ".change-ref-btn", function () {
+          const mId = $(this).data("id");
+          const mName = $(this).data("name");
+          const mCode = $(this).data("code");
+          const refId = $(this).data("ref-id");
+
+          $("#crMemberId").val(mId);
+          $("#crMemberInfo").text(`${mName} (${mCode})`);
+          $("#crSelectAgent").val(refId || "");
+
+          if ($.fn.select2) {
+            $("#crSelectAgent").select2({
+              theme: "bootstrap-5",
+              dropdownParent: $("#changeReferrerModal"),
+              width: "100%",
+            });
+          }
+
+          $("#changeReferrerModal").modal("show");
+        });
+
+        // Confirm & Save Referrer Change
+        $("#btnSaveMemberReferrer").on("click", async function () {
+          const btn = $(this);
+          const memberId = $("#crMemberId").val();
+          const referrerId = $("#crSelectAgent").val() || "";
+
+          if (!memberId) return;
+
+          btn.prop("disabled", true).html('<i class="ri-loader-4-line me-1 spin"></i>Saving...');
+
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${window.API_BASE_URL}/api/admin/member/${memberId}/referrer`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+              body: JSON.stringify({ referrerId: referrerId || null }),
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+              alert(data.msg || "Failed to update referrer.");
+              btn.prop("disabled", false).html('<i class="ri-save-line me-1"></i>Save Changes');
+              return;
+            }
+
+            alert("Referrer updated successfully!");
+            $("#changeReferrerModal").modal("hide");
+            const filterVal = $("#filterMemberScope").val();
+            await loadMembers(filterVal);
+          } catch (err) {
+            console.error("Save member referrer error:", err);
+            alert("Error saving referrer.");
+          } finally {
+            btn.prop("disabled", false).html('<i class="ri-save-line me-1"></i>Save Changes');
+          }
+        });
 
         // Handle Filter Dropdown Change
         $("#filterMemberScope").on("change", function () {
@@ -615,6 +709,39 @@
             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="btnConfirmExport">
               <i class="ri-download-2-line align-middle me-1"></i> Download CSV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Referrer Modal -->
+    <div class="modal fade" id="changeReferrerModal" tabindex="-1" aria-labelledby="changeReferrerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h5 class="modal-title" id="changeReferrerModalLabel">
+              <i class="ri-user-shared-line align-middle me-1 text-primary"></i> Change Referrer Agent
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="crMemberId" />
+            <div class="mb-3">
+              <label class="form-label text-muted fs-12 mb-1">Member</label>
+              <div class="fw-semibold fs-14" id="crMemberInfo">-</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-muted fs-12 mb-1">Select Referrer Agent</label>
+              <select class="form-select" id="crSelectAgent" style="width: 100%;">
+                <option value="">None / Unassigned (N/A)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btnSaveMemberReferrer">
+              <i class="ri-save-line me-1"></i>Save Changes
             </button>
           </div>
         </div>

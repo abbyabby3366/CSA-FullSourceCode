@@ -184,6 +184,70 @@ router.post("/member/:id/status", [auth, adminOnly], async (req, res) => {
   }
 });
 
+// @route    PUT api/admin/member/:id/referrer
+// @desc     Assign or change member's referrer agent
+router.put("/member/:id/referrer", [auth, adminOrSubadmin], async (req, res) => {
+  try {
+    const member = await Member.findById(req.params.id);
+    if (!member) {
+      return res.status(404).json({ msg: "Member not found" });
+    }
+
+    const { referrerId } = req.body;
+    const currentRefId = member.referrer ? member.referrer.toString() : "";
+    const targetRefId = referrerId ? referrerId.toString().trim() : "";
+
+    if (targetRefId === currentRefId) {
+      return res.status(400).json({ msg: "Member is already assigned to this referrer." });
+    }
+
+    let newAgent = null;
+    if (targetRefId) {
+      newAgent = await Member.findOne({ _id: targetRefId, memberType: 2 });
+      if (!newAgent) {
+        return res.status(400).json({ msg: "Selected agent does not exist or is not an agent." });
+      }
+      if (req.user.role === "subadmin") {
+        const agentSubadmin = newAgent.subadmin ? newAgent.subadmin.toString() : "";
+        if (agentSubadmin !== req.user.id) {
+          return res.status(403).json({ msg: "Access denied: You can only assign agents under your supervision." });
+        }
+      }
+    }
+
+    // Update Member referrer
+    member.referrer = newAgent ? newAgent._id : null;
+    member.lastUpdate = Date.now();
+    await member.save();
+
+    // Synchronize all applications for this member
+    await Application.updateMany(
+      { member: member._id },
+      { $set: { referrerMember: newAgent ? newAgent._id : null, lastUpdate: new Date() } }
+    );
+
+    // Adjust referral counts on agents
+    if (currentRefId) {
+      await Member.findByIdAndUpdate(currentRefId, { $inc: { referralAmount: -1 } });
+    }
+    if (newAgent) {
+      await Member.findByIdAndUpdate(newAgent._id, { $inc: { referralAmount: 1 } });
+    }
+
+    const updatedMember = await Member.findById(member._id)
+      .select("-password")
+      .populate("referrer", "fullName memberCode");
+
+    res.json({
+      msg: "Member referrer updated successfully.",
+      member: updatedMember,
+    });
+  } catch (err) {
+    console.error("Update member referrer error:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    GET api/admin/applications
 // @desc     Get applications (supports subadmin scoping and subadmin filter)
 router.get("/applications", [auth, adminOrSubadmin], async (req, res) => {
@@ -355,7 +419,7 @@ router.put("/application/:id/edit-details", [auth, adminOrSubadmin], async (req,
     const admin = await Admin.findById(req.user.id).select("name role");
     if (!admin) return res.status(403).json({ msg: "Admin not found" });
 
-    const { fullName, phoneNumber, icNumber, email } = req.body;
+    const { fullName, phoneNumber, icNumber, email, referrerId } = req.body;
     if (!app.details) app.details = {};
 
     // Field mapping: submitted field → schema path, label, and Member model field
@@ -391,6 +455,70 @@ router.put("/application/:id/edit-details", [auth, adminOrSubadmin], async (req,
       }
     }
 
+    // Handle Referrer change if referrerId is provided in the request
+    let applicantMember = null;
+    if (referrerId !== undefined) {
+      applicantMember = app.member ? await Member.findById(app.member) : null;
+      const currentRefId = app.referrerMember
+        ? app.referrerMember.toString()
+        : (applicantMember && applicantMember.referrer ? applicantMember.referrer.toString() : "");
+      const targetRefId = referrerId ? referrerId.toString().trim() : "";
+
+      if (targetRefId !== currentRefId) {
+        let newAgent = null;
+        let newLabel = "N/A";
+        let oldLabel = "N/A";
+
+        if (targetRefId) {
+          newAgent = await Member.findOne({ _id: targetRefId, memberType: 2 });
+          if (!newAgent) {
+            return res.status(400).json({ msg: "Selected agent does not exist or is not an agent." });
+          }
+          if (req.user.role === "subadmin") {
+            const agentSubadmin = newAgent.subadmin ? newAgent.subadmin.toString() : "";
+            if (agentSubadmin !== req.user.id) {
+              return res.status(403).json({ msg: "Access denied: You can only assign agents under your supervision." });
+            }
+          }
+          newLabel = `${newAgent.fullName} (${newAgent.memberCode})`;
+        }
+
+        if (currentRefId) {
+          const oldAgent = await Member.findById(currentRefId);
+          if (oldAgent) {
+            oldLabel = `${oldAgent.fullName} (${oldAgent.memberCode})`;
+          } else {
+            oldLabel = currentRefId;
+          }
+        }
+
+        changes.push({
+          field: "referrer",
+          fieldLabel: "Referrer Agent",
+          oldValue: oldLabel,
+          newValue: newLabel,
+          editedBy: req.user.id,
+          editedByName: admin.name,
+          editedByRole: admin.role,
+          editedAt: new Date(),
+        });
+
+        app.referrerMember = newAgent ? newAgent._id : null;
+
+        if (applicantMember) {
+          applicantMember.referrer = newAgent ? newAgent._id : null;
+        }
+
+        // Adjust referral counts
+        if (currentRefId) {
+          await Member.findByIdAndUpdate(currentRefId, { $inc: { referralAmount: -1 } });
+        }
+        if (newAgent) {
+          await Member.findByIdAndUpdate(newAgent._id, { $inc: { referralAmount: 1 } });
+        }
+      }
+    }
+
     if (changes.length === 0) {
       return res.status(400).json({ msg: "No changes detected." });
     }
@@ -414,12 +542,32 @@ router.put("/application/:id/edit-details", [auth, adminOrSubadmin], async (req,
         }
       }
     }
-    if (Object.keys(memberUpdate).length > 0 && app.member) {
+    if (applicantMember) {
+      if (Object.keys(memberUpdate).length > 0) {
+        Object.assign(applicantMember, memberUpdate);
+      }
+      await applicantMember.save();
+    } else if (Object.keys(memberUpdate).length > 0 && app.member) {
       await Member.findByIdAndUpdate(app.member, { $set: memberUpdate });
     }
 
-    // Re-fetch with populated editHistory
-    const updated = await Application.findById(app._id).populate("editHistory.editedBy", "name role");
+    // Re-fetch with populated editHistory and populated member/referrer
+    const updated = await Application.findById(app._id)
+      .populate("editHistory.editedBy", "name role")
+      .populate({
+        path: "member",
+        select: "fullName phoneNumber memberCode memberType referrer subadmin icNumber",
+        populate: [
+          {
+            path: "referrer",
+            select: "fullName memberCode subadmin",
+            populate: { path: "subadmin", select: "name email" },
+          },
+          { path: "subadmin", select: "name email" },
+        ],
+      })
+      .populate("referrerMember", "fullName memberCode");
+
     res.json({ msg: "Application details updated successfully.", application: updated, changes });
   } catch (err) {
     console.error("Edit details error:", err.message);

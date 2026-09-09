@@ -3,6 +3,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+const dns = require("dns");
+
+// Use public DNS to resolve MongoDB Atlas SRV records (fixes querySrv ECONNREFUSED)
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {
+  console.warn("Could not set custom DNS servers:", e.message);
+}
+
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 require("dotenv").config();
 

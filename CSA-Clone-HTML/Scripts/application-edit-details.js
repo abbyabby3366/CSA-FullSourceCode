@@ -9,6 +9,16 @@ const AppEditDetails = (function () {
   // Track the current application being edited
   let _currentApp = null;
   let _isEditing = false;
+  let _availableAgents = [];
+
+  /**
+   * Set available agents for the referrer dropdown.
+   */
+  function setAgents(agents) {
+    if (Array.isArray(agents)) {
+      _availableAgents = agents;
+    }
+  }
 
   /**
    * Render the edit history section HTML from an application's editHistory array.
@@ -88,7 +98,7 @@ const AppEditDetails = (function () {
           <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
           <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || "N/A").toString().replace(/-/g, "")}</div>
           <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
-          <div class="col-md-6 mb-2"><strong>Referrer:</strong> ${referrerInfo || "N/A"}</div>
+          <div class="col-md-6 mb-2"><strong>Referrer:</strong> <span id="viewReferrerInfo">${referrerInfo || "N/A"}</span></div>
         </div>
       </div>
     `;
@@ -106,6 +116,24 @@ const AppEditDetails = (function () {
     _currentApp = app;
     _isEditing = true;
     const details = app.details || {};
+
+    let currentRefId = "";
+    if (app.referrerMember) {
+      currentRefId = (app.referrerMember._id || app.referrerMember).toString();
+    } else if (app.member && app.member.referrer) {
+      currentRefId = (app.member.referrer._id || app.member.referrer).toString();
+    }
+
+    let agentOptions = '<option value="">None / Unassigned (N/A)</option>';
+    if (Array.isArray(_availableAgents)) {
+      _availableAgents.forEach(function (agent) {
+        const aId = agent._id ? agent._id.toString() : "";
+        const isSelected = (aId && aId === currentRefId) ? "selected" : "";
+        const name = agent.fullName || "Unknown";
+        const code = agent.memberCode ? ` (${agent.memberCode})` : "";
+        agentOptions += `<option value="${aId}" ${isSelected}>${name}${code}</option>`;
+      });
+    }
 
     const formHtml = `
       <div class="row g-2" id="editPersonalForm">
@@ -129,6 +157,12 @@ const AppEditDetails = (function () {
           <input type="email" class="form-control form-control-sm" id="editEmail"
                  value="${(details.email || '').replace(/"/g, '&quot;')}" />
         </div>
+        <div class="col-md-12">
+          <label class="form-label fs-12 mb-1">Referrer Agent</label>
+          <select class="form-select form-select-sm" id="editReferrer">
+            ${agentOptions}
+          </select>
+        </div>
         <div class="col-12 mt-2">
           <button type="button" class="btn btn-sm btn-primary" id="btnSaveEditDetails">
             <i class="ri-save-line me-1"></i>Save Changes
@@ -142,6 +176,14 @@ const AppEditDetails = (function () {
 
     $("#personalDetailsContent").html(formHtml);
     $(".edit-personal-btn").hide();
+
+    if ($.fn.select2) {
+      $("#editReferrer").select2({
+        theme: "bootstrap-5",
+        dropdownParent: $("#viewDetailsModal"),
+        width: "100%",
+      });
+    }
   }
 
   /**
@@ -157,6 +199,10 @@ const AppEditDetails = (function () {
       icNumber: $("#editIcNumber").val(),
       email: $("#editEmail").val(),
     };
+
+    if ($("#editReferrer").length) {
+      payload.referrerId = $("#editReferrer").val() || "";
+    }
 
     try {
       const response = await fetch(
@@ -178,6 +224,10 @@ const AppEditDetails = (function () {
         return null;
       }
 
+      if ($.fn.select2 && $("#editReferrer").hasClass("select2-hidden-accessible")) {
+        $("#editReferrer").select2("destroy");
+      }
+
       _isEditing = false;
       return data;
     } catch (err) {
@@ -191,6 +241,9 @@ const AppEditDetails = (function () {
    * Cancel edit mode — restores original read-only display.
    */
   function cancelEditMode(app, referrerInfo) {
+    if ($.fn.select2 && $("#editReferrer").hasClass("select2-hidden-accessible")) {
+      $("#editReferrer").select2("destroy");
+    }
     _isEditing = false;
     const details = app.details || {};
     const readOnlyHtml = `
@@ -199,7 +252,7 @@ const AppEditDetails = (function () {
         <div class="col-md-6 mb-2"><strong>Phone Number:</strong> ${details.phoneNumber || "N/A"}</div>
         <div class="col-md-6 mb-2"><strong>IC Number:</strong> ${(details.icNumber || "N/A").toString().replace(/-/g, "")}</div>
         <div class="col-md-6 mb-2"><strong>Email Address:</strong> ${details.email || "N/A"}</div>
-        <div class="col-md-6 mb-2"><strong>Referrer:</strong> ${referrerInfo || "N/A"}</div>
+        <div class="col-md-6 mb-2"><strong>Referrer:</strong> <span id="viewReferrerInfo">${referrerInfo || "N/A"}</span></div>
       </div>
     `;
     $("#personalDetailsContent").html(readOnlyHtml);
@@ -212,6 +265,8 @@ const AppEditDetails = (function () {
     enterEditMode: enterEditMode,
     saveEditDetails: saveEditDetails,
     cancelEditMode: cancelEditMode,
+    setAgents: setAgents,
+    getAgents: function () { return _availableAgents; },
     getCurrentApp: function () { return _currentApp; },
     isEditing: function () { return _isEditing; },
   };

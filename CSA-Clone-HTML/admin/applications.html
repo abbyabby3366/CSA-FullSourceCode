@@ -416,6 +416,16 @@
           $("#filterSubadminWrap").hide();
         }
 
+        // Load agents list for referrer assignment in edit details
+        try {
+          const agents = await apiCall("/admin/agents");
+          if (agents && Array.isArray(agents)) {
+            AppEditDetails.setAgents(agents);
+          }
+        } catch (e) {
+          console.error("Error loading agents for AppEditDetails:", e);
+        }
+
         async function loadApplications(subadminFilter) {
           let url = "/admin/applications";
           if (subadminFilter) {
@@ -740,11 +750,17 @@
             if (idx !== -1) {
               applicationData[idx].details = updatedApp.details;
               applicationData[idx].editHistory = updatedApp.editHistory;
+              applicationData[idx].referrerMember = updatedApp.referrerMember;
+              if (updatedApp.member) {
+                applicationData[idx].member = updatedApp.member;
+              }
             }
 
             // Re-trigger the view to refresh modal content
             alert("Details updated successfully!");
             $("#viewDetailsModal").modal("hide");
+            const curSubadminFilter = $("#ddlSubadminFilter").val() || "";
+            await loadApplications(curSubadminFilter);
             // Re-open with updated data
             const appId = updatedApp._id;
             setTimeout(() => { $(".view-btn[data-id='" + appId + "']").trigger("click"); }, 300);
